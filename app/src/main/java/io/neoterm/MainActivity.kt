@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.ImageButton
 import de.mrapp.android.tabswitcher.*
+import io.neoterm.tab.TermTab
 import io.neoterm.tab.TermTabDecorator
 
 
@@ -40,6 +41,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
+                if (tab is TermTab) {
+                    tab.termSession?.finishIfRunning()
+                    tab.viewClient?.termView = null
+                    tab.viewClient?.extraKeysView = null
+                    tab.sessionCallback?.termView = null
+                    tab.termSession = null
+                }
             }
 
             override fun onAllTabsRemoved(tabSwitcher: TabSwitcher, tabs: Array<out Tab>, animation: Animation) {
@@ -76,10 +84,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createTab(index: Int): Tab {
-        val tab = Tab("Neo Term #" + index)
+        val tab = TermTab("Neo Term #" + index)
         tab.isCloseable = true
         tab.parameters = Bundle()
-        tab.parameters?.putInt("type", TermTabDecorator.TYPE_NEW)
         tab.setBackgroundColor(ContextCompat.getColor(this, R.color.tab_background_color))
         tab.setTitleTextColor(ContextCompat.getColor(this, R.color.tab_title_text_color))
         return tab

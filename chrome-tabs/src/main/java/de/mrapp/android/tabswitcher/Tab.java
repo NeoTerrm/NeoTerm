@@ -237,7 +237,7 @@ public class Tab implements Parcelable {
      *         The parcel, the tab should be created from, as an instance of the class {@link
      *         Parcel}. The parcel may not be null
      */
-    private Tab(@NonNull final Parcel source) {
+    protected Tab(@NonNull final Parcel source) {
         this.title = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(source);
         this.iconId = source.readInt();
         this.iconBitmap = source.readParcelable(getClass().getClassLoader());

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Neo Term</string>
+    <string name="copy_text">Copy</string>
+    <string name="paste_text">Paste</string>
+    <string name="text_selection_more">More</string>
+
+    <string name="toggle_tab_switcher_menu_item">Toggle switcher</string>
+    <string name="add_tab_menu_item">New tab</string>
+    <string name="clear_tabs_menu_item">Clear all tabs</string>
+</resources>

@@ -3,8 +3,8 @@
     package="io.neoterm">
 
     <application
-        android:extractNativeLibs="true"
         android:allowBackup="true"
+        android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -13,6 +13,7 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

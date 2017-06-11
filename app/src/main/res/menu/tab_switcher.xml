@@ -23,8 +23,8 @@ License.
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/add_tab_menu_item"
-        android:title="@string/add_tab_menu_item"
+        android:id="@+id/menu_item_settings"
+        android:title="@string/menu_settings"
         app:showAsAction="never"/>
 
 </menu>

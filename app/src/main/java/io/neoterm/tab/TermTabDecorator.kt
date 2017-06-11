@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import de.mrapp.android.tabswitcher.Tab
 import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
-import io.neoterm.MainActivity
+import io.neoterm.NeoTermActivity
 import io.neoterm.R
 import io.neoterm.terminal.TerminalSession
 import io.neoterm.view.ExtraKeysView
@@ -20,7 +20,7 @@ import io.neoterm.view.TerminalView
 /**
  * @author kiva
  */
-class TermTabDecorator(val context: MainActivity) : TabSwitcherDecorator() {
+class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
         val view = inflater.inflate(R.layout.term, parent, false)
         val toolbar = view.findViewById(R.id.terminal_toolbar) as Toolbar
@@ -57,19 +57,9 @@ class TermTabDecorator(val context: MainActivity) : TabSwitcherDecorator() {
         val termTab = tab as TermTab
 
         // 复用前一次的 TermSession
-        if (termTab.sessionCallback == null) {
-            termTab.sessionCallback = TermSessionChangedCallback()
-        }
-
         termTab.sessionCallback?.termView = view
-        termTab.termSession = termTab.termSession ?: TerminalSession("/system/bin/sh", "/",
-                arrayOf("/system/bin/sh"),
-                arrayOf("TERM=screen", "HOME=" + context.filesDir), termTab.sessionCallback)
 
         // 复用上一次的 TermViewClient
-        if (termTab.viewClient == null) {
-            termTab.viewClient = TermViewClient(context)
-        }
         termTab.viewClient?.termView = view
         termTab.viewClient?.extraKeysView = extraKeysView
 

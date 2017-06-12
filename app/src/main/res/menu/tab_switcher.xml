@@ -23,6 +23,11 @@ License.
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/menu_item_new_session"
+        android:title="@string/new_session"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/menu_item_settings"
         android:title="@string/menu_settings"
         app:showAsAction="never"/>

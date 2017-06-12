@@ -10,6 +10,8 @@ import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.ImageButton
 import de.mrapp.android.tabswitcher.*
@@ -93,6 +95,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
             }
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
+                Log.e("NeoTerm", "onTabRemoved " + tab.toString())
                 if (tab is TermTab) {
                     tab.termSession?.finishIfRunning()
                     removeFinishedSession(tab.termSession)
@@ -119,6 +122,18 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
             termService = null
         }
         unbindService(this)
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_BACK -> {
+                if (event?.action == KeyEvent.ACTION_DOWN && tabSwitcher.isSwitcherShown && tabSwitcher.count > 0) {
+                    tabSwitcher.hideSwitcher()
+                    return true
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     private fun addNewSession(session: TerminalSession?) {
@@ -211,6 +226,14 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
                 R.id.menu_item_settings -> {
                     true
                 }
+                R.id.menu_item_new_session -> {
+                    if (!tabSwitcher.isSwitcherShown) {
+                        tabSwitcher.showSwitcher()
+                    }
+                    val index = tabSwitcher.count
+                    addNewSession("NeoTerm #" + index, createRevealAnimation())
+                    true
+                }
                 else -> false
             }
         }
@@ -220,9 +243,17 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         val tab = TermTab(tabTitle ?: "NeoTerm")
         tab.closeTabProvider = object : CloseTabProvider {
             override fun closeTab(tab: Tab) {
+                // FIXME: No Such Tab
+                tabSwitcher.showSwitcher()
                 tabSwitcher.removeTab(tab)
-                if (tabSwitcher.count > 0) {
-                    switchToSession(tabSwitcher.getTab(tabSwitcher.count - 1))
+
+                if (tabSwitcher.count > 1) {
+                    var index = tabSwitcher.indexOf(tab)
+                    // 关闭当前窗口后，向上一个窗口切换
+                    if (++index >= tabSwitcher.count) index = 0
+                    // 关闭当前窗口后，向下一个窗口切换
+//                    if (--index < 0) index = tabSwitcher.count - 1
+                    switchToSession(tabSwitcher.getTab(index))
                 }
             }
         }

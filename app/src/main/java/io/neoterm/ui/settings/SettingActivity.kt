@@ -12,7 +12,7 @@ class SettingActivity : AppCompatPreferenceActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar.title = getString(R.string.settings)
+        supportActionBar.title = getString(R.string.menu_settings)
         supportActionBar.setDisplayHomeAsUpEnabled(true)
         addPreferencesFromResource(R.xml.settings_main)
     }

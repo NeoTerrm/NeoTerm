@@ -1,4 +1,4 @@
-package io.neoterm.tab
+package io.neoterm.view.tab
 
 import android.content.Context
 import android.graphics.Typeface
@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import de.mrapp.android.tabswitcher.Tab
 import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
-import io.neoterm.NeoTermActivity
+import io.neoterm.ui.NeoTermActivity
 import io.neoterm.R
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView

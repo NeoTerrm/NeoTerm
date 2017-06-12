@@ -11,7 +11,7 @@ import android.widget.GridLayout;
 import android.widget.ToggleButton;
 
 import io.neoterm.R;
-import io.neoterm.terminal.TerminalSession;
+import io.neoterm.backend.TerminalSession;
 
 /**
  * A view showing extra keys (such as Escape, Ctrl, Alt) not normally available on an Android soft

@@ -1,11 +1,11 @@
-package io.neoterm.tab
+package io.neoterm.view.tab
 
 import android.content.Context
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
-import io.neoterm.terminal.TerminalSession
+import io.neoterm.backend.TerminalSession
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
 import io.neoterm.view.TerminalViewClient

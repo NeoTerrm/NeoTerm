@@ -1,6 +1,6 @@
-package io.neoterm.tab
+package io.neoterm.view.tab
 
-import io.neoterm.terminal.TerminalSession
+import io.neoterm.backend.TerminalSession
 import io.neoterm.view.TerminalView
 
 /**

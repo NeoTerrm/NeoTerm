@@ -1,4 +1,4 @@
-package io.neoterm.terminal;
+package io.neoterm.backend;
 
 import java.util.Arrays;
 

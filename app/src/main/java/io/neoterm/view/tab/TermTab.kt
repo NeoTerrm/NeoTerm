@@ -1,10 +1,10 @@
-package io.neoterm.tab
+package io.neoterm.view.tab
 
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.v7.widget.Toolbar
 import de.mrapp.android.tabswitcher.Tab
-import io.neoterm.terminal.TerminalSession
+import io.neoterm.backend.TerminalSession
 
 /**
  * @author kiva

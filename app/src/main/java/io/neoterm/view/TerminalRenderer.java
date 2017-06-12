@@ -5,11 +5,11 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 
-import io.neoterm.terminal.TerminalBuffer;
-import io.neoterm.terminal.TerminalEmulator;
-import io.neoterm.terminal.TerminalRow;
-import io.neoterm.terminal.TextStyle;
-import io.neoterm.terminal.WcWidth;
+import io.neoterm.backend.TerminalBuffer;
+import io.neoterm.backend.TerminalEmulator;
+import io.neoterm.backend.TerminalRow;
+import io.neoterm.backend.TextStyle;
+import io.neoterm.backend.WcWidth;
 
 /**
  * Renderer of a {@link TerminalEmulator} into a {@link Canvas}.

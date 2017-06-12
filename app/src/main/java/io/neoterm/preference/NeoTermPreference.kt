@@ -4,6 +4,7 @@ import android.content.Context
 import android.preference.PreferenceManager
 
 import io.neoterm.NeoTermActivity
+import io.neoterm.NeoTermService
 import io.neoterm.terminal.TerminalSession
 
 /**
@@ -17,12 +18,12 @@ object NeoTermPreference {
         PreferenceManager.getDefaultSharedPreferences(context).edit().putString(NeoTermPreference.CURRENT_SESSION_KEY, session.mHandle).apply()
     }
 
-    fun getCurrentSession(termActivity: NeoTermActivity): TerminalSession? {
-        val sessionHandle = PreferenceManager.getDefaultSharedPreferences(termActivity).getString(CURRENT_SESSION_KEY, "")
+    fun getCurrentSession(termService: NeoTermService?): TerminalSession? {
+        val sessionHandle = PreferenceManager.getDefaultSharedPreferences(termService!!).getString(CURRENT_SESSION_KEY, "")
         var i = 0
-        val len = termActivity.termService!!.sessions.size
+        val len = termService.sessions.size
         while (i < len) {
-            val session = termActivity.termService!!.sessions[i]
+            val session = termService.sessions[i]
             if (session.mHandle == sessionHandle) return session
             i++
         }

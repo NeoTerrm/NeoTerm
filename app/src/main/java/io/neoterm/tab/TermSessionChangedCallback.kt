@@ -8,13 +8,16 @@ import io.neoterm.view.TerminalView
  */
 class TermSessionChangedCallback : TerminalSession.SessionChangedCallback {
     var termView: TerminalView? = null
+    var termTab: TermTab? = null
 
     override fun onTextChanged(changedSession: TerminalSession?) {
         termView?.onScreenUpdated()
     }
 
     override fun onTitleChanged(changedSession: TerminalSession?) {
-
+        if (changedSession?.title != null) {
+            termTab?.updateTitle(changedSession.title)
+        }
     }
 
     override fun onSessionFinished(finishedSession: TerminalSession?) {
@@ -22,15 +25,11 @@ class TermSessionChangedCallback : TerminalSession.SessionChangedCallback {
     }
 
     override fun onClipboardText(session: TerminalSession?, text: String?) {
-
     }
 
     override fun onBell(session: TerminalSession?) {
-
     }
 
     override fun onColorsChanged(session: TerminalSession?) {
-
     }
-
 }

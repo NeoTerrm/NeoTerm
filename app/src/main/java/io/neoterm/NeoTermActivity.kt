@@ -11,6 +11,7 @@ import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
@@ -61,7 +62,25 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
                 .setToolbarNavigationIcon(R.drawable.ic_add_box_white_24dp, createAddSessionListener())
         tabSwitcher.inflateToolbarMenu(R.menu.tab_switcher, createToolbarMenuListener())
         tabSwitcher.addListener(object : TabSwitcherListener {
+            private var tabSwitcherButtonInited = false
+
             override fun onSwitcherShown(tabSwitcher: TabSwitcher) {
+                if (tabSwitcherButtonInited) {
+                    return
+                }
+
+                val menu = tabSwitcher.toolbarMenu
+                if (menu != null) {
+                    tabSwitcherButtonInited = true
+                    val tabSwitcherButton = menu.findItem(R.id.toggle_tab_switcher_menu_item).actionView as TabSwitcherButton
+                    tabSwitcherButton.setOnClickListener {
+                        if (tabSwitcher.isSwitcherShown) {
+                            tabSwitcher.hideSwitcher()
+                        } else {
+                            tabSwitcher.showSwitcher()
+                        }
+                    }
+                }
             }
 
             override fun onSwitcherHidden(tabSwitcher: TabSwitcher) {
@@ -79,13 +98,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
                 if (tab is TermTab) {
-                    tab.termSession?.finishIfRunning()
-                    tab.viewClient?.termView = null
-                    tab.viewClient?.extraKeysView = null
-                    tab.sessionCallback?.termView = null
-
                     removeFinishedSession(tab.termSession)
-                    tab.termSession = null
+                    tab.cleanup()
                 }
                 updateTabSwitcherButton()
             }
@@ -180,7 +194,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
     }
 
     private fun getStoredCurrentSessionOrLast(): TerminalSession? {
-        val stored = NeoTermPreference.getCurrentSession(this)
+        val stored = NeoTermPreference.getCurrentSession(termService)
         if (stored != null) return stored
         val numberOfSessions = termService!!.sessions.size
         if (numberOfSessions == 0) return null

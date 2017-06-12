@@ -191,7 +191,8 @@ public class PhoneDragHandler extends AbstractDragHandler<PhoneDragHandler.Callb
 
         while ((tabItem = iterator.next()) != null) {
             if (tabItem.getTag().getState() == State.FLOATING ||
-                    tabItem.getTag().getState() == State.STACKED_START_ATOP) {
+                    tabItem.getTag().getState() == State.STACKED_START_ATOP ||
+                    tabItem.getTag().getState() == State.STACKED_START) {
                 View view = tabItem.getView();
                 Toolbar[] toolbars = getTabSwitcher().getToolbars();
                 float toolbarHeight = getTabSwitcher().getLayout() != Layout.PHONE_LANDSCAPE &&

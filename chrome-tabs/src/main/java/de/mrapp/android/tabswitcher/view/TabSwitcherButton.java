@@ -19,6 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
+import android.view.View;
 
 import de.mrapp.android.tabswitcher.Animation;
 import de.mrapp.android.tabswitcher.R;
@@ -62,9 +63,8 @@ public class TabSwitcherButton extends AppCompatImageButton implements TabSwitch
      * Creates a new image button, which allows to display the number of tabs, which are currently
      * contained by a {@link TabSwitcher}.
      *
-     * @param context
-     *         The context, which should be used by the view, as an instance of the class {@link
-     *         Context}. The context may not be null
+     * @param context The context, which should be used by the view, as an instance of the class {@link
+     *                Context}. The context may not be null
      */
     public TabSwitcherButton(@NonNull final Context context) {
         this(context, null);
@@ -74,12 +74,10 @@ public class TabSwitcherButton extends AppCompatImageButton implements TabSwitch
      * Creates a new image button, which allows to display the number of tabs, which are currently
      * contained by a {@link TabSwitcher}.
      *
-     * @param context
-     *         The context, which should be used by the view, as an instance of the class {@link
-     *         Context}. The context may not be null
-     * @param attributeSet
-     *         The attribute set, the view's attributes should be obtained from, as an instance of
-     *         the type {@link AttributeSet} or null, if no attributes should be obtained
+     * @param context      The context, which should be used by the view, as an instance of the class {@link
+     *                     Context}. The context may not be null
+     * @param attributeSet The attribute set, the view's attributes should be obtained from, as an instance of
+     *                     the type {@link AttributeSet} or null, if no attributes should be obtained
      */
     public TabSwitcherButton(@NonNull final Context context,
                              @Nullable final AttributeSet attributeSet) {
@@ -91,16 +89,13 @@ public class TabSwitcherButton extends AppCompatImageButton implements TabSwitch
      * Creates a new image button, which allows to display the number of tabs, which are currently
      * contained by a {@link TabSwitcher}.
      *
-     * @param context
-     *         The context, which should be used by the view, as an instance of the class {@link
-     *         Context}. The context may not be null
-     * @param attributeSet
-     *         The attribute set, the view's attributes should be obtained from, as an instance of
-     *         the type {@link AttributeSet} or null, if no attributes should be obtained
-     * @param defaultStyle
-     *         The default style to apply to this view. If 0, no style will be applied (beyond what
-     *         is included in the theme). This may either be an attribute resource, whose value will
-     *         be retrieved from the current theme, or an explicit style resource
+     * @param context      The context, which should be used by the view, as an instance of the class {@link
+     *                     Context}. The context may not be null
+     * @param attributeSet The attribute set, the view's attributes should be obtained from, as an instance of
+     *                     the type {@link AttributeSet} or null, if no attributes should be obtained
+     * @param defaultStyle The default style to apply to this view. If 0, no style will be applied (beyond what
+     *                     is included in the theme). This may either be an attribute resource, whose value will
+     *                     be retrieved from the current theme, or an explicit style resource
      */
     public TabSwitcherButton(@NonNull final Context context,
                              @Nullable final AttributeSet attributeSet,
@@ -112,9 +107,8 @@ public class TabSwitcherButton extends AppCompatImageButton implements TabSwitch
     /**
      * Updates the image button to display a specific value.
      *
-     * @param count
-     *         The value, which should be displayed, as an {@link Integer} value. The value must be
-     *         at least 0
+     * @param count The value, which should be displayed, as an {@link Integer} value. The value must be
+     *              at least 0
      */
     public final void setCount(final int count) {
         drawable.setCount(count);

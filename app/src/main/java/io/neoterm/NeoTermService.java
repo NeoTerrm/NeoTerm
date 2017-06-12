@@ -15,7 +15,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.neoterm.tab.TermSessionChangedCallback;
 import io.neoterm.terminal.EmulatorDebug;
 import io.neoterm.terminal.TerminalSession;
 
@@ -79,7 +78,7 @@ public class NeoTermService extends Service {
         return mTerminalSessions;
     }
 
-    TerminalSession createTermSession(String executablePath, String[] arguments, String cwd, String[] env, TermSessionChangedCallback sessionCallback) {
+    TerminalSession createTermSession(String executablePath, String[] arguments, String cwd, String[] env, TerminalSession.SessionChangedCallback sessionCallback) {
         if (cwd == null) cwd = getFilesDir().getAbsolutePath();
 
         boolean isLoginShell = false;

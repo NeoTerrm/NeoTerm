@@ -17,7 +17,7 @@
         android:id="@+id/extra_keys"
         style="?android:buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="36dp"
         android:layout_alignParentBottom="true"
         android:background="@color/terminal_background"
         android:orientation="horizontal" />

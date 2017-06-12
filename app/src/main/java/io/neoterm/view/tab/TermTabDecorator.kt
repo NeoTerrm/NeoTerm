@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import de.mrapp.android.tabswitcher.Tab
 import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
-import io.neoterm.ui.NeoTermActivity
 import io.neoterm.R
-import io.neoterm.customize.color.builtin.MaterialColorScheme
+import io.neoterm.preference.NeoTermPreference
+import io.neoterm.ui.NeoTermActivity
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
 
@@ -59,7 +59,7 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         if (view == null) {
             return
         }
-        view.textSize = 30
+        view.textSize = NeoTermPreference.loadInt(NeoTermPreference.KEY_FONT_SIZE, 30)
         view.setTypeface(Typeface.MONOSPACE)
 
         if (tab is TermTab) {

@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageButton
 import de.mrapp.android.tabswitcher.*
 import de.mrapp.android.tabswitcher.view.TabSwitcherButton
@@ -45,11 +46,20 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
                 addNewSession(session)
             }
             switchToSession(getStoredCurrentSessionOrLast())
+        } else {
+            tabSwitcher.showSwitcher()
+            addNewSession("NeoTerm #0", createRevealAnimation())
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        NeoTermPreference.init(this)
+        if (NeoTermPreference.loadBoolean(R.string.key_ui_fullscreen, false)) {
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+
         setContentView(R.layout.tab_main)
 
         tabSwitcher = findViewById(R.id.tab_switcher) as TabSwitcher
@@ -68,16 +78,16 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
     override fun onResume() {
         super.onResume()
         tabSwitcher.addListener(object : TabSwitcherListener {
-            private var tabSwitcherButtonInited = false
+            private var tabSwitcherButtonInit = false
 
             override fun onSwitcherShown(tabSwitcher: TabSwitcher) {
-                if (tabSwitcherButtonInited) {
+                if (tabSwitcherButtonInit) {
                     return
                 }
 
                 val menu = tabSwitcher.toolbarMenu
                 if (menu != null) {
-                    tabSwitcherButtonInited = true
+                    tabSwitcherButtonInit = true
                     val tabSwitcherButton = menu.findItem(R.id.toggle_tab_switcher_menu_item).actionView as TabSwitcherButton
                     tabSwitcherButton.setOnClickListener {
                         if (tabSwitcher.isSwitcherShown) {
@@ -94,7 +104,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
 
             override fun onSelectionChanged(tabSwitcher: TabSwitcher, selectedTabIndex: Int, selectedTab: Tab?) {
                 if (selectedTab is TermTab && selectedTab.termSession != null) {
-                    NeoTermPreference.storeCurrentSession(this@NeoTermActivity, selectedTab.termSession!!)
+                    NeoTermPreference.storeCurrentSession(selectedTab.termSession!!)
                 }
             }
 
@@ -125,6 +135,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
             termService = null
         }
         unbindService(this)
+        NeoTermPreference.cleanup()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

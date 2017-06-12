@@ -5,7 +5,9 @@ import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
+import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.preference.NeoTermPreference
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
 import io.neoterm.view.TerminalViewClient
@@ -27,7 +29,9 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         if (scale < 0.9f || scale > 1.1f) {
             val increase = scale > 1f
             val changedSize = (if (increase) 1 else -1) * 2
-            termView!!.textSize = termView!!.textSize + changedSize
+            val fontSize = termView!!.textSize + changedSize
+            termView!!.textSize = fontSize
+            NeoTermPreference.store(NeoTermPreference.KEY_FONT_SIZE, fontSize)
             return 1.0f
         }
         return scale
@@ -39,7 +43,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {
-        return false
+        return NeoTermPreference.loadBoolean(R.string.key_generaL_backspace_map_to_esc, false)
     }
 
     override fun copyModeChanged(copyMode: Boolean) {

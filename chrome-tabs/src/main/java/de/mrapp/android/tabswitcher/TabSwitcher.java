@@ -1418,7 +1418,7 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
         savedState.modelState = new Bundle();
 
         Pair<Integer, Float> pair = null;
-        if (getCount() > 0) {
+        if (getCount() > 0 && layout != null) {
             pair = layout.detachLayout(true);
         }
 
@@ -1434,8 +1434,10 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
             model.setFirstVisibleTabIndex(-1);
         }
 
-        model.removeListener(layout);
-        layout = null;
+        if (layout != null) {
+            model.removeListener(layout);
+            layout = null;
+        }
         executePendingAction();
         getViewTreeObserver().addOnGlobalLayoutListener(
                 new LayoutListenerWrapper(this, createGlobalLayoutListener(true)));

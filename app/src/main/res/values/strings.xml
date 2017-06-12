@@ -12,4 +12,17 @@
     <string name="general_settings">General Settings</string>
     <string name="ui_settings">UI Settings</string>
     <string name="package_settings">Package Settings</string>
+
+    <string name="large_text">Hello NeoTerm.</string>
+
+    <string name="pref_general_bell">Bell</string>
+    <string name="pref_general_bell_desc">Bell when receiving \'\\a\'</string>
+    <string name="pref_general_vibrate">Vibrate</string>
+    <string name="pref_general_vibrate_desc">Vibrate when receiving \'\\a\'</string>
+    <string name="pref_general_backspace_map_to_esc">BackSpace Mapped to Esc</string>
+    <string name="pref_general_backspace_map_to_esc_desc">Send esc when backspace is pressed</string>
+    <string name="pref_ui_fullscreen">Full Screen</string>
+    <string name="pref_ui_font">Font</string>
+    <string name="pref_ui_color_scheme">Color Scheme</string>
+    <string name="pref_package_source">Source</string>
 </resources>

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.neoterm">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:extractNativeLibs="true"
@@ -22,19 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.settings.SettingActivity"
             android:theme="@style/Theme.AppCompat" />
-
         <activity
             android:name=".ui.settings.GeneralSettingsActivity"
             android:theme="@style/Theme.AppCompat" />
-
         <activity
             android:name=".ui.settings.UISettingsActivity"
             android:theme="@style/Theme.AppCompat" />
-
         <activity
             android:name=".ui.settings.PackageSettingsActivity"
             android:theme="@style/Theme.AppCompat" />
@@ -42,6 +40,11 @@
         <service
             android:name=".services.NeoTermService"
             android:enabled="true" />
+
+        <activity
+            android:name=".ui.AboutActivity"
+            android:label="@string/about"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

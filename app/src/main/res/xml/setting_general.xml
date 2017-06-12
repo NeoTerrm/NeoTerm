@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/key_general_bell"
+        android:summary="@string/pref_general_bell_desc"
+        android:title="@string/pref_general_bell" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/key_general_vibrate"
+        android:summary="@string/pref_general_vibrate_desc"
+        android:title="@string/pref_general_vibrate" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/key_generaL_backspace_map_to_esc"
+        android:summary="@string/pref_general_backspace_map_to_esc_desc"
+        android:title="@string/pref_general_backspace_map_to_esc" />
 
 </PreferenceScreen>

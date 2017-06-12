@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".NeoTermActivity"
+            android:name=".ui.NeoTermActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible">
@@ -23,7 +23,7 @@
         </activity>
 
         <service
-            android:name=".NeoTermService"
+            android:name=".services.NeoTermService"
             android:enabled="true" />
     </application>
 

@@ -1,4 +1,4 @@
-package io.neoterm.terminal;
+package io.neoterm.backend;
 
 /**
  * Implementation of wcwidth(3) for Unicode 9.

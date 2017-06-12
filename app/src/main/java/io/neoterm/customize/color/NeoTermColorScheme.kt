@@ -1,7 +1,7 @@
 package io.neoterm.customize
 
-import io.neoterm.terminal.TerminalColors
-import io.neoterm.terminal.TerminalSession
+import io.neoterm.backend.TerminalColors
+import io.neoterm.backend.TerminalSession
 
 /**
  * @author kiva

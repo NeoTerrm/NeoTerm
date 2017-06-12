@@ -1,4 +1,4 @@
-package io.neoterm;
+package io.neoterm.services;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -15,8 +15,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.neoterm.terminal.EmulatorDebug;
-import io.neoterm.terminal.TerminalSession;
+import io.neoterm.ui.NeoTermActivity;
+import io.neoterm.R;
+import io.neoterm.backend.EmulatorDebug;
+import io.neoterm.backend.TerminalSession;
 
 /**
  * @author kiva
@@ -78,7 +80,7 @@ public class NeoTermService extends Service {
         return mTerminalSessions;
     }
 
-    TerminalSession createTermSession(String executablePath, String[] arguments, String cwd, String[] env, TerminalSession.SessionChangedCallback sessionCallback) {
+    public TerminalSession createTermSession(String executablePath, String[] arguments, String cwd, String[] env, TerminalSession.SessionChangedCallback sessionCallback) {
         if (cwd == null) cwd = getFilesDir().getAbsolutePath();
 
         boolean isLoginShell = false;

@@ -4,7 +4,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
-import io.neoterm.terminal.TerminalSession;
+import io.neoterm.backend.TerminalSession;
 
 /**
  * Input and scale listener which may be set on a {@link TerminalView} through

@@ -1,7 +1,6 @@
-package io.neoterm
+package io.neoterm.ui
 
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
@@ -11,18 +10,18 @@ import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import de.mrapp.android.tabswitcher.*
 import de.mrapp.android.tabswitcher.view.TabSwitcherButton
+import io.neoterm.R
 import io.neoterm.preference.NeoTermPreference
-import io.neoterm.tab.TermSessionChangedCallback
-import io.neoterm.tab.TermTab
-import io.neoterm.tab.TermTabDecorator
-import io.neoterm.tab.TermViewClient
-import io.neoterm.terminal.TerminalSession
+import io.neoterm.services.NeoTermService
+import io.neoterm.view.tab.TermSessionChangedCallback
+import io.neoterm.view.tab.TermTab
+import io.neoterm.view.tab.TermTabDecorator
+import io.neoterm.view.tab.TermViewClient
+import io.neoterm.backend.TerminalSession
 
 
 class NeoTermActivity : AppCompatActivity(), ServiceConnection {

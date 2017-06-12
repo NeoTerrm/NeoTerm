@@ -1,4 +1,4 @@
-package io.neoterm.terminal;
+package io.neoterm.backend;
 
 /** A circular byte buffer allowing one producer and one consumer thread. */
 final class ByteQueue {

@@ -2,10 +2,8 @@ package io.neoterm.preference
 
 import android.content.Context
 import android.preference.PreferenceManager
-
-import io.neoterm.NeoTermActivity
-import io.neoterm.NeoTermService
-import io.neoterm.terminal.TerminalSession
+import io.neoterm.backend.TerminalSession
+import io.neoterm.services.NeoTermService
 
 /**
  * @author kiva
@@ -15,7 +13,10 @@ object NeoTermPreference {
     var CURRENT_SESSION_KEY = "neoterm_current_session"
 
     fun storeCurrentSession(context: Context, session: TerminalSession) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(NeoTermPreference.CURRENT_SESSION_KEY, session.mHandle).apply()
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(NeoTermPreference.CURRENT_SESSION_KEY, session.mHandle)
+                .apply()
     }
 
     fun getCurrentSession(termService: NeoTermService?): TerminalSession? {

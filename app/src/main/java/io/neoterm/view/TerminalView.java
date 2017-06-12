@@ -30,11 +30,11 @@ import android.view.inputmethod.InputConnection;
 import android.widget.Scroller;
 
 import io.neoterm.R;
-import io.neoterm.terminal.EmulatorDebug;
-import io.neoterm.terminal.KeyHandler;
-import io.neoterm.terminal.TerminalBuffer;
-import io.neoterm.terminal.TerminalEmulator;
-import io.neoterm.terminal.TerminalSession;
+import io.neoterm.backend.EmulatorDebug;
+import io.neoterm.backend.KeyHandler;
+import io.neoterm.backend.TerminalBuffer;
+import io.neoterm.backend.TerminalEmulator;
+import io.neoterm.backend.TerminalSession;
 
 /** View displaying and interacting with a {@link TerminalSession}. */
 public final class TerminalView extends View {

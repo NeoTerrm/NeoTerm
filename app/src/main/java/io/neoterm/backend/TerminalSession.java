@@ -1,4 +1,4 @@
-package io.neoterm.terminal;
+package io.neoterm.backend;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;

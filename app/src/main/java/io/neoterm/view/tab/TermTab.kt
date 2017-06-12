@@ -47,7 +47,3 @@ class TermTab(title: CharSequence) : Tab(title) {
         closeTabProvider?.closeTab(this)
     }
 }
-
-interface CloseTabProvider {
-    fun closeTab(tab: Tab)
-}

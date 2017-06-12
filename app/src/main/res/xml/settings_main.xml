@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:summary="设置通用的选项"
-        android:title="通用设置" />
+    <Preference android:title="@string/general_settings">
+        <intent
+            android:targetClass="io.neoterm.ui.settings.GeneralSettingsActivity"
+            android:targetPackage="io.neoterm" />
+    </Preference>
 
-    <Preference
-        android:summary="设置界面有关的选项"
-        android:title="界面选项" />
+    <Preference android:title="@string/ui_settings" >
+        <intent
+            android:targetClass="io.neoterm.ui.settings.UISettingsActivity"
+            android:targetPackage="io.neoterm" />
+    </Preference>
 
-    <Preference
-        android:title="软件包选项"
-        android:summary="设置软件包有关的选项" />
+    <Preference android:title="@string/package_settings" >
+        <intent
+            android:targetClass="io.neoterm.ui.settings.PackageSettingsActivity"
+            android:targetPackage="io.neoterm" />
+    </Preference>
 
-    <Preference
-        android:title="关于"/>
-
+    <Preference android:title="@string/about" >
+        <intent
+            android:targetClass="io.neoterm.ui.AboutActivity"
+            android:targetPackage="io.neoterm" />
+    </Preference>
 
 </PreferenceScreen>

@@ -5,6 +5,11 @@
     <string name="text_selection_more">More</string>
 
     <string name="toggle_tab_switcher_menu_item">Toggle switcher</string>
-    <string name="menu_settings">Settings</string>
     <string name="new_session">New session</string>
+
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="general_settings">General Settings</string>
+    <string name="ui_settings">UI Settings</string>
+    <string name="package_settings">Package Settings</string>
 </resources>

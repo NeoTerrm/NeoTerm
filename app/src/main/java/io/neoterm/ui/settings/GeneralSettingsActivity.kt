@@ -6,15 +6,15 @@ import android.view.MenuItem
 import io.neoterm.R
 
 /**
- * @author Lody
+ * @author kiva
  */
-class SettingActivity : AppCompatPreferenceActivity() {
+class GeneralSettingsActivity : AppCompatPreferenceActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar.title = getString(R.string.settings)
+        supportActionBar.title = getString(R.string.general_settings)
         supportActionBar.setDisplayHomeAsUpEnabled(true)
-        addPreferencesFromResource(R.xml.settings_main)
+        addPreferencesFromResource(R.xml.setting_general)
     }
 
     override fun onBuildHeaders(target: MutableList<Header>?) {

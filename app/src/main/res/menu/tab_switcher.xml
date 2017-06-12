@@ -29,7 +29,7 @@ License.
 
     <item
         android:id="@+id/menu_item_settings"
-        android:title="@string/menu_settings"
+        android:title="@string/settings"
         app:showAsAction="never"/>
 
 </menu>

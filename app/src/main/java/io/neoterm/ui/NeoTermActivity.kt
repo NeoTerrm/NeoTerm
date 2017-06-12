@@ -10,7 +10,6 @@ import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ImageButton
@@ -60,6 +59,14 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         tabSwitcher
                 .setToolbarNavigationIcon(R.drawable.ic_add_box_white_24dp, createAddSessionListener())
         tabSwitcher.inflateToolbarMenu(R.menu.tab_switcher, createToolbarMenuListener())
+
+        val serviceIntent = Intent(this, NeoTermService::class.java)
+        startService(serviceIntent)
+        bindService(serviceIntent, this, 0)
+    }
+
+    override fun onResume() {
+        super.onResume()
         tabSwitcher.addListener(object : TabSwitcherListener {
             private var tabSwitcherButtonInited = false
 
@@ -96,7 +103,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
             }
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
-                Log.e("NeoTerm", "onTabRemoved " + tab.toString())
                 if (tab is TermTab) {
                     tab.termSession?.finishIfRunning()
                     removeFinishedSession(tab.termSession)
@@ -108,10 +114,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
             override fun onAllTabsRemoved(tabSwitcher: TabSwitcher, tabs: Array<out Tab>, animation: Animation) {
             }
         })
-
-        val serviceIntent = Intent(this, NeoTermService::class.java)
-        startService(serviceIntent)
-        bindService(serviceIntent, this, 0)
     }
 
     override fun onDestroy() {

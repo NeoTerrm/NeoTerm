@@ -1416,7 +1416,11 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
         TabSwitcherState savedState = new TabSwitcherState(superState);
         savedState.layoutPolicy = layoutPolicy;
         savedState.modelState = new Bundle();
-        Pair<Integer, Float> pair = layout.detachLayout(true);
+
+        Pair<Integer, Float> pair = null;
+        if (getCount() > 0) {
+            pair = layout.detachLayout(true);
+        }
 
         if (pair != null) {
             savedState.modelState

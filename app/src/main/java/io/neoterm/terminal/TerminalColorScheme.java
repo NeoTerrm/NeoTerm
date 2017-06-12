@@ -69,6 +69,17 @@ public final class TerminalColorScheme {
         System.arraycopy(DEFAULT_COLORSCHEME, 0, mDefaultColors, 0, TextStyle.NUM_INDEXED_COLORS);
     }
 
+    public void updateWith(String foreground, String background, String cursor, Map<Integer, String> color) {
+        Properties prop = new Properties();
+        prop.put("foreground", foreground);
+        prop.put("background", background);
+        prop.put("cursor", cursor);
+        for (int i : color.keySet()) {
+            prop.put("color" + i, color.get(i));
+        }
+        updateWith(prop);
+    }
+
     public void updateWith(Properties props) {
         reset();
         for (Map.Entry<Object, Object> entries : props.entrySet()) {

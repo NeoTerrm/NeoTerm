@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.support.v7.widget.Toolbar
 import de.mrapp.android.tabswitcher.Tab
+import io.neoterm.customize.NeoTermColorScheme
 import io.neoterm.terminal.TerminalSession
 
 /**
@@ -19,6 +20,10 @@ class TermTab : Tab {
     constructor(title: CharSequence) : super(title)
 
     private constructor(source: Parcel) : super(source)
+
+    fun changeColorScheme(colorScheme: NeoTermColorScheme?) {
+        colorScheme?.apply(termSession)
+    }
 
     fun cleanup() {
         termSession?.finishIfRunning()

@@ -15,13 +15,10 @@ import android.widget.ImageButton
 import de.mrapp.android.tabswitcher.*
 import de.mrapp.android.tabswitcher.view.TabSwitcherButton
 import io.neoterm.R
+import io.neoterm.backend.TerminalSession
 import io.neoterm.preference.NeoTermPreference
 import io.neoterm.services.NeoTermService
-import io.neoterm.view.tab.TermSessionChangedCallback
-import io.neoterm.view.tab.TermTab
-import io.neoterm.view.tab.TermTabDecorator
-import io.neoterm.view.tab.TermViewClient
-import io.neoterm.backend.TerminalSession
+import io.neoterm.view.tab.*
 
 
 class NeoTermActivity : AppCompatActivity(), ServiceConnection {
@@ -97,6 +94,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
                 if (tab is TermTab) {
+                    tab.termSession?.finishIfRunning()
                     removeFinishedSession(tab.termSession)
                     tab.cleanup()
                 }
@@ -220,6 +218,14 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
 
     private fun createTab(tabTitle: String?): Tab {
         val tab = TermTab(tabTitle ?: "NeoTerm")
+        tab.closeTabProvider = object : CloseTabProvider {
+            override fun closeTab(tab: Tab) {
+                tabSwitcher.removeTab(tab)
+                if (tabSwitcher.count > 0) {
+                    switchToSession(tabSwitcher.getTab(tabSwitcher.count - 1))
+                }
+            }
+        }
         tab.isCloseable = true
         tab.parameters = Bundle()
         tab.setBackgroundColor(ContextCompat.getColor(this, R.color.tab_background_color))

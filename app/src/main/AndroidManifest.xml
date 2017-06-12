@@ -12,9 +12,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.NeoTermActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateAlwaysVisible">
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

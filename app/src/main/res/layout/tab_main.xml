@@ -8,6 +8,7 @@
     android:background="#ff14181c"
     custom:layoutPolicy="auto"
     custom:tabBackgroundColor="@color/tab_background_color"
+    custom:tabIcon="@drawable/ic_tab_icon"
     custom:tabTitleTextColor="@color/tab_title_text_color"
     custom:tabCloseButtonIcon="@drawable/ic_close_tab_18dp"
     custom:toolbarMenu="@menu/tab_switcher"

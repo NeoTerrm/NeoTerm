@@ -1,5 +1,8 @@
 package io.neoterm.view.tab
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import io.neoterm.backend.TerminalSession
 import io.neoterm.view.TerminalView
 
@@ -21,10 +24,14 @@ class TermSessionChangedCallback : TerminalSession.SessionChangedCallback {
     }
 
     override fun onSessionFinished(finishedSession: TerminalSession?) {
-
+        termTab?.onSessionFinished()
     }
 
     override fun onClipboardText(session: TerminalSession?, text: String?) {
+        if (termView != null) {
+            val clipboard = termView!!.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.primaryClip = ClipData.newPlainText("", text)
+        }
     }
 
     override fun onBell(session: TerminalSession?) {

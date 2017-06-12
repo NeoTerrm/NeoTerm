@@ -16,6 +16,10 @@ import io.neoterm.view.TerminalViewClient
 class TermViewClient(val context: Context) : TerminalViewClient {
     private var mVirtualControlKeyDown: Boolean = false
     private var mVirtualFnKeyDown: Boolean = false
+
+    var sessionFinished: Boolean = false
+
+    var termTab: TermTab? = null
     var termView: TerminalView? = null
     var extraKeysView: ExtraKeysView? = null
 
@@ -43,8 +47,16 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun onKeyDown(keyCode: Int, e: KeyEvent?, session: TerminalSession?): Boolean {
-        // TODO
-        return false
+        when (keyCode) {
+            KeyEvent.KEYCODE_ENTER -> {
+                if (e?.action == KeyEvent.ACTION_DOWN && sessionFinished) {
+                    termTab?.requiredCloseTab()
+                    return true
+                }
+                return false
+            }
+            else -> return false
+        }
     }
 
     override fun onKeyUp(keyCode: Int, e: KeyEvent?): Boolean {

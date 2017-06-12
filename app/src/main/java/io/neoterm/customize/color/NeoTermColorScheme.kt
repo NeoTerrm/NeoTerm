@@ -1,24 +1,17 @@
-package io.neoterm.customize
+package io.neoterm.customize.color
 
 import io.neoterm.backend.TerminalColors
-import io.neoterm.backend.TerminalSession
 
 /**
  * @author kiva
  */
-class NeoTermColorScheme {
+open class NeoTermColorScheme {
     var foreground: String? = null
     var background: String? = null
     var cursor: String? = null
     var color: MutableMap<Int, String> = mutableMapOf()
 
-    fun apply(session: TerminalSession?) {
-        if (session == null) {
-            return
-        }
-
-        val termSession = session
+    fun apply() {
         TerminalColors.COLOR_SCHEME.updateWith(foreground, background, cursor, color)
-        termSession.emulator.mColors.reset()
     }
 }

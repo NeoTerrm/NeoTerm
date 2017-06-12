@@ -127,7 +127,7 @@ public class NeoTermService extends Service {
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle(getText(R.string.app_name));
         builder.setContentText(contentText);
-        builder.setSmallIcon(R.drawable.ic_service_notification);
+        builder.setSmallIcon(R.drawable.ic_terminal_running);
         builder.setContentIntent(pendingIntent);
         builder.setOngoing(true);
         builder.setShowWhen(false);

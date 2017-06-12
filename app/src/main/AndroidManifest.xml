@@ -23,6 +23,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.settings.SettingActivity"
+            android:theme="@style/Theme.AppCompat" />
+
         <service
             android:name=".services.NeoTermService"
             android:enabled="true" />

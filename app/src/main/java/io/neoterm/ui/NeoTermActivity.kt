@@ -20,6 +20,7 @@ import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.preference.NeoTermPreference
 import io.neoterm.services.NeoTermService
+import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.view.tab.*
 
 
@@ -224,6 +225,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         return Toolbar.OnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.menu_item_settings -> {
+                    startActivity(Intent(this, SettingActivity::class.java))
                     true
                 }
                 R.id.menu_item_new_session -> {

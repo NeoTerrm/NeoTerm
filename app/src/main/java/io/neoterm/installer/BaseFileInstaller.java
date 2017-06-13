@@ -1,15 +1,11 @@
 package io.neoterm.installer;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Build;
 import android.system.Os;
 import android.util.Log;
 import android.util.Pair;
-import android.view.WindowManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,11 +23,14 @@ import io.neoterm.backend.EmulatorDebug;
 import io.neoterm.preference.NeoTermPreference;
 
 public final class BaseFileInstaller {
+    public static interface ResultListener {
+        void onResult(Exception error);
+    }
 
-    public static void installBaseFiles(final Activity activity, final Runnable whenDone) {
+    public static void installBaseFiles(final Activity activity, final ResultListener resultListener) {
         final File PREFIX_FILE = new File(NeoTermPreference.USR_PATH);
         if (PREFIX_FILE.isDirectory()) {
-            whenDone.run();
+            resultListener.onResult(null);
             return;
         }
 
@@ -102,7 +101,7 @@ public final class BaseFileInstaller {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            whenDone.run();
+                            resultListener.onResult(null);
                         }
                     });
                 } catch (final Exception e) {
@@ -111,21 +110,8 @@ public final class BaseFileInstaller {
                         @Override
                         public void run() {
                             try {
-                                new AlertDialog.Builder(activity).setTitle("ERROR").setMessage(e.toString())
-                                        .setNegativeButton("Abort", new OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                activity.finish();
-                                            }
-                                        }).setPositiveButton("Retry", new OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        BaseFileInstaller.installBaseFiles(activity, whenDone);
-                                    }
-                                }).show();
-                            } catch (WindowManager.BadTokenException e) {
+                                resultListener.onResult(e);
+                            } catch (RuntimeException e) {
                                 // Activity already dismissed - ignore.
                             }
                         }
@@ -151,7 +137,7 @@ public final class BaseFileInstaller {
         return new URL("https://kernel19.cc/neoterm/boot/" + archName + ".zip");
     }
 
-    private static String determineArchName() {
+    public static String determineArchName() {
         for (String androidArch : Build.SUPPORTED_ABIS) {
             switch (androidArch) {
                 case "arm64-v8a":

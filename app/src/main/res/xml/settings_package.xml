@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditTextPreference
+        android:enabled="false"
         android:key="@string/key_package_source"
         android:title="@string/pref_package_source" />
 </PreferenceScreen>

@@ -67,7 +67,7 @@ class NeoTermService : Service() {
     val sessions: List<TerminalSession>
         get() = mTerminalSessions
 
-    fun createTermSession(executablePath: String?, arguments: Array<String>?, cwd: String?, env: Array<String>?, sessionCallback: TerminalSession.SessionChangedCallback?): TerminalSession {
+    fun createTermSession(executablePath: String?, arguments: Array<String>?, cwd: String?, env: Array<String>?, sessionCallback: TerminalSession.SessionChangedCallback?, systemShell: Boolean): TerminalSession {
         var executablePath = executablePath
         var arguments = arguments
 
@@ -77,14 +77,14 @@ class NeoTermService : Service() {
         }
 
         if (executablePath == null) {
-            executablePath = NeoTermPreference.USR_PATH + "/bin/bash"
+            executablePath = if (systemShell) "/system/bin/sh" else NeoTermPreference.USR_PATH + "/bin/sh"
         }
 
         if (arguments == null) {
             arguments = arrayOf<String>(executablePath)
         }
 
-        val session = TerminalSession(executablePath, cwd, arguments, env ?: NeoTermPreference.buildEnvironment(cwd), sessionCallback)
+        val session = TerminalSession(executablePath, cwd, arguments, env ?: NeoTermPreference.buildEnvironment(cwd, systemShell), sessionCallback)
         mTerminalSessions.add(session)
         updateNotification()
         return session

@@ -31,6 +31,7 @@ import io.neoterm.view.tab.*
 
 class NeoTermActivity : AppCompatActivity(), ServiceConnection {
     lateinit var tabSwitcher: TabSwitcher
+    var systemShell = true
     var termService: NeoTermService? = null
 
     override fun onServiceDisconnected(name: ComponentName?) {
@@ -46,17 +47,35 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
             return
         }
 
-        BaseFileInstaller.installBaseFiles(this, {
-            if (!termService!!.sessions.isEmpty()) {
-                for (session in termService!!.sessions) {
-                    addNewSession(session)
+        var resultListener: BaseFileInstaller.ResultListener? = null
+        resultListener = BaseFileInstaller.ResultListener { error ->
+            if (error == null) {
+                systemShell = false
+                if (!termService!!.sessions.isEmpty()) {
+                    for (session in termService!!.sessions) {
+                        addNewSession(session)
+                    }
+                    switchToSession(getStoredCurrentSessionOrLast())
+                } else {
+                    tabSwitcher.showSwitcher()
+                    addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
                 }
-                switchToSession(getStoredCurrentSessionOrLast())
             } else {
-                tabSwitcher.showSwitcher()
-                addNewSession("NeoTerm #0", createRevealAnimation())
+                AlertDialog.Builder(this@NeoTermActivity)
+                        .setTitle("Error")
+                        .setMessage(error.toString())
+                        .setNegativeButton("System Shell", { _, _ ->
+                            tabSwitcher.showSwitcher()
+                            addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
+                        })
+                        .setPositiveButton("Retry", { dialog, _ ->
+                            dialog.dismiss()
+                            BaseFileInstaller.installBaseFiles(this@NeoTermActivity, resultListener)
+                        }).show()
             }
-        })
+        }
+
+        BaseFileInstaller.installBaseFiles(this, resultListener)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -189,11 +208,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         switchToSession(tab)
     }
 
-    private fun addNewSession(sessionName: String?, animation: Animation) {
+    private fun addNewSession(sessionName: String?, systemShell: Boolean, animation: Animation) {
         val tab = createTab(sessionName) as TermTab
         tab.sessionCallback = TermSessionChangedCallback()
         tab.viewClient = TermViewClient(this)
-        tab.termSession = termService!!.createTermSession(null, null, null, null, tab.sessionCallback)
+        tab.termSession = termService!!.createTermSession(null, null, null, null, tab.sessionCallback, systemShell)
 
         if (sessionName != null) {
             tab.termSession!!.mSessionName = sessionName
@@ -255,7 +274,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
     fun createAddSessionListener(): View.OnClickListener {
         return View.OnClickListener {
             val index = tabSwitcher.count
-            addNewSession("NeoTerm #" + index, createRevealAnimation())
+            addNewSession("NeoTerm #" + index, systemShell, createRevealAnimation())
         }
     }
 
@@ -271,7 +290,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
                         tabSwitcher.showSwitcher()
                     }
                     val index = tabSwitcher.count
-                    addNewSession("NeoTerm #" + index, createRevealAnimation())
+                    addNewSession("NeoTerm #" + index, systemShell, createRevealAnimation())
                     true
                 }
                 else -> false
@@ -283,16 +302,18 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         val tab = TermTab(tabTitle ?: "NeoTerm")
         tab.closeTabProvider = object : CloseTabProvider {
             override fun closeTab(tab: Tab) {
-                // FIXME: No Such Tab
                 tabSwitcher.showSwitcher()
                 tabSwitcher.removeTab(tab)
 
                 if (tabSwitcher.count > 1) {
                     var index = tabSwitcher.indexOf(tab)
-                    // 关闭当前窗口后，向上一个窗口切换
-                    if (++index >= tabSwitcher.count) index = 0
-                    // 关闭当前窗口后，向下一个窗口切换
-//                    if (--index < 0) index = tabSwitcher.count - 1
+                    if (NeoTermPreference.loadBoolean(R.string.key_ui_next_tab_anim, false)) {
+                        // 关闭当前窗口后，向下一个窗口切换
+                        if (--index < 0) index = tabSwitcher.count - 1
+                    } else {
+                        // 关闭当前窗口后，向上一个窗口切换
+                        if (++index >= tabSwitcher.count) index = 0
+                    }
                     switchToSession(tabSwitcher.getTab(index))
                 }
             }
@@ -319,9 +340,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         return RevealAnimation.Builder().setX(x).setY(y).create()
     }
 
-    private fun createPeekAnimation(): Animation {
-        return PeekAnimation.Builder().setX(tabSwitcher.width / 2f).create()
-    }
+//    private fun createPeekAnimation(): Animation {
+//        return PeekAnimation.Builder().setX(tabSwitcher.width / 2f).create()
+//    }
 
     private fun getNavigationMenuItem(): View? {
         val toolbars = tabSwitcher.toolbars

@@ -87,7 +87,7 @@ object NeoTermPreference {
         return null
     }
 
-    fun buildEnvironment(cwd: String?): Array<String> {
+    fun buildEnvironment(cwd: String?, systemShell: Boolean): Array<String> {
         var cwd = cwd
         File(HOME_PATH).mkdirs()
 
@@ -99,14 +99,19 @@ object NeoTermPreference {
         val androidDataEnv = "ANDROID_DATA=" + System.getenv("ANDROID_DATA")
         val externalStorageEnv = "EXTERNAL_STORAGE=" + System.getenv("EXTERNAL_STORAGE")
 
-        val ps1Env = "PS1=$ "
-        val ldEnv = "LD_LIBRARY_PATH=$USR_PATH/lib"
-        val langEnv = "LANG=en_US.UTF-8"
-        val pathEnv = "PATH=$USR_PATH/bin:$USR_PATH/bin/applets"
-        val pwdEnv = "PWD=" + cwd
-        val tmpdirEnv = "TMPDIR=$USR_PATH/tmp"
+        if (systemShell) {
+            val pathEnv = "PATH=" + System.getenv("PATH")
+            return arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv, externalStorageEnv, pathEnv)
 
-        return arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv)
+        } else {
+            val ps1Env = "PS1=$ "
+            val ldEnv = "LD_LIBRARY_PATH=$USR_PATH/lib"
+            val langEnv = "LANG=en_US.UTF-8"
+            val pathEnv = "PATH=$USR_PATH/bin:$USR_PATH/bin/applets"
+            val pwdEnv = "PWD=" + cwd
+            val tmpdirEnv = "TMPDIR=$USR_PATH/tmp"
 
+            return arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv)
+        }
     }
 }

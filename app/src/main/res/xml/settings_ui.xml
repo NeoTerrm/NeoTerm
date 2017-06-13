@@ -6,13 +6,20 @@
         android:key="@string/key_ui_fullscreen"
         android:title="@string/pref_ui_fullscreen" />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/key_ui_next_tab_anim"
+        android:summary="@string/pref_ui_close_tab_anim_next_tab_desc"
+        android:title="@string/pref_ui_close_tab_anim_next_tab" />
+
     <EditTextPreference
         android:key="@string/key_ui_font"
         android:title="@string/pref_ui_font" />
 
     <ListPreference
-        android:entries="@null"
-        android:entryValues="@null"
+        android:defaultValue="Default"
+        android:entries="@array/pref_ui_color_scheme_entries"
+        android:entryValues="@array/pref_ui_color_scheme_entries"
         android:key="@string/key_ui_color_scheme"
         android:title="@string/pref_ui_color_scheme" />
 </PreferenceScreen>

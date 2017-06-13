@@ -10,13 +10,12 @@ import android.os.Binder
 import android.os.IBinder
 import android.support.v4.content.WakefulBroadcastReceiver
 import android.util.Log
-
-import java.util.ArrayList
-
-import io.neoterm.ui.NeoTermActivity
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
+import io.neoterm.preference.NeoTermPreference
+import io.neoterm.ui.NeoTermActivity
+import java.util.*
 
 /**
  * @author kiva
@@ -71,25 +70,21 @@ class NeoTermService : Service() {
     fun createTermSession(executablePath: String?, arguments: Array<String>?, cwd: String?, env: Array<String>?, sessionCallback: TerminalSession.SessionChangedCallback?): TerminalSession {
         var executablePath = executablePath
         var arguments = arguments
-        var cwd = cwd
-        if (cwd == null) cwd = filesDir.absolutePath
 
-        var isLoginShell = false
+        var cwd = cwd
+        if (cwd == null) {
+            cwd = NeoTermPreference.HOME_PATH
+        }
 
         if (executablePath == null) {
-            // Fall back to system shell as last resort:
-            executablePath = "/system/bin/sh"
-            isLoginShell = true
+            executablePath = NeoTermPreference.USR_PATH + "/bin/bash"
         }
 
         if (arguments == null) {
             arguments = arrayOf<String>(executablePath)
         }
 
-        val lastSlashIndex = executablePath.lastIndexOf('/')
-        val processName = (if (isLoginShell) "-" else "") + if (lastSlashIndex == -1) executablePath else executablePath.substring(lastSlashIndex + 1)
-
-        val session = TerminalSession(executablePath, cwd, arguments, env, sessionCallback)
+        val session = TerminalSession(executablePath, cwd, arguments, env ?: NeoTermPreference.buildEnvironment(cwd), sessionCallback)
         mTerminalSessions.add(session)
         updateNotification()
         return session
@@ -126,9 +121,7 @@ class NeoTermService : Service() {
     }
 
     companion object {
-
         val ACTION_SERVICE_STOP = "neoterm.action.service.stop"
-
         private val NOTIFICATION_ID = 52019
     }
 }

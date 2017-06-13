@@ -1,8 +1,11 @@
 package io.neoterm.ui
 
+import android.app.AlertDialog
 import android.content.ComponentName
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.content.ContextCompat
@@ -18,6 +21,8 @@ import de.mrapp.android.tabswitcher.*
 import de.mrapp.android.tabswitcher.view.TabSwitcherButton
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.installer.BaseFileInstaller
+import io.neoterm.preference.NeoPermission
 import io.neoterm.preference.NeoTermPreference
 import io.neoterm.services.NeoTermService
 import io.neoterm.ui.settings.SettingActivity
@@ -41,19 +46,23 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
             return
         }
 
-        if (!termService!!.sessions.isEmpty()) {
-            for (session in termService!!.sessions) {
-                addNewSession(session)
+        BaseFileInstaller.installBaseFiles(this, {
+            if (!termService!!.sessions.isEmpty()) {
+                for (session in termService!!.sessions) {
+                    addNewSession(session)
+                }
+                switchToSession(getStoredCurrentSessionOrLast())
+            } else {
+                tabSwitcher.showSwitcher()
+                addNewSession("NeoTerm #0", createRevealAnimation())
             }
-            switchToSession(getStoredCurrentSessionOrLast())
-        } else {
-            tabSwitcher.showSwitcher()
-            addNewSession("NeoTerm #0", createRevealAnimation())
-        }
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
         NeoTermPreference.init(this)
         if (NeoTermPreference.loadBoolean(R.string.key_ui_fullscreen, false)) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -150,6 +159,22 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         return super.onKeyDown(keyCode, event)
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            NeoPermission.REQUEST_APP_PERMISSION -> {
+                if (grantResults.isEmpty()
+                        || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    AlertDialog.Builder(this).setMessage("应用无法取得必须的权限，正在退出")
+                            .setPositiveButton(android.R.string.ok, { _: DialogInterface, _: Int ->
+                                finish()
+                            })
+                            .show()
+                }
+                return
+            }
+        }
+    }
+
     private fun addNewSession(session: TerminalSession?) {
         if (session == null) {
             return
@@ -168,7 +193,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         val tab = createTab(sessionName) as TermTab
         tab.sessionCallback = TermSessionChangedCallback()
         tab.viewClient = TermViewClient(this)
-        tab.termSession = termService!!.createTermSession(null, null, "/", null, tab.sessionCallback)
+        tab.termSession = termService!!.createTermSession(null, null, null, null, tab.sessionCallback)
 
         if (sessionName != null) {
             tab.termSession!!.mSessionName = sessionName

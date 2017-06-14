@@ -18,4 +18,12 @@
         android:summary="@string/pref_general_backspace_map_to_esc_desc"
         android:title="@string/pref_general_backspace_map_to_esc" />
 
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/pref_general_shell_entries"
+        android:entryValues="@array/pref_general_shell_entries"
+        android:key="@string/key_general_shell"
+        android:summary="@string/pref_general_shell_desc"
+        android:title="@string/pref_general_shell" />
+
 </PreferenceScreen>

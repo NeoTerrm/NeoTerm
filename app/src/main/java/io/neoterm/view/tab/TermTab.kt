@@ -29,6 +29,7 @@ class TermTab(title: CharSequence) : Tab(title) {
         viewClient?.extraKeysView = null
         sessionCallback?.termView = null
         sessionCallback?.termTab = null
+        sessionCallback?.extraKeysView = null
         closeTabProvider = null
         toolbar = null
         termSession = null

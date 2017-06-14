@@ -8,6 +8,7 @@ import android.os.Vibrator
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.preference.NeoTermPreference
+import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
 
 /**
@@ -15,6 +16,7 @@ import io.neoterm.view.TerminalView
  */
 class TermSessionChangedCallback : TerminalSession.SessionChangedCallback {
     var termView: TerminalView? = null
+    var extraKeysView: ExtraKeysView? = null
     var termTab: TermTab? = null
 
     var bellId: Int = 0

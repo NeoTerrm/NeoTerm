@@ -15,6 +15,7 @@ import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
 import io.neoterm.preference.NeoTermPreference
 import io.neoterm.ui.NeoTermActivity
+import java.io.File
 import java.util.*
 
 /**
@@ -77,7 +78,14 @@ class NeoTermService : Service() {
         }
 
         if (executablePath == null) {
-            executablePath = if (systemShell) "/system/bin/sh" else NeoTermPreference.USR_PATH + "/bin/sh"
+            executablePath = if (systemShell)
+                "/system/bin/sh"
+            else
+                NeoTermPreference.USR_PATH + "/bin/" + NeoTermPreference.loadString(R.string.key_general_shell, "sh")
+
+            if (!File(executablePath).exists()) {
+                NeoTermPreference.USR_PATH + "/bin/sh"
+            }
         }
 
         if (arguments == null) {

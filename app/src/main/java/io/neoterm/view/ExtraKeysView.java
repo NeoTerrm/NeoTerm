@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ToggleButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.neoterm.R;
 import io.neoterm.backend.TerminalSession;
 
@@ -18,16 +21,88 @@ import io.neoterm.backend.TerminalSession;
  * keyboard.
  */
 public final class ExtraKeysView extends GridLayout {
+    public static abstract class ExtraButton implements OnClickListener {
+        public String buttonText;
+
+        @Override
+        public abstract void onClick(View view);
+    }
+
+    public static class ControlButton extends ExtraButton {
+        public ControlButton(String text) {
+            buttonText = text;
+        }
+
+        @Override
+        public void onClick(View view) {
+            ExtraKeysView.sendKey(view, buttonText);
+        }
+    }
+
+    public static class TextButton extends ExtraButton {
+        public TextButton(String text) {
+            buttonText = text;
+        }
+
+        @Override
+        public void onClick(View view) {
+            ExtraKeysView.sendKey(view, buttonText);
+        }
+    }
+
+    public static class StatedControlButton extends ControlButton {
+        public ToggleButton toggleButton;
+
+        public StatedControlButton(String text) {
+            super(text);
+        }
+
+        @Override
+        public void onClick(View view) {
+            toggleButton.setChecked(toggleButton.isChecked());
+            toggleButton.setTextColor(toggleButton.isChecked() ? 0xFF80DEEA : TEXT_COLOR);
+        }
+
+        public boolean readState() {
+            if (toggleButton.isPressed()) return true;
+            boolean result = toggleButton.isChecked();
+            if (result) {
+                toggleButton.setChecked(false);
+                toggleButton.setTextColor(TEXT_COLOR);
+            }
+            return result;
+        }
+    }
+
+    public static final ControlButton ESC = new ControlButton("ESC");
+    public static final ControlButton TAB = new ControlButton("TAB");
+    public static final StatedControlButton CTRL = new StatedControlButton("CTRL");
+    public static final StatedControlButton ALT = new StatedControlButton("ALT");
+    public static final StatedControlButton FN = new StatedControlButton("FN");
+
+    public static final ControlButton ARROW_UP = new ControlButton("▲");
+    public static final ControlButton ARROW_DOWN = new ControlButton("▼");
+    public static final ControlButton ARROW_LEFT = new ControlButton("◀");
+    public static final ControlButton ARROW_RIGHT = new ControlButton("▶");
+
+    public static final TextButton HORIZONTAL = new TextButton("-");
+    public static final TextButton SLASH = new TextButton("/");
+    public static final TextButton PIPE = new TextButton("|");
 
     private static final int TEXT_COLOR = 0xFFFFFFFF;
 
+    private List<ExtraButton> extraButtons;
+    private List<ExtraButton> externalButtons;
+
     public ExtraKeysView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        externalButtons = new ArrayList<>(3);
+        extraButtons = new ArrayList<>();
+        resetExternalButtons();
         reload();
     }
 
-    static void sendKey(View view, String keyName) {
+    public static void sendKey(View view, String keyName) {
         int keyCode = 0;
         String chars = null;
         switch (keyName) {
@@ -66,112 +141,94 @@ public final class ExtraKeysView extends GridLayout {
         }
     }
 
-    private ToggleButton controlButton;
-    private ToggleButton altButton;
-    private ToggleButton fnButton;
-
     public boolean readControlButton() {
-        if (controlButton.isPressed()) return true;
-        boolean result = controlButton.isChecked();
-        if (result) {
-            controlButton.setChecked(false);
-            controlButton.setTextColor(TEXT_COLOR);
-        }
-        return result;
+        return CTRL.readState();
     }
 
     public boolean readAltButton() {
-        if (altButton.isPressed()) return true;
-        boolean result = altButton.isChecked();
-        if (result) {
-            altButton.setChecked(false);
-            altButton.setTextColor(TEXT_COLOR);
-        }
-        return result;
+        return ALT.readState();
     }
 
     public boolean readFnButton() {
-        if (fnButton.isPressed()) return true;
-        boolean result = fnButton.isChecked();
-        if (result) {
-            fnButton.setChecked(false);
-            fnButton.setTextColor(TEXT_COLOR);
-        }
-        return result;
+        return FN.readState();
     }
 
-    void reload() {
-        altButton = controlButton = null;
+    public void addExternalButton(ExtraButton button) {
+        externalButtons.add(button);
+    }
+
+    public void removeExternalButton(ExtraButton button) {
+        externalButtons.remove(button);
+    }
+
+    public void clearExternalButton() {
+        externalButtons.clear();
+    }
+
+    public void resetExternalButtons() {
+        clearExternalButton();
+        externalButtons.add(HORIZONTAL);
+        externalButtons.add(SLASH);
+        externalButtons.add(PIPE);
+    }
+
+    void loadDefaultButtons(List<ExtraButton> buttons) {
+        buttons.add(ESC);
+        buttons.add(CTRL);
+        buttons.add(ALT);
+        buttons.add(TAB);
+    }
+
+    void loadExternalButtons(List<ExtraButton> buttons) {
+        buttons.addAll(externalButtons);
+    }
+
+    public void reload() {
+        ALT.toggleButton = CTRL.toggleButton = null;
         removeAllViews();
 
-        String[][] buttons = {
-            {"ESC", "CTRL", "ALT", "TAB", "―", "/", "|"}
-        };
+        extraButtons.clear();
+        loadDefaultButtons(extraButtons);
+        loadExternalButtons(extraButtons);
 
-        final int rows = buttons.length;
-        final int cols = buttons[0].length;
+        setRowCount(1);
+        setColumnCount(extraButtons.size());
 
-        setRowCount(rows);
-        setColumnCount(cols);
+        for (int col = 0; col < extraButtons.size(); col++) {
+            final ExtraButton extraButton = extraButtons.get(col);
 
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                final String buttonText = buttons[row][col];
-
-                Button button;
-                switch (buttonText) {
-                    case "CTRL":
-                        button = controlButton = new ToggleButton(getContext(), null, android.R.attr.buttonBarButtonStyle);
-                        button.setClickable(true);
-                        break;
-                    case "ALT":
-                        button = altButton = new ToggleButton(getContext(), null, android.R.attr.buttonBarButtonStyle);
-                        button.setClickable(true);
-                        break;
-                    case "FN":
-                        button = fnButton = new ToggleButton(getContext(), null, android.R.attr.buttonBarButtonStyle);
-                        button.setClickable(true);
-                        break;
-                    default:
-                        button = new Button(getContext(), null, android.R.attr.buttonBarButtonStyle);
-                        break;
-                }
-
-                button.setText(buttonText);
-                button.setTextColor(TEXT_COLOR);
-
-                final Button finalButton = button;
-                button.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finalButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-                        View root = getRootView();
-                        switch (buttonText) {
-                            case "CTRL":
-                            case "ALT":
-                            case "FN":
-                                ToggleButton self = (ToggleButton) finalButton;
-                                self.setChecked(self.isChecked());
-                                self.setTextColor(self.isChecked() ? 0xFF80DEEA : TEXT_COLOR);
-                                break;
-                            default:
-                                sendKey(root, buttonText);
-                                break;
-                        }
-                    }
-                });
-
-                LayoutParams param = new LayoutParams();
-                param.height = param.width = 0;
-                param.rightMargin = param.topMargin = 0;
-                param.setGravity(Gravity.LEFT);
-                float weight = "▲▼◀▶".contains(buttonText) ? 0.7f : 1.f;
-                param.columnSpec = GridLayout.spec(col, GridLayout.FILL, weight);
-                param.rowSpec = GridLayout.spec(row, GridLayout.FILL, 1.f);
-                button.setLayoutParams(param);
-
-                addView(button);
+            Button button;
+            if (extraButton instanceof StatedControlButton) {
+                StatedControlButton btn = ((StatedControlButton) extraButton);
+                button = btn.toggleButton = new ToggleButton(getContext(), null, android.R.attr.buttonBarButtonStyle);
+                button.setClickable(true);
+            } else {
+                button = new Button(getContext(), null, android.R.attr.buttonBarButtonStyle);
             }
+
+            button.setText(extraButton.buttonText);
+            button.setTextColor(TEXT_COLOR);
+
+            final Button finalButton = button;
+            button.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finalButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                    View root = getRootView();
+                    extraButton.onClick(root);
+                }
+            });
+
+            LayoutParams param = new LayoutParams();
+            param.height = param.width = 0;
+            param.rightMargin = param.topMargin = 0;
+            param.setGravity(Gravity.START);
+            float weight = "▲▼◀▶".contains(extraButton.buttonText) ? 0.7f : 1.f;
+            param.columnSpec = GridLayout.spec(col, GridLayout.FILL, weight);
+            param.rowSpec = GridLayout.spec(0, GridLayout.FILL, 1.f);
+            button.setLayoutParams(param);
+
+            addView(button);
         }
     }
 

@@ -68,6 +68,7 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
             // 复用前一次的 TermSession
             termTab.sessionCallback?.termView = view
             termTab.sessionCallback?.termTab = termTab
+            termTab.sessionCallback?.extraKeysView = extraKeysView
 
             // 复用上一次的 TermViewClient
             termTab.viewClient?.termTab = termTab

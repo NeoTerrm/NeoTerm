@@ -283,7 +283,7 @@ public class PhoneDragHandler extends AbstractDragHandler<PhoneDragHandler.Callb
     protected final boolean isSwipeThresholdReached(@NonNull final TabItem swipedTabItem) {
         View view = swipedTabItem.getView();
         return Math.abs(getArithmetics().getPosition(Axis.ORTHOGONAL_AXIS, view)) >
-                getArithmetics().getTabContainerSize(Axis.ORTHOGONAL_AXIS) / 6f;
+                getArithmetics().getTabContainerSize(Axis.ORTHOGONAL_AXIS) / 2f;
     }
 
 }

@@ -3,8 +3,10 @@ package io.neoterm.view.tab
 import android.graphics.Color
 import android.support.v7.widget.Toolbar
 import de.mrapp.android.tabswitcher.Tab
+import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.color.NeoTermColorScheme
+import io.neoterm.preference.NeoTermPreference
 
 /**
  * @author kiva
@@ -29,7 +31,6 @@ class TermTab(title: CharSequence) : Tab(title) {
         viewClient?.extraKeysView = null
         sessionCallback?.termView = null
         sessionCallback?.termTab = null
-        sessionCallback?.extraKeysView = null
         closeTabProvider = null
         toolbar = null
         termSession = null
@@ -38,6 +39,9 @@ class TermTab(title: CharSequence) : Tab(title) {
     fun updateTitle(title: String) {
         this.title = title
         toolbar?.title = title
+        if (NeoTermPreference.loadBoolean(R.string.key_ui_suggestions, true)) {
+            viewClient?.updateSuggestions(title)
+        }
     }
 
     fun onSessionFinished() {

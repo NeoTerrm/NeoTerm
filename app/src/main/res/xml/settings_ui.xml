@@ -12,6 +12,12 @@
         android:summary="@string/pref_ui_close_tab_anim_next_tab_desc"
         android:title="@string/pref_ui_close_tab_anim_next_tab" />
 
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/key_ui_suggestions"
+        android:summary="@string/pref_ui_suggestions_desc"
+        android:title="@string/pref_ui_suggestions" />
+
     <EditTextPreference
         android:key="@string/key_ui_font"
         android:title="@string/pref_ui_font" />

@@ -16,7 +16,6 @@ import io.neoterm.view.TerminalView
  */
 class TermSessionChangedCallback : TerminalSession.SessionChangedCallback {
     var termView: TerminalView? = null
-    var extraKeysView: ExtraKeysView? = null
     var termTab: TermTab? = null
 
     var bellId: Int = 0

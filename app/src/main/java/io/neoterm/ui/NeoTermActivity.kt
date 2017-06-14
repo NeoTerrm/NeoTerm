@@ -1,10 +1,7 @@
 package io.neoterm.ui
 
 import android.app.AlertDialog
-import android.content.ComponentName
-import android.content.DialogInterface
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
@@ -16,11 +13,13 @@ import android.support.v7.widget.Toolbar
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import de.mrapp.android.tabswitcher.*
 import de.mrapp.android.tabswitcher.view.TabSwitcherButton
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.customize.shortcut.builtin.BuiltinShortcutKeys
 import io.neoterm.installer.BaseFileInstaller
 import io.neoterm.preference.NeoPermission
 import io.neoterm.preference.NeoTermPreference
@@ -83,6 +82,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
 
         NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
         NeoTermPreference.init(this)
+        BuiltinShortcutKeys.registerAll()
+
         if (NeoTermPreference.loadBoolean(R.string.key_ui_fullscreen, false)) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -283,6 +284,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
             when (item.itemId) {
                 R.id.menu_item_settings -> {
                     startActivity(Intent(this, SettingActivity::class.java))
+                    true
+                }
+                R.id.menu_item_toggle_ime -> {
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
                     true
                 }
                 R.id.menu_item_new_session -> {

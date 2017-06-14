@@ -28,6 +28,11 @@ License.
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/menu_item_toggle_ime"
+        android:title="@string/toggle_ime"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/menu_item_settings"
         android:title="@string/settings"
         app:showAsAction="never"/>

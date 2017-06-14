@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.customize.shortcut.ShortcutKeysManager
 import io.neoterm.preference.NeoTermPreference
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
@@ -18,6 +19,7 @@ import io.neoterm.view.TerminalViewClient
 class TermViewClient(val context: Context) : TerminalViewClient {
     private var mVirtualControlKeyDown: Boolean = false
     private var mVirtualFnKeyDown: Boolean = false
+    private var lastTitle: String = ""
 
     var sessionFinished: Boolean = false
 
@@ -100,6 +102,19 @@ class TermViewClient(val context: Context) : TerminalViewClient {
             return true
         }
         return false
+    }
+
+    fun updateSuggestions(title: String?, force: Boolean = false) {
+        if (extraKeysView == null || title == null || title.isEmpty()) {
+            return
+        }
+
+        if (lastTitle != title || force) {
+            extraKeysView?.clearExternalButton()
+            ShortcutKeysManager.showShortcutKeys(title, extraKeysView)
+            extraKeysView?.updateButtons()
+            lastTitle = title
+        }
     }
 
 }

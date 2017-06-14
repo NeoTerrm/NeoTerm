@@ -2,6 +2,7 @@ package io.neoterm.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
@@ -40,13 +41,23 @@ public final class ExtraKeysView extends GridLayout {
     }
 
     public static class TextButton extends ExtraButton {
+        boolean withEnter = false;
+
         public TextButton(String text) {
-            buttonText = text;
+            this(text, false);
+        }
+
+        public TextButton(String text, boolean withEnter) {
+            this.buttonText = text;
+            this.withEnter = withEnter;
         }
 
         @Override
         public void onClick(View view) {
             ExtraKeysView.sendKey(view, buttonText);
+            if (withEnter) {
+                ExtraKeysView.sendKey(view, "\n");
+            }
         }
     }
 
@@ -96,10 +107,15 @@ public final class ExtraKeysView extends GridLayout {
 
     public ExtraKeysView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        externalButtons = new ArrayList<>(3);
-        extraButtons = new ArrayList<>();
-        resetExternalButtons();
-        reload();
+        try {
+            externalButtons = new ArrayList<>(3);
+            extraButtons = new ArrayList<>();
+            resetExternalButtons();
+            updateButtons();
+        } catch (Throwable e) {
+            Log.e("NeoTerm", e.toString());
+            throw e;
+        }
     }
 
     public static void sendKey(View view, String keyName) {
@@ -167,6 +183,7 @@ public final class ExtraKeysView extends GridLayout {
 
     public void resetExternalButtons() {
         clearExternalButton();
+        externalButtons.add(ALT);
         externalButtons.add(HORIZONTAL);
         externalButtons.add(SLASH);
         externalButtons.add(PIPE);
@@ -175,7 +192,6 @@ public final class ExtraKeysView extends GridLayout {
     void loadDefaultButtons(List<ExtraButton> buttons) {
         buttons.add(ESC);
         buttons.add(CTRL);
-        buttons.add(ALT);
         buttons.add(TAB);
     }
 
@@ -183,8 +199,7 @@ public final class ExtraKeysView extends GridLayout {
         buttons.addAll(externalButtons);
     }
 
-    public void reload() {
-        ALT.toggleButton = CTRL.toggleButton = null;
+    public void updateButtons() {
         removeAllViews();
 
         extraButtons.clear();
@@ -208,6 +223,7 @@ public final class ExtraKeysView extends GridLayout {
 
             button.setText(extraButton.buttonText);
             button.setTextColor(TEXT_COLOR);
+            button.setAllCaps(false);
 
             final Button finalButton = button;
             button.setOnClickListener(new OnClickListener() {

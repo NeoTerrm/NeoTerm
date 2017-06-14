@@ -324,7 +324,7 @@ public abstract class AbstractDragHandler<CallbackType extends AbstractDragHandl
                 flingDistance = -1 * flingDistance;
             }
 
-            long duration = Math.round(Math.abs(flingDistance) / flingVelocity * 1000);
+            long duration = Math.round(Math.abs(flingDistance) / flingVelocity * 3000);
             notifyOnFling(flingDistance, duration);
         }
     }

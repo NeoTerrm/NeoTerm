@@ -20,7 +20,7 @@
     <string name="pref_ui_color_scheme">配色方案</string>
     <string name="pref_ui_font">字体</string>
     <string name="pref_ui_fullscreen">全屏</string>
-    <string name="pref_ui_suggestions">显示建议 (需要 zsh)</string>
+    <string name="pref_ui_suggestions">显示建议 (需要 oh-my-zsh)</string>
     <string name="pref_ui_suggestions_desc">使用一些软件时，屏幕下方显示快捷键</string>
     <string name="settings">设置</string>
     <string name="text_selection_more">更多</string>

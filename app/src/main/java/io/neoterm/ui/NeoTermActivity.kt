@@ -50,6 +50,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         var resultListener: BaseFileInstaller.ResultListener? = null
         resultListener = BaseFileInstaller.ResultListener { error ->
             if (error == null) {
+                initShortcutKeys()
                 systemShell = false
                 if (!termService!!.sessions.isEmpty()) {
                     for (session in termService!!.sessions) {
@@ -83,7 +84,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
 
         NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
         NeoTermPreference.init(this)
-        initShortcutKeys()
 
         if (NeoTermPreference.loadBoolean(R.string.key_ui_fullscreen, false)) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

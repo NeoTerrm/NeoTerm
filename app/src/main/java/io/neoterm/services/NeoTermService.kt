@@ -13,6 +13,7 @@ import android.util.Log
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
+import io.neoterm.customize.NeoTermPath
 import io.neoterm.preference.NeoTermPreference
 import io.neoterm.ui.NeoTermActivity
 import java.io.File
@@ -74,17 +75,17 @@ class NeoTermService : Service() {
 
         var cwd = cwd
         if (cwd == null) {
-            cwd = NeoTermPreference.HOME_PATH
+            cwd = NeoTermPath.HOME_PATH
         }
 
         if (executablePath == null) {
             executablePath = if (systemShell)
                 "/system/bin/sh"
             else
-                NeoTermPreference.USR_PATH + "/bin/" + NeoTermPreference.loadString(R.string.key_general_shell, "sh")
+                NeoTermPath.USR_PATH + "/bin/" + NeoTermPreference.loadString(R.string.key_general_shell, "sh")
 
             if (!File(executablePath).exists()) {
-                NeoTermPreference.USR_PATH + "/bin/sh"
+                NeoTermPath.USR_PATH + "/bin/sh"
             }
         }
 

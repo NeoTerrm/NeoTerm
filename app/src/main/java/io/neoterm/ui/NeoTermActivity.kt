@@ -19,6 +19,7 @@ import de.mrapp.android.tabswitcher.*
 import de.mrapp.android.tabswitcher.view.TabSwitcherButton
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.customize.shortcut.ShortcutConfigLoader
 import io.neoterm.customize.shortcut.builtin.BuiltinShortcutKeys
 import io.neoterm.installer.BaseFileInstaller
 import io.neoterm.preference.NeoPermission
@@ -82,7 +83,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
 
         NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
         NeoTermPreference.init(this)
-        BuiltinShortcutKeys.registerAll()
+        initShortcutKeys()
 
         if (NeoTermPreference.loadBoolean(R.string.key_ui_fullscreen, false)) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -102,6 +103,13 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         val serviceIntent = Intent(this, NeoTermService::class.java)
         startService(serviceIntent)
         bindService(serviceIntent, this, 0)
+    }
+
+    private fun initShortcutKeys() {
+        Thread {
+            BuiltinShortcutKeys.registerAll()
+            ShortcutConfigLoader.loadDefinedConfigs()
+        }.start()
     }
 
     override fun onResume() {

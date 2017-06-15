@@ -20,15 +20,16 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import io.neoterm.backend.EmulatorDebug;
+import io.neoterm.customize.NeoTermPath;
 import io.neoterm.preference.NeoTermPreference;
 
 public final class BaseFileInstaller {
-    public static interface ResultListener {
+    public interface ResultListener {
         void onResult(Exception error);
     }
 
     public static void installBaseFiles(final Activity activity, final ResultListener resultListener) {
-        final File PREFIX_FILE = new File(NeoTermPreference.USR_PATH);
+        final File PREFIX_FILE = new File(NeoTermPath.USR_PATH);
         if (PREFIX_FILE.isDirectory()) {
             resultListener.onResult(null);
             return;
@@ -39,7 +40,7 @@ public final class BaseFileInstaller {
             @Override
             public void run() {
                 try {
-                    final String STAGING_PREFIX_PATH = NeoTermPreference.ROOT_PATH + "/usr-staging";
+                    final String STAGING_PREFIX_PATH = NeoTermPath.ROOT_PATH + "/usr-staging";
                     final File STAGING_PREFIX_FILE = new File(STAGING_PREFIX_PATH);
 
                     if (STAGING_PREFIX_FILE.exists()) {

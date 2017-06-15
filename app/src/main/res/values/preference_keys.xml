@@ -2,8 +2,8 @@
 <resources>
     <string name="key_general_bell" translatable="false">neoterm_general_bell</string>
     <string name="key_general_vibrate" translatable="false">neoterm_general_vibrate</string>
-    <string name="key_generaL_backspace_map_to_esc">neoterm_general_backspace_map_to_esc</string>
-    <string name="key_general_shell">neoterm_general_shell</string>
+    <string name="key_generaL_backspace_map_to_esc" translatable="false">neoterm_general_backspace_map_to_esc</string>
+    <string name="key_general_shell" translatable="false">neoterm_general_shell</string>
 
     <string name="key_ui_fullscreen" translatable="false">neoterm_ui_fullscreen</string>
     <string name="key_ui_font" translatable="false">neoterm_ui_font</string>

@@ -1,8 +1,10 @@
 package io.neoterm
 
+import io.neoterm.customize.shortcut.ShortcutConfigParser
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.io.File
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,7 +14,9 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     @Throws(Exception::class)
-    fun addition_isCorrect() {
-        assertEquals(4, (2 + 2).toLong())
+    fun test_config_parser() {
+        val parser = ShortcutConfigParser()
+        parser.setInput(File("docs/shortcut-key-config.example"))
+        val config = parser.parse()
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import io.neoterm.backend.TerminalSession
+import io.neoterm.customize.NeoTermPath
 import io.neoterm.services.NeoTermService
 import java.io.File
 
@@ -13,10 +14,6 @@ import java.io.File
  */
 
 object NeoTermPreference {
-    const val ROOT_PATH = "/data/data/io.neoterm/files"
-    const val USR_PATH = ROOT_PATH + "/usr"
-    const val HOME_PATH = ROOT_PATH + "/home"
-
     const val KEY_FONT_SIZE = "neoterm_general_font_size"
     const val KEY_CURRENT_SESSION = "neoterm_service_current_session"
 
@@ -89,12 +86,12 @@ object NeoTermPreference {
 
     fun buildEnvironment(cwd: String?, systemShell: Boolean): Array<String> {
         var cwd = cwd
-        File(HOME_PATH).mkdirs()
+        File(NeoTermPath.HOME_PATH).mkdirs()
 
-        if (cwd == null) cwd = HOME_PATH
+        if (cwd == null) cwd = NeoTermPath.HOME_PATH
 
         val termEnv = "TERM=xterm-256color"
-        val homeEnv = "HOME=" + HOME_PATH
+        val homeEnv = "HOME=" + NeoTermPath.HOME_PATH
         val androidRootEnv = "ANDROID_ROOT=" + System.getenv("ANDROID_ROOT")
         val androidDataEnv = "ANDROID_DATA=" + System.getenv("ANDROID_DATA")
         val externalStorageEnv = "EXTERNAL_STORAGE=" + System.getenv("EXTERNAL_STORAGE")
@@ -105,11 +102,11 @@ object NeoTermPreference {
 
         } else {
             val ps1Env = "PS1=$ "
-            val ldEnv = "LD_LIBRARY_PATH=$USR_PATH/lib"
+            val ldEnv = "LD_LIBRARY_PATH=${NeoTermPath.USR_PATH}/lib"
             val langEnv = "LANG=en_US.UTF-8"
-            val pathEnv = "PATH=$USR_PATH/bin:$USR_PATH/bin/applets"
+            val pathEnv = "PATH=${NeoTermPath.USR_PATH}/bin:${NeoTermPath.USR_PATH}/bin/applets"
             val pwdEnv = "PWD=" + cwd
-            val tmpdirEnv = "TMPDIR=$USR_PATH/tmp"
+            val tmpdirEnv = "TMPDIR=${NeoTermPath.USR_PATH}/tmp"
 
             return arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv)
         }

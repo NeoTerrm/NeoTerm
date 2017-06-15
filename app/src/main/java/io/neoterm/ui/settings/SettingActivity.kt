@@ -1,6 +1,7 @@
 package io.neoterm.ui.settings
 
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatPreferenceActivity
 import android.view.MenuItem
 import io.neoterm.R
@@ -15,6 +16,14 @@ class SettingActivity : AppCompatPreferenceActivity() {
         supportActionBar.title = getString(R.string.settings)
         supportActionBar.setDisplayHomeAsUpEnabled(true)
         addPreferencesFromResource(R.xml.settings_main)
+        findPreference(getString(R.string.about)).setOnPreferenceClickListener {
+            AlertDialog.Builder(this@SettingActivity)
+                    .setTitle(R.string.about)
+                    .setMessage("Hello World!")
+                    .setPositiveButton(android.R.string.yes, null)
+                    .show()
+            return@setOnPreferenceClickListener true
+        }
     }
 
     override fun onBuildHeaders(target: MutableList<Header>?) {

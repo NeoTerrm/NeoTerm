@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Neo Term</string>
+    <string name="about">关于</string>
+    <string name="copy_text">复制</string>
+    <string name="general_settings">通用设置</string>
+    <string name="new_session">新建终端</string>
+    <string name="package_settings">软件包设置</string>
+    <string name="paste_text">粘贴</string>
+    <string name="pref_general_backspace_map_to_esc">返回键发送ESC</string>
+    <string name="pref_general_backspace_map_to_esc_desc">当返回键按下时，发送ESC而不是退出终端</string>
+    <string name="pref_general_bell">响铃</string>
+    <string name="pref_general_bell_desc">收到 \'\\a\' 时响铃</string>
+    <string name="pref_general_shell_desc">登录时使用指定的 Shell</string>
+    <string name="pref_general_vibrate">振动</string>
+    <string name="pref_general_vibrate_desc">收到 \'\\a\' 时振动</string>
+    <string name="pref_package_source">软件源</string>
+    <string name="pref_ui_close_tab_anim_next_tab">向下切换窗口</string>
+    <string name="pref_ui_close_tab_anim_next_tab_desc">关闭当前窗口时切换到下一个窗口而不是上一个</string>
+    <string name="pref_ui_color_scheme">配色方案</string>
+    <string name="pref_ui_font">字体</string>
+    <string name="pref_ui_fullscreen">全屏</string>
+    <string name="pref_ui_suggestions">显示建议 (需要 zsh)</string>
+    <string name="pref_ui_suggestions_desc">使用一些软件时，屏幕下方显示快捷键</string>
+    <string name="settings">设置</string>
+    <string name="text_selection_more">更多</string>
+    <string name="toggle_ime">切换输入法</string>
+    <string name="toggle_tab_switcher_menu_item">切换窗口</string>
+    <string name="ui_settings">界面设置</string>
+</resources>

@@ -4,4 +4,5 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="eks_height">36dp</dimen>
     <dimen name="eks_height_two_line">72dp</dimen>
+    <dimen name="eks_height_one_line">36dp</dimen>
 </resources>

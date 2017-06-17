@@ -22,9 +22,9 @@ public class TextButton extends ExtraButton {
 
     @Override
     public void onClick(View view) {
-        ExtraKeysView.sendKey(view, buttonText);
+        sendKey(view, buttonText);
         if (withEnter) {
-            ExtraKeysView.sendKey(view, "\n");
+            sendKey(view, "\n");
         }
     }
 }

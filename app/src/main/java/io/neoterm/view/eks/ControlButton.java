@@ -15,6 +15,6 @@ public class ControlButton extends ExtraButton {
 
     @Override
     public void onClick(View view) {
-        ExtraKeysView.sendKey(view, buttonText);
+        sendKey(view, buttonText);
     }
 }

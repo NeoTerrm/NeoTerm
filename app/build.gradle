@@ -3,6 +3,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'kiva'
+            keyPassword 'k12fd15dp'
+            storeFile file('docs/kiva.keystore')
+            storePassword 'k12fd15dp'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -28,6 +36,8 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            proguardFile 'app/proguard-rules.pro'
         }
     }
     externalNativeBuild {

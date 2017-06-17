@@ -115,20 +115,20 @@ public final class ExtraKeysView extends HorizontalScrollView {
         builtinExtraKeys.add(ESC);
         builtinExtraKeys.add(CTRL);
         builtinExtraKeys.add(TAB);
-        builtinExtraKeys.add(ARROW_LEFT);
-        builtinExtraKeys.add(ARROW_RIGHT);
         builtinExtraKeys.add(ARROW_UP);
         builtinExtraKeys.add(ARROW_DOWN);
+        builtinExtraKeys.add(ARROW_LEFT);
+        builtinExtraKeys.add(ARROW_RIGHT);
     }
 
     public void updateButtons() {
+        contentView.removeAllViews();
         for (final ExtraButton extraButton : builtinExtraKeys) {
             addExtraButton(extraButton);
         }
         for (final ExtraButton extraButton : userDefinedExtraKeys) {
             addExtraButton(extraButton);
         }
-
     }
 
     private void addExtraButton(final ExtraButton extraButton) {

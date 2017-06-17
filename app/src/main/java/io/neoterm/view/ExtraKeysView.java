@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.ToggleButton;
 
 import java.io.File;
@@ -17,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.neoterm.customize.NeoTermPath;
+import io.neoterm.customize.font.FontManager;
 import io.neoterm.customize.shortcut.ShortcutConfig;
 import io.neoterm.customize.shortcut.ShortcutConfigParser;
 import io.neoterm.utils.FileUtils;
@@ -32,7 +32,7 @@ import static io.neoterm.view.eks.ExtraButton.KEY_TAB;
  * A view showing extra keys (such as Escape, Ctrl, Alt) not normally available on an Android soft
  * keyboard.
  */
-public final class ExtraKeysView extends HorizontalScrollView {
+public final class ExtraKeysView extends LinearLayout {
 
     public static final ControlButton ESC = new ControlButton(KEY_ESC);
     public static final ControlButton TAB = new ControlButton(KEY_TAB);
@@ -55,22 +55,34 @@ public final class ExtraKeysView extends HorizontalScrollView {
     private List<ExtraButton> builtinExtraKeys;
     private List<ExtraButton> userDefinedExtraKeys;
 
-    private LinearLayout contentView;
+    private LinearLayout lineOne;
+    private LinearLayout lineTwo;
+
 
     public ExtraKeysView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setFillViewport(true);
-        contentView = new LinearLayout(context);
-        contentView.setGravity(Gravity.CENTER);
-        contentView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        contentView.setOrientation(LinearLayout.HORIZONTAL);
-        contentView.setGravity(Gravity.LEFT);
-        addView(contentView);
-        builtinExtraKeys = new ArrayList<>(7);
-        userDefinedExtraKeys = new ArrayList<>(7);
+        setGravity(Gravity.TOP);
+        setOrientation(VERTICAL);
+        HorizontalScrollView scrollOne = new HorizontalScrollView(context);
+        HorizontalScrollView scrollTwo = new HorizontalScrollView(context);
         loadDefaultBuiltinExtraKeys();
         loadDefaultUserDefinedExtraKeys();
+        lineOne = initLine(scrollOne);
+        lineTwo = initLine(scrollTwo);
+        addView(scrollOne);
+        addView(scrollTwo);
         updateButtons();
+    }
+
+    private LinearLayout initLine(HorizontalScrollView scroll) {
+        scroll.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+        scroll.setFillViewport(true);
+        scroll.setHorizontalScrollBarEnabled(false);
+        LinearLayout line = new LinearLayout(getContext());
+        line.setGravity(Gravity.START);
+        line.setOrientation(LinearLayout.HORIZONTAL);
+        scroll.addView(line);
+        return line;
     }
 
 
@@ -91,6 +103,7 @@ public final class ExtraKeysView extends HorizontalScrollView {
     }
 
     public void loadDefaultUserDefinedExtraKeys() {
+        userDefinedExtraKeys = new ArrayList<>(7);
         File defaultFile = new File(NeoTermPath.EKS_DEFAULT_FILE);
         if (!defaultFile.exists()) {
             generateDefaultFile(defaultFile);
@@ -102,7 +115,8 @@ public final class ExtraKeysView extends HorizontalScrollView {
             parser.setInput(defaultFile);
             ShortcutConfig config = parser.parse();
             userDefinedExtraKeys.addAll(config.getShortcutKeys());
-        } catch (Exception ignore) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -111,27 +125,29 @@ public final class ExtraKeysView extends HorizontalScrollView {
     }
 
     void loadDefaultBuiltinExtraKeys() {
+        builtinExtraKeys = new ArrayList<>(7);
         builtinExtraKeys.clear();
         builtinExtraKeys.add(ESC);
         builtinExtraKeys.add(CTRL);
         builtinExtraKeys.add(TAB);
-        builtinExtraKeys.add(ARROW_LEFT);
-        builtinExtraKeys.add(ARROW_RIGHT);
         builtinExtraKeys.add(ARROW_UP);
         builtinExtraKeys.add(ARROW_DOWN);
+        builtinExtraKeys.add(ARROW_LEFT);
+        builtinExtraKeys.add(ARROW_RIGHT);
     }
 
     public void updateButtons() {
-        for (final ExtraButton extraButton : builtinExtraKeys) {
-            addExtraButton(extraButton);
-        }
+        lineOne.removeAllViews();
+        lineTwo.removeAllViews();
         for (final ExtraButton extraButton : userDefinedExtraKeys) {
-            addExtraButton(extraButton);
+            addExtraButton(lineOne, extraButton);
         }
-
+        for (final ExtraButton extraButton : builtinExtraKeys) {
+            addExtraButton(lineTwo, extraButton);
+        }
     }
 
-    private void addExtraButton(final ExtraButton extraButton) {
+    private void addExtraButton(LinearLayout contentView, final ExtraButton extraButton) {
         final Button button;
         if (extraButton instanceof StatedControlButton) {
             StatedControlButton btn = ((StatedControlButton) extraButton);
@@ -140,6 +156,8 @@ public final class ExtraKeysView extends HorizontalScrollView {
         } else {
             button = new Button(getContext(), null, android.R.attr.buttonBarButtonStyle);
         }
+
+        button.setTypeface(FontManager.INSTANCE.getDefaultFont());
         button.setText(extraButton.buttonText);
         button.setTextColor(NORMAL_TEXT_COLOR);
         button.setAllCaps(false);

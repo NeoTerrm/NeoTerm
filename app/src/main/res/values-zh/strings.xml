@@ -30,4 +30,5 @@
     <string name="toggle_tab_switcher_menu_item">切换窗口</string>
     <string name="ui_settings">界面设置</string>
     <string name="shell_not_found">Shell %s 未找到, 请先安装.</string>
+    <string name="installer_message">正在安装</string>
 </resources>

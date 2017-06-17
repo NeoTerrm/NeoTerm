@@ -101,6 +101,7 @@ object NeoTermPreference {
             return arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv, externalStorageEnv, pathEnv)
 
         } else {
+
             val ps1Env = "PS1=$ "
             val ldEnv = "LD_LIBRARY_PATH=${NeoTermPath.USR_PATH}/lib"
             val langEnv = "LANG=en_US.UTF-8"
@@ -111,4 +112,11 @@ object NeoTermPreference {
             return arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv)
         }
     }
+
+    /**
+     * TODO
+     * To print the job name about to be executed in bash:
+     * $ trap 'echo -ne "\e]0;${BASH_COMMAND%% *}\x07"' DEBUG
+     * $ PS1='$(echo -ne "\e]0;$PWD\x07")\$ '
+     */
 }

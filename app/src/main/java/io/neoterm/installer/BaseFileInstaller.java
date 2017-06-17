@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import io.neoterm.R;
 import io.neoterm.backend.EmulatorDebug;
 import io.neoterm.customize.NeoTermPath;
 import io.neoterm.preference.NeoTermPreference;
@@ -35,7 +36,7 @@ public final class BaseFileInstaller {
             return;
         }
 
-        final ProgressDialog progress = ProgressDialog.show(activity, null, "Installing", true, false);
+        final ProgressDialog progress = ProgressDialog.show(activity, null, activity.getString(R.string.installer_message), true, false);
         new Thread() {
             @Override
             public void run() {

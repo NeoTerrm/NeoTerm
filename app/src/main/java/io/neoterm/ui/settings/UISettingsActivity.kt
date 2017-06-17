@@ -15,6 +15,10 @@ class UISettingsActivity : AppCompatPreferenceActivity() {
         supportActionBar.title = getString(R.string.ui_settings)
         supportActionBar.setDisplayHomeAsUpEnabled(true)
         addPreferencesFromResource(R.xml.settings_ui)
+        findPreference(getString(R.string.key_ui_suggestions))
+                .setOnPreferenceChangeListener({preference, newValue ->
+                    return@setOnPreferenceChangeListener true
+                })
     }
 
     override fun onBuildHeaders(target: MutableList<Header>?) {

@@ -30,9 +30,6 @@ import io.neoterm.services.NeoTermService
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.utils.NeoTermFullScreen
 import io.neoterm.view.tab.*
-import android.content.Intent
-
-
 
 
 class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -55,16 +52,21 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         setContentView(R.layout.tab_main)
 
-        val fullScreenHelper = NeoTermFullScreen.injectActivity(this)
-        fullScreenHelper.setKeyBoardListener({ isShow, _ ->
-            if (NeoTermPreference.loadBoolean(R.string.key_ui_fullscreen, false)
-                    || NeoTermPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
-                if (tabSwitcher.selectedTab is TermTab) {
-                    val tab = tabSwitcher.selectedTab as TermTab
-                    tab.toolbar?.visibility = if (isShow) View.GONE else View.VISIBLE
-                }
-            }
-        })
+        NeoTermFullScreen.injectActivity(this)
+                .setKeyBoardListener({ isShow, _ ->
+                    var tab: TermTab? = null
+
+                    if (tabSwitcher.selectedTab is TermTab) {
+                        tab = tabSwitcher.selectedTab as TermTab
+                    }
+
+                    tab?.viewClient?.extraKeysView?.visibility = if (isShow) View.VISIBLE else View.GONE
+
+                    if (NeoTermPreference.loadBoolean(R.string.key_ui_fullscreen, false)
+                            || NeoTermPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
+                        tab?.toolbar?.visibility = if (isShow) View.GONE else View.VISIBLE
+                    }
+                })
 
         tabSwitcher = findViewById(R.id.tab_switcher) as TabSwitcher
         tabSwitcher.decorator = TermTabDecorator(this)

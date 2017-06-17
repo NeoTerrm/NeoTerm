@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import de.mrapp.android.tabswitcher.Tab
 import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
@@ -23,11 +24,16 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
         val view = inflater.inflate(R.layout.term, parent, false)
         val toolbar = view.findViewById(R.id.terminal_toolbar) as Toolbar
-
         toolbar.inflateMenu(R.menu.tab_switcher)
+
         toolbar.setOnMenuItemClickListener(context.createToolbarMenuListener())
         val menu = toolbar.menu
         TabSwitcher.setupWithMenu(context.tabSwitcher, menu, {
+            toolbar.visibility = View.GONE
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            if (imm.isActive) {
+                imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            }
             context.tabSwitcher.showSwitcher()
         })
 

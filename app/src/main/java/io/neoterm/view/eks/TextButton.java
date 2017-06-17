@@ -9,7 +9,7 @@ import io.neoterm.view.ExtraKeysView;
  */
 
 public class TextButton extends ExtraButton {
-    boolean withEnter = false;
+    private boolean withEnter = false;
 
     public TextButton(String text) {
         this(text, false);

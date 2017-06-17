@@ -123,16 +123,15 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
                 }
 
                 val menu = tabSwitcher.toolbarMenu
-                if (menu != null) {
+                if (menu != null && !tabSwitcherButtonInit) {
                     tabSwitcherButtonInit = true
-                    val tabSwitcherButton = menu.findItem(R.id.toggle_tab_switcher_menu_item).actionView as TabSwitcherButton
-                    tabSwitcherButton.setOnClickListener {
+                    TabSwitcher.setupWithMenu(tabSwitcher, menu, View.OnClickListener {
                         if (tabSwitcher.isSwitcherShown) {
                             tabSwitcher.hideSwitcher()
                         } else {
                             tabSwitcher.showSwitcher()
                         }
-                    }
+                    })
                 }
             }
 
@@ -146,7 +145,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
             }
 
             override fun onTabAdded(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
-                updateTabSwitcherButton()
             }
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
@@ -155,7 +153,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
                     removeFinishedSession(tab.termSession)
                     tab.cleanup()
                 }
-                updateTabSwitcherButton()
             }
 
             override fun onAllTabsRemoved(tabSwitcher: TabSwitcher, tabs: Array<out Tab>, animation: Animation) {
@@ -262,14 +259,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         }
 
         termService!!.removeTermSession(finishedSession)
-    }
-
-    private fun updateTabSwitcherButton() {
-        val menu = tabSwitcher.toolbarMenu
-        if (menu != null) {
-            val switcherButton = menu.findItem(R.id.toggle_tab_switcher_menu_item).actionView as TabSwitcherButton
-            switcherButton.setCount(tabSwitcher.count)
-        }
     }
 
     private fun getStoredCurrentSessionOrLast(): TerminalSession? {

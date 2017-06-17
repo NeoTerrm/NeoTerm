@@ -22,7 +22,6 @@ import java.util.zip.ZipInputStream;
 import io.neoterm.R;
 import io.neoterm.backend.EmulatorDebug;
 import io.neoterm.customize.NeoTermPath;
-import io.neoterm.preference.NeoTermPreference;
 
 public final class BaseFileInstaller {
     public interface ResultListener {
@@ -136,10 +135,10 @@ public final class BaseFileInstaller {
 
     private static URL determineZipUrl() throws MalformedURLException {
         String archName = determineArchName();
-        return new URL("https://neoterm.kernel19.cc/boot/" + archName + ".zip");
+        return new URL(NeoTermPath.SERVER_BOOT_URL + "/" + archName + ".zip");
     }
 
-    public static String determineArchName() {
+    private static String determineArchName() {
         for (String androidArch : Build.SUPPORTED_ABIS) {
             switch (androidArch) {
                 case "arm64-v8a":

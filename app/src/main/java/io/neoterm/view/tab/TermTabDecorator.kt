@@ -36,7 +36,6 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
             }
             context.tabSwitcher.showSwitcher()
         })
-
         return view
     }
 

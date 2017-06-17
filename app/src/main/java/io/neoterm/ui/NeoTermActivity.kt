@@ -5,6 +5,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
+import android.preference.PreferenceManager
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
@@ -15,10 +16,11 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
+import android.widget.Toast
 import de.mrapp.android.tabswitcher.*
-import de.mrapp.android.tabswitcher.view.TabSwitcherButton
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.customize.font.FontManager
 import io.neoterm.customize.shortcut.ShortcutConfigLoader
 import io.neoterm.customize.shortcut.builtin.BuiltinShortcutKeys
 import io.neoterm.installer.BaseFileInstaller
@@ -26,63 +28,24 @@ import io.neoterm.preference.NeoPermission
 import io.neoterm.preference.NeoTermPreference
 import io.neoterm.services.NeoTermService
 import io.neoterm.ui.settings.SettingActivity
+import io.neoterm.utils.NeoTermFullScreen
 import io.neoterm.view.tab.*
+import android.content.Intent
 
 
-class NeoTermActivity : AppCompatActivity(), ServiceConnection {
+
+
+class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreferences.OnSharedPreferenceChangeListener {
     lateinit var tabSwitcher: TabSwitcher
     var systemShell = true
     var termService: NeoTermService? = null
-
-    override fun onServiceDisconnected(name: ComponentName?) {
-        if (termService != null) {
-            finish()
-        }
-    }
-
-    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-        termService = (service as NeoTermService.NeoTermBinder).service
-        if (termService == null) {
-            finish()
-            return
-        }
-
-        var resultListener: BaseFileInstaller.ResultListener? = null
-        resultListener = BaseFileInstaller.ResultListener { error ->
-            if (error == null) {
-                initShortcutKeys()
-                systemShell = false
-                if (!termService!!.sessions.isEmpty()) {
-                    for (session in termService!!.sessions) {
-                        addNewSession(session)
-                    }
-                    switchToSession(getStoredCurrentSessionOrLast())
-                } else {
-                    tabSwitcher.showSwitcher()
-                    addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
-                }
-            } else {
-                AlertDialog.Builder(this@NeoTermActivity)
-                        .setTitle("Error")
-                        .setMessage(error.toString())
-                        .setNegativeButton("System Shell", { _, _ ->
-                            tabSwitcher.showSwitcher()
-                            addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
-                        })
-                        .setPositiveButton("Retry", { dialog, _ ->
-                            dialog.dismiss()
-                            BaseFileInstaller.installBaseFiles(this@NeoTermActivity, resultListener)
-                        }).show()
-            }
-        }
-
-        BaseFileInstaller.installBaseFiles(this, resultListener)
-    }
+    var restartRequired = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
+        FontManager.init(this)
         NeoTermPreference.init(this)
 
         if (NeoTermPreference.loadBoolean(R.string.key_ui_fullscreen, false)) {
@@ -91,6 +54,17 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
         }
 
         setContentView(R.layout.tab_main)
+
+        val fullScreenHelper = NeoTermFullScreen.injectActivity(this)
+        fullScreenHelper.setKeyBoardListener({ isShow, _ ->
+            if (NeoTermPreference.loadBoolean(R.string.key_ui_fullscreen, false)
+                    || NeoTermPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
+                if (tabSwitcher.selectedTab is TermTab) {
+                    val tab = tabSwitcher.selectedTab as TermTab
+                    tab.toolbar?.visibility = if (isShow) View.GONE else View.VISIBLE
+                }
+            }
+        })
 
         tabSwitcher = findViewById(R.id.tab_switcher) as TabSwitcher
         tabSwitcher.decorator = TermTabDecorator(this)
@@ -114,6 +88,13 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
 
     override fun onResume() {
         super.onResume()
+        if (restartRequired) {
+            restartRequired = false
+            this.recreate()
+        }
+
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this)
         tabSwitcher.addListener(object : TabSwitcherListener {
             private var tabSwitcherButtonInit = false
 
@@ -162,6 +143,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
 
     override fun onDestroy() {
         super.onDestroy()
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this)
         if (termService != null) {
             if (termService!!.sessions.isEmpty()) {
                 termService!!.stopSelf()
@@ -189,7 +172,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
             NeoPermission.REQUEST_APP_PERMISSION -> {
                 if (grantResults.isEmpty()
                         || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    AlertDialog.Builder(this).setMessage("应用无法取得必须的权限，正在退出")
+                    AlertDialog.Builder(this).setMessage(R.string.permission_denied)
                             .setPositiveButton(android.R.string.ok, { _: DialogInterface, _: Int ->
                                 finish()
                             })
@@ -197,6 +180,58 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection {
                 }
                 return
             }
+        }
+    }
+
+    override fun onServiceDisconnected(name: ComponentName?) {
+        if (termService != null) {
+            finish()
+        }
+    }
+
+    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+        termService = (service as NeoTermService.NeoTermBinder).service
+        if (termService == null) {
+            finish()
+            return
+        }
+
+        var resultListener: BaseFileInstaller.ResultListener? = null
+        resultListener = BaseFileInstaller.ResultListener { error ->
+            if (error == null) {
+                initShortcutKeys()
+                systemShell = false
+                if (!termService!!.sessions.isEmpty()) {
+                    for (session in termService!!.sessions) {
+                        addNewSession(session)
+                    }
+                    switchToSession(getStoredCurrentSessionOrLast())
+                } else {
+                    tabSwitcher.showSwitcher()
+                    addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
+                }
+            } else {
+                AlertDialog.Builder(this@NeoTermActivity)
+                        .setTitle(R.string.error)
+                        .setMessage(error.toString())
+                        .setNegativeButton(R.string.use_system_shell, { _, _ ->
+                            tabSwitcher.showSwitcher()
+                            addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
+                        })
+                        .setPositiveButton(R.string.retry, { dialog, _ ->
+                            dialog.dismiss()
+                            BaseFileInstaller.installBaseFiles(this@NeoTermActivity, resultListener)
+                        }).show()
+            }
+        }
+
+        BaseFileInstaller.installBaseFiles(this, resultListener)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == getString(R.string.key_ui_fullscreen)) {
+            Toast.makeText(this, R.string.fullscreen_mode_changed, Toast.LENGTH_SHORT).show()
+            restartRequired = true
         }
     }
 

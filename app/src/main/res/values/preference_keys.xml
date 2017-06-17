@@ -6,6 +6,7 @@
     <string name="key_general_shell" translatable="false">neoterm_general_shell</string>
 
     <string name="key_ui_fullscreen" translatable="false">neoterm_ui_fullscreen</string>
+    <string name="key_ui_hide_toolbar" translatable="false">neoterm_ui_hide_toolbar</string>
     <string name="key_ui_font" translatable="false">neoterm_ui_font</string>
     <string name="key_ui_color_scheme" translatable="false">neoterm_ui_color_scheme</string>
     <string name="key_ui_next_tab_anim" translatable="false">neoterm_ui_next_tab_anim</string>

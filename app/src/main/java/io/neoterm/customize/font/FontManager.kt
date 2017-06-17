@@ -1,7 +1,7 @@
 package io.neoterm.customize.font
 
+import android.content.Context
 import android.graphics.Typeface
-import io.neoterm.NeoApp
 
 /**
  * @author kiva
@@ -9,10 +9,11 @@ import io.neoterm.NeoApp
 object FontManager {
     private var DEFAULT_FONT: Typeface? = null
 
+    fun init(context: Context) {
+        DEFAULT_FONT = Typeface.createFromAsset(context.assets, "font.ttf")
+    }
+
     fun getDefaultFont(): Typeface {
-        if (DEFAULT_FONT == null) {
-            DEFAULT_FONT = Typeface.createFromAsset(NeoApp.get().assets, "font.ttf")
-        }
         return DEFAULT_FONT!!
     }
 }

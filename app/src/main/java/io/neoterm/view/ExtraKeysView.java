@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.io.File;
@@ -17,6 +18,7 @@ import java.util.List;
 import io.neoterm.R;
 import io.neoterm.backend.TerminalSession;
 import io.neoterm.customize.NeoTermPath;
+import io.neoterm.customize.font.FontManager;
 import io.neoterm.customize.shortcut.ShortcutConfig;
 import io.neoterm.customize.shortcut.ShortcutConfigParser;
 import io.neoterm.preference.NeoTermPreference;
@@ -37,6 +39,11 @@ public final class ExtraKeysView extends GridLayout {
     public static final ControlButton ESC = new ControlButton(KEY_ESC);
     public static final ControlButton TAB = new ControlButton(KEY_TAB);
     public static final StatedControlButton CTRL = new StatedControlButton(KEY_CTRL);
+
+//    public static final ControlButton ARROW_UP = new ControlButton("▲");
+//    public static final ControlButton ARROW_DOWN = new ControlButton("▼");
+//    public static final ControlButton ARROW_LEFT = new ControlButton("◀");
+//    public static final ControlButton ARROW_RIGHT = new ControlButton("▶");
 
     public static final ControlButton ARROW_UP = new ControlButton("▲");
     public static final ControlButton ARROW_DOWN = new ControlButton("▼");
@@ -169,6 +176,12 @@ public final class ExtraKeysView extends GridLayout {
                     button = new Button(getContext(), null, android.R.attr.buttonBarButtonStyle);
                 }
 
+                try {
+                    button.setTypeface(FontManager.INSTANCE.getDefaultFont());
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    Toast.makeText(getContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
                 button.setText(extraButton.buttonText);
                 button.setTextColor(NORMAL_TEXT_COLOR);
                 button.setAllCaps(false);

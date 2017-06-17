@@ -19,4 +19,10 @@ class ExampleUnitTest {
         parser.setInput(File("docs/shortcut-key-config.example"))
         val config = parser.parse()
     }
+
+    @Test
+    fun test_wchar() {
+        println("▲".length)
+        println("X".length)
+    }
 }

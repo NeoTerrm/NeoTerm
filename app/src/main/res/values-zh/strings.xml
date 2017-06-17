@@ -29,4 +29,5 @@
     <string name="toggle_ime">切换输入法</string>
     <string name="toggle_tab_switcher_menu_item">切换窗口</string>
     <string name="ui_settings">界面设置</string>
+    <string name="shell_not_found">Shell %s 未找到, 请先安装.</string>
 </resources>

@@ -32,6 +32,7 @@
     <string name="pref_ui_wide_char_weight_explicit_desc">If suggestion bar show incorrect, please enable this</string>
     <string name="pref_package_source">Source</string>
     <string name="toggle_ime">Toggle IME</string>
+    <string name="shell_not_found">Shell %s not found, please install it first.</string>
 
     <string-array name="pref_ui_color_scheme_entries" translatable="false">
         <item>Default</item>

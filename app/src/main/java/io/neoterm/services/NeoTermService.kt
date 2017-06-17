@@ -10,6 +10,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.support.v4.content.WakefulBroadcastReceiver
 import android.util.Log
+import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
@@ -85,7 +86,8 @@ class NeoTermService : Service() {
                 NeoTermPath.USR_PATH + "/bin/" + NeoTermPreference.loadString(R.string.key_general_shell, "sh")
 
             if (!File(executablePath).exists()) {
-                NeoTermPath.USR_PATH + "/bin/sh"
+                Toast.makeText(this, getString(R.string.shell_not_found, executablePath), Toast.LENGTH_LONG).show()
+                executablePath = NeoTermPath.USR_PATH + "/bin/sh"
             }
         }
 

@@ -135,7 +135,7 @@ public final class BaseFileInstaller {
 
     private static URL determineZipUrl() throws MalformedURLException {
         String archName = determineArchName();
-        return new URL("https://kernel19.cc/neoterm/boot/" + archName + ".zip");
+        return new URL("https://neoterm.kernel19.cc/boot/" + archName + ".zip");
     }
 
     public static String determineArchName() {

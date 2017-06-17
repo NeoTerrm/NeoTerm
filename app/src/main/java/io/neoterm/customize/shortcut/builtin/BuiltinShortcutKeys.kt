@@ -11,9 +11,9 @@ import java.io.File
 object BuiltinShortcutKeys {
     private const val vimKeys = "version ${ShortcutConfigParser.PARSER_VERSION}\n" +
             "program vim neovim vi\n" +
-            "define / false\n" +
-            "define :w true\n" +
             "define dd true\n" +
+            "define :x true\n" +
+            "define :w true\n" +
             "define :q true\n"
 
     private const val moreKeys = "version ${ShortcutConfigParser.PARSER_VERSION}\n" +

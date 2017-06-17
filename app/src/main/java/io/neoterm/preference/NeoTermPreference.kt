@@ -84,7 +84,7 @@ object NeoTermPreference {
         return null
     }
 
-    fun buildEnvironment(cwd: String?, systemShell: Boolean): Array<String> {
+    fun buildEnvironment(cwd: String?, systemShell: Boolean, executablePath: String): Array<String> {
         var cwd = cwd
         File(NeoTermPath.HOME_PATH).mkdirs()
 

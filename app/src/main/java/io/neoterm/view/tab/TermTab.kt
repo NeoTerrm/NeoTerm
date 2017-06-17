@@ -41,6 +41,8 @@ class TermTab(title: CharSequence) : Tab(title) {
         toolbar?.title = title
         if (NeoTermPreference.loadBoolean(R.string.key_ui_suggestions, true)) {
             viewClient?.updateSuggestions(title)
+        } else {
+            viewClient?.removeSuggestions()
         }
     }
 

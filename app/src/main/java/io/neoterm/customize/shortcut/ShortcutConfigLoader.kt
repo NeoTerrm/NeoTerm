@@ -11,6 +11,9 @@ import java.io.File
 object ShortcutConfigLoader {
     class ConfiguredShortcutKey(val config: ShortcutConfig) : ShortcutKey {
         override fun applyShortcutKeys(extraKeysView: ExtraKeysView) {
+            if (config.withDefaultKeys) {
+                extraKeysView.loadDefaultUserDefinedExtraKeys()
+            }
             for (button in config.shortcutKeys) {
                 extraKeysView.addExternalButton(button)
             }
@@ -26,6 +29,12 @@ object ShortcutConfigLoader {
             try {
                 parser.setInput(file)
                 val config = parser.parse()
+
+                // "default" is a reserved program used for default extra keys
+                // see ExtraKeysView.loadDefaultUserDefinedExtraKeys()
+                if (config.programNames.contains("default")) {
+                    continue
+                }
                 registerConfig(config)
             } catch (e: Exception) {
                 Log.e("NeoTerm-EKS", "Load $file failed: " + e.toString())

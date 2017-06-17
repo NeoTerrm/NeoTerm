@@ -1,6 +1,6 @@
 package io.neoterm.customize.shortcut
 
-import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.eks.ExtraButton
 
 /**
  * @author kiva
@@ -8,5 +8,6 @@ import io.neoterm.view.ExtraKeysView
 class ShortcutConfig {
     var version: Int = -1
     val programNames: MutableList<String> = mutableListOf()
-    val shortcutKeys: MutableList<ExtraKeysView.ExtraButton> = mutableListOf()
+    val shortcutKeys: MutableList<ExtraButton> = mutableListOf()
+    var withDefaultKeys: Boolean = true
 }

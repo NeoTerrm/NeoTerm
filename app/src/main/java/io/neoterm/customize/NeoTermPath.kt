@@ -9,4 +9,5 @@ object NeoTermPath {
     const val HOME_PATH = "$ROOT_PATH/home"
 
     const val EKS_PATH = "$USR_PATH/share/eks"
+    const val EKS_DEFAULT_FILE = "$EKS_PATH/default.eks"
 }

@@ -19,7 +19,7 @@ object ShortcutKeysManager {
             return
         }
 
-        extraKeysView.resetExternalButtons()
+        extraKeysView.loadDefaultUserDefinedExtraKeys()
     }
 
     fun registerShortcutKeys(program: String, shortcutKey: ShortcutKey?) {

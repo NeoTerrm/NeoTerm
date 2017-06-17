@@ -1,0 +1,30 @@
+package io.neoterm.view.eks;
+
+import android.view.View;
+
+import io.neoterm.view.ExtraKeysView;
+
+/**
+ * @author kiva
+ */
+
+public class TextButton extends ExtraButton {
+    boolean withEnter = false;
+
+    public TextButton(String text) {
+        this(text, false);
+    }
+
+    public TextButton(String text, boolean withEnter) {
+        this.buttonText = text;
+        this.withEnter = withEnter;
+    }
+
+    @Override
+    public void onClick(View view) {
+        ExtraKeysView.sendKey(view, buttonText);
+        if (withEnter) {
+            ExtraKeysView.sendKey(view, "\n");
+        }
+    }
+}

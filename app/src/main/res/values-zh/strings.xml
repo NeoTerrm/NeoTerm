@@ -22,6 +22,8 @@
     <string name="pref_ui_fullscreen">全屏</string>
     <string name="pref_ui_suggestions">显示建议 (需要 oh-my-zsh)</string>
     <string name="pref_ui_suggestions_desc">使用一些软件时，屏幕下方显示快捷键</string>
+    <string name="pref_ui_wide_char_weight_explicit">为宽字符设置权重</string>
+    <string name="pref_ui_wide_char_weight_explicit_desc">如果快捷输入栏显示不正确，请勾选本项</string>
     <string name="settings">设置</string>
     <string name="text_selection_more">更多</string>
     <string name="toggle_ime">切换输入法</string>

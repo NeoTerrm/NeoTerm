@@ -110,11 +110,15 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         }
 
         if (lastTitle != title || force) {
-            extraKeysView?.clearExternalButton()
+            removeSuggestions()
             ShortcutKeysManager.showShortcutKeys(title, extraKeysView)
             extraKeysView?.updateButtons()
             lastTitle = title
         }
+    }
+
+    fun removeSuggestions() {
+        extraKeysView?.clearExternalButton()
     }
 
 }

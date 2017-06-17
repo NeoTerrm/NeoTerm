@@ -93,7 +93,9 @@ class NeoTermService : Service() {
             arguments = arrayOf<String>(executablePath)
         }
 
-        val session = TerminalSession(executablePath, cwd, arguments, env ?: NeoTermPreference.buildEnvironment(cwd, systemShell), sessionCallback)
+        val session = TerminalSession(executablePath, cwd, arguments,
+                env ?: NeoTermPreference.buildEnvironment(cwd, systemShell, executablePath),
+                sessionCallback)
         mTerminalSessions.add(session)
         updateNotification()
         return session

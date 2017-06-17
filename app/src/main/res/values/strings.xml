@@ -28,6 +28,8 @@
     <string name="pref_ui_close_tab_anim_next_tab_desc">Switch to the next tab instead of the previous tab when closing tab</string>
     <string name="pref_ui_suggestions">Show Suggestions (oh-my-zsh required)</string>
     <string name="pref_ui_suggestions_desc">When using some programs, show shortcut keys</string>
+    <string name="pref_ui_wide_char_weight_explicit">Use explicit weight for wide char</string>
+    <string name="pref_ui_wide_char_weight_explicit_desc">If suggestion bar show incorrect, please enable this</string>
     <string name="pref_package_source">Source</string>
     <string name="toggle_ime">Toggle IME</string>
 

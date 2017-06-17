@@ -1,6 +1,6 @@
 package io.neoterm.customize.shortcut
 
-import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.eks.TextButton
 import java.io.*
 
 /**
@@ -8,7 +8,7 @@ import java.io.*
  */
 class ShortcutConfigParser {
     companion object {
-        const val PARSER_VERSION = 1
+        const val PARSER_VERSION = 2
     }
 
     private lateinit var source: BufferedReader
@@ -42,6 +42,8 @@ class ShortcutConfigParser {
                 parseProgram(line, config)
             } else if (line.startsWith("define")) {
                 parseKeyDefine(line, config)
+            } else if (line.startsWith("with-default")) {
+                parseWithDefault(line, config)
             }
             line = source.readLine()
         }
@@ -55,6 +57,11 @@ class ShortcutConfigParser {
         return config
     }
 
+    private fun parseWithDefault(line: String, config: ShortcutConfig) {
+        val value = line.substring("with-default".length).trim().trimEnd()
+        config.withDefaultKeys = value == "true"
+    }
+
     private fun parseKeyDefine(line: String, config: ShortcutConfig) {
         val keyDefine = line.substring("define".length).trim().trimEnd()
         val keyValues = keyDefine.split(" ")
@@ -65,7 +72,7 @@ class ShortcutConfigParser {
         val buttonText = keyValues[0]
         val withEnter = keyValues[1] == "true"
 
-        config.shortcutKeys.add(ExtraKeysView.TextButton(buttonText, withEnter))
+        config.shortcutKeys.add(TextButton(buttonText, withEnter))
     }
 
     private fun parseProgram(line: String, config: ShortcutConfig) {

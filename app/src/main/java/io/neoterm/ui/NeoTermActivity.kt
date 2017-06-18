@@ -261,27 +261,22 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         if (!isRecreating()) {
             BaseFileInstaller.installBaseFiles(this, resultListener)
+        } else {
+            systemShell = NeoPreference.loadBoolean("system_shell", true)
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        outState?.putBoolean("system_shell", systemShell)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-        systemShell = savedInstanceState?.getBoolean("system_shell", true) ?: true
     }
 
     override fun recreate() {
         NeoPreference.store("recreate", true)
+        NeoPreference.store("system_shell", systemShell)
         super.recreate()
     }
 
     private fun isRecreating(): Boolean {
         val result = peekRecreating()
-        NeoPreference.store("recreate", !result)
+        if (result) {
+            NeoPreference.store("recreate", !result)
+        }
         return result
     }
 

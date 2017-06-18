@@ -1,6 +1,0 @@
-version 1
-program vi vim neovim
-define :q true
-define / false
-define dd true
-define :w true

@@ -67,15 +67,15 @@ object NeoPreference {
         return loadBoolean(context!!.getString(key), defaultValue)
     }
 
-    fun loadInt(key: String, defaultValue: Int): Int {
+    fun loadInt(key: String?, defaultValue: Int): Int {
         return preference!!.getInt(key, defaultValue)
     }
 
-    fun loadString(key: String, defaultValue: String?): String {
+    fun loadString(key: String?, defaultValue: String?): String {
         return preference!!.getString(key, defaultValue)
     }
 
-    fun loadBoolean(key: String, defaultValue: Boolean): Boolean {
+    fun loadBoolean(key: String?, defaultValue: Boolean): Boolean {
         return preference!!.getBoolean(key, defaultValue)
     }
 

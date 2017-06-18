@@ -40,7 +40,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     lateinit var fullScreenToggleButton: StatedControlButton
     var systemShell = true
     var termService: NeoTermService? = null
-    var restartRequired = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +49,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         NeoPreference.init(this)
 
         val fullscreen = NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
-
         if (fullscreen) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -107,10 +105,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     override fun onResume() {
         super.onResume()
-        if (restartRequired) {
-            restartRequired = false
-            recreate()
-        }
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this)
         tabSwitcher.addListener(object : TabSwitcherListener {
@@ -213,7 +207,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == getString(R.string.key_ui_fullscreen)) {
-            restartRequired = true
+            if (NeoPreference.loadBoolean(key, false)) {
+                tabSwitcher.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+            } else {
+                tabSwitcher.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+            }
         }
     }
 
@@ -438,6 +436,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             insets
         }
     }
+
 
     @Suppress("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)

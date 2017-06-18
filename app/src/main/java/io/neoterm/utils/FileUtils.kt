@@ -10,10 +10,14 @@ import java.io.InputStream
  */
 object FileUtils {
     fun writeFile(path: File, bytes: ByteArray): Boolean {
-        return FileOutputStream(path).use {
-            it.write(bytes)
-            it.flush()
-            true
+        try {
+            return FileOutputStream(path).use {
+                it.write(bytes)
+                it.flush()
+                true
+            }
+        } catch (e: Exception) {
+            return false
         }
     }
 

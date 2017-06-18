@@ -22,12 +22,15 @@ object BuiltinShortcutKeys {
             "define Q false\n"
 
     fun registerAll() {
-        val vimFile = File(NeoTermPath.EKS_PATH, "vim.eks")
+        val configDir = File(NeoTermPath.EKS_PATH)
+        configDir.mkdirs()
+
+        val vimFile = File(configDir, "vim.eks")
         if (!vimFile.exists()) {
             FileUtils.writeFile(vimFile, vimKeys.toByteArray())
         }
 
-        val moreFile = File(NeoTermPath.EKS_PATH, "more-less.eks")
+        val moreFile = File(configDir, "more-less.eks")
         if (!moreFile.exists()) {
             FileUtils.writeFile(moreFile, moreKeys.toByteArray())
         }

@@ -15,7 +15,7 @@ object ShortcutConfigLoader {
                 extraKeysView.loadDefaultUserDefinedExtraKeys()
             }
             for (button in config.shortcutKeys) {
-                extraKeysView.addExternalButton(button)
+                extraKeysView.addUserDefinedButton(button)
             }
         }
     }

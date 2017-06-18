@@ -1,5 +1,6 @@
 package io.neoterm.ui.settings
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatPreferenceActivity
 import android.view.MenuItem
@@ -16,7 +17,13 @@ class UISettingsActivity : AppCompatPreferenceActivity() {
         supportActionBar.setDisplayHomeAsUpEnabled(true)
         addPreferencesFromResource(R.xml.settings_ui)
         findPreference(getString(R.string.key_ui_suggestions))
-                .setOnPreferenceChangeListener({preference, newValue ->
+                .setOnPreferenceChangeListener({_, newValue ->
+                    if (newValue as Boolean) {
+                        AlertDialog.Builder(this@UISettingsActivity)
+                                .setMessage(R.string.installer_install_zsh_manually)
+                                .setPositiveButton(android.R.string.yes, null)
+                                .show()
+                    }
                     return@setOnPreferenceChangeListener true
                 })
     }

@@ -2,6 +2,7 @@ package io.neoterm.installer;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Build;
 import android.system.Os;
 import android.util.Log;
@@ -10,7 +11,9 @@ import android.util.Pair;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import java.util.zip.ZipInputStream;
 import io.neoterm.R;
 import io.neoterm.backend.EmulatorDebug;
 import io.neoterm.customize.NeoTermPath;
+import io.neoterm.utils.FileUtils;
 
 public final class BaseFileInstaller {
     public interface ResultListener {
@@ -35,7 +39,11 @@ public final class BaseFileInstaller {
             return;
         }
 
-        final ProgressDialog progress = ProgressDialog.show(activity, null, activity.getString(R.string.installer_message), true, false);
+        installHomeFiles(activity);
+
+        final ProgressDialog progress = makeProgressDialog(activity);
+        progress.setMax(100);
+        progress.show();
         new Thread() {
             @Override
             public void run() {
@@ -47,13 +55,37 @@ public final class BaseFileInstaller {
                         deleteFolder(STAGING_PREFIX_FILE);
                     }
 
+                    int totalBytes = 0;
+                    int totalReadBytes = 0;
                     final byte[] buffer = new byte[8096];
                     final List<Pair<String, String>> symlinks = new ArrayList<>(50);
 
                     final URL zipUrl = determineZipUrl();
-                    try (ZipInputStream zipInput = new ZipInputStream(zipUrl.openStream())) {
+                    HttpURLConnection connection = (HttpURLConnection) zipUrl.openConnection();
+                    totalBytes = connection.getContentLength();
+
+                    try (ZipInputStream zipInput = new ZipInputStream(connection.getInputStream())) {
                         ZipEntry zipEntry;
+
                         while ((zipEntry = zipInput.getNextEntry()) != null) {
+                            totalReadBytes += zipEntry.getCompressedSize();
+
+                            final int totalReadBytesFinal = totalReadBytes;
+                            final int totalBytesFinal = totalBytes;
+
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        double progressFloat = ((double) totalReadBytesFinal) / ((double) totalBytesFinal) * 100.0;
+                                        Log.e("NeoTerm-Installer", "total: " + totalBytesFinal + ", read: " + totalReadBytesFinal + ", " + progressFloat);
+                                        progress.setProgress((int) progressFloat);
+                                    } catch (RuntimeException ignore) {
+                                        // activity dismissed
+                                    }
+                                }
+                            });
+
                             if (zipEntry.getName().equals("SYMLINKS.txt")) {
                                 BufferedReader symlinksReader = new BufferedReader(new InputStreamReader(zipInput));
                                 String line;
@@ -77,8 +109,9 @@ public final class BaseFileInstaller {
                                 } else {
                                     try (FileOutputStream outStream = new FileOutputStream(targetFile)) {
                                         int readBytes;
-                                        while ((readBytes = zipInput.read(buffer)) != -1)
+                                        while ((readBytes = zipInput.read(buffer)) != -1) {
                                             outStream.write(buffer, 0, readBytes);
+                                        }
                                     }
                                     if (zipEntryName.startsWith("bin/") || zipEntryName.startsWith("libexec") || zipEntryName.startsWith("lib/apt/methods")) {
                                         //noinspection OctalInteger
@@ -88,6 +121,8 @@ public final class BaseFileInstaller {
                             }
                         }
                     }
+
+                    connection.disconnect();
 
                     if (symlinks.isEmpty())
                         throw new RuntimeException("No SYMLINKS.txt encountered");
@@ -133,6 +168,26 @@ public final class BaseFileInstaller {
         }.start();
     }
 
+    private static void installHomeFiles(final Activity activity) {
+        File HOME_PATH = new File(NeoTermPath.HOME_PATH);
+        File ZSH_INSTALLER = new File(HOME_PATH, "install-zsh.sh");
+
+        if (!HOME_PATH.exists()) {
+            HOME_PATH.mkdirs();
+        }
+
+        if (!ZSH_INSTALLER.exists()) {
+            try {
+                InputStream inputStream = activity.getAssets().open("install-zsh.sh");
+                FileUtils.INSTANCE.writeFile(ZSH_INSTALLER, inputStream);
+                inputStream.close();
+
+                Os.chmod(ZSH_INSTALLER.getAbsolutePath(), 0700);
+            } catch (Exception ignore) {
+            }
+        }
+    }
+
     private static URL determineZipUrl() throws MalformedURLException {
         String archName = determineArchName();
         return new URL(NeoTermPath.SERVER_BOOT_URL + "/" + archName + ".zip");
@@ -165,5 +220,14 @@ public final class BaseFileInstaller {
         if (!fileOrDirectory.delete()) {
             throw new RuntimeException("Unable to delete " + (fileOrDirectory.isDirectory() ? "directory " : "file ") + fileOrDirectory.getAbsolutePath());
         }
+    }
+
+    public static ProgressDialog makeProgressDialog(Context context) {
+        ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage(context.getString(R.string.installer_message));
+        dialog.setIndeterminate(false);
+        dialog.setCancelable(false);
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        return dialog;
     }
 }

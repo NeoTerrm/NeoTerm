@@ -15,7 +15,7 @@ import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.NeoTermPath
-import io.neoterm.preference.NeoTermPreference
+import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.NeoTermActivity
 import java.io.File
 import java.util.*
@@ -83,7 +83,7 @@ class NeoTermService : Service() {
             executablePath = if (systemShell)
                 "/system/bin/sh"
             else
-                NeoTermPath.USR_PATH + "/bin/" + NeoTermPreference.loadString(R.string.key_general_shell, "sh")
+                NeoTermPath.USR_PATH + "/bin/" + NeoPreference.loadString(R.string.key_general_shell, "sh")
 
             if (!File(executablePath).exists()) {
                 Toast.makeText(this, getString(R.string.shell_not_found, executablePath), Toast.LENGTH_LONG).show()
@@ -96,7 +96,7 @@ class NeoTermService : Service() {
         }
 
         val session = TerminalSession(executablePath, cwd, arguments,
-                env ?: NeoTermPreference.buildEnvironment(cwd, systemShell, executablePath),
+                env ?: NeoPreference.buildEnvironment(cwd, systemShell, executablePath),
                 sessionCallback)
         mTerminalSessions.add(session)
         updateNotification()

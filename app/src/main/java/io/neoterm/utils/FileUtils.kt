@@ -1,31 +1,37 @@
 package io.neoterm.utils
 
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.io.OutputStream
+import java.io.InputStream
 
 /**
  * @author kiva
  */
 object FileUtils {
     fun writeFile(path: File, bytes: ByteArray): Boolean {
-        var output: OutputStream? = null
-        var success = true
-        try {
-            output = FileOutputStream(path)
-            output.write(bytes)
-            output.flush()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            success = false
-        } finally {
-            if (output != null) {
-                try {
-                    output.close()
-                } catch (ignore: Exception) {
-                }
-            }
+        return FileOutputStream(path).use {
+            it.write(bytes)
+            it.flush()
+            true
         }
-        return success
+    }
+
+    fun writeFile(path: File, inputStream: InputStream): Boolean {
+        val bytes = ByteArray(inputStream.available())
+        inputStream.read(bytes)
+        return writeFile(path, bytes)
+    }
+
+    fun readFile(path: File): ByteArray? {
+        if (!path.canRead()) {
+            return null
+        }
+
+        return FileInputStream(path).use {
+            val bytes = ByteArray(it.available())
+            it.read(bytes)
+            bytes
+        }
     }
 }

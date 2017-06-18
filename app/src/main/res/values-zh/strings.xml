@@ -33,9 +33,11 @@
     <string name="ui_settings">界面设置</string>
     <string name="shell_not_found">Shell %s 未找到, 请先安装.</string>
     <string name="installer_message">正在安装</string>
+    <string name="installer_install_zsh_manually">你可以通过执行以下命令来配置 zsh 和快捷提示 ~/install-zsh.sh</string>
     <string name="fullscreen_mode_changed">全屏模式已改变，请重启 NeoTerm</string>
     <string name="permission_denied">NeoTerm 无法取得必需的权限，正在退出</string>
     <string name="error">还有这种操作？</string>
     <string name="use_system_shell">使用系统Shell</string>
     <string name="retry">重试</string>
+    <string name="source_changed">APT 源已更改，你可能需要执行 apt update 来更新</string>
 </resources>

@@ -20,7 +20,8 @@
         android:layout_height="@dimen/eks_height_two_line"
         android:layout_alignParentBottom="true"
         android:background="@color/terminal_background"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        android:visibility="gone" />
 
     <io.neoterm.view.TerminalView
         android:id="@+id/terminal_view"

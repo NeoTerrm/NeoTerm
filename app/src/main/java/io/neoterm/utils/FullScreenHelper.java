@@ -9,11 +9,10 @@ import android.widget.FrameLayout;
 /**
  * Helper class to "adjustResize" Activity when we are in full screen mode and check IME status.
  * Android Bug 5497: https://code.google.com/p/android/issues/detail?id=5497
- * author @kiva
  */
-public class NeoTermFullScreen {
-    public static NeoTermFullScreen injectActivity(Activity activity) {
-        return new NeoTermFullScreen(activity);
+public class FullScreenHelper {
+    public static FullScreenHelper injectActivity(Activity activity, boolean isRecreating) {
+        return new FullScreenHelper(activity, isRecreating);
     }
 
     public interface KeyBoardListener {
@@ -33,12 +32,14 @@ public class NeoTermFullScreen {
     private int mOriginHeight;
     private int mPreHeight;
     private KeyBoardListener mKeyBoardListener;
+    private boolean shouldSkipFirstTime;
 
     public void setKeyBoardListener(KeyBoardListener mKeyBoardListener) {
         this.mKeyBoardListener = mKeyBoardListener;
     }
 
-    private NeoTermFullScreen(Activity activity) {
+    private FullScreenHelper(Activity activity, boolean isRecreating) {
+        this.shouldSkipFirstTime = isRecreating;
         FrameLayout content = (FrameLayout) activity.findViewById(android.R.id.content);
         mChildOfContent = content.getChildAt(0);
         mChildOfContent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -52,10 +53,12 @@ public class NeoTermFullScreen {
 
     private void monitorImeStatus() {
         int currHeight = mChildOfContent.getHeight();
-        if (currHeight == 0) {
+        if (currHeight == 0 && shouldSkipFirstTime) {
             // First time
             return;
         }
+
+        shouldSkipFirstTime = false;
         boolean hasChange = false;
         if (mPreHeight == 0) {
             mPreHeight = currHeight;

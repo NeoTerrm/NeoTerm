@@ -3,9 +3,11 @@ package io.neoterm.preference
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.NeoTermPath
 import io.neoterm.services.NeoTermService
+import io.neoterm.utils.FileUtils
 import java.io.File
 
 
@@ -13,7 +15,7 @@ import java.io.File
  * @author kiva
  */
 
-object NeoTermPreference {
+object NeoPreference {
     const val KEY_FONT_SIZE = "neoterm_general_font_size"
     const val KEY_CURRENT_SESSION = "neoterm_service_current_session"
 
@@ -23,6 +25,17 @@ object NeoTermPreference {
     fun init(context: Context) {
         this.context = context
         preference = PreferenceManager.getDefaultSharedPreferences(context)
+
+        // load apt source
+        val sourceFile = File(NeoTermPath.SOURCE_FILE)
+        val bytes = FileUtils.readFile(sourceFile)
+        if (bytes != null) {
+            val source = String(FileUtils.readFile(sourceFile)!!).trim().trimEnd()
+            val array = source.split(" ")
+            if (array.size >= 2 && array[0] == "deb") {
+                store(R.string.key_package_source, array[1])
+            }
+        }
     }
 
     fun cleanup() {
@@ -68,7 +81,7 @@ object NeoTermPreference {
 
     fun storeCurrentSession(session: TerminalSession) {
         preference!!.edit()
-                .putString(NeoTermPreference.KEY_CURRENT_SESSION, session.mHandle)
+                .putString(NeoPreference.KEY_CURRENT_SESSION, session.mHandle)
                 .apply()
     }
 

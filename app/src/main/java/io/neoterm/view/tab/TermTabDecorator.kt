@@ -12,7 +12,7 @@ import de.mrapp.android.tabswitcher.Tab
 import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
 import io.neoterm.R
-import io.neoterm.preference.NeoTermPreference
+import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.NeoTermActivity
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
@@ -24,8 +24,12 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
         val view = inflater.inflate(R.layout.term, parent, false)
         val toolbar = view.findViewById(R.id.terminal_toolbar) as Toolbar
-        toolbar.inflateMenu(R.menu.tab_switcher)
+        val extraKeysView = view.findViewById(R.id.extra_keys) as ExtraKeysView
 
+        extraKeysView.addBuiltinButton(context.fullScreenToggleButton)
+        extraKeysView.updateButtons()
+
+        toolbar.inflateMenu(R.menu.tab_switcher)
         toolbar.setOnMenuItemClickListener(context.createToolbarMenuListener())
         val menu = toolbar.menu
         TabSwitcher.setupWithMenu(context.tabSwitcher, menu, {
@@ -64,8 +68,9 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         if (view == null) {
             return
         }
-        view.textSize = NeoTermPreference.loadInt(NeoTermPreference.KEY_FONT_SIZE, 30)
+        view.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
         view.setTypeface(Typeface.MONOSPACE)
+        context.fullScreenToggleButton.setStatus(NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false))
 
         if (tab is TermTab) {
             val termTab = tab

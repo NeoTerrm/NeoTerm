@@ -11,15 +11,25 @@ import io.neoterm.view.ExtraKeysView;
 
 public class StatedControlButton extends ControlButton {
     public ToggleButton toggleButton;
+    public boolean initState;
+
+    public StatedControlButton(String text, boolean initState) {
+        super(text);
+        this.initState = initState;
+    }
 
     public StatedControlButton(String text) {
-        super(text);
+        this(text, false);
     }
 
     @Override
     public void onClick(View view) {
-        toggleButton.setChecked(toggleButton.isChecked());
-        toggleButton.setTextColor(toggleButton.isChecked() ? 0xFF80DEEA : ExtraKeysView.NORMAL_TEXT_COLOR);
+        setStatus(toggleButton.isChecked());
+    }
+
+    public void setStatus(boolean status) {
+        toggleButton.setChecked(status);
+        toggleButton.setTextColor(status ? ExtraKeysView.SELECTED_TEXT_COLOR : ExtraKeysView.NORMAL_TEXT_COLOR);
     }
 
     public boolean readState() {

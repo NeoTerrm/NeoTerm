@@ -8,7 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.shortcut.ShortcutKeysManager
-import io.neoterm.preference.NeoTermPreference
+import io.neoterm.preference.NeoPreference
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
 import io.neoterm.view.TerminalViewClient
@@ -33,7 +33,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
             val changedSize = (if (increase) 1 else -1) * 2
             val fontSize = termView!!.textSize + changedSize
             termView!!.textSize = fontSize
-            NeoTermPreference.store(NeoTermPreference.KEY_FONT_SIZE, fontSize)
+            NeoPreference.store(NeoPreference.KEY_FONT_SIZE, fontSize)
             return 1.0f
         }
         return scale
@@ -45,7 +45,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {
-        return NeoTermPreference.loadBoolean(R.string.key_generaL_backspace_map_to_esc, false)
+        return NeoPreference.loadBoolean(R.string.key_generaL_backspace_map_to_esc, false)
     }
 
     override fun copyModeChanged(copyMode: Boolean) {
@@ -118,7 +118,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     fun removeSuggestions() {
-        extraKeysView?.clearExternalButton()
+        extraKeysView?.clearUserDefinedButton()
     }
 
 }

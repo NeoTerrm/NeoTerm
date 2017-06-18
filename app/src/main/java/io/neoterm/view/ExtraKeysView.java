@@ -50,7 +50,7 @@ public final class ExtraKeysView extends LinearLayout {
             "define | false\n";
 
     public static final int NORMAL_TEXT_COLOR = 0xFFFFFFFF;
-
+    public static final int SELECTED_TEXT_COLOR = 0xFF80DEEA;
 
     private List<ExtraButton> builtinExtraKeys;
     private List<ExtraButton> userDefinedExtraKeys;
@@ -85,7 +85,6 @@ public final class ExtraKeysView extends LinearLayout {
         return line;
     }
 
-
     public boolean readControlButton() {
         return CTRL.readState();
     }
@@ -94,11 +93,21 @@ public final class ExtraKeysView extends LinearLayout {
         return false;
     }
 
-    public void addExternalButton(ExtraButton button) {
-        userDefinedExtraKeys.add(button);
+    public void addUserDefinedButton(ExtraButton button) {
+        addButton(userDefinedExtraKeys, button);
     }
 
-    public void clearExternalButton() {
+    public void addBuiltinButton(ExtraButton button) {
+        addButton(builtinExtraKeys, button);
+    }
+
+    private void addButton(List<ExtraButton> buttons, ExtraButton button) {
+        if (!buttons.contains(button)) {
+            buttons.add(button);
+        }
+    }
+
+    public void clearUserDefinedButton() {
         userDefinedExtraKeys.clear();
     }
 
@@ -109,7 +118,7 @@ public final class ExtraKeysView extends LinearLayout {
             generateDefaultFile(defaultFile);
         }
 
-        clearExternalButton();
+        clearUserDefinedButton();
         try {
             ShortcutConfigParser parser = new ShortcutConfigParser();
             parser.setInput(defaultFile);
@@ -153,6 +162,10 @@ public final class ExtraKeysView extends LinearLayout {
             StatedControlButton btn = ((StatedControlButton) extraButton);
             button = btn.toggleButton = new ToggleButton(getContext(), null, android.R.attr.buttonBarButtonStyle);
             button.setClickable(true);
+            if (btn.initState) {
+                btn.toggleButton.setChecked(true);
+                btn.toggleButton.setTextColor(SELECTED_TEXT_COLOR);
+            }
         } else {
             button = new Button(getContext(), null, android.R.attr.buttonBarButtonStyle);
         }

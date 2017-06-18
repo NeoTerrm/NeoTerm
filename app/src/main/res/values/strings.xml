@@ -14,6 +14,7 @@
     <string name="package_settings">Package Settings</string>
 
     <string name="installer_message">Installing</string>
+    <string name="installer_install_zsh_manually">You may install zsh and setup suggestions by executing: ~/install-zsh.sh</string>
 
     <string name="pref_general_bell">Bell</string>
     <string name="pref_general_bell_desc">Bell when receiving \'\\a\'</string>
@@ -42,6 +43,7 @@
     <string name="error">Error</string>
     <string name="use_system_shell">System Shell</string>
     <string name="retry">Retry</string>
+    <string name="source_changed">APT source changed, you may get it updated by executing: apt update</string>
 
     <string-array name="pref_ui_color_scheme_entries" translatable="false">
         <item>Default</item>

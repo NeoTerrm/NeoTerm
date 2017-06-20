@@ -3,6 +3,7 @@ package io.neoterm.ui
 import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
@@ -11,6 +12,7 @@ import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
@@ -36,8 +38,14 @@ import org.greenrobot.eventbus.ThreadMode
 
 
 class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreferences.OnSharedPreferenceChangeListener {
+    companion object {
+        const val KEY_NO_RESTORE = "no_restore"
+        const val KEY_SYSTEM_SHELL = "system_shell"
+    }
+
     lateinit var tabSwitcher: TabSwitcher
     lateinit var fullScreenToggleButton: StatedControlButton
+    lateinit var fullScreenHelper: FullScreenHelper
     var systemShell = true
     var termService: NeoTermService? = null
 
@@ -55,21 +63,19 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
 
         setContentView(R.layout.tab_main)
-        FullScreenHelper.injectActivity(this, peekRecreating())
-                .setKeyBoardListener({ isShow, _ ->
-                    var tab: TermTab? = null
+        fullScreenHelper = FullScreenHelper.injectActivity(this, fullscreen, peekRecreating())
+        fullScreenHelper.setKeyBoardListener({ isShow, _ ->
+            var tab: TermTab? = null
 
-                    if (tabSwitcher.selectedTab is TermTab) {
-                        tab = tabSwitcher.selectedTab as TermTab
-                    }
+            if (tabSwitcher.selectedTab is TermTab) {
+                tab = tabSwitcher.selectedTab as TermTab
+            }
 
-                    tab?.viewClient?.extraKeysView?.visibility = if (isShow) View.VISIBLE else View.GONE
-
-                    if (NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
-                            || NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
-                        tab?.toolbar?.visibility = if (isShow) View.GONE else View.VISIBLE
-                    }
-                })
+            if (NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
+                    || NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
+                tab?.toolbar?.visibility = if (isShow) View.GONE else View.VISIBLE
+            }
+        })
 
         fullScreenToggleButton = object : StatedControlButton("FS", fullscreen) {
             override fun onClick(view: View?) {
@@ -79,6 +85,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                     tab.hideIme()
                 }
                 NeoPreference.store(R.string.key_ui_fullscreen, super.toggleButton.isChecked)
+                // FIXME: Cannot toggle full screen mode
+                // FIXME: We still need to recreate the activity.
+//                setFullScreenMode(super.toggleButton.isChecked)
                 this@NeoTermActivity.recreate()
             }
         }
@@ -207,11 +216,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == getString(R.string.key_ui_fullscreen)) {
-            if (NeoPreference.loadBoolean(key, false)) {
-                tabSwitcher.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-            } else {
-                tabSwitcher.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-            }
+            setFullScreenMode(NeoPreference.loadBoolean(key, false))
         }
     }
 
@@ -260,27 +265,40 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         if (!isRecreating()) {
             BaseFileInstaller.installBaseFiles(this, resultListener)
         } else {
-            systemShell = NeoPreference.loadBoolean("system_shell", true)
+            systemShell = NeoPreference.loadBoolean(KEY_SYSTEM_SHELL, true)
         }
     }
 
     override fun recreate() {
-        NeoPreference.store("recreate", true)
-        NeoPreference.store("system_shell", systemShell)
+        NeoPreference.store(KEY_NO_RESTORE, true)
+        saveCurrentStatus()
         super.recreate()
     }
 
     private fun isRecreating(): Boolean {
         val result = peekRecreating()
         if (result) {
-            NeoPreference.store("recreate", !result)
+            NeoPreference.store(KEY_NO_RESTORE, !result)
         }
         return result
     }
 
+    private fun saveCurrentStatus() {
+        NeoPreference.store(KEY_SYSTEM_SHELL, systemShell)
+    }
+
     private fun peekRecreating(): Boolean {
-        val result = NeoPreference.loadBoolean("recreate", false)
+        val result = NeoPreference.loadBoolean(KEY_NO_RESTORE, false)
         return result
+    }
+
+    private fun setFullScreenMode(fullScreen: Boolean) {
+        fullScreenHelper.setFullScreen(fullScreen)
+        if (fullScreen) {
+            tabSwitcher.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        } else {
+            tabSwitcher.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+        }
     }
 
     private fun addNewSession(session: TerminalSession?) {

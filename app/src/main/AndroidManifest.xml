@@ -18,6 +18,7 @@
             android:name=".ui.NeoTermActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>

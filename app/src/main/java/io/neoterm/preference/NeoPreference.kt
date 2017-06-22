@@ -19,6 +19,10 @@ object NeoPreference {
     const val KEY_FONT_SIZE = "neoterm_general_font_size"
     const val KEY_CURRENT_SESSION = "neoterm_service_current_session"
 
+    const val VALUE_NEOTERM_ONLY = "NeoTermOnly"
+    const val VALUE_NEOTERM_FIRST = "NeoTermFirst"
+    const val VALUE_SYSTEM_FIRST = "SystemFirst"
+
     var preference: SharedPreferences? = null
     var context: Context? = null
 
@@ -114,16 +118,48 @@ object NeoPreference {
             return arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv, externalStorageEnv, pathEnv)
 
         } else {
-
             val ps1Env = "PS1=$ "
-            val ldEnv = "LD_LIBRARY_PATH=${NeoTermPath.USR_PATH}/lib"
             val langEnv = "LANG=en_US.UTF-8"
-            val pathEnv = "PATH=${NeoTermPath.USR_PATH}/bin:${NeoTermPath.USR_PATH}/bin/applets"
+            val pathEnv = "PATH=" + buildPathEnv()
+            val ldEnv = "LD_LIBRARY_PATH=" + buildLdLibraryEnv()
             val pwdEnv = "PWD=" + cwd
             val tmpdirEnv = "TMPDIR=${NeoTermPath.USR_PATH}/tmp"
 
             return arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv)
         }
+    }
+
+    private fun buildLdLibraryEnv(): String {
+        val builder = StringBuilder("${NeoTermPath.USR_PATH}/lib")
+
+        val programSelection = NeoPreference.loadString(R.string.key_general_program_selection, VALUE_NEOTERM_ONLY)
+        val systemPath = System.getenv("LD_LIBRARY_PATH")
+
+        if (programSelection != VALUE_NEOTERM_ONLY) {
+            builder.append(":$systemPath")
+        }
+
+        return builder.toString()
+    }
+
+    private fun buildPathEnv(): String {
+        val builder = StringBuilder()
+        val programSelection = NeoPreference.loadString(R.string.key_general_program_selection, VALUE_NEOTERM_ONLY)
+        val basePath = "${NeoTermPath.USR_PATH}/bin:${NeoTermPath.USR_PATH}/bin/applets"
+        val systemPath = System.getenv("PATH")
+
+        when (programSelection) {
+            VALUE_NEOTERM_ONLY -> {
+                builder.append(basePath)
+            }
+            VALUE_NEOTERM_FIRST -> {
+                builder.append("$basePath:$systemPath")
+            }
+            VALUE_SYSTEM_FIRST -> {
+                builder.append("$systemPath:$basePath")
+            }
+        }
+        return builder.toString()
     }
 
     /**

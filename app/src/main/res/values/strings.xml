@@ -24,6 +24,8 @@
     <string name="pref_general_backspace_map_to_esc_desc">Send esc when backspace is pressed</string>
     <string name="pref_general_shell" translatable="false">Shell</string>
     <string name="pref_general_shell_desc">Which shell should we use when login</string>
+    <string name="pref_general_program_selection">Program Selection</string>
+    <string name="pref_general_program_selection_desc">When both Neo Term and your Android OS have a program, which one should we choose?</string>
     <string name="pref_ui_fullscreen">Full Screen</string>
     <string name="pref_ui_hide_toolbar">Hide Toolbar</string>
     <string name="pref_ui_hide_toolbar_desc">Hide toolbar when keyboard is showing</string>
@@ -54,6 +56,18 @@
         <item>zsh</item>
         <item>bash</item>
         <item>fish</item>
+    </string-array>
+
+    <string-array name="pref_general_program_selection_values" translatable="false">
+        <item>NeoTermOnly</item>
+        <item>NeoTermFirst</item>
+        <item>SystemFirst</item>
+    </string-array>
+
+    <string-array name="pref_general_program_selection_entries">
+        <item>NeoTerm Only</item>
+        <item>NeoTerm First</item>
+        <item>System First</item>
     </string-array>
 
 </resources>

@@ -132,6 +132,10 @@ class NeoTermService : Service() {
         builder.setOngoing(true)
         builder.setShowWhen(false)
         builder.setColor(0xFF000000.toInt())
+
+        val exitIntent = Intent(this, NeoTermService::class.java).setAction(ACTION_SERVICE_STOP)
+        builder.addAction(android.R.drawable.ic_delete, "Exit", PendingIntent.getService(this, 0, exitIntent, 0))
+
         return builder.build()
     }
 

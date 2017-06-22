@@ -15,6 +15,14 @@ public abstract class ExtraButton implements View.OnClickListener {
     public static final String KEY_ESC = "Esc";
     public static final String KEY_TAB = "Tab";
     public static final String KEY_CTRL = "Ctrl";
+    public static final String KEY_PAGE_UP = "PgUp";
+    public static final String KEY_PAGE_DOWN = "PgDn";
+    public static final String KEY_HOME = "Home";
+    public static final String KEY_END = "End";
+    public static final String KEY_ARROW_UP = "▲";
+    public static final String KEY_ARROW_DOWN = "▼";
+    public static final String KEY_ARROW_LEFT = "◀";
+    public static final String KEY_ARROW_RIGHT = "▶";
 
     public String buttonText;
 
@@ -31,17 +39,29 @@ public abstract class ExtraButton implements View.OnClickListener {
             case KEY_TAB:
                 keyCode = KeyEvent.KEYCODE_TAB;
                 break;
-            case "▲":
+            case KEY_ARROW_UP:
                 keyCode = KeyEvent.KEYCODE_DPAD_UP;
                 break;
-            case "◀":
+            case KEY_ARROW_LEFT:
                 keyCode = KeyEvent.KEYCODE_DPAD_LEFT;
                 break;
-            case "▶":
+            case KEY_ARROW_RIGHT:
                 keyCode = KeyEvent.KEYCODE_DPAD_RIGHT;
                 break;
-            case "▼":
+            case KEY_ARROW_DOWN:
                 keyCode = KeyEvent.KEYCODE_DPAD_DOWN;
+                break;
+            case KEY_PAGE_UP:
+                keyCode = KeyEvent.KEYCODE_PAGE_UP;
+                break;
+            case KEY_PAGE_DOWN:
+                keyCode = KeyEvent.KEYCODE_PAGE_DOWN;
+                break;
+            case KEY_HOME:
+                keyCode = KeyEvent.KEYCODE_MOVE_HOME;
+                break;
+            case KEY_END:
+                keyCode = KeyEvent.KEYCODE_MOVE_END;
                 break;
             case "―":
                 chars = "-";

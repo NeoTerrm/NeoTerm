@@ -24,8 +24,16 @@ import io.neoterm.view.eks.ControlButton;
 import io.neoterm.view.eks.ExtraButton;
 import io.neoterm.view.eks.StatedControlButton;
 
+import static io.neoterm.view.eks.ExtraButton.KEY_ARROW_DOWN;
+import static io.neoterm.view.eks.ExtraButton.KEY_ARROW_LEFT;
+import static io.neoterm.view.eks.ExtraButton.KEY_ARROW_RIGHT;
+import static io.neoterm.view.eks.ExtraButton.KEY_ARROW_UP;
 import static io.neoterm.view.eks.ExtraButton.KEY_CTRL;
+import static io.neoterm.view.eks.ExtraButton.KEY_END;
 import static io.neoterm.view.eks.ExtraButton.KEY_ESC;
+import static io.neoterm.view.eks.ExtraButton.KEY_HOME;
+import static io.neoterm.view.eks.ExtraButton.KEY_PAGE_DOWN;
+import static io.neoterm.view.eks.ExtraButton.KEY_PAGE_UP;
 import static io.neoterm.view.eks.ExtraButton.KEY_TAB;
 
 /**
@@ -34,14 +42,17 @@ import static io.neoterm.view.eks.ExtraButton.KEY_TAB;
  */
 public final class ExtraKeysView extends LinearLayout {
 
+    public static final StatedControlButton CTRL = new StatedControlButton(KEY_CTRL);
     public static final ControlButton ESC = new ControlButton(KEY_ESC);
     public static final ControlButton TAB = new ControlButton(KEY_TAB);
-    public static final StatedControlButton CTRL = new StatedControlButton(KEY_CTRL);
-
-    public static final ControlButton ARROW_UP = new ControlButton("▲");
-    public static final ControlButton ARROW_DOWN = new ControlButton("▼");
-    public static final ControlButton ARROW_LEFT = new ControlButton("◀");
-    public static final ControlButton ARROW_RIGHT = new ControlButton("▶");
+    public static final ControlButton PAGE_UP = new ControlButton(KEY_PAGE_UP);
+    public static final ControlButton PAGE_DOWN = new ControlButton(KEY_PAGE_DOWN);
+    public static final ControlButton HOME = new ControlButton(KEY_HOME);
+    public static final ControlButton END = new ControlButton(KEY_END);
+    public static final ControlButton ARROW_UP = new ControlButton(KEY_ARROW_UP);
+    public static final ControlButton ARROW_DOWN = new ControlButton(KEY_ARROW_DOWN);
+    public static final ControlButton ARROW_LEFT = new ControlButton(KEY_ARROW_LEFT);
+    public static final ControlButton ARROW_RIGHT = new ControlButton(KEY_ARROW_RIGHT);
 
     public static final String DEFAULT_FILE_CONTENT = "version " + ShortcutConfigParser.PARSER_VERSION + "\n" +
             "program default\n" +
@@ -143,6 +154,10 @@ public final class ExtraKeysView extends LinearLayout {
         builtinExtraKeys.add(ARROW_DOWN);
         builtinExtraKeys.add(ARROW_LEFT);
         builtinExtraKeys.add(ARROW_RIGHT);
+        builtinExtraKeys.add(HOME);
+        builtinExtraKeys.add(END);
+        builtinExtraKeys.add(PAGE_UP);
+        builtinExtraKeys.add(PAGE_DOWN);
     }
 
     public void updateButtons() {

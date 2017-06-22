@@ -259,6 +259,7 @@ public final class TerminalView extends View {
 
             @Override
             public boolean commitText(CharSequence text, int newCursorPosition) {
+                // TODO: AutoComplete
                 if (LOG_KEY_EVENTS) {
                     Log.i(EmulatorDebug.LOG_TAG, "IME: commitText(\"" + text + "\", " + newCursorPosition + ")");
                 }

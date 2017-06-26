@@ -16,7 +16,7 @@ object NeoTermPath {
 
     const val SOURCE_FILE = "$USR_PATH/etc/apt/sources.list"
 
-    const val DEFAULT_SOURCE = "http://mirror.neoterm.studio"
+    const val DEFAULT_SOURCE = "https://mirrors.geekpie.org/neoterm"
     const val SERVER_BASE_URL = DEFAULT_SOURCE
     const val SERVER_BOOT_URL = "$SERVER_BASE_URL/boot"
 }

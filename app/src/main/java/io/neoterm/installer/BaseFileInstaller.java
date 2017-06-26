@@ -86,7 +86,7 @@ public final class BaseFileInstaller {
                                 }
                             });
 
-                            if (zipEntry.getName().equals("SYMLINKS.txt")) {
+                            if (zipEntry.getName().contains("SYMLINKS.txt")) {
                                 BufferedReader symlinksReader = new BufferedReader(new InputStreamReader(zipInput));
                                 String line;
                                 while ((line = symlinksReader.readLine()) != null) {

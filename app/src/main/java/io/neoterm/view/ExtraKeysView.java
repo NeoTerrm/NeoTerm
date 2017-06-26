@@ -154,10 +154,10 @@ public final class ExtraKeysView extends LinearLayout {
         builtinExtraKeys.add(ARROW_DOWN);
         builtinExtraKeys.add(ARROW_LEFT);
         builtinExtraKeys.add(ARROW_RIGHT);
-        builtinExtraKeys.add(HOME);
-        builtinExtraKeys.add(END);
         builtinExtraKeys.add(PAGE_UP);
         builtinExtraKeys.add(PAGE_DOWN);
+        builtinExtraKeys.add(HOME);
+        builtinExtraKeys.add(END);
     }
 
     public void updateButtons() {

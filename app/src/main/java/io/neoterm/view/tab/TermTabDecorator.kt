@@ -22,7 +22,7 @@ import io.neoterm.view.TerminalView
  */
 class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
-        val view = inflater.inflate(R.layout.term, parent, false)
+        val view = inflater.inflate(R.layout.ui_term, parent, false)
         val toolbar = view.findViewById(R.id.terminal_toolbar) as Toolbar
         val extraKeysView = view.findViewById(R.id.extra_keys) as ExtraKeysView
 

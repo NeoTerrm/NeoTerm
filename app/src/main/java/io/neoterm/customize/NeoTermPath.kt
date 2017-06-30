@@ -15,6 +15,7 @@ object NeoTermPath {
     const val EKS_DEFAULT_FILE = "$EKS_PATH/default.eks"
 
     const val SOURCE_FILE = "$USR_PATH/etc/apt/sources.list"
+    const val PACKAGE_LIST_DIR = "$USR_PATH/var/lib/apt/lists"
 
     const val DEFAULT_SOURCE = "https://mirrors.geekpie.org/neoterm"
     const val SERVER_BASE_URL = DEFAULT_SOURCE

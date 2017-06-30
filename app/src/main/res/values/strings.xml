@@ -46,6 +46,9 @@
     <string name="use_system_shell">System Shell</string>
     <string name="retry">Retry</string>
     <string name="source_changed">APT source changed, you may get it updated by executing: apt update</string>
+    <string name="done">Done</string>
+    <string name="install">Install</string>
+    <string name="package_details">Package: %s\nVersion: %s\nDepends: %s\nInstalled Size: %s\nDescription: %s\nHome Page: %s</string>
 
     <string-array name="pref_ui_color_scheme_entries" translatable="false">
         <item>Default</item>

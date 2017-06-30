@@ -7,7 +7,7 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.shortcut.ShortcutKeysManager
+import io.neoterm.customize.eks.EksKeysManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
@@ -111,7 +111,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
 
         if (lastTitle != title || force) {
             removeSuggestions()
-            ShortcutKeysManager.showShortcutKeys(title, extraKeysView)
+            EksKeysManager.showShortcutKeys(title, extraKeysView)
             extraKeysView?.updateButtons()
             lastTitle = title
         }

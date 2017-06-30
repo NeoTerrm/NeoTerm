@@ -4,6 +4,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.text.DecimalFormat
 
 /**
  * @author kiva
@@ -36,6 +37,24 @@ object FileUtils {
             val bytes = ByteArray(it.available())
             it.read(bytes)
             bytes
+        }
+    }
+
+    fun formatSize(size: Long): String {
+        val formater = DecimalFormat("####.00");
+        if (size < 1024) {
+            return "$size bytes"
+        } else if (size < 1024 * 1024) {
+            val parsedSize: Float = size / 1024f
+            return formater.format(parsedSize) + " KB"
+        } else if (size < 1024 * 1024 * 1024) {
+            val parsedSize: Float = size / 1024f / 1024f
+            return formater.format(parsedSize) + " MB"
+        } else if (size < 1024L * 1024 * 1024 * 1024) {
+            val parsedSize: Float = size / 1024f / 1024f / 1024f
+            return formater.format(parsedSize) + " GB"
+        } else {
+            return "$size bytes"
         }
     }
 }

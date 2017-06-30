@@ -1,4 +1,4 @@
-package io.neoterm.installer.packages
+package io.neoterm.customize.pm
 
 /**
  * @author kiva

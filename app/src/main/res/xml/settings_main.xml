@@ -21,7 +21,7 @@
         android:icon="@drawable/ic_apps_white_36dp"
         android:title="@string/package_settings">
         <intent
-            android:targetClass="io.neoterm.ui.settings.PackageSettingsActivity"
+            android:targetClass="io.neoterm.ui.pm.PackageManagerActivity"
             android:targetPackage="io.neoterm" />
     </Preference>
 

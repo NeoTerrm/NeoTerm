@@ -1,4 +1,4 @@
-package io.neoterm.customize.shortcut
+package io.neoterm.customize.eks
 
 import io.neoterm.view.eks.TextButton
 import java.io.*
@@ -6,7 +6,7 @@ import java.io.*
 /**
  * @author kiva
  */
-class ShortcutConfigParser {
+class EksConfigParser {
     companion object {
         const val PARSER_VERSION = 2
     }
@@ -25,8 +25,8 @@ class ShortcutConfigParser {
         source = BufferedReader(InputStreamReader(inputStream))
     }
 
-    fun parse(): ShortcutConfig {
-        val config = ShortcutConfig()
+    fun parse(): EksConfig {
+        val config = EksConfig()
         var line: String? = source.readLine()
 
         while (line != null) {
@@ -57,12 +57,12 @@ class ShortcutConfigParser {
         return config
     }
 
-    private fun parseWithDefault(line: String, config: ShortcutConfig) {
+    private fun parseWithDefault(line: String, config: EksConfig) {
         val value = line.substring("with-default".length).trim().trimEnd()
         config.withDefaultKeys = value == "true"
     }
 
-    private fun parseKeyDefine(line: String, config: ShortcutConfig) {
+    private fun parseKeyDefine(line: String, config: EksConfig) {
         val keyDefine = line.substring("define".length).trim().trimEnd()
         val keyValues = keyDefine.split(" ")
         if (keyValues.size < 2) {
@@ -75,7 +75,7 @@ class ShortcutConfigParser {
         config.shortcutKeys.add(TextButton(buttonText, withEnter))
     }
 
-    private fun parseProgram(line: String, config: ShortcutConfig) {
+    private fun parseProgram(line: String, config: EksConfig) {
         val programNames = line.substring("program".length).trim().trimEnd()
         if (programNames.isEmpty()) {
             return
@@ -86,7 +86,7 @@ class ShortcutConfigParser {
         }
     }
 
-    private fun parseHeader(line: String, config: ShortcutConfig) {
+    private fun parseHeader(line: String, config: EksConfig) {
         val version: Int
         val versionString = line.substring("version".length).trim().trimEnd()
         try {
@@ -95,7 +95,7 @@ class ShortcutConfigParser {
             throw RuntimeException("Bad version '$versionString'")
         }
 
-        if (version > ShortcutConfigParser.PARSER_VERSION) {
+        if (version > EksConfigParser.PARSER_VERSION) {
             throw RuntimeException("Required version: $version, please upgrade your app")
         }
 

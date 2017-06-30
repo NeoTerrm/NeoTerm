@@ -17,8 +17,8 @@ android {
         applicationId "io.neoterm"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -58,4 +58,8 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':chrome-tabs')
     implementation 'com.android.support:design:25.3.1'
+    compile 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
+    compile 'com.github.wrdlbrnft:sorted-list-adapter:0.2.0.19'
+    compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
+
 }

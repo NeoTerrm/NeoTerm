@@ -1,4 +1,4 @@
-package io.neoterm.installer.packages;
+package io.neoterm.customize.pm;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -87,7 +87,7 @@ public class NeoPackageParser {
 
             switch (key) {
                 case KEY_ARCH:
-                    packageInfo.setArchitecture(NeoPackageArchitecture.parse(value));
+                    packageInfo.setArchitecture(NeoPackageArchitecture.Companion.parse(value));
                     break;
                 case KEY_DEPENDS:
                     packageInfo.setDependenciesString(value);
@@ -126,6 +126,9 @@ public class NeoPackageParser {
                     packageInfo.setVersion(value);
                     break;
             }
+        }
+        if (packageInfo != null) {
+            stateListener.onEndParsePackage(packageInfo);
         }
         stateListener.onEndState();
     }

@@ -17,8 +17,8 @@ import java.util.List;
 
 import io.neoterm.customize.NeoTermPath;
 import io.neoterm.customize.font.FontManager;
-import io.neoterm.customize.shortcut.ShortcutConfig;
-import io.neoterm.customize.shortcut.ShortcutConfigParser;
+import io.neoterm.customize.eks.EksConfig;
+import io.neoterm.customize.eks.EksConfigParser;
 import io.neoterm.utils.FileUtils;
 import io.neoterm.view.eks.ControlButton;
 import io.neoterm.view.eks.ExtraButton;
@@ -54,7 +54,7 @@ public final class ExtraKeysView extends LinearLayout {
     public static final ControlButton ARROW_LEFT = new ControlButton(KEY_ARROW_LEFT);
     public static final ControlButton ARROW_RIGHT = new ControlButton(KEY_ARROW_RIGHT);
 
-    public static final String DEFAULT_FILE_CONTENT = "version " + ShortcutConfigParser.PARSER_VERSION + "\n" +
+    public static final String DEFAULT_FILE_CONTENT = "version " + EksConfigParser.PARSER_VERSION + "\n" +
             "program default\n" +
             "define - false\n" +
             "define / false\n" +
@@ -131,9 +131,9 @@ public final class ExtraKeysView extends LinearLayout {
 
         clearUserDefinedButton();
         try {
-            ShortcutConfigParser parser = new ShortcutConfigParser();
+            EksConfigParser parser = new EksConfigParser();
             parser.setInput(defaultFile);
-            ShortcutConfig config = parser.parse();
+            EksConfig config = parser.parse();
             userDefinedExtraKeys.addAll(config.getShortcutKeys());
         } catch (Exception e) {
             e.printStackTrace();

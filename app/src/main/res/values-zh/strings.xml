@@ -42,10 +42,13 @@
     <string name="use_system_shell">使用系统Shell</string>
     <string name="retry">重试</string>
     <string name="source_changed">APT 源已更改，你可能需要执行 apt update 来更新</string>
+    <string name="package_details">软件包: %s\n版本: %s\n依赖: %s\n占用空间: %s\n描述: %s\n主页: %s</string>
 
     <string-array name="pref_general_program_selection_entries">
         <item>只使用 NeoTerm</item>
         <item>优先使用 NeoTerm</item>
         <item>优先使用 System</item>
     </string-array>
+    <string name="done">完成</string>
+    <string name="install">安装</string>
 </resources>

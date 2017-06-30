@@ -3,7 +3,6 @@ package io.neoterm.ui
 import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
@@ -12,7 +11,6 @@ import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
@@ -22,9 +20,9 @@ import de.mrapp.android.tabswitcher.*
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.font.FontManager
-import io.neoterm.customize.shortcut.ShortcutConfigLoader
-import io.neoterm.customize.shortcut.builtin.BuiltinShortcutKeys
-import io.neoterm.installer.BaseFileInstaller
+import io.neoterm.customize.eks.EksConfigLoader
+import io.neoterm.customize.eks.builtin.BuiltinEksKeys
+import io.neoterm.customize.installer.BaseFileInstaller
 import io.neoterm.preference.NeoPermission
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
@@ -107,8 +105,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     private fun initShortcutKeys() {
         Thread {
-            BuiltinShortcutKeys.registerAll()
-            ShortcutConfigLoader.loadDefinedConfigs()
+            BuiltinEksKeys.registerAll()
+            EksConfigLoader.loadDefinedConfigs()
         }.start()
     }
 

@@ -1,4 +1,4 @@
-package io.neoterm.installer.packages;
+package io.neoterm.customize.pm;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,30 +29,43 @@ public class NeoPackageManager {
         return queryEnabled ? neoPackages.get(packageName) : null;
     }
 
+    public HashMap<String, NeoPackageInfo> getPackages() {
+        return queryEnabled ? neoPackages : new HashMap<String, NeoPackageInfo>();
+    }
+
     public int getPackageCount() {
         return queryEnabled ? neoPackages.size() : -1;
     }
 
-    public void refreshPackageList(File packageListFile) throws IOException {
+    public void refreshPackageList(File packageListFile, boolean clearPrevious) throws IOException {
         synchronized (lock) {
             if (isRefreshing) {
                 return;
             }
             isRefreshing = true;
         }
-        tryParsePackages(packageListFile);
+        tryParsePackages(packageListFile, clearPrevious);
         synchronized (lock) {
             isRefreshing = false;
         }
     }
 
-    private void tryParsePackages(File packageListFile) throws IOException {
+    public void clearPackages() {
+        if (isRefreshing) {
+            return;
+        }
+        neoPackages.clear();
+    }
+
+    private void tryParsePackages(File packageListFile, final boolean clearPrevious) throws IOException {
         NeoPackageParser packageParser = new NeoPackageParser(new FileInputStream(packageListFile));
         packageParser.setStateListener(new NeoPackageParser.ParseStateListener() {
             @Override
             public void onStartState() {
                 queryEnabled = false;
-                neoPackages.clear();
+                if (clearPrevious) {
+                    neoPackages.clear();
+                }
             }
 
             @Override
@@ -95,5 +108,4 @@ public class NeoPackageManager {
             depends[i] = getPackageInfo(item);
         }
     }
-
 }

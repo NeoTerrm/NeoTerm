@@ -1,4 +1,4 @@
-package io.neoterm.customize.shortcut
+package io.neoterm.customize.eks
 
 import android.util.Log
 import io.neoterm.customize.NeoTermPath
@@ -8,8 +8,8 @@ import java.io.File
 /**
  * @author kiva
  */
-object ShortcutConfigLoader {
-    class ConfiguredShortcutKey(val config: ShortcutConfig) : ShortcutKey {
+object EksConfigLoader {
+    class ConfiguredEksKey(val config: EksConfig) : EksKey {
         override fun applyShortcutKeys(extraKeysView: ExtraKeysView) {
             if (config.withDefaultKeys) {
                 extraKeysView.loadDefaultUserDefinedExtraKeys()
@@ -24,7 +24,7 @@ object ShortcutConfigLoader {
         val configDir = File(NeoTermPath.EKS_PATH)
         configDir.mkdirs()
 
-        val parser = ShortcutConfigParser()
+        val parser = EksConfigParser()
         for (file in configDir.listFiles()) {
             try {
                 parser.setInput(file)
@@ -42,10 +42,10 @@ object ShortcutConfigLoader {
         }
     }
 
-    private fun registerConfig(config: ShortcutConfig) {
-        val shortcutKey = ConfiguredShortcutKey(config)
+    private fun registerConfig(config: EksConfig) {
+        val shortcutKey = ConfiguredEksKey(config)
         for (programName in config.programNames) {
-            ShortcutKeysManager.registerShortcutKeys(programName, shortcutKey)
+            EksKeysManager.registerShortcutKeys(programName, shortcutKey)
         }
     }
 }

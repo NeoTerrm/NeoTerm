@@ -61,14 +61,14 @@ public final class TerminalView extends View {
     private BitmapDrawable mLeftSelectionHandle, mRightSelectionHandle;
 
     float mScaleFactor = 1.f;
-    final GestureAndScaleRecognizer mGestureRecognizer;
+    /* final */ GestureAndScaleRecognizer mGestureRecognizer;
 
     /** Keep track of where mouse touch event started which we report as mouse scroll. */
     private int mMouseScrollStartX = -1, mMouseScrollStartY = -1;
     /** Keep track of the time when a touch event leading to sending mouse scroll events started. */
     private long mMouseStartDownTime = -1;
 
-    final Scroller mScroller;
+    /* final */ Scroller mScroller;
 
     /** What was left in from scrolling movement. */
     float mScrollRemainder;
@@ -77,8 +77,17 @@ public final class TerminalView extends View {
     int mCombiningAccent;
     int mTextSize;
 
+    public TerminalView(Context context) {
+        super(context);
+        commonInit(context);
+    }
+
     public TerminalView(Context context, AttributeSet attributeSet) { // NO_UCD (unused code)
         super(context, attributeSet);
+        commonInit(context);
+    }
+
+    private void commonInit(Context context) {
         mGestureRecognizer = new GestureAndScaleRecognizer(context, new GestureAndScaleRecognizer.Listener() {
 
             boolean scrolledWithFinger;

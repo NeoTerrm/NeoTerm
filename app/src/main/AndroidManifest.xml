@@ -27,6 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.pm.PackageManagerActivity"
+            android:label="@string/package_settings"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.settings.SettingActivity"
             android:theme="@style/Theme.AppCompat" />
@@ -43,11 +46,6 @@
         <service
             android:name=".services.NeoTermService"
             android:enabled="true" />
-
-        <activity
-            android:name=".ui.AboutActivity"
-            android:label="@string/about"
-            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

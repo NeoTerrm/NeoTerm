@@ -1,4 +1,4 @@
-package io.neoterm.installer;
+package io.neoterm.customize.installer;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

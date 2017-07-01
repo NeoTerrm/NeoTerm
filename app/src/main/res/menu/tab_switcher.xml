@@ -14,27 +14,32 @@ implied. See the License for the specific language governing permissions and lim
 License.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/toggle_tab_switcher_menu_item"
         android:title="@string/toggle_tab_switcher_menu_item"
         app:actionLayout="@layout/tab_switcher_menu_item"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_item_new_session"
         android:title="@string/new_session"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_item_toggle_ime"
         android:title="@string/toggle_ime"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_item_package_settings"
+        android:title="@string/package_settings"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_item_settings"
         android:title="@string/settings"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 </menu>

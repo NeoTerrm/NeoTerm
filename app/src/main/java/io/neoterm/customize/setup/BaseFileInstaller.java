@@ -1,4 +1,4 @@
-package io.neoterm.customize.installer;
+package io.neoterm.customize.setup;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import io.neoterm.BuildConfig;
 import io.neoterm.R;
 import io.neoterm.backend.EmulatorDebug;
 import io.neoterm.customize.NeoTermPath;
@@ -190,7 +191,8 @@ public final class BaseFileInstaller {
 
     private static URL determineZipUrl() throws MalformedURLException {
         String archName = determineArchName();
-        return new URL(NeoTermPath.SERVER_BOOT_URL + "/" + archName + ".zip");
+        String baseUrl = BuildConfig.DEBUG ? NeoTermPath.DEBUG_SERVER_BOOT_URL : NeoTermPath.SERVER_BOOT_URL;
+        return new URL(baseUrl + "/" + archName + ".zip");
     }
 
     private static String determineArchName() {

@@ -1,4 +1,4 @@
-package io.neoterm.utils
+package io.neoterm.view
 
 import android.app.AlertDialog
 import android.content.Context
@@ -11,6 +11,7 @@ import android.view.View
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.preference.NeoPreference
+import io.neoterm.utils.TerminalUtils
 import io.neoterm.view.TerminalView
 import io.neoterm.view.TerminalViewClient
 

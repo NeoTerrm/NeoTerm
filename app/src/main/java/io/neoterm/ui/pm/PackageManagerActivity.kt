@@ -27,7 +27,7 @@ import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 import io.neoterm.utils.FileUtils
-import io.neoterm.utils.TerminalDialog
+import io.neoterm.view.TerminalDialog
 import java.io.File
 import java.net.URL
 
@@ -59,18 +59,20 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         progressBar = findViewById(R.id.package_loading_progress_bar) as ProgressBar
         recyclerView = findViewById(R.id.package_list) as RecyclerView
         recyclerView.setHasFixedSize(true)
-        adapter = PackageAdapter(this, COMPARATOR, PackageAdapter.Listener {
-            AlertDialog.Builder(this@PackageManagerActivity)
-                    .setTitle(it.packageInfo.packageName)
-                    .setMessage(it.getPackageDetails(this@PackageManagerActivity))
-                    .setPositiveButton(R.string.install, { _, _ ->
-                        val dialog = TerminalDialog(this@PackageManagerActivity, null)
-                        dialog.execute("${NeoTermPath.USR_PATH}/bin/apt",
-                                arrayOf("apt", "install", "-y", it.packageInfo.packageName!!))
-                        dialog.show("Installing ${it.packageInfo.packageName}")
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .show()
+        adapter = PackageAdapter(this, COMPARATOR, object : PackageAdapter.Listener {
+            override fun onModelClicked(model: PackageModel) {
+                AlertDialog.Builder(this@PackageManagerActivity)
+                        .setTitle(model.packageInfo.packageName)
+                        .setMessage(model.getPackageDetails(this@PackageManagerActivity))
+                        .setPositiveButton(R.string.install, { _, _ ->
+                            val dialog = TerminalDialog(this@PackageManagerActivity, null)
+                            dialog.execute("${NeoTermPath.USR_PATH}/bin/apt",
+                                    arrayOf("apt", "install", "-y", model.packageInfo.packageName!!))
+                            dialog.show("Installing ${model.packageInfo.packageName}")
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .show()
+            }
 
         }, FastScrollRecyclerView.SectionedAdapter {
             models[it].packageInfo.packageName?.substring(0, 1) ?: "#"

@@ -20,4 +20,8 @@ object NeoTermPath {
     const val DEFAULT_SOURCE = "https://mirrors.geekpie.org/neoterm"
     const val SERVER_BASE_URL = DEFAULT_SOURCE
     const val SERVER_BOOT_URL = "$SERVER_BASE_URL/boot"
+
+    const val DEBUG_SOURCE = "http://192.243.117.135"
+    const val DEBUG_SERVER = DEBUG_SOURCE
+    const val DEBUG_SERVER_BOOT_URL = "$DEBUG_SERVER/boot"
 }

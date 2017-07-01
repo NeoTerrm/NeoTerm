@@ -22,10 +22,11 @@ import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.font.FontManager
 import io.neoterm.customize.eks.EksConfigLoader
 import io.neoterm.customize.eks.builtin.BuiltinEksKeys
-import io.neoterm.customize.installer.BaseFileInstaller
+import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.preference.NeoPermission
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
+import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.utils.FullScreenHelper
 import io.neoterm.view.eks.StatedControlButton
@@ -385,6 +386,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 R.id.menu_item_toggle_ime -> {
                     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+                    true
+                }
+                R.id.menu_item_package_settings -> {
+                    startActivity(Intent(this, PackageManagerActivity::class.java))
                     true
                 }
                 R.id.menu_item_new_session -> {

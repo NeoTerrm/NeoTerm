@@ -79,7 +79,6 @@ public final class BaseFileInstaller {
                                 public void run() {
                                     try {
                                         double progressFloat = ((double) totalReadBytesFinal) / ((double) totalBytesFinal) * 100.0;
-                                        Log.e("NeoTerm-Installer", "total: " + totalBytesFinal + ", read: " + totalReadBytesFinal + ", " + progressFloat);
                                         progress.setProgress((int) progressFloat);
                                     } catch (RuntimeException ignore) {
                                         // activity dismissed
@@ -191,7 +190,7 @@ public final class BaseFileInstaller {
 
     private static URL determineZipUrl() throws MalformedURLException {
         String archName = determineArchName();
-        String baseUrl = BuildConfig.DEBUG ? NeoTermPath.DEBUG_SERVER_BOOT_URL : NeoTermPath.SERVER_BOOT_URL;
+        String baseUrl = NeoTermPath.INSTANCE.getSERVER_BOOT_URL();
         return new URL(baseUrl + "/" + archName + ".zip");
     }
 

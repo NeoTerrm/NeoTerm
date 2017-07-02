@@ -43,6 +43,9 @@
     <string name="retry">重试</string>
     <string name="source_changed">APT 源已更改，你可能需要执行 apt update 来更新</string>
     <string name="package_details">软件包: %s\n版本: %s\n依赖: %s\n占用空间: %s\n描述: %s\n主页: %s</string>
+    <string name="package_list_empty">软件包列表为空，请检查你的软件源</string>
+    <string name="menu_refresh_list">刷新</string>
+    <string name="menu_update">更新 &amp; 刷新</string>
 
     <string-array name="pref_general_program_selection_entries">
         <item>只使用 NeoTerm</item>
@@ -51,4 +54,10 @@
     </string-array>
     <string name="done">完成</string>
     <string name="install">安装</string>
+
+    <string-array name="pref_package_source_entries">
+        <item>默认源 (稳定，推荐)</item>
+        <item>调试源 (可能不稳定)</item>
+        <item>输入…</item>
+    </string-array>
 </resources>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <EditTextPreference
-        android:defaultValue="https://mirrors.geekpie.org/neoterm"
-        android:key="@string/key_package_source"
-        android:title="@string/pref_package_source" />
-</PreferenceScreen>

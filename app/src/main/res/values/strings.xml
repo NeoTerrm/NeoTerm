@@ -49,6 +49,9 @@
     <string name="done">Done</string>
     <string name="install">Install</string>
     <string name="package_details">Package: %s\nVersion: %s\nDepends: %s\nInstalled Size: %s\nDescription: %s\nHome Page: %s</string>
+    <string name="package_list_empty">Package list is empty, please check out your source.</string>
+    <string name="menu_refresh_list">Refresh</string>
+    <string name="menu_update">Update &amp; Refresh</string>
 
     <string-array name="pref_ui_color_scheme_entries" translatable="false">
         <item>Default</item>
@@ -71,6 +74,18 @@
         <item>NeoTerm Only</item>
         <item>NeoTerm First</item>
         <item>System First</item>
+    </string-array>
+
+    <string-array name="pref_package_source_entries">
+        <item>Default Source (stable, recommended)</item>
+        <item>Debug Source (maybe unstable)</item>
+        <item>Input…</item>
+    </string-array>
+
+    <string-array name="pref_package_source_values" translatable="false">
+        <item>https://mirrors.geekpie.org/neoterm</item>
+        <item>http://192.243.117.135</item>
+        <item>User-Input</item>
     </string-array>
 
 </resources>

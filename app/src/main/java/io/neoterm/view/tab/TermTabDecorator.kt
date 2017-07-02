@@ -12,6 +12,7 @@ import de.mrapp.android.tabswitcher.Tab
 import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
 import io.neoterm.R
+import io.neoterm.customize.font.FontManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.NeoTermActivity
 import io.neoterm.view.ExtraKeysView
@@ -69,7 +70,7 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
             return
         }
         view.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
-        view.setTypeface(Typeface.MONOSPACE)
+        view.setTypeface(FontManager.getCurrentFont())
         context.fullScreenToggleButton.setStatus(NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false))
 
         if (tab is TermTab) {

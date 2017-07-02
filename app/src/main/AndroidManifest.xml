@@ -39,9 +39,6 @@
         <activity
             android:name=".ui.settings.UISettingsActivity"
             android:theme="@style/Theme.AppCompat" />
-        <activity
-            android:name=".ui.settings.PackageSettingsActivity"
-            android:theme="@style/Theme.AppCompat" />
 
         <service
             android:name=".services.NeoTermService"

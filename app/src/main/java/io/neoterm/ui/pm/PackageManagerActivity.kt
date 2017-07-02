@@ -3,6 +3,7 @@ package io.neoterm.ui.pm
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.view.MenuItemCompat
@@ -18,6 +19,7 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.Toast
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import io.neoterm.R
@@ -90,20 +92,28 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         val sourceFiles = ArrayList<File>()
         val sourceUrl = NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE)
         val packageFilePrefix = detectSourceFilePrefix(sourceUrl)
-        File(NeoTermPath.PACKAGE_LIST_DIR).listFiles().filterTo(sourceFiles) { it.name.startsWith(packageFilePrefix) }
+        if (packageFilePrefix.isNotEmpty()) {
+            File(NeoTermPath.PACKAGE_LIST_DIR)
+                    .listFiles()
+                    .filterTo(sourceFiles) { it.name.startsWith(packageFilePrefix) }
+        }
         return sourceFiles
     }
 
     private fun detectSourceFilePrefix(sourceUrl: String): String {
-        val url = URL(sourceUrl)
-        val builder = StringBuilder()
-        builder.append(url.host)
-        builder.append("_")
-        if (url.path.isNotEmpty()) {
-            builder.append(url.path.substring(1)) // Skip '/'
+        try {
+            val url = URL(sourceUrl)
+            val builder = StringBuilder()
+            builder.append(url.host)
+            if (url.path != null && url.path.isNotEmpty()) {
+                builder.append("_")
+                builder.append(url.path.substring(1)) // Skip '/'
+            }
+            builder.append("_dists_stable_main_binary-")
+            return builder.toString()
+        } catch (e: Exception) {
+            return ""
         }
-        builder.append("_dists_stable_main_binary-")
-        return builder.toString()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -118,29 +128,72 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         when (item?.itemId) {
             android.R.id.home -> finish()
             R.id.action_source -> changeSource()
+            R.id.action_update_and_refresh -> executeAptUpdate()
+            R.id.action_refresh -> refreshPackageList()
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun changeSource() {
+        val sourceList = resources.getStringArray(R.array.pref_package_source_values)
+        val currentSource = NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE)
+        var checkedItem = sourceList.indexOf(currentSource)
+        if (checkedItem == -1) {
+            checkedItem = sourceList.size - 1
+        }
+
+        @SuppressLint("ShowToast")
+        var toast = Toast.makeText(this, "", Toast.LENGTH_SHORT)
+        var selectedIndex = 0
+
+        AlertDialog.Builder(this)
+                .setTitle(R.string.pref_package_source)
+                .setSingleChoiceItems(R.array.pref_package_source_entries, checkedItem, { dialog, which ->
+                    if (which == sourceList.size - 1) {
+                        changeSourceToUserInput()
+                        dialog.dismiss()
+                    } else {
+                        selectedIndex = which
+                        toast.cancel()
+                        toast = Toast.makeText(this@PackageManagerActivity, sourceList[which], Toast.LENGTH_SHORT)
+                        toast.show()
+                    }
+                })
+                .setPositiveButton(android.R.string.yes, { _, _ ->
+                    if (selectedIndex != sourceList.size - 1) {
+                        changeSourceInternal(sourceList[selectedIndex])
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show()
+    }
+
+    private fun changeSourceToUserInput() {
         val editText = EditText(this)
-        editText.setText(NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE))
+        val currentSource = NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE)
+        editText.setText(currentSource)
+        editText.requestFocus()
+        editText.setSelection(0, currentSource.length)
         AlertDialog.Builder(this)
                 .setTitle(R.string.pref_package_source)
                 .setView(editText)
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, { _, _ ->
                     val source = editText.text.toString()
-                    NeoPreference.store(R.string.key_package_source, source)
-
-                    val sourceFile = File(NeoTermPath.SOURCE_FILE)
-                    FileUtils.writeFile(sourceFile, generateSourceFile(source).toByteArray())
-                    postChangeSource()
+                    changeSourceInternal(source)
                 })
                 .show()
     }
 
-    private fun postChangeSource() {
+    private fun changeSourceInternal(source: String) {
+        NeoPreference.store(R.string.key_package_source, source)
+
+        val sourceFile = File(NeoTermPath.SOURCE_FILE)
+        FileUtils.writeFile(sourceFile, generateSourceFile(source).toByteArray())
+        executeAptUpdate()
+    }
+
+    private fun executeAptUpdate() {
         val dialog = TerminalDialog(this@PackageManagerActivity, DialogInterface.OnCancelListener {
             refreshPackageList()
         })
@@ -171,6 +224,10 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
                 adapter.edit()
                         .replaceAll(models)
                         .commit()
+                if (models.isEmpty()) {
+                    Toast.makeText(this@PackageManagerActivity, R.string.package_list_empty, Toast.LENGTH_SHORT).show()
+                    changeSource()
+                }
             }
         }.start()
     }

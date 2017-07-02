@@ -10,6 +10,16 @@
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
+        android:id="@+id/action_refresh"
+        android:title="@string/menu_refresh_list"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_update_and_refresh"
+        android:title="@string/menu_update"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_source"
         android:title="@string/pref_package_source"
         app:showAsAction="never" />

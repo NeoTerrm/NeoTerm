@@ -7,13 +7,17 @@ import android.graphics.Typeface
  * @author kiva
  */
 object FontManager {
-    private var DEFAULT_FONT: Typeface? = null
+    private lateinit var DEFAULT_FONT: Typeface
 
     fun init(context: Context) {
         DEFAULT_FONT = Typeface.createFromAsset(context.assets, "font.ttf")
     }
 
     fun getDefaultFont(): Typeface {
-        return DEFAULT_FONT!!
+        return DEFAULT_FONT
+    }
+
+    fun getCurrentFont(): Typeface {
+        return DEFAULT_FONT
     }
 }

@@ -11,9 +11,7 @@ import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.KeyEvent
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import de.mrapp.android.tabswitcher.*
@@ -44,6 +42,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     lateinit var tabSwitcher: TabSwitcher
     lateinit var fullScreenToggleButton: StatedControlButton
     lateinit var fullScreenHelper: FullScreenHelper
+    lateinit var toolbar: Toolbar
+    var addSessionListener = createAddSessionListener()
     var systemShell = true
     var termService: NeoTermService? = null
 
@@ -60,6 +60,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
 
         setContentView(R.layout.tab_main)
+        toolbar = findViewById(R.id.terminal_toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+
         fullScreenHelper = FullScreenHelper.injectActivity(this, fullscreen, peekRecreating())
         fullScreenHelper.setKeyBoardListener({ isShow, _ ->
             var tab: TermTab? = null
@@ -92,14 +95,58 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         tabSwitcher = findViewById(R.id.tab_switcher) as TabSwitcher
         tabSwitcher.decorator = TermTabDecorator(this)
         ViewCompat.setOnApplyWindowInsetsListener(tabSwitcher, createWindowInsetsListener())
-        tabSwitcher.showToolbars(true)
-        tabSwitcher
-                .setToolbarNavigationIcon(R.drawable.ic_add_box_white_24dp, createAddSessionListener())
-        tabSwitcher.inflateToolbarMenu(R.menu.tab_switcher, createToolbarMenuListener())
+        tabSwitcher.showToolbars(false)
 
         val serviceIntent = Intent(this, NeoTermService::class.java)
         startService(serviceIntent)
         bindService(serviceIntent, this, 0)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.tab_switcher, menu)
+
+        TabSwitcher.setupWithMenu(tabSwitcher, toolbar.menu, View.OnClickListener {
+            val imm = this@NeoTermActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            if (!tabSwitcher.isSwitcherShown) {
+                if (imm.isActive) {
+                    val tab = tabSwitcher.selectedTab as TermTab
+                    tab.hideIme()
+                }
+                tabSwitcher.showSwitcher()
+            } else {
+                tabSwitcher.hideSwitcher()
+            }
+        })
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.menu_item_settings -> {
+                startActivity(Intent(this, SettingActivity::class.java))
+                true
+            }
+            R.id.menu_item_toggle_ime -> {
+                if (!tabSwitcher.isSwitcherShown) {
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+                }
+                true
+            }
+            R.id.menu_item_package_settings -> {
+                startActivity(Intent(this, PackageManagerActivity::class.java))
+                true
+            }
+            R.id.menu_item_new_session -> {
+                if (!tabSwitcher.isSwitcherShown) {
+                    tabSwitcher.showSwitcher()
+                }
+                val index = tabSwitcher.count
+                addNewSession("NeoTerm #" + index, systemShell, createRevealAnimation())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun initShortcutKeys() {
@@ -114,27 +161,16 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this)
         tabSwitcher.addListener(object : TabSwitcherListener {
-            private var tabSwitcherButtonInit = false
-
             override fun onSwitcherShown(tabSwitcher: TabSwitcher) {
-                if (tabSwitcherButtonInit) {
-                    return
-                }
-
-                val menu = tabSwitcher.toolbarMenu
-                if (menu != null && !tabSwitcherButtonInit) {
-                    tabSwitcherButtonInit = true
-                    TabSwitcher.setupWithMenu(tabSwitcher, menu, View.OnClickListener {
-                        if (tabSwitcher.isSwitcherShown) {
-                            tabSwitcher.hideSwitcher()
-                        } else {
-                            tabSwitcher.showSwitcher()
-                        }
-                    })
-                }
+                toolbar.setNavigationIcon(R.drawable.ic_add_box_white_24dp)
+                toolbar.setNavigationOnClickListener(addSessionListener)
+                toolbar.setBackgroundResource(android.R.color.transparent)
             }
 
             override fun onSwitcherHidden(tabSwitcher: TabSwitcher) {
+                toolbar.navigationIcon = null
+                toolbar.setNavigationOnClickListener(null)
+                toolbar.setBackgroundResource(R.color.colorPrimaryDark)
             }
 
             override fun onSelectionChanged(tabSwitcher: TabSwitcher, selectedTabIndex: Int, selectedTab: Tab?) {
@@ -371,35 +407,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         return View.OnClickListener {
             val index = tabSwitcher.count
             addNewSession("NeoTerm #" + index, systemShell, createRevealAnimation())
-        }
-    }
-
-    fun createToolbarMenuListener(): Toolbar.OnMenuItemClickListener {
-        return Toolbar.OnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.menu_item_settings -> {
-                    startActivity(Intent(this, SettingActivity::class.java))
-                    true
-                }
-                R.id.menu_item_toggle_ime -> {
-                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
-                    true
-                }
-                R.id.menu_item_package_settings -> {
-                    startActivity(Intent(this, PackageManagerActivity::class.java))
-                    true
-                }
-                R.id.menu_item_new_session -> {
-                    if (!tabSwitcher.isSwitcherShown) {
-                        tabSwitcher.showSwitcher()
-                    }
-                    val index = tabSwitcher.count
-                    addNewSession("NeoTerm #" + index, systemShell, createRevealAnimation())
-                    true
-                }
-                else -> false
-            }
         }
     }
 

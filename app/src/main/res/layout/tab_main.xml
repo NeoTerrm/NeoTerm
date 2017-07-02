@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<de.mrapp.android.tabswitcher.TabSwitcher
-    android:id="@+id/tab_switcher"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/terminal_background"
-    custom:layoutPolicy="auto"
-    custom:tabBackgroundColor="@color/tab_background_color"
-    custom:tabIcon="@drawable/ic_tab_icon"
-    custom:tabTitleTextColor="@color/tab_title_text_color"
-    custom:tabCloseButtonIcon="@drawable/ic_close_tab_18dp"
-    custom:toolbarMenu="@menu/tab_switcher"
-    custom:toolbarNavigationIcon="@drawable/ic_add_box_white_24dp"/>
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/terminal_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:visibility="visible"
+        custom:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+
+    <de.mrapp.android.tabswitcher.TabSwitcher
+        android:id="@+id/tab_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        custom:layoutPolicy="auto"
+        custom:tabBackgroundColor="@color/tab_background_color"
+        custom:tabCloseButtonIcon="@drawable/ic_close_tab_18dp"
+        custom:tabIcon="@drawable/ic_tab_icon"
+        custom:tabTitleTextColor="@color/tab_title_text_color"
+        custom:toolbarMenu="@menu/tab_switcher"
+        custom:toolbarNavigationIcon="@drawable/ic_add_box_white_24dp" />
+
+</LinearLayout>

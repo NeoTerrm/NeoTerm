@@ -23,36 +23,17 @@ import io.neoterm.view.TerminalView
 class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
         val view = inflater.inflate(R.layout.ui_term, parent, false)
-        val toolbar = view.findViewById(R.id.terminal_toolbar) as Toolbar
         val extraKeysView = view.findViewById(R.id.extra_keys) as ExtraKeysView
 
         extraKeysView.addBuiltinButton(context.fullScreenToggleButton)
         extraKeysView.updateButtons()
-
-        toolbar.inflateMenu(R.menu.tab_switcher)
-        toolbar.setOnMenuItemClickListener(context.createToolbarMenuListener())
-        val menu = toolbar.menu
-        TabSwitcher.setupWithMenu(context.tabSwitcher, menu, {
-            toolbar.visibility = View.GONE
-            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            if (imm.isActive) {
-                imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-            }
-            context.tabSwitcher.showSwitcher()
-        })
         return view
     }
 
     override fun onShowTab(context: Context, tabSwitcher: TabSwitcher,
                            view: View, tab: Tab, index: Int, viewType: Int, savedInstanceState: Bundle?) {
-        val toolbar = findViewById<Toolbar>(R.id.terminal_toolbar)
-        toolbar.title = tab.title
-
-        if (tabSwitcher.isSwitcherShown) {
-            toolbar.visibility = View.GONE
-        } else {
-            toolbar.visibility = View.VISIBLE
-        }
+        val toolbar = this@TermTabDecorator.context.toolbar
+        toolbar.title = if (tabSwitcher.isSwitcherShown) null else tab.title
 
         if (tab is TermTab) {
             tab.toolbar = toolbar

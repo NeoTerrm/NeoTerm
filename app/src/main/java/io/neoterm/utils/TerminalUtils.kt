@@ -5,13 +5,24 @@ import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.NeoTermPath
+import io.neoterm.customize.font.FontManager
 import io.neoterm.preference.NeoPreference
+import io.neoterm.view.BasicViewClient
+import io.neoterm.view.TerminalView
 import java.io.File
 
 /**
  * @author kiva
  */
 object TerminalUtils {
+    fun setupTerminalView(terminalView: TerminalView, terminalViewClient: BasicViewClient? = null) {
+        terminalView.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
+        terminalView.setTypeface(FontManager.getCurrentFont().typeface)
+        if (terminalViewClient != null) {
+            terminalView.setOnKeyListener(terminalViewClient)
+        }
+    }
+
     fun createSession(context: Context, executablePath: String?, arguments: Array<String>?, cwd: String?, env: Array<String>?, sessionCallback: TerminalSession.SessionChangedCallback?, systemShell: Boolean): TerminalSession {
         var executablePath = executablePath
         var arguments = arguments

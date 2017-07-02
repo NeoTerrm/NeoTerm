@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/custom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:visibility="visible"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+
+    <LinearLayout
+        android:id="@+id/custom_editor_layout"
+        style="?buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/text_margin"
+        android:orientation="horizontal">
+
+        <Button
+            style="?buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:text="@string/pref_customization_font" />
+
+        <Button
+            style="?buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:text="@string/pref_customization_color_scheme" />
+
+        <Button
+            style="?buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:text="@string/pref_customization_eks" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/custom_editor_layout"
+        android:layout_below="@id/custom_toolbar"
+        android:layout_margin="@dimen/preview_layout_margin">
+
+        <io.neoterm.view.ExtraKeysView
+            android:id="@+id/custom_extra_keys"
+            style="?android:buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eks_height_two_line"
+            android:layout_alignParentBottom="true"
+            android:background="@color/terminal_background"
+            android:orientation="horizontal" />
+
+        <io.neoterm.view.TerminalView
+            android:id="@+id/terminal_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/custom_extra_keys"
+            android:background="@color/terminal_background"
+            android:fadeScrollbars="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scrollbars="vertical" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

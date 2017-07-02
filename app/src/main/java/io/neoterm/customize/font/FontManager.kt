@@ -7,17 +7,19 @@ import android.graphics.Typeface
  * @author kiva
  */
 object FontManager {
-    private lateinit var DEFAULT_FONT: Typeface
+    private lateinit var DEFAULT_FONT: NeoFont
+    private lateinit var fonts: MutableList<String>
 
     fun init(context: Context) {
-        DEFAULT_FONT = Typeface.createFromAsset(context.assets, "font.ttf")
+        fonts = mutableListOf()
+        DEFAULT_FONT = NeoFont(Typeface.createFromAsset(context.assets, "font.ttf"))
     }
 
-    fun getDefaultFont(): Typeface {
+    fun getDefaultFont(): NeoFont {
         return DEFAULT_FONT
     }
 
-    fun getCurrentFont(): Typeface {
-        return DEFAULT_FONT
+    fun getCurrentFont(): NeoFont {
+        return getDefaultFont()
     }
 }

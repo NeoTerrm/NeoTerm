@@ -24,7 +24,11 @@ public final class TerminalColors {
 
     /** Reset all indexed colors with the default color from the color theme. */
     public void reset() {
-        System.arraycopy(COLOR_SCHEME.mDefaultColors, 0, mCurrentColors, 0, TextStyle.NUM_INDEXED_COLORS);
+        reset(COLOR_SCHEME);
+    }
+
+    public void reset(TerminalColorScheme colorScheme) {
+        System.arraycopy(colorScheme.mDefaultColors, 0, mCurrentColors, 0, TextStyle.NUM_INDEXED_COLORS);
     }
 
     /**

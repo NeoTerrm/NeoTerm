@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,9 +28,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.pm.PackageManagerActivity"
+        <activity
+            android:name=".ui.pm.PackageManagerActivity"
             android:label="@string/package_settings"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.customization.CustomizationActivity"
+            android:label="@string/pref_ui_customization"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".ui.settings.SettingActivity"
             android:theme="@style/Theme.AppCompat" />

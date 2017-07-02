@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Preference
+        android:summary="@string/pref_ui_customization_desc"
+        android:title="@string/pref_ui_customization">
+        <intent
+            android:targetClass="io.neoterm.ui.customization.CustomizationActivity"
+            android:targetPackage="io.neoterm" />
+    </Preference>
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/key_ui_fullscreen"
@@ -29,15 +37,4 @@
         android:key="@string/key_ui_wide_char_weigh_explicit"
         android:summary="@string/pref_ui_wide_char_weight_explicit_desc"
         android:title="@string/pref_ui_wide_char_weight_explicit" />
-
-    <EditTextPreference
-        android:key="@string/key_ui_font"
-        android:title="@string/pref_ui_font" />
-
-    <ListPreference
-        android:defaultValue="Default"
-        android:entries="@array/pref_ui_color_scheme_entries"
-        android:entryValues="@array/pref_ui_color_scheme_entries"
-        android:key="@string/key_ui_color_scheme"
-        android:title="@string/pref_ui_color_scheme" />
 </PreferenceScreen>

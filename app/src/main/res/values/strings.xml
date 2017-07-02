@@ -26,17 +26,20 @@
     <string name="pref_general_shell_desc">Which shell should we use when login</string>
     <string name="pref_general_program_selection">Program Selection</string>
     <string name="pref_general_program_selection_desc">When both Neo Term and your Android OS have a program, which one should we choose?</string>
+    <string name="pref_ui_customization_desc">Font &amp; ColorScheme &amp; ExtraKeys</string>
+    <string name="pref_ui_customization">Customization</string>
     <string name="pref_ui_fullscreen">Full Screen</string>
     <string name="pref_ui_hide_toolbar">Hide Toolbar</string>
     <string name="pref_ui_hide_toolbar_desc">Hide toolbar when keyboard is showing</string>
-    <string name="pref_ui_font">Font</string>
-    <string name="pref_ui_color_scheme">Color Scheme</string>
     <string name="pref_ui_close_tab_anim_next_tab">Next tab animation</string>
     <string name="pref_ui_close_tab_anim_next_tab_desc">Switch to the next tab instead of the previous tab when closing tab</string>
     <string name="pref_ui_suggestions">Show Suggestions (oh-my-zsh required)</string>
     <string name="pref_ui_suggestions_desc">When using some programs, show shortcut keys</string>
     <string name="pref_ui_wide_char_weight_explicit">Use explicit weight for wide char</string>
     <string name="pref_ui_wide_char_weight_explicit_desc">If suggestion bar show incorrect, please enable this</string>
+    <string name="pref_customization_font">Font</string>
+    <string name="pref_customization_color_scheme">Color Scheme</string>
+    <string name="pref_customization_eks">Extra Keys</string>
     <string name="pref_package_source">Source</string>
     <string name="toggle_ime">Toggle IME</string>
     <string name="shell_not_found">Shell %s not found, please install it first.</string>
@@ -52,10 +55,6 @@
     <string name="package_list_empty">Package list is empty, please check out your source.</string>
     <string name="menu_refresh_list">Refresh</string>
     <string name="menu_update">Update &amp; Refresh</string>
-
-    <string-array name="pref_ui_color_scheme_entries" translatable="false">
-        <item>Default</item>
-    </string-array>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

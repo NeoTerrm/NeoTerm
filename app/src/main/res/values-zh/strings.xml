@@ -19,8 +19,8 @@
     <string name="pref_package_source">软件源</string>
     <string name="pref_ui_close_tab_anim_next_tab">向下切换窗口</string>
     <string name="pref_ui_close_tab_anim_next_tab_desc">关闭当前窗口时切换到下一个窗口而不是上一个</string>
-    <string name="pref_ui_color_scheme">配色方案</string>
-    <string name="pref_ui_font">字体</string>
+    <string name="pref_ui_customization_desc">字体 &amp; 主题 &amp; 拓展键盘</string>
+    <string name="pref_ui_customization">个性化</string>
     <string name="pref_ui_fullscreen">全屏</string>
     <string name="pref_ui_hide_toolbar">隐藏标题栏</string>
     <string name="pref_ui_hide_toolbar_desc">键盘显示时隐藏标题栏</string>
@@ -28,6 +28,8 @@
     <string name="pref_ui_suggestions_desc">使用一些软件时，屏幕下方显示快捷键</string>
     <string name="pref_ui_wide_char_weight_explicit">为宽字符设置权重</string>
     <string name="pref_ui_wide_char_weight_explicit_desc">如果快捷输入栏显示不正确，请勾选本项</string>
+    <string name="pref_customization_color_scheme">配色方案</string>
+    <string name="pref_customization_font">字体</string>
     <string name="settings">设置</string>
     <string name="text_selection_more">更多</string>
     <string name="toggle_ime">切换输入法</string>
@@ -60,4 +62,5 @@
         <item>调试源 (可能不稳定)</item>
         <item>输入…</item>
     </string-array>
+    <string name="pref_customization_eks">拓展键盘</string>
 </resources>

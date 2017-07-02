@@ -7,7 +7,8 @@ import android.view.inputmethod.InputMethodManager
 import de.mrapp.android.tabswitcher.Tab
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.color.NeoTermColorScheme
+import io.neoterm.customize.color.ColorSchemeManager
+import io.neoterm.customize.color.NeoColorScheme
 import io.neoterm.preference.NeoPreference
 import org.greenrobot.eventbus.EventBus
 
@@ -21,8 +22,8 @@ class TermTab(title: CharSequence) : Tab(title) {
     var viewClient: TermViewClient? = null
     var toolbar: Toolbar? = null
 
-    fun changeColorScheme(colorScheme: NeoTermColorScheme?) {
-        colorScheme?.apply()
+    fun changeColorScheme(colorScheme: NeoColorScheme?) {
+        ColorSchemeManager.applyColorScheme(termSession?.emulator, colorScheme)
         viewClient?.extraKeysView?.setBackgroundColor(Color.parseColor(colorScheme?.background))
     }
 

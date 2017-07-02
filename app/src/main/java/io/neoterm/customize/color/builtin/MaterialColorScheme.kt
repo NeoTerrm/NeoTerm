@@ -1,11 +1,11 @@
 package io.neoterm.customize.color.builtin
 
-import io.neoterm.customize.color.NeoTermColorScheme
+import io.neoterm.customize.color.NeoColorScheme
 
 /**
  * @author kiva
  */
-class MaterialColorScheme : NeoTermColorScheme() {
+class MaterialColorScheme : NeoColorScheme() {
     init {
         foreground = "#263238"
         background = "#263238"

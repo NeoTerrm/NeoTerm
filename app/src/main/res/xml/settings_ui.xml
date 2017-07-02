@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <Preference
-        android:summary="@string/pref_ui_customization_desc"
-        android:title="@string/pref_ui_customization">
-        <intent
-            android:targetClass="io.neoterm.ui.customization.CustomizationActivity"
-            android:targetPackage="io.neoterm" />
-    </Preference>
-
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/key_ui_fullscreen"

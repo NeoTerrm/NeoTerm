@@ -10,8 +10,13 @@
     <string name="about">About</string>
     <string name="settings">Settings</string>
     <string name="general_settings">General Settings</string>
+    <string name="general_settings_desc">Bell, Vibrate, Shell</string>
     <string name="ui_settings">UI Settings</string>
+    <string name="ui_settings_desc">FullScreen, Title Bar, Suggestions</string>
     <string name="package_settings">Package Settings</string>
+    <string name="package_settings_desc">Source, Updates, Upgrades</string>
+    <string name="customization_settings_desc">Font, ColorScheme, ExtraKeys</string>
+    <string name="customization_settings">Customization</string>
 
     <string name="installer_message">Installing</string>
     <string name="installer_install_zsh_manually">You may install zsh and setup suggestions by executing: ~/install-zsh.sh</string>
@@ -26,8 +31,6 @@
     <string name="pref_general_shell_desc">Which shell should we use when login</string>
     <string name="pref_general_program_selection">Program Selection</string>
     <string name="pref_general_program_selection_desc">When both Neo Term and your Android OS have a program, which one should we choose?</string>
-    <string name="pref_ui_customization_desc">Font &amp; ColorScheme &amp; ExtraKeys</string>
-    <string name="pref_ui_customization">Customization</string>
     <string name="pref_ui_fullscreen">Full Screen</string>
     <string name="pref_ui_hide_toolbar">Hide Toolbar</string>
     <string name="pref_ui_hide_toolbar_desc">Hide toolbar when keyboard is showing</string>
@@ -54,7 +57,7 @@
     <string name="package_details">Package: %s\nVersion: %s\nDepends: %s\nInstalled Size: %s\nDescription: %s\nHome Page: %s</string>
     <string name="package_list_empty">Package list is empty, please check out your source.</string>
     <string name="menu_refresh_list">Refresh</string>
-    <string name="menu_update">Update &amp; Refresh</string>
+    <string name="menu_update">Update, Refresh</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

@@ -34,7 +34,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.customization.CustomizationActivity"
-            android:label="@string/pref_ui_customization"
+            android:label="@string/customization_settings"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity

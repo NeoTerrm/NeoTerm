@@ -17,7 +17,7 @@ import java.io.File
 object TerminalUtils {
     fun setupTerminalView(terminalView: TerminalView, terminalViewClient: BasicViewClient? = null) {
         terminalView.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
-        terminalView.setTypeface(FontManager.getCurrentFont().typeface)
+        terminalView.setTypeface(FontManager.getCurrentFont().getTypeFace())
         if (terminalViewClient != null) {
             terminalView.setOnKeyListener(terminalViewClient)
         }

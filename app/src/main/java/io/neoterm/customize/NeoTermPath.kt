@@ -12,8 +12,11 @@ object NeoTermPath {
     const val USR_PATH = "$ROOT_PATH/usr"
     const val HOME_PATH = "$ROOT_PATH/home"
 
-    const val EKS_PATH = "$USR_PATH/share/eks"
+    const val CUSTOM_PATH = "$HOME_PATH/.neoterm"
+    const val EKS_PATH = "$CUSTOM_PATH/eks"
     const val EKS_DEFAULT_FILE = "$EKS_PATH/default.eks"
+    const val FONT_PATH = "$CUSTOM_PATH/font"
+    const val COLORS_PATH = "$CUSTOM_PATH/color"
 
     const val SOURCE_FILE = "$USR_PATH/etc/apt/sources.list"
     const val PACKAGE_LIST_DIR = "$USR_PATH/var/lib/apt/lists"

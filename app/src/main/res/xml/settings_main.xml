@@ -3,6 +3,7 @@
 
     <Preference
         android:icon="@drawable/ic_general_white_36dp"
+        android:summary="@string/general_settings_desc"
         android:title="@string/general_settings">
         <intent
             android:targetClass="io.neoterm.ui.settings.GeneralSettingsActivity"
@@ -11,6 +12,7 @@
 
     <Preference
         android:icon="@drawable/ic_ui_white_36dp"
+        android:summary="@string/ui_settings_desc"
         android:title="@string/ui_settings">
         <intent
             android:targetClass="io.neoterm.ui.settings.UISettingsActivity"
@@ -18,7 +20,17 @@
     </Preference>
 
     <Preference
+        android:icon="@drawable/ic_customization_white_36dp"
+        android:summary="@string/customization_settings_desc"
+        android:title="@string/customization_settings">
+        <intent
+            android:targetClass="io.neoterm.ui.customization.CustomizationActivity"
+            android:targetPackage="io.neoterm" />
+    </Preference>
+
+    <Preference
         android:icon="@drawable/ic_apps_white_36dp"
+        android:summary="@string/package_settings_desc"
         android:title="@string/package_settings">
         <intent
             android:targetClass="io.neoterm.ui.pm.PackageManagerActivity"

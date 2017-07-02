@@ -185,7 +185,7 @@ public final class ExtraKeysView extends LinearLayout {
             button = new Button(getContext(), null, android.R.attr.buttonBarButtonStyle);
         }
 
-        button.setTypeface(FontManager.INSTANCE.getCurrentFont().getTypeface());
+        button.setTypeface(FontManager.INSTANCE.getCurrentFont().getTypeFace());
         button.setText(extraButton.buttonText);
         button.setTextColor(NORMAL_TEXT_COLOR);
         button.setAllCaps(false);

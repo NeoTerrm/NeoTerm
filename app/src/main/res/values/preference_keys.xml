@@ -8,11 +8,12 @@
 
     <string name="key_ui_fullscreen" translatable="false">neoterm_ui_fullscreen</string>
     <string name="key_ui_hide_toolbar" translatable="false">neoterm_ui_hide_toolbar</string>
-    <string name="key_ui_font" translatable="false">neoterm_ui_font</string>
-    <string name="key_ui_color_scheme" translatable="false">neoterm_ui_color_scheme</string>
     <string name="key_ui_next_tab_anim" translatable="false">neoterm_ui_next_tab_anim</string>
     <string name="key_ui_suggestions" translatable="false">neoterm_ui_suggestions</string>
     <string name="key_ui_wide_char_weigh_explicit" translatable="false">neoterm_ui_wide_char_explicit</string>
 
     <string name="key_package_source" translatable="false">neoterm_package_source</string>
+
+    <string name="key_customization_font" translatable="false">neoterm_ui_font</string>
+    <string name="key_customization_color_scheme" translatable="false">neoterm_ui_color_scheme</string>
 </resources>

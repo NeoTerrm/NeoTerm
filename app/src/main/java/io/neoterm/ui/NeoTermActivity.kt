@@ -50,6 +50,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        NeoPreference.init(this)
         NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
 
         val fullscreen = NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)

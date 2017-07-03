@@ -91,25 +91,25 @@ public final class TerminalEmulator {
     /** Needs to be large enough to contain reasonable OSC 52 pastes. */
     private static final int MAX_OSC_STRING_LENGTH = 8192;
 
-    /** DECSET 1 - application cursor keys. */
+    /** DECSET 1 - application cursorColor keys. */
     private static final int DECSET_BIT_APPLICATION_CURSOR_KEYS = 1;
     private static final int DECSET_BIT_REVERSE_VIDEO = 1 << 1;
     /**
-     * http://www.vt100.net/docs/vt510-rm/DECOM: "When DECOM is set, the home cursor position is at the upper-left
+     * http://www.vt100.net/docs/vt510-rm/DECOM: "When DECOM is set, the home cursorColor position is at the upper-left
      * corner of the screen, within the margins. The starting point for line numbers depends on the current top margin
-     * setting. The cursor cannot move outside of the margins. When DECOM is reset, the home cursor position is at the
-     * upper-left corner of the screen. The starting point for line numbers is independent of the margins. The cursor
+     * setting. The cursorColor cannot move outside of the margins. When DECOM is reset, the home cursorColor position is at the
+     * upper-left corner of the screen. The starting point for line numbers is independent of the margins. The cursorColor
      * can move outside of the margins."
      */
     private static final int DECSET_BIT_ORIGIN_MODE = 1 << 2;
     /**
      * http://www.vt100.net/docs/vt510-rm/DECAWM: "If the DECAWM function is set, then graphic characters received when
-     * the cursor is at the right border of the page appear at the beginning of the next line. Any text on the page
-     * scrolls up if the cursor is at the end of the scrolling region. If the DECAWM function is reset, then graphic
-     * characters received when the cursor is at the right border of the page replace characters already on the page."
+     * the cursorColor is at the right border of the page appear at the beginning of the next line. Any text on the page
+     * scrolls up if the cursorColor is at the end of the scrolling region. If the DECAWM function is reset, then graphic
+     * characters received when the cursorColor is at the right border of the page replace characters already on the page."
      */
     private static final int DECSET_BIT_AUTOWRAP = 1 << 3;
-    /** DECSET 25 - if the cursor should be visible, {@link #isShowingCursor()}. */
+    /** DECSET 25 - if the cursorColor should be visible, {@link #isShowingCursor()}. */
     private static final int DECSET_BIT_SHOWING_CURSOR = 1 << 4;
     private static final int DECSET_BIT_APPLICATION_KEYPAD = 1 << 5;
     /** DECSET 1000 - if to report mouse press&release events. */
@@ -130,7 +130,7 @@ public final class TerminalEmulator {
     private String mTitle;
     private final Stack<String> mTitleStack = new Stack<>();
 
-    /** The cursor position. Between (0,0) and (mRows-1, mColumns-1). */
+    /** The cursorColor position. Between (0,0) and (mRows-1, mColumns-1). */
     private int mCursorRow, mCursorCol;
 
     private int mCursorStyle = CURSOR_STYLE_BLOCK;
@@ -198,14 +198,14 @@ public final class TerminalEmulator {
 
     /**
      * If the next character to be emitted will be automatically wrapped to the next line. Used to disambiguate the case
-     * where the cursor is positioned on the last column (mColumns-1). When standing there, a written character will be
-     * output in the last column, the cursor not moving but this flag will be set. When outputting another character
+     * where the cursorColor is positioned on the last column (mColumns-1). When standing there, a written character will be
+     * output in the last column, the cursorColor not moving but this flag will be set. When outputting another character
      * this will move to the next line.
      */
     private boolean mAboutToAutoWrap;
 
     /**
-     * Current foreground and background colors. Can either be a color index in [0,259] or a truecolor (24-bit) value.
+     * Current foregroundColor and backgroundColor colors. Can either be a color index in [0,259] or a truecolor (24-bit) value.
      * For a 24-bit value the top byte (0xff000000) is set.
      *
      * @see TextStyle
@@ -492,8 +492,8 @@ public final class TerminalEmulator {
                 // The OSX Terminal.app colors the spaces from the tab_switcher red, but xterm does not.
                 // Note that Terminal.app only colors on new cells, in e.g.
                 //       printf "\033[41m\t\r\033[42m\tXX\033[0m\n"
-                // the first cells are created with a red background, but when tabbing over
-                // them again with a green background they are not overwritten.
+                // the first cells are created with a red backgroundColor, but when tabbing over
+                // them again with a green backgroundColor they are not overwritten.
                 mCursorCol = nextTabStop(1);
                 break;
             case 10: // Line feed (LF, \n).
@@ -579,7 +579,7 @@ public final class TerminalEmulator {
                                 // If the value of Pt, Pl, Pb, or Pr exceeds the width or height of the active page, then the value
                                 // is treated as the width or height of that page.
                                 // If the destination area is partially off the page, then DECCRA clips the off-page data.
-                                // DECCRA does not change the active cursor position."
+                                // DECCRA does not change the active cursorColor position."
                                 int topSource = Math.min(getArg(0, 1, true) - 1 + effectiveTopMargin, mRows);
                                 int leftSource = Math.min(getArg(1, 1, true) - 1 + effectiveLeftMargin, mColumns);
                                 // Inclusive, so do not subtract one:
@@ -756,7 +756,7 @@ public final class TerminalEmulator {
                     case ESC_CSI_ARGS_SPACE:
                         int arg = getArg0(0);
                         switch (b) {
-                            case 'q': // "${CSI}${STYLE} q" - set cursor style (http://www.vt100.net/docs/vt510-rm/DECSCUSR).
+                            case 'q': // "${CSI}${STYLE} q" - set cursorColor style (http://www.vt100.net/docs/vt510-rm/DECSCUSR).
                                 switch (arg) {
                                     case 0: // Blinking block.
                                     case 1: // Blinking block.
@@ -837,9 +837,9 @@ public final class TerminalEmulator {
                     // k1=F1 function key
 
                     // Example: Request for ku is "ESC P + q 6 b 7 5 ESC \", where 6b7d=ku in hexadecimal.
-                    // Xterm response in normal cursor mode:
+                    // Xterm response in normal cursorColor mode:
                     // "<27> P 1 + r 6 b 7 5 = 1 B 5 B 4 1" where 0x1B 0x5B 0x41 = 27 91 65 = ESC [ A
-                    // Xterm response in application cursor mode:
+                    // Xterm response in application cursorColor mode:
                     // "<27> P 1 + r 6 b 7 5 = 1 B 5 B 4 1" where 0x1B 0x4F 0x41 = 27 91 65 = ESC 0 A
 
                     // #4 is "shift arrow left":
@@ -1038,8 +1038,8 @@ public final class TerminalEmulator {
             case 7: // Wrap-around bit, not specific action.
             case 8: // Auto-repeat Keys (DECARM). Do not implement.
             case 9: // X10 mouse reporting - outdated. Do not implement.
-            case 12: // Control cursor blinking - ignore.
-            case 25: // Hide/show cursor - no action needed, renderer will check with isShowingCursor().
+            case 12: // Control cursorColor blinking - ignore.
+            case 25: // Hide/show cursorColor - no action needed, renderer will check with isShowingCursor().
             case 40: // Allow 80 => 132 Mode, ignore.
             case 45: // TODO: Reverse wrap-around. Implement???
             case 66: // Application keypad (DECNKM).
@@ -1060,7 +1060,7 @@ public final class TerminalEmulator {
             case 1015:
             case 1034: // Interpret "meta" key, sets eighth bit.
                 break;
-            case 1048: // Set: Save cursor as in DECSC. Reset: Restore cursor as in DECRC.
+            case 1048: // Set: Save cursorColor as in DECSC. Reset: Restore cursorColor as in DECRC.
                 if (setting)
                     saveCursor();
                 else
@@ -1069,8 +1069,8 @@ public final class TerminalEmulator {
             case 47:
             case 1047:
             case 1049: {
-                // Set: Save cursor as in DECSC and use Alternate Screen Buffer, clearing it first.
-                // Reset: Use Normal Screen Buffer and restore cursor as in DECRC.
+                // Set: Save cursorColor as in DECSC and use Alternate Screen Buffer, clearing it first.
+                // Reset: Use Normal Screen Buffer and restore cursorColor as in DECRC.
                 TerminalBuffer newScreen = setting ? mAltBuffer : mMainBuffer;
                 if (newScreen != mScreen) {
                     boolean resized = !(newScreen.mColumns == mColumns && newScreen.mScreenRows == mRows);
@@ -1081,7 +1081,7 @@ public final class TerminalEmulator {
                         int row = mSavedStateMain.mSavedCursorRow;
                         restoreCursor();
                         if (resized) {
-                            // Restore cursor position _not_ clipped to current screen (let resizeScreen() handle that):
+                            // Restore cursorColor position _not_ clipped to current screen (let resizeScreen() handle that):
                             mCursorCol = col;
                             mCursorRow = row;
                         }
@@ -1139,7 +1139,7 @@ public final class TerminalEmulator {
 
                 // * modifyCursorKeys (parameter=2):
                 // Tells how to handle the special case where Control-, Shift-, Alt- or Meta-modifiers are used to add a
-                // parameter to the escape sequence returned by a cursor-key. The default is "2".
+                // parameter to the escape sequence returned by a cursorColor-key. The default is "2".
                 // - Set it to -1 to disable it.
                 // - Set it to 0 to use the old/obsolete behavior.
                 // - Set it to 1 to prefix modified sequences with CSI.
@@ -1235,10 +1235,10 @@ public final class TerminalEmulator {
                     mScreen.blockSet(mLeftMargin, mTopMargin, 1, rows, ' ', TextStyle.encode(mForeColor, mBackColor, 0));
                 }
                 break;
-            case '7': // DECSC save cursor - http://www.vt100.net/docs/vt510-rm/DECSC
+            case '7': // DECSC save cursorColor - http://www.vt100.net/docs/vt510-rm/DECSC
                 saveCursor();
                 break;
-            case '8': // DECRC restore cursor - http://www.vt100.net/docs/vt510-rm/DECRC
+            case '8': // DECRC restore cursorColor - http://www.vt100.net/docs/vt510-rm/DECRC
                 restoreCursor();
                 break;
             case '9': // Forward Index (http://www.vt100.net/docs/vt510-rm/DECFI). Move right, insert blank column if end.
@@ -1304,7 +1304,7 @@ public final class TerminalEmulator {
         }
     }
 
-    /** DECSC save cursor - http://www.vt100.net/docs/vt510-rm/DECSC . See {@link #restoreCursor()}. */
+    /** DECSC save cursorColor - http://www.vt100.net/docs/vt510-rm/DECSC . See {@link #restoreCursor()}. */
     private void saveCursor() {
         SavedScreenState state = (mScreen == mMainBuffer) ? mSavedStateMain : mSavedStateAlt;
         state.mSavedCursorRow = mCursorRow;
@@ -1318,7 +1318,7 @@ public final class TerminalEmulator {
         state.mUseLineDrawingUsesG0 = mUseLineDrawingUsesG0;
     }
 
-    /** DECRS restore cursor - http://www.vt100.net/docs/vt510-rm/DECRC. See {@link #saveCursor()}. */
+    /** DECRS restore cursorColor - http://www.vt100.net/docs/vt510-rm/DECRC. See {@link #saveCursor()}. */
     private void restoreCursor() {
         SavedScreenState state = (mScreen == mMainBuffer) ? mSavedStateMain : mSavedStateAlt;
         setCursorRowCol(state.mSavedCursorRow, state.mSavedCursorCol);
@@ -1400,7 +1400,7 @@ public final class TerminalEmulator {
                         blockClear(0, 0, mColumns, mCursorRow);
                         blockClear(0, mCursorRow, mCursorCol + 1);
                         break;
-                    case 2: // Erase all of the display - all lines are erased, changed to single-width, and the cursor does not
+                    case 2: // Erase all of the display - all lines are erased, changed to single-width, and the cursorColor does not
                         // move..
                         blockClear(0, 0, mColumns, mRows);
                         break;
@@ -1412,10 +1412,10 @@ public final class TerminalEmulator {
                 break;
             case 'K': // "CSI{n}K" - Erase in line (EL).
                 switch (getArg0(0)) {
-                    case 0: // Erase from the cursor to the end of the line, inclusive (default)
+                    case 0: // Erase from the cursorColor to the end of the line, inclusive (default)
                         blockClear(mCursorCol, mCursorRow, mColumns - mCursorCol);
                         break;
-                    case 1: // Erase from the start of the screen to the cursor, inclusive.
+                    case 1: // Erase from the start of the screen to the cursorColor, inclusive.
                         blockClear(0, mCursorRow, mCursorCol + 1);
                         break;
                     case 2: // Erase all of the line.
@@ -1449,8 +1449,8 @@ public final class TerminalEmulator {
             case 'P': // "${CSI}{N}P" - delete ${N} characters (DCH).
             {
                 // http://www.vt100.net/docs/vt510-rm/DCH: "If ${N} is greater than the number of characters between the
-                // cursor and the right margin, then DCH only deletes the remaining characters.
-                // As characters are deleted, the remaining characters between the cursor and right margin move to the left.
+                // cursorColor and the right margin, then DCH only deletes the remaining characters.
+                // As characters are deleted, the remaining characters between the cursorColor and right margin move to the left.
                 // Character attributes move with the characters. The terminal adds blank spaces with no visual character
                 // attributes at the right margin. DCH has no effect outside the scrolling margins."
                 mAboutToAutoWrap = false;
@@ -1555,7 +1555,7 @@ public final class TerminalEmulator {
                         break;
                     case 6: // Cursor position report (CPR):
                         // Answer is ESC [ y ; x R, where x,y is
-                        // the cursor location.
+                        // the cursorColor location.
                         mSession.write(String.format(Locale.US, "\033[%d;%dR", mCursorRow + 1, mCursorCol + 1));
                         break;
                     default:
@@ -1573,7 +1573,7 @@ public final class TerminalEmulator {
                 // Also require that top + 2 <= bottom.
                 mTopMargin = Math.max(0, Math.min(getArg0(1) - 1, mRows - 2));
                 mBottomMargin = Math.max(mTopMargin + 2, Math.min(getArg1(mRows), mRows));
-                // DECSTBM moves the cursor to column 1, line 1 of the page respecting origin mode.
+                // DECSTBM moves the cursorColor to column 1, line 1 of the page respecting origin mode.
                 setCursorPosition(0, 0);
             }
             break;
@@ -1582,10 +1582,10 @@ public final class TerminalEmulator {
                     // Set left and right margins (DECSLRM - http://www.vt100.net/docs/vt510-rm/DECSLRM).
                     mLeftMargin = Math.min(getArg0(1) - 1, mColumns - 2);
                     mRightMargin = Math.max(mLeftMargin + 1, Math.min(getArg1(mColumns), mColumns));
-                    // DECSLRM moves the cursor to column 1, line 1 of the page.
+                    // DECSLRM moves the cursorColor to column 1, line 1 of the page.
                     setCursorPosition(0, 0);
                 } else {
-                    // Save cursor (ANSI.SYS), available only when DECLRMM is disabled.
+                    // Save cursorColor (ANSI.SYS), available only when DECLRMM is disabled.
                     saveCursor();
                 }
                 break;
@@ -1632,7 +1632,7 @@ public final class TerminalEmulator {
                         break;
                 }
                 break;
-            case 'u': // Restore cursor (ANSI.SYS).
+            case 'u': // Restore cursorColor (ANSI.SYS).
                 restoreCursor();
                 break;
             case ' ':
@@ -1697,7 +1697,7 @@ public final class TerminalEmulator {
             } else if (code >= 30 && code <= 37) {
                 mForeColor = code - 30;
             } else if (code == 38 || code == 48) {
-                // Extended set foreground(38)/background (48) color.
+                // Extended set foregroundColor(38)/backgroundColor (48) color.
                 // This is followed by either "2;$R;$G;$B" to set a 24-bit color or
                 // "5;$INDEX" to set an indexed color.
                 if (i + 2 > mArgIndex) continue;
@@ -1734,15 +1734,15 @@ public final class TerminalEmulator {
                 } else {
                     finishSequenceAndLogError("Invalid ISO-8613-3 SGR first argument: " + firstArg);
                 }
-            } else if (code == 39) { // Set default foreground color.
+            } else if (code == 39) { // Set default foregroundColor color.
                 mForeColor = TextStyle.COLOR_INDEX_FOREGROUND;
-            } else if (code >= 40 && code <= 47) { // Set background color.
+            } else if (code >= 40 && code <= 47) { // Set backgroundColor color.
                 mBackColor = code - 40;
-            } else if (code == 49) { // Set default background color.
+            } else if (code == 49) { // Set default backgroundColor color.
                 mBackColor = TextStyle.COLOR_INDEX_BACKGROUND;
-            } else if (code >= 90 && code <= 97) { // Bright foreground colors (aixterm codes).
+            } else if (code >= 90 && code <= 97) { // Bright foregroundColor colors (aixterm codes).
                 mForeColor = code - 90 + 8;
-            } else if (code >= 100 && code <= 107) { // Bright background color (aixterm codes).
+            } else if (code >= 100 && code <= 107) { // Bright backgroundColor color (aixterm codes).
                 mBackColor = code - 100 + 8;
             } else {
                 if (LOG_ESCAPE_SEQUENCES)
@@ -1842,9 +1842,9 @@ public final class TerminalEmulator {
                     if (endOfInput) break;
                 }
                 break;
-            case 10: // Set foreground color.
-            case 11: // Set background color.
-            case 12: // Set cursor color.
+            case 10: // Set foregroundColor color.
+            case 11: // Set backgroundColor color.
+            case 12: // Set cursorColor color.
                 int specialIndex = TextStyle.COLOR_INDEX_FOREGROUND + (value - 10);
                 int lastSemiIndex = 0;
                 for (int charIndex = 0; ; charIndex++) {
@@ -1910,9 +1910,9 @@ public final class TerminalEmulator {
                     }
                 }
                 break;
-            case 110: // Reset foreground color.
-            case 111: // Reset background color.
-            case 112: // Reset cursor color.
+            case 110: // Reset foregroundColor color.
+            case 111: // Reset backgroundColor color.
+            case 112: // Reset cursorColor color.
                 mColors.reset(TextStyle.COLOR_INDEX_FOREGROUND + (value - 110));
                 mSession.onColorsChanged();
                 break;
@@ -1949,7 +1949,7 @@ public final class TerminalEmulator {
                 // http://www.vt100.net/docs/vt510-rm/LNM
                 break;
             case 34:
-                // Normal cursor visibility - when using TERM=screen, see
+                // Normal cursorColor visibility - when using TERM=screen, see
                 // http://www.gnu.org/software/screen/manual/html_node/Control-Sequences.html
                 break;
             default:
@@ -2210,7 +2210,7 @@ public final class TerminalEmulator {
                 }
             }
         } else if (cursorInLastColumn && displayWidth == 2) {
-            // The behaviour when a wide character is output with cursor in the last column when
+            // The behaviour when a wide character is output with cursorColor in the last column when
             // autowrap is disabled is not obvious - it's ignored here.
             return;
         }
@@ -2241,7 +2241,7 @@ public final class TerminalEmulator {
         mAboutToAutoWrap = false;
     }
 
-    /** Set the cursor mode, but limit it to margins if {@link #DECSET_BIT_ORIGIN_MODE} is enabled. */
+    /** Set the cursorColor mode, but limit it to margins if {@link #DECSET_BIT_ORIGIN_MODE} is enabled. */
     private void setCursorColRespectingOriginMode(int col) {
         setCursorPosition(col, mCursorRow);
     }
@@ -2294,6 +2294,11 @@ public final class TerminalEmulator {
         mSession.onColorsChanged();
     }
 
+    public void setColorScheme(TerminalColorScheme colorScheme) {
+        mColors.reset(colorScheme);
+        mSession.onColorsChanged();
+    }
+
     public String getSelectedText(int x1, int y1, int x2, int y2) {
         return mScreen.getSelectedText(x1, y1, x2, y2);
     }
@@ -2325,7 +2330,7 @@ public final class TerminalEmulator {
 
     /** http://www.vt100.net/docs/vt510-rm/DECSC */
     static final class SavedScreenState {
-        /** Saved state of the cursor position, Used to implement the save/restore cursor position escape sequences. */
+        /** Saved state of the cursorColor position, Used to implement the save/restore cursorColor position escape sequences. */
         int mSavedCursorRow, mSavedCursorCol;
         int mSavedEffect, mSavedForeColor, mSavedBackColor;
         int mSavedDecFlags;

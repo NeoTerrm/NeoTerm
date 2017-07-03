@@ -136,7 +136,7 @@ public final class TerminalBuffer {
      *
      * @param newColumns The number of columns the screen should have.
      * @param newRows    The number of rows the screen should have.
-     * @param cursor     An int[2] containing the (column, row) cursor location.
+     * @param cursor     An int[2] containing the (column, row) cursorColor location.
      */
     public void resize(int newColumns, int newRows, int newTotalRows, int[] cursor, long currentStyle, boolean altScreen) {
         // newRows > mTotalRows should not normally happen since mTotalRows is TRANSCRIPT_ROWS (10000):
@@ -144,7 +144,7 @@ public final class TerminalBuffer {
             // Fast resize where just the rows changed.
             int shiftDownOfTopRow = mScreenRows - newRows;
             if (shiftDownOfTopRow > 0 && shiftDownOfTopRow < mScreenRows) {
-                // Shrinking. Check if we can skip blank rows at bottom below cursor.
+                // Shrinking. Check if we can skip blank rows at bottom below cursorColor.
                 for (int i = mScreenRows - 1; i > 0; i--) {
                     if (cursor[1] >= i) break;
                     int r = externalToInternalRow(i);
@@ -204,7 +204,7 @@ public final class TerminalBuffer {
 
                 TerminalRow oldLine = oldLines[internalOldRow];
                 boolean cursorAtThisRow = externalOldRow == oldCursorRow;
-                // The cursor may only be on a non-null line, which we should not skip:
+                // The cursorColor may only be on a non-null line, which we should not skip:
                 if (oldLine == null || (!(!newCursorPlaced && cursorAtThisRow)) && oldLine.isBlank()) {
                     skippedBlankLines++;
                     continue;
@@ -224,7 +224,7 @@ public final class TerminalBuffer {
                 int lastNonSpaceIndex = 0;
                 boolean justToCursor = false;
                 if (cursorAtThisRow || oldLine.mLineWrap) {
-                    // Take the whole line, either because of cursor on it, or if line wrapping.
+                    // Take the whole line, either because of cursorColor on it, or if line wrapping.
                     lastNonSpaceIndex = oldLine.getSpaceUsed();
                     if (cursorAtThisRow) justToCursor = true;
                 } else {
@@ -287,7 +287,7 @@ public final class TerminalBuffer {
             cursor[1] = newCursorRow;
         }
 
-        // Handle cursor scrolling off screen:
+        // Handle cursorColor scrolling off screen:
         if (cursor[0] < 0 || cursor[1] < 0) cursor[0] = cursor[1] = 0;
     }
 

@@ -22,9 +22,9 @@ class TermTab(title: CharSequence) : Tab(title) {
     var viewClient: TermViewClient? = null
     var toolbar: Toolbar? = null
 
-    fun changeColorScheme(colorScheme: NeoColorScheme?) {
-        ColorSchemeManager.applyColorScheme(termSession?.emulator, colorScheme)
-        viewClient?.extraKeysView?.setBackgroundColor(Color.parseColor(colorScheme?.background))
+    fun updateColorScheme() {
+        ColorSchemeManager.applyColorScheme(viewClient?.termView, viewClient?.extraKeysView,
+                ColorSchemeManager.getCurrentColorScheme())
     }
 
     fun cleanup() {

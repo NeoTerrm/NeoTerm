@@ -2,6 +2,7 @@ package io.neoterm.ui.customization
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -13,13 +14,15 @@ import android.widget.Spinner
 import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.NeoTermPath
+import io.neoterm.customize.color.ColorSchemeManager
+import io.neoterm.preference.NeoTermPath
 import io.neoterm.customize.font.FontManager
 import io.neoterm.utils.FileUtils
 import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.TerminalUtils
 import io.neoterm.view.BasicSessionCallback
 import io.neoterm.view.BasicViewClient
+import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
 import java.io.File
 import java.io.FileInputStream
@@ -32,6 +35,7 @@ class CustomizationActivity : AppCompatActivity() {
     lateinit var viewClient: BasicViewClient
     lateinit var sessionCallback: BasicSessionCallback
     lateinit var session: TerminalSession
+    lateinit var extraKeysView: ExtraKeysView
 
     val REQUEST_SELECT_FONT = 22222
     val REQUEST_SELECT_COLOR = 22223
@@ -39,11 +43,17 @@ class CustomizationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_customization)
+
+        // ensure that folders and files are exist
+        ColorSchemeManager.init(this)
+        FontManager.init(this)
+
         val toolbar = findViewById(R.id.custom_toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         terminalView = findViewById(R.id.terminal_view) as TerminalView
+        extraKeysView = findViewById(R.id.custom_extra_keys) as ExtraKeysView
         viewClient = BasicViewClient(terminalView)
         sessionCallback = BasicSessionCallback(terminalView)
         TerminalUtils.setupTerminalView(terminalView, viewClient)
@@ -68,14 +78,31 @@ class CustomizationActivity : AppCompatActivity() {
 
     private fun setupSpinners() {
         FontManager.refreshFontList()
-        setupSpinner(R.id.custom_font_spinner, FontManager.getFontNames(), FontManager.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {
+        setupSpinner(R.id.custom_font_spinner, FontManager.getFontNames(),
+                FontManager.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val fontName = parent!!.adapter!!.getItem(position) as String
-                terminalView.setTypeface(FontManager.getFont(fontName).getTypeFace())
+                val typeface = FontManager.getFont(fontName).getTypeFace()
+                terminalView.setTypeface(typeface)
+                extraKeysView.setTypeface(typeface)
                 FontManager.setCurrentFont(fontName)
+            }
+        })
+
+        ColorSchemeManager.refreshColorList()
+        setupSpinner(R.id.custom_color_spinner, ColorSchemeManager.getColorNames(),
+                ColorSchemeManager.getCurrentColorName(), object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val colorName = parent!!.adapter!!.getItem(position) as String
+                val color = ColorSchemeManager.getColor(colorName)
+                ColorSchemeManager.applyColorScheme(terminalView, extraKeysView, color)
+                ColorSchemeManager.setCurrentColor(colorName)
             }
         })
     }

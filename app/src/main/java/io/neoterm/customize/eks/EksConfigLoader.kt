@@ -1,7 +1,7 @@
 package io.neoterm.customize.eks
 
 import android.util.Log
-import io.neoterm.customize.NeoTermPath
+import io.neoterm.preference.NeoTermPath
 import io.neoterm.view.ExtraKeysView
 import java.io.File
 

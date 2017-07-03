@@ -4,10 +4,12 @@ import android.content.Context
 import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.NeoTermPath
+import io.neoterm.customize.color.ColorSchemeManager
+import io.neoterm.preference.NeoTermPath
 import io.neoterm.customize.font.FontManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.view.BasicViewClient
+import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
 import java.io.File
 
@@ -15,12 +17,19 @@ import java.io.File
  * @author kiva
  */
 object TerminalUtils {
-    fun setupTerminalView(terminalView: TerminalView, terminalViewClient: BasicViewClient? = null) {
-        terminalView.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
-        terminalView.setTypeface(FontManager.getCurrentFont().getTypeFace())
+    fun setupTerminalView(terminalView: TerminalView?, terminalViewClient: BasicViewClient? = null) {
+        terminalView?.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
+        terminalView?.setTypeface(FontManager.getCurrentFont().getTypeFace())
         if (terminalViewClient != null) {
-            terminalView.setOnKeyListener(terminalViewClient)
+            terminalView?.setOnKeyListener(terminalViewClient)
         }
+    }
+
+    fun setupExtraKeysView(extraKeysView: ExtraKeysView?) {
+        extraKeysView?.setTypeface(FontManager.getCurrentFont().getTypeFace())
+    }
+
+    fun setupTerminalSession(session: TerminalSession?) {
     }
 
     fun createSession(context: Context, executablePath: String?, arguments: Array<String>?, cwd: String?, env: Array<String>?, sessionCallback: TerminalSession.SessionChangedCallback?, systemShell: Boolean): TerminalSession {
@@ -51,6 +60,7 @@ object TerminalUtils {
         val session = TerminalSession(executablePath, cwd, arguments,
                 env ?: NeoPreference.buildEnvironment(cwd, systemShell, executablePath),
                 sessionCallback)
+        setupTerminalSession(session)
         return session
     }
 }

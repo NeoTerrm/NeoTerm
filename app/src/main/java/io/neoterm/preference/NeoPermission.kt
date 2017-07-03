@@ -29,16 +29,14 @@ object NeoPermission {
                 AlertDialog.Builder(context).setMessage("需要存储权限来访问存储设备上的文件")
                         .setPositiveButton(android.R.string.ok, { _: DialogInterface, _: Int ->
                             ActivityCompat.requestPermissions(context,
-                                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,
-                                            Manifest.permission.RECEIVE_BOOT_COMPLETED),
+                                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                                     requestCode)
                         })
                         .show()
 
             } else {
                 ActivityCompat.requestPermissions(context,
-                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.RECEIVE_BOOT_COMPLETED),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                         requestCode)
             }
         }

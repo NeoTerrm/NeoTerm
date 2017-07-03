@@ -10,15 +10,11 @@ import android.os.Binder
 import android.os.IBinder
 import android.support.v4.content.WakefulBroadcastReceiver
 import android.util.Log
-import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.NeoTermPath
-import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
-import java.io.File
 import java.util.*
 
 /**

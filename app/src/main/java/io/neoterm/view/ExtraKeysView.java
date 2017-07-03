@@ -1,6 +1,7 @@
 package io.neoterm.view;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -15,10 +16,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.neoterm.customize.NeoTermPath;
-import io.neoterm.customize.font.FontManager;
 import io.neoterm.customize.eks.EksConfig;
 import io.neoterm.customize.eks.EksConfigParser;
+import io.neoterm.customize.font.FontManager;
+import io.neoterm.preference.NeoTermPath;
 import io.neoterm.utils.FileUtils;
 import io.neoterm.view.eks.ControlButton;
 import io.neoterm.view.eks.ExtraButton;
@@ -60,15 +61,15 @@ public final class ExtraKeysView extends LinearLayout {
             "define / false\n" +
             "define | false\n";
 
-    public static final int NORMAL_TEXT_COLOR = 0xFFFFFFFF;
-    public static final int SELECTED_TEXT_COLOR = 0xFF80DEEA;
+    public static int NORMAL_TEXT_COLOR = 0xFFFFFFFF;
+    public static int SELECTED_TEXT_COLOR = 0xFF80DEEA;
 
     private List<ExtraButton> builtinExtraKeys;
     private List<ExtraButton> userDefinedExtraKeys;
 
     private LinearLayout lineOne;
     private LinearLayout lineTwo;
-
+    private Typeface typeface;
 
     public ExtraKeysView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -185,7 +186,7 @@ public final class ExtraKeysView extends LinearLayout {
             button = new Button(getContext(), null, android.R.attr.buttonBarButtonStyle);
         }
 
-        button.setTypeface(FontManager.INSTANCE.getCurrentFont().getTypeFace());
+        button.setTypeface(typeface);
         button.setText(extraButton.buttonText);
         button.setTextColor(NORMAL_TEXT_COLOR);
         button.setAllCaps(false);
@@ -201,4 +202,13 @@ public final class ExtraKeysView extends LinearLayout {
         contentView.addView(button);
     }
 
+    public void setTextColor(int textColor) {
+        NORMAL_TEXT_COLOR = textColor;
+        updateButtons();
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
+        updateButtons();
+    }
 }

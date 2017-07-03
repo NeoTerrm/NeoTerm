@@ -1,5 +1,7 @@
 package io.neoterm.customize.eks
 
+import android.content.Context
+import io.neoterm.customize.eks.builtin.BuiltinEksKeys
 import io.neoterm.view.ExtraKeysView
 
 /**
@@ -31,5 +33,10 @@ object EksKeysManager {
         }
 
         this.EKS_KEYS[program] = eksKey
+    }
+
+    fun init(context: Context) {
+        BuiltinEksKeys.registerAll()
+        EksConfigLoader.loadDefinedConfigs()
     }
 }

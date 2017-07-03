@@ -61,5 +61,8 @@ class TermSessionChangedCallback : TerminalSession.SessionChangedCallback {
     }
 
     override fun onColorsChanged(session: TerminalSession?) {
+        if (session != null) {
+            termView?.onScreenUpdated()
+        }
     }
 }

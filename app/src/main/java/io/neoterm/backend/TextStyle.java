@@ -2,15 +2,15 @@ package io.neoterm.backend;
 
 /**
  * <p>
- * Encodes effects, foreground and background colors into a 64 bit long, which are stored for each cell in a terminal
+ * Encodes effects, foregroundColor and backgroundColor colors into a 64 bit long, which are stored for each cell in a terminal
  * row in {@link TerminalRow#mStyle}.
  * </p>
  * <p>
  * The bit layout is:
  * </p>
  * - 16 flags (11 currently used).
- * - 24 for foreground color (only 9 first bits if a color index).
- * - 24 for background color (only 9 first bits if a color index).
+ * - 24 for foregroundColor color (only 9 first bits if a color index).
+ * - 24 for backgroundColor color (only 9 first bits if a color index).
  */
 public final class TextStyle {
 
@@ -31,19 +31,19 @@ public final class TextStyle {
     public final static int CHARACTER_ATTRIBUTE_PROTECTED = 1 << 7;
     /** Dim colors. Also known as faint or half intensity. */
     public final static int CHARACTER_ATTRIBUTE_DIM = 1 << 8;
-    /** If true (24-bit) color is used for the cell for foreground. */
+    /** If true (24-bit) color is used for the cell for foregroundColor. */
     private final static int CHARACTER_ATTRIBUTE_TRUECOLOR_FOREGROUND = 1 << 9;
-    /** If true (24-bit) color is used for the cell for foreground. */
+    /** If true (24-bit) color is used for the cell for foregroundColor. */
     private final static int CHARACTER_ATTRIBUTE_TRUECOLOR_BACKGROUND= 1 << 10;
 
     public final static int COLOR_INDEX_FOREGROUND = 256;
     public final static int COLOR_INDEX_BACKGROUND = 257;
     public final static int COLOR_INDEX_CURSOR = 258;
 
-    /** The 256 standard color entries and the three special (foreground, background and cursor) ones. */
+    /** The 256 standard color entries and the three special (foregroundColor, backgroundColor and cursorColor) ones. */
     public final static int NUM_INDEXED_COLORS = 259;
 
-    /** Normal foreground and background colors and no effects. */
+    /** Normal foregroundColor and backgroundColor colors and no effects. */
     final static long NORMAL = encode(COLOR_INDEX_FOREGROUND, COLOR_INDEX_BACKGROUND, 0);
 
     static long encode(int foreColor, int backColor, int effect) {

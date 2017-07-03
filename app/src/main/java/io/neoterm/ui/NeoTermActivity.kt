@@ -17,8 +17,11 @@ import android.widget.ImageButton
 import de.mrapp.android.tabswitcher.*
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.customize.eks.EksConfigLoader
+import io.neoterm.customize.eks.EksKeysManager
 import io.neoterm.customize.eks.builtin.BuiltinEksKeys
+import io.neoterm.customize.font.FontManager
 import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.preference.NeoPermission
 import io.neoterm.preference.NeoPreference
@@ -50,6 +53,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        ColorSchemeManager.init(this)
+        FontManager.init(this)
         NeoPreference.init(this)
         NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
 
@@ -151,8 +156,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     private fun initShortcutKeys() {
         Thread {
-            BuiltinEksKeys.registerAll()
-            EksConfigLoader.loadDefinedConfigs()
+            EksKeysManager.init(this)
         }.start()
     }
 
@@ -250,6 +254,13 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == getString(R.string.key_ui_fullscreen)) {
             setFullScreenMode(NeoPreference.loadBoolean(key, false))
+        } else if (key == getString(R.string.key_customization_color_scheme)) {
+            if (tabSwitcher.count > 0) {
+                val tab = tabSwitcher.selectedTab
+                if (tab is TermTab) {
+                    tab.updateColorScheme()
+                }
+            }
         }
     }
 

@@ -12,7 +12,7 @@ import java.util.Properties;
 public final class TerminalColorScheme {
 
     /** http://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg, but with blue color brighter. */
-    private static final int[] DEFAULT_COLORSCHEME = {
+    public static final int[] DEFAULT_COLORS = {
         // 16 original colors. First 8 are dim.
         0xff000000, // black
         0xffcd0000, // dim red
@@ -66,14 +66,20 @@ public final class TerminalColorScheme {
     }
 
     private void reset() {
-        System.arraycopy(DEFAULT_COLORSCHEME, 0, mDefaultColors, 0, TextStyle.NUM_INDEXED_COLORS);
+        System.arraycopy(DEFAULT_COLORS, 0, mDefaultColors, 0, TextStyle.NUM_INDEXED_COLORS);
     }
 
     public void updateWith(String foreground, String background, String cursor, Map<Integer, String> color) {
         Properties prop = new Properties();
-        prop.put("foreground", foreground);
-        prop.put("background", background);
-        prop.put("cursor", cursor);
+        if (foreground != null) {
+            prop.put("foreground", foreground);
+        }
+        if (background != null) {
+            prop.put("background", background);
+        }
+        if (cursor != null) {
+            prop.put("cursor", cursor);
+        }
         for (int i : color.keySet()) {
             prop.put("color" + i, color.get(i));
         }

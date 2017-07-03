@@ -22,7 +22,7 @@
                             q0 -3, 3 -3"
           />
 
-    <!-- Block cursor. -->
+    <!-- BlcursorColorrsor. -->
     <path android:fillColor="#000"
           android:pathData="M14,14
                             l5,0

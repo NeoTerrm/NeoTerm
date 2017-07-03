@@ -3,7 +3,7 @@ package io.neoterm.customize.font
 import android.content.Context
 import android.graphics.Typeface
 import io.neoterm.R
-import io.neoterm.customize.NeoTermPath
+import io.neoterm.preference.NeoTermPath
 import io.neoterm.preference.NeoPreference
 import io.neoterm.utils.FileUtils
 import java.io.File
@@ -52,7 +52,7 @@ object FontManager {
         var currentFontName = NeoPreference.loadString(R.string.key_customization_font, DEFAULT_FONT_NAME)
         if (!fonts.containsKey(currentFontName)) {
             currentFontName = DEFAULT_FONT_NAME
-            NeoPreference.store(R.string.key_customization_font, DEFAULT_FONT)
+            NeoPreference.store(R.string.key_customization_font, DEFAULT_FONT_NAME)
         }
         return currentFontName
     }
@@ -92,10 +92,11 @@ object FontManager {
     private fun extractDefaultFont(context: Context, defaultFontFile: File): Boolean {
         try {
             val assets = context.assets
-            val ttfInput = assets.open("$DEFAULT_FONT_NAME.ttf")
-            FileUtils.writeFile(defaultFontFile, ttfInput)
-            ttfInput.close()
-            return true
+            val input = assets.open("$DEFAULT_FONT_NAME.ttf")
+            return input.use {
+                FileUtils.writeFile(defaultFontFile, it)
+                true
+            }
         } catch (e: Exception) {
             return false
         }

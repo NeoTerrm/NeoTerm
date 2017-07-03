@@ -2,15 +2,14 @@ package io.neoterm.view.tab
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import de.mrapp.android.tabswitcher.Tab
 import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
 import io.neoterm.R
+import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
@@ -49,13 +48,18 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         if (view == null) {
             return
         }
+
         TerminalUtils.setupTerminalView(view)
+        TerminalUtils.setupExtraKeysView(extraKeysView)
+        ColorSchemeManager.applyColorScheme(view, extraKeysView, ColorSchemeManager.getCurrentColorScheme())
         context.fullScreenToggleButton.setStatus(NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false))
 
         if (tab is TermTab) {
             val termTab = tab
 
-            // 复用前一次的 TermSession
+            TerminalUtils.setupTerminalSession(termTab.termSession)
+
+            // 复用前一次的 TermSessionCallback
             termTab.sessionCallback?.termView = view
             termTab.sessionCallback?.termTab = termTab
 

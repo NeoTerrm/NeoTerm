@@ -22,10 +22,9 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import io.neoterm.BuildConfig;
 import io.neoterm.R;
 import io.neoterm.backend.EmulatorDebug;
-import io.neoterm.customize.NeoTermPath;
+import io.neoterm.preference.NeoTermPath;
 import io.neoterm.utils.FileUtils;
 
 public final class BaseFileInstaller {

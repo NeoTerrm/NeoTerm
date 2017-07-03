@@ -132,7 +132,7 @@ final class TerminalRenderer {
                 currentCharIndex += charsForCodePoint;
                 while (currentCharIndex < charsUsedInLine && WcWidth.width(line, currentCharIndex) <= 0) {
                     // Eat combining chars so that they are treated as part of the last non-combining code point,
-                    // instead of e.g. being considered inside the cursor in the next run.
+                    // instead of e.g. being considered inside the cursorColor in the next run.
                     currentCharIndex += Character.isHighSurrogate(line[currentCharIndex]) ? 2 : 1;
                 }
             }
@@ -189,7 +189,7 @@ final class TerminalRenderer {
         }
 
         if (backColor != palette[TextStyle.COLOR_INDEX_BACKGROUND]) {
-            // Only draw non-default background.
+            // Only draw non-default backgroundColor.
             mTextPaint.setColor(backColor);
             canvas.drawRect(left, y - mFontLineSpacingAndAscent + mFontAscent, right, y, mTextPaint);
         }

@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.NeoTermPath
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.FileUtils
 import java.io.File

@@ -10,6 +10,7 @@ import io.neoterm.customize.font.FontManager
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+        // ensure that we can access these any time
         ColorSchemeManager.init(this)
         FontManager.init(this)
     }

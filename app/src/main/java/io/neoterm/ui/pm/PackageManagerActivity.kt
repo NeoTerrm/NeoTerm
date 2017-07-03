@@ -23,7 +23,7 @@ import android.widget.Toast
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import io.neoterm.R
-import io.neoterm.customize.NeoTermPath
+import io.neoterm.preference.NeoTermPath
 import io.neoterm.customize.pm.NeoPackageManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.pm.adapter.PackageAdapter

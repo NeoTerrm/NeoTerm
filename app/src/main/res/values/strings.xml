@@ -18,6 +18,23 @@
     <string name="customization_settings_desc">Font, ColorScheme, ExtraKeys</string>
     <string name="customization_settings">Customization</string>
 
+    <string name="toggle_ime">Toggle IME</string>
+    <string name="shell_not_found">Shell %s not found, please install it first.</string>
+    <string name="fullscreen_mode_changed">FullScreen mode changed, please restart NeoTerm.</string>
+    <string name="permission_denied">NeoTerm cannot get essential permissions, exiting.</string>
+    <string name="error">Error</string>
+    <string name="use_system_shell">System Shell</string>
+    <string name="retry">Retry</string>
+    <string name="source_changed">APT source changed, you may get it updated by executing: apt update</string>
+    <string name="done">Done</string>
+    <string name="install">Install</string>
+    <string name="package_details">Package: %s\nVersion: %s\nDepends: %s\nInstalled Size: %s\nDescription: %s\nHome Page: %s</string>
+    <string name="package_list_empty">Package list is empty, please check out your source.</string>
+    <string name="menu_refresh_list">Refresh</string>
+    <string name="menu_update">Update, Refresh</string>
+    <string name="install_font">Install Font</string>
+    <string name="install_color">Install Color Scheme</string>
+
     <string name="installer_message">Installing</string>
     <string name="installer_install_zsh_manually">You may install zsh and setup suggestions by executing: ~/install-zsh.sh</string>
 
@@ -44,20 +61,6 @@
     <string name="pref_customization_color_scheme">Color Scheme</string>
     <string name="pref_customization_eks">Extra Keys</string>
     <string name="pref_package_source">Source</string>
-    <string name="toggle_ime">Toggle IME</string>
-    <string name="shell_not_found">Shell %s not found, please install it first.</string>
-    <string name="fullscreen_mode_changed">FullScreen mode changed, please restart NeoTerm.</string>
-    <string name="permission_denied">NeoTerm cannot get essential permissions, exiting.</string>
-    <string name="error">Error</string>
-    <string name="use_system_shell">System Shell</string>
-    <string name="retry">Retry</string>
-    <string name="source_changed">APT source changed, you may get it updated by executing: apt update</string>
-    <string name="done">Done</string>
-    <string name="install">Install</string>
-    <string name="package_details">Package: %s\nVersion: %s\nDepends: %s\nInstalled Size: %s\nDescription: %s\nHome Page: %s</string>
-    <string name="package_list_empty">Package list is empty, please check out your source.</string>
-    <string name="menu_refresh_list">Refresh</string>
-    <string name="menu_update">Update, Refresh</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

@@ -14,6 +14,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
     <LinearLayout
+        android:layout_marginBottom="@dimen/text_margin"
         android:id="@+id/custom_editor_layout"
         style="?buttonBarStyle"
         android:layout_width="match_parent"
@@ -22,40 +23,71 @@
         android:layout_margin="@dimen/text_margin"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/text_margin"
+            android:layout_height="@dimen/custom_editor_line_height"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="horizontal">
 
+            <ImageButton
+                style="?buttonBarButtonStyle"
+                android:id="@+id/custom_install_font_button"
+                android:layout_width="@dimen/custom_install_icon_width"
+                android:layout_height="@dimen/custom_editor_line_height"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_install_white_36" />
+
             <TextView
+                android:gravity="center"
+                android:id="@+id/custom_font_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
                 android:text="@string/pref_customization_font" />
 
             <Spinner
                 android:id="@+id/custom_font_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_margin" />
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_toEndOf="@id/custom_font_text"
+                android:layout_toStartOf="@id/custom_install_font_button" />
 
-        <LinearLayout
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/custom_editor_line_height"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="horizontal">
 
+            <ImageButton
+                style="?buttonBarButtonStyle"
+                android:id="@+id/custom_install_color_button"
+                android:layout_width="@dimen/custom_install_icon_width"
+                android:layout_height="@dimen/custom_editor_line_height"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_install_white_36" />
+
             <TextView
+                android:gravity="center"
+                android:id="@+id/custom_color_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
                 android:text="@string/pref_customization_color_scheme" />
 
             <Spinner
+                android:id="@+id/custom_color_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_margin" />
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/text_margin"
+                android:layout_toEndOf="@id/custom_color_text"
+                android:layout_toStartOf="@id/custom_install_color_button" />
 
+        </RelativeLayout>
     </LinearLayout>
 
     <RelativeLayout

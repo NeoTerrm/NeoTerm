@@ -59,7 +59,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                     WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
 
-        setContentView(R.layout.tab_main)
+        setContentView(R.layout.ui_main)
         toolbar = findViewById(R.id.terminal_toolbar) as Toolbar
         setSupportActionBar(toolbar)
 

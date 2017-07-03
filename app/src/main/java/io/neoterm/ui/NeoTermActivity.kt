@@ -1,5 +1,6 @@
 package io.neoterm.ui
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
@@ -18,9 +19,7 @@ import de.mrapp.android.tabswitcher.*
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.color.ColorSchemeManager
-import io.neoterm.customize.eks.EksConfigLoader
 import io.neoterm.customize.eks.EksKeysManager
-import io.neoterm.customize.eks.builtin.BuiltinEksKeys
 import io.neoterm.customize.font.FontManager
 import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.preference.NeoPermission
@@ -28,6 +27,7 @@ import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
+import io.neoterm.ui.setup.SetupActivity
 import io.neoterm.utils.FullScreenHelper
 import io.neoterm.view.eks.StatedControlButton
 import io.neoterm.view.tab.*
@@ -40,6 +40,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     companion object {
         const val KEY_NO_RESTORE = "no_restore"
         const val KEY_SYSTEM_SHELL = "system_shell"
+        const val REQUEST_SETUP = 22313
     }
 
     lateinit var tabSwitcher: TabSwitcher
@@ -108,7 +109,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.tab_switcher, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
 
         TabSwitcher.setupWithMenu(tabSwitcher, toolbar.menu, View.OnClickListener {
             val imm = this@NeoTermActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -140,6 +141,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
             R.id.menu_item_package_settings -> {
                 startActivity(Intent(this, PackageManagerActivity::class.java))
+                true
+            }
+            R.id.menu_item_discovery -> {
+                startActivity(Intent(this, SetupActivity::class.java))
                 true
             }
             R.id.menu_item_new_session -> {
@@ -277,39 +282,50 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             return
         }
 
-        var resultListener: BaseFileInstaller.ResultListener? = null
-        resultListener = BaseFileInstaller.ResultListener { error ->
-            if (error == null) {
-                initShortcutKeys()
-                systemShell = false
-                if (!termService!!.sessions.isEmpty()) {
-                    for (session in termService!!.sessions) {
-                        addNewSession(session)
+        if (isRecreating()) {
+            systemShell = NeoPreference.loadBoolean(KEY_SYSTEM_SHELL, true)
+        } else {
+            if (BaseFileInstaller.needSetup()) {
+                val intent = Intent(this, SetupActivity::class.java)
+                intent.putExtra("setup", true)
+                startActivityForResult(intent, REQUEST_SETUP)
+                return
+            }
+            enterMain()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            REQUEST_SETUP -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> enterMain()
+                    Activity.RESULT_CANCELED -> {
+                        systemShell = true
+                        enterSystemShell()
                     }
-                    switchToSession(getStoredCurrentSessionOrLast())
-                } else {
-                    tabSwitcher.showSwitcher()
-                    addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
                 }
-            } else {
-                AlertDialog.Builder(this@NeoTermActivity)
-                        .setTitle(R.string.error)
-                        .setMessage(error.toString())
-                        .setNegativeButton(R.string.use_system_shell, { _, _ ->
-                            tabSwitcher.showSwitcher()
-                            addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
-                        })
-                        .setPositiveButton(R.string.retry, { dialog, _ ->
-                            dialog.dismiss()
-                            BaseFileInstaller.installBaseFiles(this@NeoTermActivity, resultListener)
-                        }).show()
             }
         }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 
-        if (!isRecreating()) {
-            BaseFileInstaller.installBaseFiles(this, resultListener)
+    private fun enterSystemShell() {
+        tabSwitcher.showSwitcher()
+        addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
+    }
+
+    private fun enterMain() {
+        initShortcutKeys()
+        systemShell = false
+        if (!termService!!.sessions.isEmpty()) {
+            for (session in termService!!.sessions) {
+                addNewSession(session)
+            }
+            switchToSession(getStoredCurrentSessionOrLast())
         } else {
-            systemShell = NeoPreference.loadBoolean(KEY_SYSTEM_SHELL, true)
+            tabSwitcher.showSwitcher()
+            addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
         }
     }
 

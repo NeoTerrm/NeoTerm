@@ -32,6 +32,14 @@
 *;
 }
 
+#-keep class com.igalata.** {
+#*;
+#}
+
+-keep class org.jbox2d.** {
+*;
+}
+
 -keepattributes *Annotation*
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;

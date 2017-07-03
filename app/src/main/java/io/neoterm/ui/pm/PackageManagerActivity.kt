@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
@@ -23,9 +22,11 @@ import android.widget.Toast
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import io.neoterm.R
-import io.neoterm.preference.NeoTermPath
+import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.pm.NeoPackageManager
+import io.neoterm.customize.pm.NeoPackageManagerUtils
 import io.neoterm.preference.NeoPreference
+import io.neoterm.preference.NeoTermPath
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 import io.neoterm.utils.FileUtils
@@ -67,10 +68,10 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
                         .setTitle(model.packageInfo.packageName)
                         .setMessage(model.getPackageDetails(this@PackageManagerActivity))
                         .setPositiveButton(R.string.install, { _, _ ->
-                            val dialog = TerminalDialog(this@PackageManagerActivity, null)
-                            dialog.execute("${NeoTermPath.USR_PATH}/bin/apt",
-                                    arrayOf("apt", "install", "-y", model.packageInfo.packageName!!))
-                            dialog.show("Installing ${model.packageInfo.packageName}")
+                            TerminalDialog(this@PackageManagerActivity)
+                                    .execute(NeoTermPath.APT_BIN_PATH,
+                                            arrayOf("apt", "install", "-y", model.packageInfo.packageName!!))
+                                    .show("Installing ${model.packageInfo.packageName}")
                         })
                         .setNegativeButton(android.R.string.no, null)
                         .show()
@@ -86,34 +87,6 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
 
         models = ArrayList()
         refreshPackageList()
-    }
-
-    private fun detectSourceFiles(): ArrayList<File> {
-        val sourceFiles = ArrayList<File>()
-        val sourceUrl = NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE)
-        val packageFilePrefix = detectSourceFilePrefix(sourceUrl)
-        if (packageFilePrefix.isNotEmpty()) {
-            File(NeoTermPath.PACKAGE_LIST_DIR)
-                    .listFiles()
-                    .filterTo(sourceFiles) { it.name.startsWith(packageFilePrefix) }
-        }
-        return sourceFiles
-    }
-
-    private fun detectSourceFilePrefix(sourceUrl: String): String {
-        try {
-            val url = URL(sourceUrl)
-            val builder = StringBuilder()
-            builder.append(url.host)
-            if (url.path != null && url.path.isNotEmpty()) {
-                builder.append("_")
-                builder.append(url.path.substring(1)) // Skip '/'
-            }
-            builder.append("_dists_stable_main_binary-")
-            return builder.toString()
-        } catch (e: Exception) {
-            return ""
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -194,11 +167,14 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     }
 
     private fun executeAptUpdate() {
-        val dialog = TerminalDialog(this@PackageManagerActivity, DialogInterface.OnCancelListener {
-            refreshPackageList()
-        })
-        dialog.execute("${NeoTermPath.USR_PATH}/bin/apt", arrayOf("apt", "update"))
-        dialog.show("apt update")
+        TerminalDialog(this@PackageManagerActivity)
+                .onFinish(object : TerminalDialog.SessionFinishedCallback {
+                    override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
+                        refreshPackageList()
+                    }
+                })
+                .execute(NeoTermPath.APT_BIN_PATH, arrayOf("apt", "update"))
+                .show("apt update")
     }
 
     private fun refreshPackageList() {
@@ -206,8 +182,8 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         progressBar.visibility = View.VISIBLE
         progressBar.alpha = 0.0f
         Thread {
-            val pm = NeoPackageManager.getInstance()
-            val sourceFiles = detectSourceFiles()
+            val pm = NeoPackageManager.get()
+            val sourceFiles = NeoPackageManagerUtils.detectSourceFiles()
 
             pm.clearPackages()
             for (index in sourceFiles.indices) {

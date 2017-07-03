@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.setup.SetupActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.NeoTermActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"

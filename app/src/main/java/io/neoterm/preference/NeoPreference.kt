@@ -3,6 +3,7 @@ package io.neoterm.preference
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.services.NeoTermService
@@ -23,10 +24,8 @@ object NeoPreference {
     const val VALUE_SYSTEM_FIRST = "SystemFirst"
 
     var preference: SharedPreferences? = null
-    var context: Context? = null
 
     fun init(context: Context) {
-        this.context = context
         preference = PreferenceManager.getDefaultSharedPreferences(context)
 
         // load apt source
@@ -43,11 +42,10 @@ object NeoPreference {
 
     fun cleanup() {
         preference = null
-        context = null
     }
 
     fun store(key: Int, value: Any) {
-        store(context!!.getString(key), value)
+        store(App.get().getString(key), value)
     }
 
     fun store(key: String, value: Any) {
@@ -59,15 +57,15 @@ object NeoPreference {
     }
 
     fun loadInt(key: Int, defaultValue: Int): Int {
-        return loadInt(context!!.getString(key), defaultValue)
+        return loadInt(App.get().getString(key), defaultValue)
     }
 
     fun loadString(key: Int, defaultValue: String?): String {
-        return loadString(context!!.getString(key), defaultValue)
+        return loadString(App.get().getString(key), defaultValue)
     }
 
     fun loadBoolean(key: Int, defaultValue: Boolean): Boolean {
-        return loadBoolean(context!!.getString(key), defaultValue)
+        return loadBoolean(App.get().getString(key), defaultValue)
     }
 
     fun loadInt(key: String?, defaultValue: Int): Int {

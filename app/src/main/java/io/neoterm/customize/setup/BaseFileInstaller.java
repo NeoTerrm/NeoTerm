@@ -32,13 +32,18 @@ public final class BaseFileInstaller {
         void onResult(Exception error);
     }
 
-    public static void installBaseFiles(final Activity activity, final ResultListener resultListener) {
+    public static boolean needSetup() {
         final File PREFIX_FILE = new File(NeoTermPath.USR_PATH);
-        if (PREFIX_FILE.isDirectory()) {
+        return !PREFIX_FILE.isDirectory();
+    }
+
+    public static void installBaseFiles(final Activity activity, final ResultListener resultListener) {
+        if (!needSetup()) {
             resultListener.onResult(null);
             return;
         }
 
+        final File PREFIX_FILE = new File(NeoTermPath.USR_PATH);
         installHomeFiles(activity);
 
         final ProgressDialog progress = makeProgressDialog(activity);

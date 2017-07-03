@@ -68,4 +68,9 @@
     <string name="package_settings_desc">源，更新，升级</string>
     <string name="install_font">安装字体</string>
     <string name="install_color">安装配色方案</string>
+    <string name="setup_hello">发现</string>
+    <string name="setup_info">你好，NeoTerm</string>
+    <string name="setup_info2">轻触以选择你的最爱</string>
+    <string name="setup_next">下一步</string>
+    <string name="discovery">发现</string>
 </resources>

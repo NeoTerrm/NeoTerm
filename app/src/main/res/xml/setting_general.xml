@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="sh"
+        android:entries="@array/pref_general_shell_entries"
+        android:entryValues="@array/pref_general_shell_entries"
+        android:key="@string/key_general_shell"
+        android:summary="@string/pref_general_shell_desc"
+        android:title="@string/pref_general_shell" />
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/key_general_bell"
@@ -25,13 +33,5 @@
         android:summary="@string/pref_general_program_selection_desc"
         android:entries="@array/pref_general_program_selection_entries"
         android:entryValues="@array/pref_general_program_selection_values"/>
-
-    <ListPreference
-        android:defaultValue="sh"
-        android:entries="@array/pref_general_shell_entries"
-        android:entryValues="@array/pref_general_shell_entries"
-        android:key="@string/key_general_shell"
-        android:summary="@string/pref_general_shell_desc"
-        android:title="@string/pref_general_shell" />
 
 </PreferenceScreen>

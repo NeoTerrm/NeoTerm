@@ -14,7 +14,7 @@ class ExampleUnitTest {
     @Test
     @Throws(Exception::class)
     fun test_config_parser() {
-        val pm = NeoPackageManager.getInstance()
+        val pm = NeoPackageManager.get()
         pm.refreshPackageList(File("/Users/kiva/1.txt"), true)
         val clang = pm.getPackageInfo("clang")
         println(">>> Parsed ${pm.packageCount} packages.")

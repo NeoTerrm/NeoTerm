@@ -13,15 +13,21 @@ import io.neoterm.utils.TerminalUtils
 /**
  * @author kiva
  */
-class TerminalDialog(val context: Context, var cancelListener: DialogInterface.OnCancelListener?) {
+class TerminalDialog(val context: Context) {
+
+    interface SessionFinishedCallback {
+        fun onSessionFinished(dialog:TerminalDialog, finishedSession: TerminalSession?)
+    }
 
     @SuppressLint("InflateParams")
-    var view: View = LayoutInflater.from(context).inflate(R.layout.ui_term_dialog, null, false)
-    var terminalView: TerminalView
-    var terminalViewClient: BasicViewClient
-    var terminalSessionCallback: BasicSessionCallback
-    var dialog: AlertDialog? = null
-    var terminalSession: TerminalSession? = null
+    private var view: View = LayoutInflater.from(context).inflate(R.layout.ui_term_dialog, null, false)
+    private var terminalView: TerminalView
+    private var terminalViewClient: BasicViewClient
+    private var terminalSessionCallback: BasicSessionCallback
+    private var dialog: AlertDialog? = null
+    private var terminalSession: TerminalSession? = null
+    private var sessionFinishedCallback: SessionFinishedCallback? = null
+    private var cancelListener: DialogInterface.OnCancelListener? = null
 
     init {
         terminalView = view.findViewById(R.id.terminal_view_dialog) as TerminalView
@@ -29,10 +35,15 @@ class TerminalDialog(val context: Context, var cancelListener: DialogInterface.O
         TerminalUtils.setupTerminalView(terminalView, terminalViewClient)
 
         terminalView.setOnKeyListener(terminalViewClient)
-        terminalSessionCallback = BasicSessionCallback(terminalView)
+        terminalSessionCallback = object : BasicSessionCallback(terminalView) {
+            override fun onSessionFinished(finishedSession: TerminalSession?) {
+                sessionFinishedCallback?.onSessionFinished(this@TerminalDialog, finishedSession)
+                super.onSessionFinished(finishedSession)
+            }
+        }
     }
 
-    fun execute(executablePath: String, arguments: Array<String>?) {
+    fun execute(executablePath: String, arguments: Array<String>?): TerminalDialog {
         if (terminalSession != null) {
             terminalSession?.finishIfRunning()
         }
@@ -47,6 +58,17 @@ class TerminalDialog(val context: Context, var cancelListener: DialogInterface.O
 
         terminalSession = TerminalUtils.createSession(context, executablePath, arguments, null, null, terminalSessionCallback, false)
         terminalView.attachSession(terminalSession)
+        return this
+    }
+
+    fun onCancel(cancelListener: DialogInterface.OnCancelListener?): TerminalDialog {
+        this.cancelListener = cancelListener
+        return this
+    }
+
+    fun onFinish(finishedCallback: SessionFinishedCallback):TerminalDialog {
+        this.sessionFinishedCallback = finishedCallback
+        return this
     }
 
     fun show(title: String?) {
@@ -54,4 +76,8 @@ class TerminalDialog(val context: Context, var cancelListener: DialogInterface.O
         dialog?.show()
     }
 
+    fun dismiss(): TerminalDialog {
+        dialog?.dismiss()
+        return this
+    }
 }

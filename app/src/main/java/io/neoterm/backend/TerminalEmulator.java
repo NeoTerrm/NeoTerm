@@ -187,7 +187,7 @@ public final class TerminalEmulator {
      */
     private boolean mInsertMode;
 
-    /** An array of tab_switcher stops. mTabStop[i] is true if there is a tab_switcher stop set for column i. */
+    /** An array of menu_main stops. mTabStop[i] is true if there is a menu_main stop set for column i. */
     private boolean[] mTabStop;
 
     /**
@@ -486,10 +486,10 @@ public final class TerminalEmulator {
                     setCursorCol(mCursorCol - 1);
                 }
                 break;
-            case 9: // Horizontal tab_switcher (HT, \t) - move to next tab_switcher stop, but not past edge of screen
+            case 9: // Horizontal menu_main (HT, \t) - move to next menu_main stop, but not past edge of screen
                 // XXX: Should perhaps use color if writing to new cells. Try with
                 //       printf "\033[41m\tXX\033[0m\n"
-                // The OSX Terminal.app colors the spaces from the tab_switcher red, but xterm does not.
+                // The OSX Terminal.app colors the spaces from the menu_main red, but xterm does not.
                 // Note that Terminal.app only colors on new cells, in e.g.
                 //       printf "\033[41m\t\r\033[42m\tXX\033[0m\n"
                 // the first cells are created with a red backgroundColor, but when tabbing over
@@ -497,7 +497,7 @@ public final class TerminalEmulator {
                 mCursorCol = nextTabStop(1);
                 break;
             case 10: // Line feed (LF, \n).
-            case 11: // Vertical tab_switcher (VT, \v).
+            case 11: // Vertical menu_main (VT, \v).
             case 12: // Form feed (FF, \f).
                 doLinefeed();
                 break;
@@ -1521,7 +1521,7 @@ public final class TerminalEmulator {
                 setCursorPosition(mCursorCol, mCursorRow + getArg0(1));
                 break;
             // case 'f': "${CSI}${ROW};${COLUMN}f" - Horizontal and Vertical Position (HVP). Grouped with case 'H'.
-            case 'g': // Clear tab_switcher stop
+            case 'g': // Clear menu_main stop
                 switch (getArg0(0)) {
                     case 0:
                         mTabStop[mCursorCol] = false;
@@ -2106,7 +2106,7 @@ public final class TerminalEmulator {
                     codePoint = '▒'; // Checker board.
                     break;
                 case 'b':
-                    codePoint = '␉'; // Horizontal tab_switcher.
+                    codePoint = '␉'; // Horizontal menu_main.
                     break;
                 case 'c':
                     codePoint = '␌'; // Form feed.
@@ -2127,7 +2127,7 @@ public final class TerminalEmulator {
                     codePoint = '\n'; // Newline.
                     break;
                 case 'i':
-                    codePoint = '␋'; // Vertical tab_switcher.
+                    codePoint = '␋'; // Vertical menu_main.
                     break;
                 case 'j':
                     codePoint = '┘'; // Lower right corner.

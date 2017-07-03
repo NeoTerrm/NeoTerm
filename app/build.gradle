@@ -17,8 +17,8 @@ android {
         applicationId "io.neoterm"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 4
-        versionName "1.1.2"
+        versionCode 5
+        versionName "1.1.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resConfigs "zh"
         externalNativeBuild {
@@ -59,7 +59,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile project(':chrome-tabs')
+    implementation project(':chrome-tabs')
     implementation 'com.android.support:design:25.3.1'
     compile 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
     compile 'com.github.wrdlbrnft:sorted-list-adapter:0.2.0.19'

@@ -5,7 +5,7 @@ import io.neoterm.backend.TerminalSession
 /**
  * @author kiva
  */
-class BasicSessionCallback(var terminalView: TerminalView) : TerminalSession.SessionChangedCallback {
+open class BasicSessionCallback(var terminalView: TerminalView) : TerminalSession.SessionChangedCallback {
     override fun onTextChanged(changedSession: TerminalSession?) {
         if (changedSession != null) {
             terminalView.onScreenUpdated()

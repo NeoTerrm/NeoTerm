@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class NeoPackageManager {
     private static final NeoPackageManager INSTANCE = new NeoPackageManager();
 
-    public static NeoPackageManager getInstance() {
+    public static NeoPackageManager get() {
         return INSTANCE;
     }
 

@@ -5,6 +5,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatPreferenceActivity
 import android.view.MenuItem
 import io.neoterm.R
+import io.neoterm.backend.TerminalSession
+import io.neoterm.preference.NeoPreference
+import io.neoterm.preference.NeoTermPath
+import io.neoterm.view.TerminalDialog
 
 /**
  * @author kiva
@@ -17,15 +21,32 @@ class UISettingsActivity : AppCompatPreferenceActivity() {
         supportActionBar.setDisplayHomeAsUpEnabled(true)
         addPreferencesFromResource(R.xml.settings_ui)
         findPreference(getString(R.string.key_ui_suggestions))
-                .setOnPreferenceChangeListener({_, newValue ->
-                    if (newValue as Boolean) {
+                .setOnPreferenceChangeListener({ _, newValue ->
+                    if (newValue is Boolean && newValue) {
                         AlertDialog.Builder(this@UISettingsActivity)
-                                .setMessage(R.string.installer_install_zsh_manually)
-                                .setPositiveButton(android.R.string.yes, null)
+                                .setMessage(R.string.installer_install_zsh_required)
+                                .setPositiveButton(android.R.string.yes, { _, _ ->
+                                    installOhMyZsh()
+                                })
+                                .setNegativeButton(android.R.string.no, null)
                                 .show()
                     }
                     return@setOnPreferenceChangeListener true
                 })
+    }
+
+    private fun installOhMyZsh() {
+        TerminalDialog(this)
+                .onFinish(object : TerminalDialog.SessionFinishedCallback {
+                    override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
+                        dialog.dismiss()
+                        if (finishedSession?.exitStatus == 0) {
+                            NeoPreference.store(R.string.key_general_shell, "zsh")
+                        }
+                    }
+                })
+                .execute(NeoTermPath.APT_BIN_PATH, arrayOf("apt", "install", "-y", "oh-my-zsh"))
+                .show("Installing oh-my-zsh")
     }
 
     override fun onBuildHeaders(target: MutableList<Header>?) {

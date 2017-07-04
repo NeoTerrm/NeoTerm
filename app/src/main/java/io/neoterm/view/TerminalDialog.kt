@@ -61,7 +61,7 @@ class TerminalDialog(val context: Context) {
         return this
     }
 
-    fun onCancel(cancelListener: DialogInterface.OnCancelListener?): TerminalDialog {
+    fun onDismiss(cancelListener: DialogInterface.OnCancelListener?): TerminalDialog {
         this.cancelListener = cancelListener
         return this
     }

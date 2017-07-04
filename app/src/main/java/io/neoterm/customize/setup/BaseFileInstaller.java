@@ -44,7 +44,6 @@ public final class BaseFileInstaller {
         }
 
         final File PREFIX_FILE = new File(NeoTermPath.USR_PATH);
-        installHomeFiles(activity);
 
         final ProgressDialog progress = makeProgressDialog(activity);
         progress.setMax(100);
@@ -170,26 +169,6 @@ public final class BaseFileInstaller {
                 }
             }
         }.start();
-    }
-
-    private static void installHomeFiles(final Activity activity) {
-        File HOME_PATH = new File(NeoTermPath.HOME_PATH);
-        File ZSH_INSTALLER = new File(HOME_PATH, "install-zsh.sh");
-
-        if (!HOME_PATH.exists()) {
-            HOME_PATH.mkdirs();
-        }
-
-        if (!ZSH_INSTALLER.exists()) {
-            try {
-                InputStream inputStream = activity.getAssets().open("install-zsh.sh");
-                FileUtils.INSTANCE.writeFile(ZSH_INSTALLER, inputStream);
-                inputStream.close();
-
-                Os.chmod(ZSH_INSTALLER.getAbsolutePath(), 0700);
-            } catch (Exception ignore) {
-            }
-        }
     }
 
     private static URL determineZipUrl() throws MalformedURLException {

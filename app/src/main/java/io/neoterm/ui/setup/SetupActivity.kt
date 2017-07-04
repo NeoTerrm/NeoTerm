@@ -63,7 +63,7 @@ class SetupActivity : AppCompatActivity() {
                 }
 
                 TerminalDialog(this@SetupActivity)
-                        .onCancel(DialogInterface.OnCancelListener {
+                        .onDismiss(DialogInterface.OnCancelListener {
                             if (withShell != null) {
                                 NeoPreference.store(R.string.key_general_shell, withShell!!)
                             }

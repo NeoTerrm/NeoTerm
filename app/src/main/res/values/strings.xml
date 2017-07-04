@@ -42,7 +42,7 @@
     <string name="install_color">Install Color Scheme</string>
 
     <string name="installer_message">Installing</string>
-    <string name="installer_install_zsh_manually">You may install zsh and setup suggestions by executing: ~/install-zsh.sh</string>
+    <string name="installer_install_zsh_required">We are about to install oh-my-zsh and switch your login shell to zsh</string>
 
     <string name="pref_general_bell">Bell</string>
     <string name="pref_general_bell_desc">Bell when receiving \'\\a\'</string>

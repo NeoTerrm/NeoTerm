@@ -1,7 +1,6 @@
 package io.neoterm.ui.setup
 
 import android.app.Activity
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -63,11 +62,17 @@ class SetupActivity : AppCompatActivity() {
                 }
 
                 TerminalDialog(this@SetupActivity)
-                        .onDismiss(DialogInterface.OnCancelListener {
-                            if (withShell != null) {
-                                NeoPreference.store(R.string.key_general_shell, withShell!!)
+                        .onFinish(object : TerminalDialog.SessionFinishedCallback {
+                            override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
+                                if (finishedSession?.exitStatus == 0) {
+                                    dialog.dismiss()
+                                    if (withShell != null) {
+                                        NeoPreference.store(R.string.key_general_shell, withShell!!)
+                                    }
+                                } else {
+                                    dialog.setTitle(getString(R.string.error))
+                                }
                             }
-                            finish()
                         })
                         .execute(NeoTermPath.APT_BIN_PATH, packageList.toTypedArray())
                         .show(getString(R.string.installer_message))
@@ -106,11 +111,13 @@ class SetupActivity : AppCompatActivity() {
         TerminalDialog(this)
                 .onFinish(object : TerminalDialog.SessionFinishedCallback {
                     override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
-                        dialog.dismiss()
                         nextButton.visibility = View.VISIBLE
                         val exit = finishedSession?.exitStatus ?: 1
                         if (exit == 0) {
+                            dialog.dismiss()
                             aptUpdated = true
+                        } else {
+                            dialog.setTitle(getString(R.string.error))
                         }
                     }
                 })

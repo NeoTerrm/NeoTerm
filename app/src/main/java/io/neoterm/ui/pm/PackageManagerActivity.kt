@@ -68,10 +68,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
                         .setTitle(model.packageInfo.packageName)
                         .setMessage(model.getPackageDetails(this@PackageManagerActivity))
                         .setPositiveButton(R.string.install, { _, _ ->
-                            TerminalDialog(this@PackageManagerActivity)
-                                    .execute(NeoTermPath.APT_BIN_PATH,
-                                            arrayOf("apt", "install", "-y", model.packageInfo.packageName!!))
-                                    .show("Installing ${model.packageInfo.packageName}")
+                            installPackage(model.packageInfo.packageName)
                         })
                         .setNegativeButton(android.R.string.no, null)
                         .show()
@@ -87,6 +84,20 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
 
         models = ArrayList()
         refreshPackageList()
+    }
+
+    private fun installPackage(packageName: String?) {
+        if (packageName != null) {
+            TerminalDialog(this@PackageManagerActivity)
+                    .execute(NeoTermPath.APT_BIN_PATH,
+                            arrayOf("apt", "install", "-y", packageName))
+                    .onFinish(object : TerminalDialog.SessionFinishedCallback {
+                        override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
+                            dialog.setTitle(getString(R.string.done))
+                        }
+                    })
+                    .show("Installing $packageName")
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -170,6 +181,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         TerminalDialog(this@PackageManagerActivity)
                 .onFinish(object : TerminalDialog.SessionFinishedCallback {
                     override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
+                        dialog.dismiss()
                         refreshPackageList()
                     }
                 })

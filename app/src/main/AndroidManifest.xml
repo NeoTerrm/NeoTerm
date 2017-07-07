@@ -10,14 +10,12 @@
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_config"
         android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.setup.SetupActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.NeoTermActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -31,6 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.setup.SetupActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.pm.PackageManagerActivity"
             android:label="@string/package_settings"
@@ -50,9 +51,21 @@
             android:name=".ui.settings.UISettingsActivity"
             android:theme="@style/Theme.AppCompat" />
 
+        <activity-alias
+            android:name=".NeoLotMainActivity"
+            android:targetActivity="io.neoterm.ui.NeoTermActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.IOT_LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity-alias>
+
         <service
             android:name=".services.NeoTermService"
             android:enabled="true" />
+
+        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
     </application>
 
 </manifest>

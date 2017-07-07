@@ -66,6 +66,11 @@ class TerminalDialog(val context: Context) {
         return this
     }
 
+    fun setTitle(title: String?) : TerminalDialog {
+        dialog?.setTitle(title)
+        return this
+    }
+
     fun onFinish(finishedCallback: SessionFinishedCallback):TerminalDialog {
         this.sessionFinishedCallback = finishedCallback
         return this

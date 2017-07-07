@@ -36,22 +36,32 @@ import io.neoterm.backend.TerminalBuffer;
 import io.neoterm.backend.TerminalEmulator;
 import io.neoterm.backend.TerminalSession;
 
-/** View displaying and interacting with a {@link TerminalSession}. */
+/**
+ * View displaying and interacting with a {@link TerminalSession}.
+ */
 public final class TerminalView extends View {
 
-    /** Log view key and IME events. */
+    /**
+     * Log view key and IME events.
+     */
     private static final boolean LOG_KEY_EVENTS = false;
 
-    /** The currently displayed terminal session, whose emulator is {@link #mEmulator}. */
+    /**
+     * The currently displayed terminal session, whose emulator is {@link #mEmulator}.
+     */
     TerminalSession mTermSession;
-    /** Our terminal emulator whose session is {@link #mTermSession}. */
+    /**
+     * Our terminal emulator whose session is {@link #mTermSession}.
+     */
     TerminalEmulator mEmulator;
 
     TerminalRenderer mRenderer;
 
     TerminalViewClient mClient;
 
-    /** The top row of text to display. Ranges from -activeTranscriptRows to 0. */
+    /**
+     * The top row of text to display. Ranges from -activeTranscriptRows to 0.
+     */
     int mTopRow;
 
     boolean mIsSelectingText = false, mIsDraggingLeftSelection, mInitialTextSelection;
@@ -63,17 +73,25 @@ public final class TerminalView extends View {
     float mScaleFactor = 1.f;
     /* final */ GestureAndScaleRecognizer mGestureRecognizer;
 
-    /** Keep track of where mouse touch event started which we report as mouse scroll. */
+    /**
+     * Keep track of where mouse touch event started which we report as mouse scroll.
+     */
     private int mMouseScrollStartX = -1, mMouseScrollStartY = -1;
-    /** Keep track of the time when a touch event leading to sending mouse scroll events started. */
+    /**
+     * Keep track of the time when a touch event leading to sending mouse scroll events started.
+     */
     private long mMouseStartDownTime = -1;
 
     /* final */ Scroller mScroller;
 
-    /** What was left in from scrolling movement. */
+    /**
+     * What was left in from scrolling movement.
+     */
     float mScrollRemainder;
 
-    /** If non-zero, this is the last unicode code point received if that was a combining character. */
+    /**
+     * If non-zero, this is the last unicode code point received if that was a combining character.
+     */
     int mCombiningAccent;
     int mTextSize;
 
@@ -429,7 +447,9 @@ public final class TerminalView extends View {
         return true;
     }
 
-    /** Send a single mouse event code to the terminal. */
+    /**
+     * Send a single mouse event code to the terminal.
+     */
     void sendMouseEventCode(MotionEvent e, int button, boolean pressed) {
         int x = (int) (e.getX() / mRenderer.mFontWidth) + 1;
         int y = (int) ((e.getY() - mRenderer.mFontLineSpacingAndAscent) / mRenderer.mFontLineSpacing) + 1;
@@ -446,7 +466,9 @@ public final class TerminalView extends View {
         mEmulator.sendMouseEvent(button, x, y, pressed);
     }
 
-    /** Perform a scroll, either from dragging the screen or by scrolling a mouse wheel. */
+    /**
+     * Perform a scroll, either from dragging the screen or by scrolling a mouse wheel.
+     */
     void doScroll(MotionEvent event, int rowsDown) {
         boolean up = rowsDown < 0;
         int amount = Math.abs(rowsDown);
@@ -464,7 +486,9 @@ public final class TerminalView extends View {
         }
     }
 
-    /** Overriding {@link View#onGenericMotionEvent(MotionEvent)}. */
+    /**
+     * Overriding {@link View#onGenericMotionEvent(MotionEvent)}.
+     */
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
         if (mEmulator != null && event.isFromSource(InputDevice.SOURCE_MOUSE) && event.getAction() == MotionEvent.ACTION_SCROLL) {
@@ -656,7 +680,7 @@ public final class TerminalView extends View {
     void inputCodePoint(int codePoint, boolean controlDownFromEvent, boolean leftAltDownFromEvent) {
         if (LOG_KEY_EVENTS) {
             Log.i(EmulatorDebug.LOG_TAG, "inputCodePoint(codePoint=" + codePoint + ", controlDownFromEvent=" + controlDownFromEvent + ", leftAltDownFromEvent="
-                + leftAltDownFromEvent + ")");
+                    + leftAltDownFromEvent + ")");
         }
 
         final boolean controlDown = controlDownFromEvent || mClient.readControlKey();
@@ -709,7 +733,9 @@ public final class TerminalView extends View {
         }
     }
 
-    /** Input the specified keyCode if applicable and return if the input was consumed. */
+    /**
+     * Input the specified keyCode if applicable and return if the input was consumed.
+     */
     public boolean handleKeyCode(int keyCode, int keyMod) {
         TerminalEmulator term = mTermSession.getEmulator();
         String code = KeyHandler.getCode(keyCode, keyMod, term.isCursorKeysApplicationMode(), term.isKeypadApplicationMode());
@@ -751,7 +777,9 @@ public final class TerminalView extends View {
         updateSize();
     }
 
-    /** Check if the terminal size in rows and columns should be updated. */
+    /**
+     * Check if the terminal size in rows and columns should be updated.
+     */
     public void updateSize() {
         int viewWidth = getWidth();
         int viewHeight = getHeight();
@@ -795,7 +823,9 @@ public final class TerminalView extends View {
         }
     }
 
-    /** Toggle text selection mode in the view. */
+    /**
+     * Toggle text selection mode in the view.
+     */
     @TargetApi(23)
     public void toggleSelectingText(MotionEvent ev) {
         mIsSelectingText = !mIsSelectingText;
@@ -851,6 +881,11 @@ public final class TerminalView extends View {
 
                 @Override
                 public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    if (!mIsSelectingText) {
+                        // Fix issue where the dialog is pressed while being dismissed.
+                        return true;
+                    }
+
                     switch (item.getItemId()) {
                         case 1:
                             String selectedText = mEmulator.getSelectedText(mSelX1, mSelY1, mSelX2, mSelY2).trim();

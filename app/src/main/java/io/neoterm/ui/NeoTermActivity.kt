@@ -114,7 +114,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         TabSwitcher.setupWithMenu(tabSwitcher, toolbar.menu, View.OnClickListener {
             val imm = this@NeoTermActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             if (!tabSwitcher.isSwitcherShown) {
-                if (imm.isActive) {
+                if (imm.isActive && tabSwitcher.selectedTab is TermTab) {
                     val tab = tabSwitcher.selectedTab as TermTab
                     tab.hideIme()
                 }

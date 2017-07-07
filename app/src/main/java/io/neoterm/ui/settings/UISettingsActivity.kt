@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatPreferenceActivity
 import android.view.MenuItem
+import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.preference.NeoPreference
@@ -39,9 +40,11 @@ class UISettingsActivity : AppCompatPreferenceActivity() {
         TerminalDialog(this)
                 .onFinish(object : TerminalDialog.SessionFinishedCallback {
                     override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
-                        dialog.dismiss()
                         if (finishedSession?.exitStatus == 0) {
+                            dialog.dismiss()
                             NeoPreference.store(R.string.key_general_shell, "zsh")
+                        } else {
+                            dialog.setTitle(getString(R.string.error))
                         }
                     }
                 })

@@ -16,9 +16,11 @@ import java.io.File
  */
 
 object NeoPreference {
+    const val KEY_HAPPY_EGG = "neoterm_fun_happy"
     const val KEY_FONT_SIZE = "neoterm_general_font_size"
     const val KEY_CURRENT_SESSION = "neoterm_service_current_session"
 
+    const val VALUE_HAPPY_EGG_TRIGGER = 8
     const val VALUE_NEOTERM_ONLY = "NeoTermOnly"
     const val VALUE_NEOTERM_FIRST = "NeoTermFirst"
     const val VALUE_SYSTEM_FIRST = "SystemFirst"

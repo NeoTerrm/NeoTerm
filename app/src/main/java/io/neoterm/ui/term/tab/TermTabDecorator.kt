@@ -1,4 +1,4 @@
-package io.neoterm.view.tab
+package io.neoterm.ui.term.tab
 
 import android.content.Context
 import android.os.Bundle
@@ -11,7 +11,7 @@ import de.mrapp.android.tabswitcher.TabSwitcherDecorator
 import io.neoterm.R
 import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoPreference
-import io.neoterm.ui.NeoTermActivity
+import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView

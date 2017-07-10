@@ -1,4 +1,4 @@
-package io.neoterm.view.tab
+package io.neoterm.ui.term.tab
 
 import android.content.ClipData
 import android.content.ClipboardManager

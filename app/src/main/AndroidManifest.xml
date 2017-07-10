@@ -6,21 +6,21 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_config"
         android:extractNativeLibs="true"
+        android:fullBackupContent="@xml/backup_config"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.NeoTermActivity"
+            android:name=".ui.term.NeoTermActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
@@ -30,8 +30,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.crash.CrashActivity"
+            android:exported="false"
+            android:label="@string/error"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.setup.SetupActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.bonus.BonusActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:configChanges="orientation|keyboardHidden"/>
         <activity
             android:name=".ui.pm.PackageManagerActivity"
             android:label="@string/package_settings"
@@ -39,8 +48,7 @@
         <activity
             android:name=".ui.customization.CustomizationActivity"
             android:label="@string/customization_settings"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ui.settings.SettingActivity"
             android:theme="@style/Theme.AppCompat" />
@@ -53,11 +61,12 @@
 
         <activity-alias
             android:name=".NeoLotMainActivity"
-            android:targetActivity="io.neoterm.ui.NeoTermActivity">
+            android:targetActivity="io.neoterm.ui.term.NeoTermActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.IOT_LAUNCHER"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.IOT_LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity-alias>
 
@@ -65,7 +74,9 @@
             android:name=".services.NeoTermService"
             android:enabled="true" />
 
-        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true" />
     </application>
 
 </manifest>

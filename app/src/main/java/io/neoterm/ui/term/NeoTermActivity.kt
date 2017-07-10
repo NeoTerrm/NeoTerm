@@ -1,5 +1,6 @@
-package io.neoterm.ui
+package io.neoterm.ui.term
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
@@ -13,8 +14,10 @@ import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.*
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
+import android.widget.Toast
 import de.mrapp.android.tabswitcher.*
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
@@ -25,12 +28,18 @@ import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.preference.NeoPermission
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
+import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.ui.setup.SetupActivity
+import io.neoterm.ui.term.tab.TermSessionChangedCallback
+import io.neoterm.ui.term.tab.TermTab
+import io.neoterm.ui.term.tab.TermTabDecorator
+import io.neoterm.ui.term.tab.TermViewClient
+import io.neoterm.ui.term.tab.event.TabCloseEvent
+import io.neoterm.ui.term.tab.event.ToggleFullScreenEvent
 import io.neoterm.utils.FullScreenHelper
 import io.neoterm.view.eks.StatedControlButton
-import io.neoterm.view.tab.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -70,31 +79,25 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         setSupportActionBar(toolbar)
 
         fullScreenHelper = FullScreenHelper.injectActivity(this, fullscreen, peekRecreating())
-        fullScreenHelper.setKeyBoardListener({ isShow, _ ->
-            var tab: TermTab? = null
+        fullScreenHelper.setKeyBoardListener(object : FullScreenHelper.KeyBoardListener {
+            override fun onKeyboardChange(isShow: Boolean, keyboardHeight: Int) {
+                var tab: TermTab? = null
 
-            if (tabSwitcher.selectedTab is TermTab) {
-                tab = tabSwitcher.selectedTab as TermTab
-            }
+                if (tabSwitcher.selectedTab is TermTab) {
+                    tab = tabSwitcher.selectedTab as TermTab
+                }
 
-            if (NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
-                    || NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
-                tab?.toolbar?.visibility = if (isShow) View.GONE else View.VISIBLE
+                if (NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
+                        || NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
+                    tab?.toolbar?.visibility = if (isShow) View.GONE else View.VISIBLE
+                }
             }
         })
 
         fullScreenToggleButton = object : StatedControlButton("FS", fullscreen) {
-            override fun onClick(view: View?) {
+            override fun onClick(view: View) {
                 super.onClick(view)
-                if (tabSwitcher.selectedTab is TermTab) {
-                    val tab = tabSwitcher.selectedTab as TermTab
-                    tab.hideIme()
-                }
-                NeoPreference.store(R.string.key_ui_fullscreen, super.toggleButton.isChecked)
-                // FIXME: Cannot toggle full screen mode
-                // FIXME: We still need to recreate the activity.
-//                setFullScreenMode(super.toggleButton.isChecked)
-                this@NeoTermActivity.recreate()
+                setFullScreenMode(super.toggleButton?.isChecked ?: false)
             }
         }
 
@@ -116,11 +119,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             if (!tabSwitcher.isSwitcherShown) {
                 if (imm.isActive && tabSwitcher.selectedTab is TermTab) {
                     val tab = tabSwitcher.selectedTab as TermTab
-                    tab.hideIme()
+                    tab.requireHideIme()
                 }
-                tabSwitcher.showSwitcher()
+                toggleSwitcher(showSwitcher = true)
             } else {
-                tabSwitcher.hideSwitcher()
+                toggleSwitcher(showSwitcher = false)
             }
         })
         return true
@@ -149,7 +152,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
             R.id.menu_item_new_session -> {
                 if (!tabSwitcher.isSwitcherShown) {
-                    tabSwitcher.showSwitcher()
+                    toggleSwitcher(showSwitcher = true)
                 }
                 val index = tabSwitcher.count
                 addNewSession("NeoTerm #" + index, systemShell, createRevealAnimation())
@@ -232,7 +235,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
                 if (event?.action == KeyEvent.ACTION_DOWN && tabSwitcher.isSwitcherShown && tabSwitcher.count > 0) {
-                    tabSwitcher.hideSwitcher()
+                    toggleSwitcher(showSwitcher = false)
                     return true
                 }
             }
@@ -311,7 +314,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun enterSystemShell() {
-        tabSwitcher.showSwitcher()
+        toggleSwitcher(showSwitcher = true)
         addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
     }
 
@@ -324,7 +327,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
             switchToSession(getStoredCurrentSessionOrLast())
         } else {
-            tabSwitcher.showSwitcher()
+            toggleSwitcher(showSwitcher = true)
             addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
         }
     }
@@ -353,18 +356,27 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun setFullScreenMode(fullScreen: Boolean) {
-        fullScreenHelper.setFullScreen(fullScreen)
-        if (fullScreen) {
-            tabSwitcher.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        } else {
-            tabSwitcher.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+        fullScreenHelper.fullScreen = fullScreen
+        if (tabSwitcher.selectedTab is TermTab) {
+            val tab = tabSwitcher.selectedTab as TermTab
+            tab.requireHideIme()
         }
+        NeoPreference.store(R.string.key_ui_fullscreen, fullScreen)
+        this@NeoTermActivity.recreate()
     }
 
     private fun addNewSession(session: TerminalSession?) {
         if (session == null) {
             return
         }
+
+        // Do not add the same session again
+        // Or app will crash when rotate
+        val tabCount = tabSwitcher.count
+        (0..(tabCount - 1))
+                .map { tabSwitcher.getTab(it) }
+                .filter { it is TermTab && it.termSession == session }
+                .forEach { return }
 
         val tab = createTab(session.mSessionName) as TermTab
         tab.sessionCallback = session.sessionChangedCallback as TermSessionChangedCallback
@@ -490,12 +502,39 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
     }
 
+    private fun toggleSwitcher(showSwitcher: Boolean) {
+        if (tabSwitcher.count > 0) {
+            val transparentAnimator = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1.0f, 0.0f, 1.0f)
+            transparentAnimator.interpolator = AccelerateDecelerateInterpolator()
+            transparentAnimator.start()
+        } else {
+            val happyCount = NeoPreference.loadInt(NeoPreference.KEY_HAPPY_EGG, 0) + 1
+            NeoPreference.store(NeoPreference.KEY_HAPPY_EGG, happyCount)
+
+            val trigger = NeoPreference.VALUE_HAPPY_EGG_TRIGGER
+
+            if (happyCount == trigger / 2) {
+                val toast = Toast.makeText(this, "Emm...", Toast.LENGTH_LONG)
+                toast.setGravity(Gravity.CENTER, 0, 0)
+                toast.show()
+            } else if (happyCount > trigger) {
+                NeoPreference.store(NeoPreference.KEY_HAPPY_EGG, 0)
+                startActivity(Intent(this, BonusActivity::class.java))
+            }
+            return
+        }
+        if (showSwitcher) {
+            tabSwitcher.showSwitcher()
+        } else {
+            tabSwitcher.hideSwitcher()
+        }
+    }
 
     @Suppress("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onTabCloseEvent(tabCloseEvent: TabCloseEvent) {
         val tab = tabCloseEvent.termTab
-        tabSwitcher.showSwitcher()
+        toggleSwitcher(showSwitcher = true)
         tabSwitcher.removeTab(tab)
 
         if (tabSwitcher.count > 1) {
@@ -509,5 +548,12 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
             switchToSession(tabSwitcher.getTab(index))
         }
+    }
+
+    @Suppress("unused", "UNUSED_PARAMETER")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onToggleFullScreenEvent(toggleFullScreenEvent: ToggleFullScreenEvent) {
+        val fullScreen = fullScreenHelper.fullScreen
+        setFullScreenMode(!fullScreen)
     }
 }

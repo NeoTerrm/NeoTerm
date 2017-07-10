@@ -1,15 +1,15 @@
-package io.neoterm.view.tab
+package io.neoterm.ui.term.tab
 
 import android.content.Context
-import android.graphics.Color
 import android.support.v7.widget.Toolbar
 import android.view.inputmethod.InputMethodManager
 import de.mrapp.android.tabswitcher.Tab
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.color.ColorSchemeManager
-import io.neoterm.customize.color.NeoColorScheme
 import io.neoterm.preference.NeoPreference
+import io.neoterm.ui.term.tab.event.TabCloseEvent
+import io.neoterm.ui.term.tab.event.ToggleFullScreenEvent
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -38,12 +38,14 @@ class TermTab(title: CharSequence) : Tab(title) {
     }
 
     fun updateTitle(title: String) {
-        this.title = title
-        toolbar?.title = title
-        if (NeoPreference.loadBoolean(R.string.key_ui_suggestions, true)) {
-            viewClient?.updateSuggestions(title)
-        } else {
-            viewClient?.removeSuggestions()
+        if (title.isNotEmpty()) {
+            this.title = title
+            toolbar?.title = title
+            if (NeoPreference.loadBoolean(R.string.key_ui_suggestions, true)) {
+                viewClient?.updateSuggestions(title)
+            } else {
+                viewClient?.removeSuggestions()
+            }
         }
     }
 
@@ -51,12 +53,12 @@ class TermTab(title: CharSequence) : Tab(title) {
         viewClient?.sessionFinished = true
     }
 
-    fun requiredCloseTab() {
-        hideIme()
+    fun requireCloseTab() {
+        requireHideIme()
         EventBus.getDefault().post(TabCloseEvent(this))
     }
 
-    fun hideIme() {
+    fun requireHideIme() {
         val terminalView = viewClient?.termView
         if (terminalView != null) {
             val imm = terminalView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -64,5 +66,13 @@ class TermTab(title: CharSequence) : Tab(title) {
                 imm.hideSoftInputFromWindow(terminalView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
             }
         }
+    }
+
+    fun requireToggleFullScreen() {
+        EventBus.getDefault().post(ToggleFullScreenEvent())
+    }
+
+    fun requirePaste() {
+        viewClient?.termView?.pasteFromClipboard()
     }
 }

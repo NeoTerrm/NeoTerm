@@ -1,21 +1,25 @@
 package io.neoterm.services
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.net.wifi.WifiManager
 import android.os.Binder
 import android.os.IBinder
+import android.os.PowerManager
 import android.support.v4.content.WakefulBroadcastReceiver
 import android.util.Log
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
-import io.neoterm.ui.NeoTermActivity
+import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import java.util.*
+
 
 /**
  * @author kiva
@@ -28,6 +32,8 @@ class NeoTermService : Service() {
 
     private val neoTermBinder = NeoTermBinder()
     private val mTerminalSessions = ArrayList<TerminalSession>()
+    private var mWakeLock: PowerManager.WakeLock? = null
+    private var mWifiLock: WifiManager.WifiLock? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -40,12 +46,18 @@ class NeoTermService : Service() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         val action = intent.action
-        if (ACTION_SERVICE_STOP == action) {
-            for (i in mTerminalSessions.indices)
-                mTerminalSessions[i].finishIfRunning()
-            stopSelf()
-        } else if (action != null) {
-            Log.e(EmulatorDebug.LOG_TAG, "Unknown NeoTermService action: '$action'")
+        when (action) {
+            ACTION_SERVICE_STOP -> {
+                for (i in mTerminalSessions.indices)
+                    mTerminalSessions[i].finishIfRunning()
+                stopSelf()
+            }
+
+            ACTION_ACQUIRE_LOCK -> acquireLock()
+
+            ACTION_RELEASE_LOCK -> releaseLock()
+
+            null -> Log.e(EmulatorDebug.LOG_TAG, "Unknown NeoTermService action: '$action'")
         }
 
         if (flags and Service.START_FLAG_REDELIVERY == 0) {
@@ -76,8 +88,10 @@ class NeoTermService : Service() {
 
     fun removeTermSession(sessionToRemove: TerminalSession): Int {
         val indexOfRemoved = mTerminalSessions.indexOf(sessionToRemove)
-        mTerminalSessions.removeAt(indexOfRemoved)
-        updateNotification()
+        if (indexOfRemoved >= 0) {
+            mTerminalSessions.removeAt(indexOfRemoved)
+            updateNotification()
+        }
         return indexOfRemoved
     }
 
@@ -93,7 +107,10 @@ class NeoTermService : Service() {
         val pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, 0)
 
         val sessionCount = mTerminalSessions.size
-        val contentText = sessionCount.toString() + " session" + if (sessionCount == 1) "" else "s"
+        var contentText = getString(R.string.service_status_text, sessionCount)
+
+        val lockAcquired = mWakeLock != null
+        if (lockAcquired) contentText += getString(R.string.service_lock_acquired)
 
         val builder = Notification.Builder(this)
         builder.setContentTitle(getText(R.string.app_name))
@@ -104,14 +121,54 @@ class NeoTermService : Service() {
         builder.setShowWhen(false)
         builder.setColor(0xFF000000.toInt())
 
+        builder.setPriority(if (lockAcquired) Notification.PRIORITY_HIGH else Notification.PRIORITY_MIN)
+
         val exitIntent = Intent(this, NeoTermService::class.java).setAction(ACTION_SERVICE_STOP)
         builder.addAction(android.R.drawable.ic_delete, "Exit", PendingIntent.getService(this, 0, exitIntent, 0))
+
+        val newWakeAction = if (lockAcquired) ACTION_RELEASE_LOCK else ACTION_ACQUIRE_LOCK
+        val toggleWakeLockIntent = Intent(this, NeoTermService::class.java).setAction(newWakeAction)
+        val actionTitle = getString(if (lockAcquired)
+            R.string.service_release_lock
+        else
+            R.string.service_acquire_lock)
+        val actionIcon = if (lockAcquired) android.R.drawable.ic_lock_idle_lock else android.R.drawable.ic_lock_lock
+        builder.addAction(actionIcon, actionTitle, PendingIntent.getService(this, 0, toggleWakeLockIntent, 0))
 
         return builder.build()
     }
 
+    @SuppressLint("WakelockTimeout")
+    private fun acquireLock() {
+        if (mWakeLock == null) {
+            val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, EmulatorDebug.LOG_TAG)
+            mWakeLock!!.acquire()
+
+            val wm = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            mWifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, EmulatorDebug.LOG_TAG)
+            mWifiLock!!.acquire()
+
+            updateNotification()
+        }
+    }
+
+    private fun releaseLock() {
+        if (mWakeLock != null) {
+            mWakeLock!!.release()
+            mWakeLock = null
+
+            mWifiLock!!.release()
+            mWifiLock = null
+
+            updateNotification()
+        }
+    }
+
     companion object {
         val ACTION_SERVICE_STOP = "neoterm.action.service.stop"
+        val ACTION_ACQUIRE_LOCK = "neoterm.action.service.lock.acquire"
+        val ACTION_RELEASE_LOCK = "neoterm.action.service.lock.release"
         private val NOTIFICATION_ID = 52019
     }
 }

@@ -18,7 +18,7 @@
         android:id="@+id/package_loading_progress_bar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="4dp"
         android:visibility="gone" />
 
     <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView

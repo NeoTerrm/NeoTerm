@@ -565,12 +565,7 @@ public final class TerminalView extends View {
                 if (action == MotionEvent.ACTION_DOWN) showContextMenu();
                 return true;
             } else if (ev.isButtonPressed(MotionEvent.BUTTON_TERTIARY)) {
-                ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = clipboard.getPrimaryClip();
-                if (clipData != null) {
-                    CharSequence paste = clipData.getItemAt(0).coerceToText(getContext());
-                    if (!TextUtils.isEmpty(paste)) mEmulator.paste(paste.toString());
-                }
+                pasteFromClipboard();
             } else if (mEmulator.isMouseTrackingActive()) { // BUTTON_PRIMARY.
                 switch (ev.getAction()) {
                     case MotionEvent.ACTION_DOWN:
@@ -587,6 +582,15 @@ public final class TerminalView extends View {
 
         mGestureRecognizer.onTouchEvent(ev);
         return true;
+    }
+
+    public void pasteFromClipboard() {
+        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = clipboard.getPrimaryClip();
+        if (clipData != null) {
+            CharSequence paste = clipData.getItemAt(0).coerceToText(getContext());
+            if (!TextUtils.isEmpty(paste)) mEmulator.paste(paste.toString());
+        }
     }
 
     @Override
@@ -892,12 +896,7 @@ public final class TerminalView extends View {
                             mTermSession.clipboardText(selectedText);
                             break;
                         case 2:
-                            ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                            ClipData clipData = clipboard.getPrimaryClip();
-                            if (clipData != null) {
-                                CharSequence paste = clipData.getItemAt(0).coerceToText(getContext());
-                                if (!TextUtils.isEmpty(paste)) mEmulator.paste(paste.toString());
-                            }
+                            pasteFromClipboard();
                             break;
                         case 3:
                             showContextMenu();

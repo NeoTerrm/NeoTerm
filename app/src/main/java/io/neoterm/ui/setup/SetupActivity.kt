@@ -1,5 +1,6 @@
 package io.neoterm.ui.setup
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -7,6 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import com.igalata.bubblepicker.BubblePickerListener
 import com.igalata.bubblepicker.adapter.BubblePickerAdapter
 import com.igalata.bubblepicker.model.BubbleGradient
@@ -29,13 +31,14 @@ import java.util.*
 class SetupActivity : AppCompatActivity() {
     companion object {
         private val DEFAULT_PACKAGES = arrayOf(
-                "zsh", "aria2", "tmux", "lua", "netcat", "nodejs",
-                "fish", "make", "gdb", "unrar", "clang", "vim", "emacs",
-                "curl", "git", "python", "perl", "zip", "p7zip")
+                "zsh", "neoterm-core", "tmux", "nodejs",
+                "fish", "make", "gdb", "clang", "vim", "emacs", "nano",
+                "curl", "git", "python", "p7zip", "oh-my-zsh")
     }
 
     lateinit var picker: BubblePicker
     lateinit var nextButton: Button
+    lateinit var toast: Toast
     var aptUpdated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,6 +128,7 @@ class SetupActivity : AppCompatActivity() {
                 .show("apt update")
     }
 
+    @SuppressLint("ShowToast")
     private fun setupBubbles() {
         val titles =
                 if (intent.getBooleanExtra("setup", false))
@@ -133,10 +137,11 @@ class SetupActivity : AppCompatActivity() {
                     randomPackageList()
         val colors = resources.obtainTypedArray(R.array.bubble_colors)
 
+        toast = Toast.makeText(this, null, Toast.LENGTH_LONG)
+
         picker.bubbleSize = 25
         picker.adapter = object : BubblePickerAdapter {
             override val totalCount = titles.size
-
             override fun getItem(position: Int): PickerItem {
                 return PickerItem().apply {
                     title = titles[position]
@@ -148,9 +153,17 @@ class SetupActivity : AppCompatActivity() {
         }
         picker.listener = object : BubblePickerListener {
             override fun onBubbleSelected(item: PickerItem) {
+                val packageName = item.title
+                val pm = NeoPackageManager.get()
+                val packageInfo = pm.getPackageInfo(packageName)
+                val packageDesc = packageInfo.description
+                toast.cancel()
+                toast.setText(packageDesc)
+                toast.show()
             }
 
             override fun onBubbleDeselected(item: PickerItem) {
+                toast.cancel()
             }
         }
         colors.recycle()

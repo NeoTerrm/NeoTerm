@@ -1,16 +1,20 @@
 <resources>
-    <string name="app_name">Neo Term</string>
+    <string name="app_name">NeoTerm</string>
     <string name="copy_text">Copy</string>
     <string name="paste_text">Paste</string>
     <string name="text_selection_more">More</string>
 
     <string name="toggle_tab_switcher_menu_item">Toggle switcher</string>
     <string name="new_session">New session</string>
+    <string name="service_status_text">%d session(s)</string>
+    <string name="service_lock_acquired"> (Wake Locked)</string>
+    <string name="service_acquire_lock">Acquire Lock</string>
+    <string name="service_release_lock">Release Lock</string>
 
     <string name="setup_hello">Discovery</string>
     <string name="setup_info">Hello, NeoTerm</string>
     <string name="setup_info2">Tap to choose your favorites</string>
-    <string name="setup_next">Next</string>
+    <string name="setup_next">Install</string>
 
     <string name="about">About</string>
     <string name="discovery">Discovery</string>
@@ -28,7 +32,7 @@
     <string name="shell_not_found">Shell %s not found, please install it first.</string>
     <string name="fullscreen_mode_changed">FullScreen mode changed, please restart NeoTerm.</string>
     <string name="permission_denied">NeoTerm cannot get essential permissions, exiting.</string>
-    <string name="error">Error</string>
+    <string name="error">Oops!</string>
     <string name="use_system_shell">System Shell</string>
     <string name="retry">Retry</string>
     <string name="source_changed">APT source changed, you may get it updated by executing: apt update</string>
@@ -40,6 +44,11 @@
     <string name="menu_update">Update, Refresh</string>
     <string name="install_font">Install Font</string>
     <string name="install_color">Install Color Scheme</string>
+
+    <string name="crash_model">Model: %s</string>
+    <string name="crash_app">App: %s</string>
+    <string name="crash_tips">We are trying to deprecate this Activity…</string>
+    <string name="crash_stack_trace">Stack Trace</string>
 
     <string name="installer_message">Installing</string>
     <string name="installer_install_zsh_required">We are about to install oh-my-zsh and switch your login shell to zsh</string>

@@ -8,7 +8,7 @@ import java.io.*
  */
 class EksConfigParser {
     companion object {
-        const val PARSER_VERSION = 2
+        const val PARSER_VERSION = 4
     }
 
     private lateinit var source: BufferedReader

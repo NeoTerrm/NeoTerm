@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Neo Term</string>
+    <string name="app_name">NeoTerm</string>
     <string name="about">关于</string>
     <string name="copy_text">复制</string>
     <string name="general_settings">通用设置</string>
@@ -71,6 +71,14 @@
     <string name="setup_hello">发现</string>
     <string name="setup_info">你好，NeoTerm</string>
     <string name="setup_info2">轻触以选择你的最爱</string>
-    <string name="setup_next">下一步</string>
+    <string name="setup_next">安装</string>
     <string name="discovery">发现</string>
+    <string name="crash_model">设备: %s</string>
+    <string name="crash_app">应用: %s</string>
+    <string name="crash_stack_trace">堆栈信息</string>
+    <string name="crash_tips">我们正努力让这个 Activity 永不见天日…</string>
+    <string name="service_status_text">%d 个实例</string>
+    <string name="service_lock_acquired"> (永不休眠)</string>
+    <string name="service_acquire_lock">取得休眠锁</string>
+    <string name="service_release_lock">释放休眠锁</string>
 </resources>

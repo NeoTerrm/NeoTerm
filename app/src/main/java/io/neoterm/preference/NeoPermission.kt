@@ -3,6 +3,7 @@ package io.neoterm.preference
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Build
@@ -28,17 +29,23 @@ object NeoPermission {
                     Manifest.permission.READ_CONTACTS)) {
                 AlertDialog.Builder(context).setMessage("需要存储权限来访问存储设备上的文件")
                         .setPositiveButton(android.R.string.ok, { _: DialogInterface, _: Int ->
-                            ActivityCompat.requestPermissions(context,
-                                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                                    requestCode)
+                            doRequestPermission(context, requestCode)
                         })
                         .show()
 
             } else {
-                ActivityCompat.requestPermissions(context,
-                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                        requestCode)
+                doRequestPermission(context, requestCode)
             }
+        }
+    }
+
+    private fun doRequestPermission(context: Activity, requestCode: Int) {
+        try {
+            ActivityCompat.requestPermissions(context,
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    requestCode)
+        } catch (ignore: ActivityNotFoundException) {
+            // for MIUI, we ignore it.
         }
     }
 }

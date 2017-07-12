@@ -22,8 +22,8 @@ object NeoTermPath {
     const val SOURCE_FILE = "$USR_PATH/etc/apt/sources.list"
     const val PACKAGE_LIST_DIR = "$USR_PATH/var/lib/apt/lists"
 
-    private const val RELEASE_SOURCE = "https://mirrors.geekpie.org/neoterm"
-    private const val DEBUG_SOURCE = "http://192.243.117.135"
+    const val RELEASE_SOURCE = "https://mirrors.geekpie.org/neoterm"
+    const val DEBUG_SOURCE = "http://neoterm.studio"
 
     val DEFAULT_SOURCE: String
     val SERVER_BASE_URL: String
@@ -32,6 +32,6 @@ object NeoTermPath {
     init {
         DEFAULT_SOURCE = if (BuildConfig.DEBUG) DEBUG_SOURCE else RELEASE_SOURCE
         SERVER_BASE_URL = DEFAULT_SOURCE
-        SERVER_BOOT_URL = "${SERVER_BASE_URL}/boot"
+        SERVER_BOOT_URL = "$SERVER_BASE_URL/boot"
     }
 }

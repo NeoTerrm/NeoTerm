@@ -11,10 +11,9 @@ import android.util.Pair;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,8 +23,8 @@ import java.util.zip.ZipInputStream;
 
 import io.neoterm.R;
 import io.neoterm.backend.EmulatorDebug;
+import io.neoterm.preference.NeoPreference;
 import io.neoterm.preference.NeoTermPath;
-import io.neoterm.utils.FileUtils;
 
 public final class BaseFileInstaller {
     public interface ResultListener {
@@ -64,8 +63,9 @@ public final class BaseFileInstaller {
                     final byte[] buffer = new byte[8096];
                     final List<Pair<String, String>> symlinks = new ArrayList<>(50);
 
-                    final URL zipUrl = determineZipUrl();
-                    HttpURLConnection connection = (HttpURLConnection) zipUrl.openConnection();
+                    HttpURLConnection connection = openBaseFileConnection();
+                    connection.setConnectTimeout(8000);
+                    connection.setReadTimeout(8000);
                     totalBytes = connection.getContentLength();
 
                     try (ZipInputStream zipInput = new ZipInputStream(connection.getInputStream())) {
@@ -171,11 +171,21 @@ public final class BaseFileInstaller {
         }.start();
     }
 
-    private static URL determineZipUrl() throws MalformedURLException {
-        String archName = determineArchName();
-        String baseUrl = NeoTermPath.INSTANCE.getSERVER_BOOT_URL();
-        return new URL(baseUrl + "/" + archName + ".zip");
+    private static HttpURLConnection openBaseFileConnection() throws IOException {
+        String arch = determineArchName();
+        String baseUrl = NeoTermPath.INSTANCE.getDEFAULT_SOURCE();
+
+        // Use the same source
+        NeoPreference.INSTANCE.store(R.string.key_package_source, baseUrl);
+
+        return (HttpURLConnection) new URL(baseUrl + "/boot/" + arch + ".zip").openConnection();
     }
+
+//    private static URL determineZipUrl() throws MalformedURLException {
+//        String archName = determineArchName();
+//        String baseUrl = NeoTermPath.INSTANCE.getSERVER_BOOT_URL();
+//        return new URL(baseUrl + "/" + archName + ".zip");
+//    }
 
     private static String determineArchName() {
         for (String androidArch : Build.SUPPORTED_ABIS) {
@@ -186,8 +196,8 @@ public final class BaseFileInstaller {
                     return "arm";
                 case "x86_64":
                     return "x86_64";
-                case "x86":
-                    return "i686";
+//                case "x86":
+//                    return "i686";
             }
         }
         throw new RuntimeException("Unable to determine arch from Build.SUPPORTED_ABIS =  " +

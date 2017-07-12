@@ -21,6 +21,7 @@ import io.neoterm.customize.pm.NeoPackageManagerUtils
 import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.preference.NeoPreference
 import io.neoterm.preference.NeoTermPath
+import io.neoterm.utils.PackageUtils
 import io.neoterm.view.TerminalDialog
 import java.util.*
 
@@ -92,6 +93,7 @@ class SetupActivity : AppCompatActivity() {
         resultListener = BaseFileInstaller.ResultListener { error ->
             if (error == null) {
                 setResult(Activity.RESULT_OK)
+                PackageUtils.syncSource()
                 executeAptUpdate()
             } else {
                 AlertDialog.Builder(this@SetupActivity)
@@ -100,6 +102,7 @@ class SetupActivity : AppCompatActivity() {
                         .setNegativeButton(R.string.use_system_shell, { _, _ ->
                             setResult(Activity.RESULT_CANCELED)
                             nextButton.visibility = View.VISIBLE
+                            finish()
                         })
                         .setPositiveButton(R.string.retry, { dialog, _ ->
                             dialog.dismiss()
@@ -156,10 +159,12 @@ class SetupActivity : AppCompatActivity() {
                 val packageName = item.title
                 val pm = NeoPackageManager.get()
                 val packageInfo = pm.getPackageInfo(packageName)
-                val packageDesc = packageInfo.description
-                toast.cancel()
-                toast.setText(packageDesc)
-                toast.show()
+                if (packageInfo != null) {
+                    val packageDesc = packageInfo.description
+                    toast.cancel()
+                    toast.setText(packageDesc)
+                    toast.show()
+                }
             }
 
             override fun onBubbleDeselected(item: PickerItem) {

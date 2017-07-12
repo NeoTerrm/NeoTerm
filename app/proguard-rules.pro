@@ -24,6 +24,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-dontpreverify
+-printmapping proguardMapping.txt
+
+
 -keep class io.neoterm.backend.JNI {
 *;
 }
@@ -51,14 +55,14 @@
 #    <init>(java.lang.Throwable);
 #}
 
-#rxjava
--dontwarn rx.**
-#-keep class rx.** { *; }
-
 #skf4j
 -dontwarn org.slf4j.**
 
 -dontwarn sun.misc.**
+
+# RxJava
+#-keep class rx.** { *; }
+-dontwarn rx.**
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
  long producerIndex;
  long consumerIndex;
@@ -69,3 +73,24 @@
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
  rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+
+
+# Parcelable
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+-keepclassmembers class * implements android.os.Parcelable {
+ public <fields>;
+ private <fields>;
+}
+
+# Serializable
+-keepclassmembers class * implements java.io.Serializable {
+ static final long serialVersionUID;
+ private static final java.io.ObjectStreamField[] serialPersistentFields;
+ private void writeObject(java.io.ObjectOutputStream);
+ private void readObject(java.io.ObjectInputStream);
+ java.lang.Object writeReplace();
+ java.lang.Object readResolve();
+}
+

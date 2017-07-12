@@ -1,0 +1,4 @@
+NeoLang {
+    version : 1
+    x-letter : ${NeoLang@version} >= 2
+}

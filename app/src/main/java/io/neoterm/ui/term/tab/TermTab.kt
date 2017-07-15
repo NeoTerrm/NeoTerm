@@ -9,6 +9,7 @@ import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.term.tab.event.TabCloseEvent
+import io.neoterm.ui.term.tab.event.TitleChangedEvent
 import io.neoterm.ui.term.tab.event.ToggleFullScreenEvent
 import org.greenrobot.eventbus.EventBus
 
@@ -40,7 +41,7 @@ class TermTab(title: CharSequence) : Tab(title) {
     fun updateTitle(title: String) {
         if (title.isNotEmpty()) {
             this.title = title
-            toolbar?.title = title
+            EventBus.getDefault().post(TitleChangedEvent(title))
             if (NeoPreference.loadBoolean(R.string.key_ui_suggestions, true)) {
                 viewClient?.updateSuggestions(title)
             } else {

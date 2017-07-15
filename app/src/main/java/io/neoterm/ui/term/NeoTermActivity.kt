@@ -1,6 +1,7 @@
 package io.neoterm.ui.term
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
@@ -37,6 +38,7 @@ import io.neoterm.ui.term.tab.TermTab
 import io.neoterm.ui.term.tab.TermTabDecorator
 import io.neoterm.ui.term.tab.TermViewClient
 import io.neoterm.ui.term.tab.event.TabCloseEvent
+import io.neoterm.ui.term.tab.event.TitleChangedEvent
 import io.neoterm.ui.term.tab.event.ToggleFullScreenEvent
 import io.neoterm.utils.FullScreenHelper
 import io.neoterm.view.eks.StatedControlButton
@@ -65,7 +67,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         ColorSchemeManager.init(this)
         FontManager.init(this)
-        NeoPreference.init(this)
+//        NeoPreference.init(this)
         NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
 
         val fullscreen = NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
@@ -121,9 +123,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                     val tab = tabSwitcher.selectedTab as TermTab
                     tab.requireHideIme()
                 }
-                toggleSwitcher(showSwitcher = true)
+                toggleSwitcher(showSwitcher = true, easterEgg = true)
             } else {
-                toggleSwitcher(showSwitcher = false)
+                toggleSwitcher(showSwitcher = false, easterEgg = true)
             }
         })
         return true
@@ -152,7 +154,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
             R.id.menu_item_new_session -> {
                 if (!tabSwitcher.isSwitcherShown) {
-                    toggleSwitcher(showSwitcher = true)
+                    toggleSwitcher(showSwitcher = true, easterEgg = false)
                 }
                 val index = tabSwitcher.count
                 addNewSession("NeoTerm #" + index, systemShell, createRevealAnimation())
@@ -228,14 +230,13 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             termService = null
         }
         unbindService(this)
-        NeoPreference.cleanup()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
                 if (event?.action == KeyEvent.ACTION_DOWN && tabSwitcher.isSwitcherShown && tabSwitcher.count > 0) {
-                    toggleSwitcher(showSwitcher = false)
+                    toggleSwitcher(showSwitcher = false, easterEgg = false)
                     return true
                 }
             }
@@ -314,7 +315,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun enterSystemShell() {
-        toggleSwitcher(showSwitcher = true)
+        toggleSwitcher(showSwitcher = true, easterEgg = false)
         addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
     }
 
@@ -327,7 +328,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
             switchToSession(getStoredCurrentSessionOrLast())
         } else {
-            toggleSwitcher(showSwitcher = true)
+            toggleSwitcher(showSwitcher = true, easterEgg = false)
             addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
         }
     }
@@ -502,18 +503,21 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
     }
 
-    private fun toggleSwitcher(showSwitcher: Boolean) {
+    private fun toggleSwitcher(showSwitcher: Boolean, easterEgg: Boolean) {
         if (tabSwitcher.count > 0) {
-            val transparentAnimator = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1.0f, 0.0f, 1.0f)
-            transparentAnimator.interpolator = AccelerateDecelerateInterpolator()
-            transparentAnimator.start()
-        } else {
+            if (showSwitcher) {
+                val transparentAnimator = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1.0f, 0.0f, 1.0f)
+                transparentAnimator.interpolator = AccelerateDecelerateInterpolator()
+                transparentAnimator.start()
+            }
+        } else if (easterEgg) {
             val happyCount = NeoPreference.loadInt(NeoPreference.KEY_HAPPY_EGG, 0) + 1
             NeoPreference.store(NeoPreference.KEY_HAPPY_EGG, happyCount)
 
             val trigger = NeoPreference.VALUE_HAPPY_EGG_TRIGGER
 
             if (happyCount == trigger / 2) {
+                @SuppressLint("ShowToast")
                 val toast = Toast.makeText(this, "Emm...", Toast.LENGTH_LONG)
                 toast.setGravity(Gravity.CENTER, 0, 0)
                 toast.show()
@@ -534,7 +538,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onTabCloseEvent(tabCloseEvent: TabCloseEvent) {
         val tab = tabCloseEvent.termTab
-        toggleSwitcher(showSwitcher = true)
+        toggleSwitcher(showSwitcher = true, easterEgg = false)
         tabSwitcher.removeTab(tab)
 
         if (tabSwitcher.count > 1) {
@@ -556,4 +560,14 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         val fullScreen = fullScreenHelper.fullScreen
         setFullScreenMode(!fullScreen)
     }
+
+
+    @Suppress("unused", "UNUSED_PARAMETER")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onTitleChangedEvent(titleChangedEvent: TitleChangedEvent) {
+        if (!tabSwitcher.isSwitcherShown) {
+            toolbar.title = titleChangedEvent.title
+        }
+    }
+
 }

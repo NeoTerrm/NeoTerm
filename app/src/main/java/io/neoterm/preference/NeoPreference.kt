@@ -42,10 +42,6 @@ object NeoPreference {
         }
     }
 
-    fun cleanup() {
-        preference = null
-    }
-
     fun store(key: Int, value: Any) {
         store(App.get().getString(key), value)
     }

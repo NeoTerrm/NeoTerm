@@ -17,6 +17,8 @@ object CrashHandler : Thread.UncaughtExceptionHandler {
     }
 
     override fun uncaughtException(t: Thread?, e: Throwable?) {
+        e?.printStackTrace()
+
         val intent = Intent(App.get(), CrashActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("exception", e)

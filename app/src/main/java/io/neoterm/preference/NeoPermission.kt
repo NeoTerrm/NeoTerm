@@ -22,11 +22,11 @@ object NeoPermission {
         }
 
         if (ContextCompat.checkSelfPermission(context,
-                Manifest.permission.READ_CONTACTS)
+                Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(context,
-                    Manifest.permission.READ_CONTACTS)) {
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 AlertDialog.Builder(context).setMessage("需要存储权限来访问存储设备上的文件")
                         .setPositiveButton(android.R.string.ok, { _: DialogInterface, _: Int ->
                             doRequestPermission(context, requestCode)

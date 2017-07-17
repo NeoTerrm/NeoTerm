@@ -30,6 +30,19 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.term.TermHereActivity"
+            android:exported="true"
+            android:label="@string/term_here">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <data android:mimeType="*/*" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.crash.CrashActivity"
             android:exported="false"
             android:label="@string/error"
@@ -39,8 +52,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.bonus.BonusActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:configChanges="orientation|keyboardHidden"/>
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ui.pm.PackageManagerActivity"
             android:label="@string/package_settings"

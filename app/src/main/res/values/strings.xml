@@ -77,6 +77,7 @@
     <string name="pref_customization_eks">Extra Keys</string>
     <string name="pref_package_source">Source</string>
     <string name="exit">Exit</string>
+    <string name="term_here">Term Here</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

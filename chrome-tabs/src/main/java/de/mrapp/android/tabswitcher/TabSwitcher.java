@@ -254,7 +254,9 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
                         public void onGlobalLayout() {
                             ViewUtil.removeOnGlobalLayoutListener(
                                     tabContainer.getViewTreeObserver(), this);
-                            TabSwitcher.this.layout.onGlobalLayout();
+                            if (TabSwitcher.this.layout != null) {
+                                TabSwitcher.this.layout.onGlobalLayout();
+                            }
                         }
 
                     });

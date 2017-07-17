@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.customize.font.FontManager
 import io.neoterm.preference.NeoPreference
@@ -21,7 +20,7 @@ object TerminalUtils {
         terminalView?.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
         terminalView?.setTypeface(FontManager.getCurrentFont().getTypeFace())
         if (terminalViewClient != null) {
-            terminalView?.setOnKeyListener(terminalViewClient)
+            terminalView?.setTerminalViewClient(terminalViewClient)
         }
     }
 

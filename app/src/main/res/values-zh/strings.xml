@@ -81,4 +81,5 @@
     <string name="service_lock_acquired"> (永不休眠)</string>
     <string name="service_acquire_lock">取得休眠锁</string>
     <string name="service_release_lock">释放休眠锁</string>
+    <string name="exit">退出</string>
 </resources>

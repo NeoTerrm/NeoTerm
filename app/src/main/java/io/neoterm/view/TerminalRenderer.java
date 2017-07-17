@@ -31,6 +31,10 @@ final class TerminalRenderer {
     /** The {@link #mFontLineSpacing} + {@link #mFontAscent}. */
     final int mFontLineSpacingAndAscent;
 
+    /** AutoCompletion PopupWindow need them to show popup window */
+    protected float savedLastDrawnLineX;
+    protected float savedLastDrawnLineY;
+
     private final float[] asciiMeasures = new float[127];
 
     public TerminalRenderer(int textSize, Typeface typeface) {
@@ -200,6 +204,8 @@ final class TerminalRenderer {
             if (cursorStyle == TerminalEmulator.CURSOR_STYLE_UNDERLINE) cursorHeight /= 4.;
             else if (cursorStyle == TerminalEmulator.CURSOR_STYLE_BAR) right -= ((right - left) * 3) / 4.;
             canvas.drawRect(left, y - cursorHeight, right, y, mTextPaint);
+            savedLastDrawnLineX = left;
+            savedLastDrawnLineY = y;
         }
 
         if ((effect & TextStyle.CHARACTER_ATTRIBUTE_INVISIBLE) == 0) {
@@ -226,5 +232,13 @@ final class TerminalRenderer {
         }
 
         if (savedMatrix) canvas.restore();
+    }
+
+    float getCursorX() {
+        return savedLastDrawnLineX;
+    }
+
+    float getCursorY() {
+        return savedLastDrawnLineY;
     }
 }

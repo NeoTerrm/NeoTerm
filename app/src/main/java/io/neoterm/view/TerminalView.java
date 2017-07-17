@@ -229,11 +229,11 @@ public final class TerminalView extends View {
     }
 
     /**
-     * @param onKeyListener Listener for all kinds of key events, both hardware and IME (which makes it different from that
+     * @param client Listener for all kinds of key events, both hardware and IME (which makes it different from that
      *                      available with {@link View#setOnKeyListener(OnKeyListener)}.
      */
-    public void setOnKeyListener(TerminalViewClient onKeyListener) {
-        this.mClient = onKeyListener;
+    public void setTerminalViewClient(TerminalViewClient client) {
+        this.mClient = client;
     }
 
     /**
@@ -296,6 +296,9 @@ public final class TerminalView extends View {
 
                 Editable content = getEditable();
                 sendTextToTerminal(content);
+                if (onAutoCompleteListener != null) {
+                    onAutoCompleteListener.onAutoComplete(content.toString());
+                }
                 content.clear();
                 return true;
             }
@@ -678,6 +681,16 @@ public final class TerminalView extends View {
 
         if (mCombiningAccent != oldCombiningAccent) invalidate();
 
+        if (onAutoCompleteListener != null) {
+            if (event.isPrintingKey()) {
+                char printingChar = (char) event.getUnicodeChar(metaState);
+                if (printingChar != '\b') {
+                    // ASCII chars
+                    onAutoCompleteListener.onAutoComplete(new String(new char[]{printingChar}));
+                }
+            }
+        }
+
         return true;
     }
 
@@ -745,6 +758,9 @@ public final class TerminalView extends View {
         String code = KeyHandler.getCode(keyCode, keyMod, term.isCursorKeysApplicationMode(), term.isKeypadApplicationMode());
         if (code == null) return false;
         mTermSession.write(code);
+        if (onAutoCompleteListener != null) {
+            onAutoCompleteListener.onKeyCode(keyCode, keyMod);
+        }
         return true;
     }
 
@@ -960,4 +976,24 @@ public final class TerminalView extends View {
         return mTermSession;
     }
 
+
+    private OnAutoCompleteListener onAutoCompleteListener;
+
+    public OnAutoCompleteListener getOnAutoCompleteListener() {
+        return onAutoCompleteListener;
+    }
+
+    public void setOnAutoCompleteListener(OnAutoCompleteListener onAutoCompleteListener) {
+        this.onAutoCompleteListener = onAutoCompleteListener;
+    }
+
+    public int getCursorAbsX() {
+        return (int) mRenderer.getCursorX();
+    }
+
+    public int getCursorAbsY() {
+        int[] locations = new int[2];
+        getLocationOnScreen(locations);
+        return (int) (mRenderer.getCursorY() + locations[1]);
+    }
 }

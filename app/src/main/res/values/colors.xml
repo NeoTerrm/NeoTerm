@@ -15,6 +15,8 @@
     <color name="roseEnd">#ef0276</color>
     <color name="greenStart">#a7f56e</color>
     <color name="greenEnd">#11c612</color>
+    <color name="popup_background">#7f000000</color>
+    <color name="popup_split_background">#efefef</color>
 
     <integer-array name="bubble_colors">
         <item>@color/roseStart</item>

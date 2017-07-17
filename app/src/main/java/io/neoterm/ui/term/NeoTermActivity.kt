@@ -6,6 +6,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
@@ -77,6 +78,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
 
         setContentView(R.layout.ui_main)
+
         toolbar = findViewById(R.id.terminal_toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
@@ -361,6 +363,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         if (tabSwitcher.selectedTab is TermTab) {
             val tab = tabSwitcher.selectedTab as TermTab
             tab.requireHideIme()
+            tab.onFullScreenModeChanged(fullScreen)
         }
         NeoPreference.store(R.string.key_ui_fullscreen, fullScreen)
         this@NeoTermActivity.recreate()

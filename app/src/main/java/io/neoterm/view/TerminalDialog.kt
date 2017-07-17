@@ -34,7 +34,7 @@ class TerminalDialog(val context: Context) {
         terminalViewClient = BasicViewClient(terminalView)
         TerminalUtils.setupTerminalView(terminalView, terminalViewClient)
 
-        terminalView.setOnKeyListener(terminalViewClient)
+        terminalView.setTerminalViewClient(terminalViewClient)
         terminalSessionCallback = object : BasicSessionCallback(terminalView) {
             override fun onSessionFinished(finishedSession: TerminalSession?) {
                 sessionFinishedCallback?.onSessionFinished(this@TerminalDialog, finishedSession)

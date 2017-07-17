@@ -8,7 +8,7 @@ import io.neoterm.backend.TerminalSession;
 
 /**
  * Input and scale listener which may be set on a {@link TerminalView} through
- * {@link TerminalView#setOnKeyListener(TerminalViewClient)}.
+ * {@link TerminalView#setTerminalViewClient(TerminalViewClient)}.
  * <p/>
  */
 public interface TerminalViewClient {

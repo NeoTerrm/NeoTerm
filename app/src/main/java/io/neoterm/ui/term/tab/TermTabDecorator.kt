@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import de.mrapp.android.tabswitcher.Tab
 import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
+import io.neoterm.BuildConfig
 import io.neoterm.R
 import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.OnAutoCompleteListener
 import io.neoterm.view.TerminalView
 
 /**
@@ -72,9 +74,22 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
                 termTab.viewClient?.updateSuggestions(termTab.termSession?.title, true)
             }
 
-            view.setOnKeyListener(termTab.viewClient)
+            view.setTerminalViewClient(termTab.viewClient)
             view.attachSession(termTab.termSession)
+
+            // Still in progress
+            // Only available for developers.
+            if (BuildConfig.DEBUG) {
+                if (termTab.onAutoCompleteListener == null) {
+                    termTab.onAutoCompleteListener = createAutoCompleteListener(view)
+                }
+                view.onAutoCompleteListener = termTab.onAutoCompleteListener
+            }
         }
+    }
+
+    private fun createAutoCompleteListener(view: TerminalView): OnAutoCompleteListener? {
+        return TermCompleteListener(view)
     }
 
     override fun getViewTypeCount(): Int {

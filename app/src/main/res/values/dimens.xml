@@ -10,4 +10,6 @@
     <dimen name="custom_editor_line_height">48dp</dimen>
     <dimen name="custom_install_icon_width">36dp</dimen>
     <dimen name="custom_install_icon_height">36dp</dimen>
+    <dimen name="min_popup_height">24dp</dimen>
+    <dimen name="popup_padding">4dp</dimen>
 </resources>

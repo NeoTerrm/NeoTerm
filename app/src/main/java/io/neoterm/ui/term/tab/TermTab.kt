@@ -11,6 +11,7 @@ import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.term.tab.event.TabCloseEvent
 import io.neoterm.ui.term.tab.event.TitleChangedEvent
 import io.neoterm.ui.term.tab.event.ToggleFullScreenEvent
+import io.neoterm.view.OnAutoCompleteListener
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -21,6 +22,7 @@ class TermTab(title: CharSequence) : Tab(title) {
     var termSession: TerminalSession? = null
     var sessionCallback: TermSessionChangedCallback? = null
     var viewClient: TermViewClient? = null
+    var onAutoCompleteListener: OnAutoCompleteListener? = null
     var toolbar: Toolbar? = null
 
     fun updateColorScheme() {
@@ -29,6 +31,9 @@ class TermTab(title: CharSequence) : Tab(title) {
     }
 
     fun cleanup() {
+        onAutoCompleteListener?.onCleanUp()
+        onAutoCompleteListener = null
+
         viewClient?.termTab = null
         viewClient?.termView = null
         viewClient?.extraKeysView = null
@@ -52,6 +57,12 @@ class TermTab(title: CharSequence) : Tab(title) {
 
     fun onSessionFinished() {
         viewClient?.sessionFinished = true
+    }
+
+    fun onFullScreenModeChanged(fullScreen: Boolean) {
+        // Window token changed, we need to recreate PopupWindow
+        onAutoCompleteListener?.onCleanUp()
+        onAutoCompleteListener = null
     }
 
     fun requireCloseTab() {

@@ -21,7 +21,7 @@ class PackageAdapter(context: Context, comparator: Comparator<PackageModel>, pri
     }
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): SortedListAdapter.ViewHolder<out PackageModel> {
-        val rootView = inflater.inflate(R.layout.package_item, parent, false)
+        val rootView = inflater.inflate(R.layout.item_package, parent, false)
         return PackageViewHolder(rootView, listener)
     }
 }

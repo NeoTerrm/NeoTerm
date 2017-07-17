@@ -25,7 +25,7 @@ object NeoPreference {
     const val VALUE_NEOTERM_FIRST = "NeoTermFirst"
     const val VALUE_SYSTEM_FIRST = "SystemFirst"
 
-    var preference: SharedPreferences? = null
+    private var preference: SharedPreferences? = null
 
     fun init(context: Context) {
         preference = PreferenceManager.getDefaultSharedPreferences(context)

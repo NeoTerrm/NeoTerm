@@ -4,9 +4,9 @@ import android.content.Context
 import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.preference.NeoTermPath
 import io.neoterm.customize.font.FontManager
 import io.neoterm.preference.NeoPreference
+import io.neoterm.preference.NeoTermPath
 import io.neoterm.view.BasicViewClient
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
@@ -31,11 +31,16 @@ object TerminalUtils {
     fun setupTerminalSession(session: TerminalSession?) {
     }
 
-    fun createSession(context: Context, executablePath: String?, arguments: Array<String>?, cwd: String?, env: Array<String>?, sessionCallback: TerminalSession.SessionChangedCallback?, systemShell: Boolean): TerminalSession {
+    fun createSession(context: Context, executablePath: String?, arguments: Array<String>?,
+                      cwd: String?, initialCommand: String?, env: Array<String>?,
+                      sessionCallback: TerminalSession.SessionChangedCallback?,
+                      systemShell: Boolean): TerminalSession {
+
         var executablePath = executablePath
         var arguments = arguments
-
+        var initialCommand = initialCommand
         var cwd = cwd
+
         if (cwd == null) {
             cwd = NeoTermPath.HOME_PATH
         }
@@ -56,10 +61,34 @@ object TerminalUtils {
             arguments = arrayOf<String>(executablePath)
         }
 
-        val session = TerminalSession(executablePath, cwd, arguments,
+        if (initialCommand == null) {
+            initialCommand = NeoPreference.loadString(R.string.key_general_initial_command, "")
+        }
+
+        val session = TerminalSession(executablePath, cwd, initialCommand, arguments,
                 env ?: NeoPreference.buildEnvironment(cwd, systemShell, executablePath),
                 sessionCallback)
         setupTerminalSession(session)
         return session
+    }
+
+    fun escapeString(s: String?): String {
+        if (s == null) {
+            return ""
+        }
+
+        val builder = StringBuilder()
+        val specialChars = "\"\\$`!"
+        builder.append('"')
+        val length = s.length
+        for (i in 0..length - 1) {
+            val c = s[i]
+            if (specialChars.indexOf(c) >= 0) {
+                builder.append('\\')
+            }
+            builder.append(c)
+        }
+        builder.append('"')
+        return builder.toString()
     }
 }

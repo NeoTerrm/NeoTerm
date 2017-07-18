@@ -6,7 +6,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 
-class Shaker(context: Context) : SensorEventListener {
+class ShakeUtils(context: Context) : SensorEventListener {
     companion object {
         private val SHAKE_SENSITIVITY = 14
     }

@@ -12,7 +12,6 @@ import android.os.Binder
 import android.os.IBinder
 import android.os.PowerManager
 import android.support.v4.content.WakefulBroadcastReceiver
-import android.util.Log
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
@@ -77,8 +76,8 @@ class NeoTermService : Service() {
     val sessions: List<TerminalSession>
         get() = mTerminalSessions
 
-    fun createTermSession(executablePath: String?, arguments: Array<String>?, cwd: String?, env: Array<String>?, sessionCallback: TerminalSession.SessionChangedCallback?, systemShell: Boolean): TerminalSession {
-        val session = TerminalUtils.createSession(this, executablePath, arguments, cwd, env, sessionCallback, systemShell)
+    fun createTermSession(executablePath: String?, arguments: Array<String>?, cwd: String?, initialCommand: String?, env: Array<String>?, sessionCallback: TerminalSession.SessionChangedCallback?, systemShell: Boolean): TerminalSession {
+        val session = TerminalUtils.createSession(this, executablePath, arguments, cwd, initialCommand, env, sessionCallback, systemShell)
         mTerminalSessions.add(session)
         updateNotification()
         return session
@@ -165,9 +164,9 @@ class NeoTermService : Service() {
     }
 
     companion object {
-        val ACTION_SERVICE_STOP = "neoterm.action.service.stop"
-        val ACTION_ACQUIRE_LOCK = "neoterm.action.service.lock.acquire"
-        val ACTION_RELEASE_LOCK = "neoterm.action.service.lock.release"
+        val ACTION_SERVICE_STOP = "neoterm.action.termService.stop"
+        val ACTION_ACQUIRE_LOCK = "neoterm.action.termService.lock.acquire"
+        val ACTION_RELEASE_LOCK = "neoterm.action.termService.lock.release"
         private val NOTIFICATION_ID = 52019
     }
 }

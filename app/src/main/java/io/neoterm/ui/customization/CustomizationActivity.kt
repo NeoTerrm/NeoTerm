@@ -58,7 +58,7 @@ class CustomizationActivity : AppCompatActivity() {
         sessionCallback = BasicSessionCallback(terminalView)
         TerminalUtils.setupTerminalView(terminalView, viewClient)
         session = TerminalUtils.createSession(this, "${NeoTermPath.USR_PATH}/bin/applets/echo",
-                arrayOf("echo", "Hello NeoTerm."), null, null, sessionCallback, false)
+                arrayOf("echo", "Hello NeoTerm."), null, null, null, sessionCallback, false)
         terminalView.attachSession(session)
 
         findViewById(R.id.custom_install_font_button).setOnClickListener {

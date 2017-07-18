@@ -20,7 +20,7 @@ import org.greenrobot.eventbus.EventBus
 
 class TermTab(title: CharSequence) : Tab(title) {
     var termSession: TerminalSession? = null
-    var sessionCallback: TermSessionChangedCallback? = null
+    var sessionCallback: TermSessionCallback? = null
     var viewClient: TermViewClient? = null
     var onAutoCompleteListener: OnAutoCompleteListener? = null
     var toolbar: Toolbar? = null

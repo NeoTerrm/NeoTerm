@@ -8,7 +8,7 @@
     <string name="package_settings">软件包设置</string>
     <string name="paste_text">粘贴</string>
     <string name="pref_general_backspace_map_to_esc">返回键发送ESC</string>
-    <string name="pref_general_backspace_map_to_esc_desc">当返回键按下时，发送ESC而不是退出终端</string>
+    <string name="pref_general_backspace_map_to_esc_desc">当返回键按下时，发送ESC而不是关闭窗口</string>
     <string name="pref_general_bell">响铃</string>
     <string name="pref_general_bell_desc">收到 \'\\a\' 时响铃</string>
     <string name="pref_general_shell_desc">登录时使用指定的 Shell</string>
@@ -16,10 +16,12 @@
     <string name="pref_general_vibrate_desc">收到 \'\\a\' 时振动</string>
     <string name="pref_general_program_selection">程序选择模式</string>
     <string name="pref_general_program_selection_desc">当 NeoTerm 和 系统 中都含有同一个程序时，选择将要被执行的程序的模式</string>
+    <string name="pref_general_initial_command">初始命令</string>
+    <string name="pref_general_initial_command_desc">在新的实例创建时执行命令</string>
     <string name="pref_package_source">软件源</string>
     <string name="pref_ui_close_tab_anim_next_tab">向下切换窗口</string>
     <string name="pref_ui_close_tab_anim_next_tab_desc">关闭当前窗口时切换到下一个窗口而不是上一个</string>
-    <string name="customization_settings_desc">字体，主题，拓展键盘</string>
+    <string name="customization_settings_desc">字体，主题，拓展键盘，自动补全</string>
     <string name="customization_settings">个性化</string>
     <string name="pref_ui_fullscreen">全屏</string>
     <string name="pref_ui_hide_toolbar">隐藏标题栏</string>
@@ -47,7 +49,7 @@
     <string name="package_details">软件包: %s\n版本: %s\n依赖: %s\n占用空间: %s\n描述: %s\n主页: %s</string>
     <string name="package_list_empty">软件包列表为空，请检查你的软件源</string>
     <string name="menu_refresh_list">刷新</string>
-    <string name="menu_update">更新， 刷新</string>
+    <string name="menu_update">更新并刷新</string>
 
     <string-array name="pref_general_program_selection_entries">
         <item>只使用 NeoTerm</item>
@@ -63,9 +65,9 @@
         <item>输入…</item>
     </string-array>
     <string name="pref_customization_eks">拓展键盘</string>
-    <string name="general_settings_desc">响铃，振动，Shell</string>
-    <string name="ui_settings_desc">全屏，标题栏，快捷键盘</string>
-    <string name="package_settings_desc">源，更新，升级</string>
+    <string name="general_settings_desc">响铃，振动，Shell，初始命令</string>
+    <string name="ui_settings_desc">全屏，标题栏，切换动画</string>
+    <string name="package_settings_desc">软件源，更新，升级</string>
     <string name="install_font">安装字体</string>
     <string name="install_color">安装配色方案</string>
     <string name="setup_hello">发现</string>
@@ -83,4 +85,5 @@
     <string name="service_release_lock">释放休眠锁</string>
     <string name="exit">退出</string>
     <string name="term_here">在此处打开终端</string>
+    <string name="user_script">用户脚本</string>
 </resources>

@@ -56,7 +56,7 @@ class TerminalDialog(val context: Context) {
                 }
                 .create()
 
-        terminalSession = TerminalUtils.createSession(context, executablePath, arguments, null, null, terminalSessionCallback, false)
+        terminalSession = TerminalUtils.createSession(context, executablePath, arguments, null, null, null, terminalSessionCallback, false)
         terminalView.attachSession(terminalSession)
         return this
     }

@@ -8,6 +8,11 @@
         android:summary="@string/pref_general_shell_desc"
         android:title="@string/pref_general_shell" />
 
+    <EditTextPreference
+        android:key="@string/key_general_initial_command"
+        android:summary="@string/pref_general_initial_command_desc"
+        android:title="@string/pref_general_initial_command" />
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/key_general_bell"
@@ -28,10 +33,10 @@
 
     <ListPreference
         android:defaultValue="NeoTermOnly"
-        android:key="@string/key_general_program_selection"
-        android:title="@string/pref_general_program_selection"
-        android:summary="@string/pref_general_program_selection_desc"
         android:entries="@array/pref_general_program_selection_entries"
-        android:entryValues="@array/pref_general_program_selection_values"/>
+        android:entryValues="@array/pref_general_program_selection_values"
+        android:key="@string/key_general_program_selection"
+        android:summary="@string/pref_general_program_selection_desc"
+        android:title="@string/pref_general_program_selection" />
 
 </PreferenceScreen>

@@ -13,7 +13,7 @@ import io.neoterm.view.TerminalView
 /**
  * @author kiva
  */
-class TermSessionChangedCallback : TerminalSession.SessionChangedCallback {
+class TermSessionCallback : TerminalSession.SessionChangedCallback {
     var termView: TerminalView? = null
     var termTab: TermTab? = null
 

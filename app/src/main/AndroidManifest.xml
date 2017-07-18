@@ -29,19 +29,45 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".ui.term.TermHereActivity"
+            android:name=".ui.term.NeoTermRemoteInterface"
+            android:excludeFromRecents="true"
+            android:exported="false">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+            android:name=".ui.term.TermHere"
             android:exported="true"
-            android:label="@string/term_here">
+            android:label="@string/term_here"
+            android:targetActivity=".ui.term.NeoTermRemoteInterface">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.MAIN" />
 
                 <data android:mimeType="*/*" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".ui.term.UserScript"
+            android:exported="true"
+            android:label="@string/user_script"
+            android:targetActivity=".ui.term.NeoTermRemoteInterface">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <data android:mimeType="*/*" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity-alias>
+
         <activity
             android:name=".ui.crash.CrashActivity"
             android:exported="false"

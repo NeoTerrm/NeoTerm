@@ -6,7 +6,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
-import android.graphics.Rect
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
@@ -34,7 +33,7 @@ import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.ui.setup.SetupActivity
-import io.neoterm.ui.term.tab.TermSessionChangedCallback
+import io.neoterm.ui.term.tab.TermSessionCallback
 import io.neoterm.ui.term.tab.TermTab
 import io.neoterm.ui.term.tab.TermTabDecorator
 import io.neoterm.ui.term.tab.TermViewClient
@@ -382,8 +381,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 .filter { it is TermTab && it.termSession == session }
                 .forEach { return }
 
-        val tab = createTab(session.mSessionName) as TermTab
-        tab.sessionCallback = session.sessionChangedCallback as TermSessionChangedCallback
+        val tab = createTab(session.title) as TermTab
+        tab.sessionCallback = session.sessionChangedCallback as TermSessionCallback
         tab.viewClient = TermViewClient(this)
         tab.termSession = session
 
@@ -393,9 +392,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     private fun addNewSession(sessionName: String?, systemShell: Boolean, animation: Animation) {
         val tab = createTab(sessionName) as TermTab
-        tab.sessionCallback = TermSessionChangedCallback()
+        tab.sessionCallback = TermSessionCallback()
         tab.viewClient = TermViewClient(this)
-        tab.termSession = termService!!.createTermSession(null, null, null, null, tab.sessionCallback, systemShell)
+        tab.termSession = termService!!.createTermSession(null, null,
+                null, null, null, tab.sessionCallback, systemShell)
 
         if (sessionName != null) {
             tab.termSession!!.mSessionName = sessionName

@@ -61,8 +61,7 @@ class TermTab(title: CharSequence) : Tab(title) {
 
     fun onFullScreenModeChanged(fullScreen: Boolean) {
         // Window token changed, we need to recreate PopupWindow
-        onAutoCompleteListener?.onCleanUp()
-        onAutoCompleteListener = null
+        resetAutoCompleteStatus()
     }
 
     fun requireCloseTab() {
@@ -86,5 +85,10 @@ class TermTab(title: CharSequence) : Tab(title) {
 
     fun requirePaste() {
         viewClient?.termView?.pasteFromClipboard()
+    }
+
+    fun resetAutoCompleteStatus() {
+        onAutoCompleteListener?.onCleanUp()
+        onAutoCompleteListener = null
     }
 }

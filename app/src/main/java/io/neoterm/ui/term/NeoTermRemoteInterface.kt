@@ -6,7 +6,14 @@ import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.Toast
+import io.neoterm.R
+import io.neoterm.customize.script.UserScript
+import io.neoterm.customize.script.UserScriptManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
 import io.neoterm.ui.term.tab.TermSessionCallback
@@ -105,11 +112,47 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
                 }
             }
 
-            if (filesToHandle.isNotEmpty()) {
-                openTerm("echo -e ${buildUserScriptArgument(filesToHandle)}")
+            UserScriptManager.reloadScripts()
+            val userScripts = UserScriptManager.userScripts
+            if (userScripts.isNotEmpty() && filesToHandle.isNotEmpty()) {
+                setupUserScriptView(filesToHandle, userScripts)
+
+            } else {
+                Toast.makeText(this, R.string.no_user_script_found_or_files_selected, Toast.LENGTH_LONG).show()
+                finish()
             }
         }
-        finish()
+    }
+
+    private fun setupUserScriptView(filesToHandle: MutableList<String>, userScripts: List<UserScript>) {
+        setContentView(R.layout.ui_user_script_list)
+        val filesList = findViewById(R.id.user_script_file_list) as ListView
+        val filesAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, filesToHandle)
+        filesList.adapter = filesAdapter
+        filesList.setOnItemClickListener { _, _, position, _ ->
+            AlertDialog.Builder(this@NeoTermRemoteInterface)
+                    .setMessage(R.string.confirm_remove_file_from_list)
+                    .setPositiveButton(android.R.string.yes, { _, _ ->
+                        filesToHandle.removeAt(position)
+                        filesAdapter.notifyDataSetChanged()
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show()
+        }
+
+        val scriptsList = findViewById(R.id.user_script_script_list) as ListView
+        val scriptsListItem = mutableListOf<String>()
+        userScripts.mapTo(scriptsListItem, { it.scriptFile.nameWithoutExtension })
+
+        val scriptsAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, scriptsListItem)
+        scriptsList.adapter = scriptsAdapter
+        scriptsList.setOnItemClickListener { _, _, position, _ ->
+            val script = userScripts[position].scriptFile.absoluteFile
+            val argument = buildUserScriptArgument(filesToHandle)
+
+            openTerm("$script $argument")
+            finish()
+        }
     }
 
     private fun buildUserScriptArgument(files: List<String>): String {

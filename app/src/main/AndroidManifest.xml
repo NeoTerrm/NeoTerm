@@ -21,7 +21,7 @@
             android:name=".ui.term.NeoTermActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme.NoActionBar.Dark"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,6 +32,7 @@
 
         <activity
             android:name=".ui.term.NeoTermRemoteInterface"
+            android:theme="@style/AppTheme.Dark"
             android:excludeFromRecents="true"
             android:exported="false">
             <intent-filter>
@@ -72,31 +73,31 @@
             android:name=".ui.crash.CrashActivity"
             android:exported="false"
             android:label="@string/error"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
             android:name=".ui.setup.SetupActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.bonus.BonusActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
             android:name=".ui.pm.PackageManagerActivity"
             android:label="@string/package_settings"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
             android:name=".ui.customization.CustomizationActivity"
             android:label="@string/customization_settings"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
             android:name=".ui.settings.SettingActivity"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".ui.settings.GeneralSettingsActivity"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".ui.settings.UISettingsActivity"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/AppTheme.Dark" />
 
         <activity-alias
             android:name=".NeoLotMainActivity"

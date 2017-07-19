@@ -217,6 +217,15 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     override fun onStop() {
         super.onStop()
+        (0..tabSwitcher.count - 1)
+                .map { tabSwitcher.getTab(it) }
+                .takeWhile { it is TermTab }
+                .forEach {
+                    val termTab = it as TermTab
+                    // After stopped, window locatinos may changed
+                    // Rebind it at next time.
+                    termTab.resetAutoCompleteStatus()
+                }
         EventBus.getDefault().unregister(this)
     }
 

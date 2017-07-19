@@ -17,8 +17,8 @@ android {
         applicationId "io.neoterm"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 12
-        versionName "1.2.0-rc1"
+        versionCode 13
+        versionName "1.2.0-rc2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resConfigs "zh"
         externalNativeBuild {

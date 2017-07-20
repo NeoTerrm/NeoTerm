@@ -1,7 +1,9 @@
 package io.neoterm.view
 
+import android.content.Context
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import io.neoterm.backend.TerminalSession
 
 /**
@@ -20,6 +22,10 @@ class BasicViewClient(val terminalView: TerminalView) : TerminalViewClient {
     }
 
     override fun onSingleTapUp(e: MotionEvent?) {
+        if (terminalView.isFocusable && terminalView.isFocusableInTouchMode) {
+            (terminalView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                    .showSoftInput(terminalView, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {

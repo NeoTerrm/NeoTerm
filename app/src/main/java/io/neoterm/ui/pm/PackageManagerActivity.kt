@@ -97,6 +97,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
                             dialog.setTitle(getString(R.string.done))
                         }
                     })
+                    .imeEnabled(true)
                     .show("Installing $packageName")
         }
     }
@@ -185,6 +186,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
                     }
                 })
                 .execute(NeoTermPath.APT_BIN_PATH, arrayOf("apt", "update"))
+                .imeEnabled(true)
                 .show("apt update")
     }
 

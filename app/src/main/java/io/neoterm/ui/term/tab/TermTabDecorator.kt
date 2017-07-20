@@ -12,6 +12,7 @@ import io.neoterm.BuildConfig
 import io.neoterm.R
 import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoPreference
+import io.neoterm.terminal.client.TermCompleteListener
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import io.neoterm.view.ExtraKeysView
@@ -58,32 +59,27 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
 
         if (tab is TermTab) {
             val termTab = tab
+            val termData = tab.termData
 
-            TerminalUtils.setupTerminalSession(termTab.termSession)
+            TerminalUtils.setupTerminalSession(termData.termSession)
 
-            // 复用前一次的 TermSessionCallback
-            termTab.sessionCallback?.termView = view
-            termTab.sessionCallback?.termTab = termTab
+            // 复用前一次的 TermSessionCallback 和 TermViewClient
+            termData.initializeViewWith(termTab, view, extraKeysView)
 
-            // 复用上一次的 TermViewClient
-            termTab.viewClient?.termTab = termTab
-            termTab.viewClient?.termView = view
-            termTab.viewClient?.extraKeysView = extraKeysView
-
-            if (termTab.termSession != null) {
-                termTab.viewClient?.updateSuggestions(termTab.termSession?.title, true)
+            if (termData.termSession != null) {
+                termData.viewClient?.updateSuggestions(termData.termSession?.title, true)
             }
 
-            view.setTerminalViewClient(termTab.viewClient)
-            view.attachSession(termTab.termSession)
+            view.setTerminalViewClient(termData.viewClient)
+            view.attachSession(termData.termSession)
 
             // Still in progress
             // Only available for developers.
             if (BuildConfig.DEBUG) {
-                if (termTab.onAutoCompleteListener == null) {
-                    termTab.onAutoCompleteListener = createAutoCompleteListener(view)
+                if (termData.onAutoCompleteListener == null) {
+                    termData.onAutoCompleteListener = createAutoCompleteListener(view)
                 }
-                view.onAutoCompleteListener = termTab.onAutoCompleteListener
+                view.onAutoCompleteListener = termData.onAutoCompleteListener
             }
         }
     }

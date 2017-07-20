@@ -1,4 +1,4 @@
-package io.neoterm.ui.term.tab
+package io.neoterm.terminal.client
 
 import android.content.Context
 import android.media.AudioManager
@@ -11,8 +11,6 @@ import io.neoterm.backend.KeyHandler
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.eks.EksKeysManager
 import io.neoterm.preference.NeoPreference
-import io.neoterm.view.ExtraKeysView
-import io.neoterm.view.TerminalView
 import io.neoterm.view.TerminalViewClient
 
 
@@ -26,9 +24,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
 
     var sessionFinished: Boolean = false
 
-    var termTab: TermTab? = null
-    var termView: TerminalView? = null
-    var extraKeysView: ExtraKeysView? = null
+    var termData: TermDataHolder? = null
 
     override fun onScale(scale: Float): Float {
         if (scale < 0.9f || scale > 1.1f) {
@@ -40,8 +36,11 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun onSingleTapUp(e: MotionEvent?) {
-        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                .showSoftInput(termView, InputMethodManager.SHOW_IMPLICIT)
+        val termView = termData?.termView
+        if (termView != null) {
+            (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                    .showSoftInput(termView, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {
@@ -53,10 +52,12 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun onKeyDown(keyCode: Int, e: KeyEvent?, session: TerminalSession?): Boolean {
+        val termUI = termData?.termUI
+
         when (keyCode) {
             KeyEvent.KEYCODE_ENTER -> {
                 if (e?.action == KeyEvent.ACTION_DOWN && sessionFinished) {
-                    termTab?.requireCloseTab()
+                    termUI?.requireClose()
                     return true
                 }
                 return false
@@ -67,9 +68,9 @@ class TermViewClient(val context: Context) : TerminalViewClient {
             val unicodeChar = e.getUnicodeChar(0).toChar()
 
             if (unicodeChar == 'f'/* full screen */) {
-                termTab?.requireToggleFullScreen()
+                termUI?.requireToggleFullScreen()
             } else if (unicodeChar == 'v') {
-                termTab?.requirePaste()
+                termUI?.requirePaste()
             } else if (unicodeChar == '+' || e.getUnicodeChar(KeyEvent.META_SHIFT_ON).toChar() == '+') {
                 // We also check for the shifted char here since shift may be required to produce '+',
                 // see https://github.com/termux/termux-api/issues/2
@@ -86,11 +87,13 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun readControlKey(): Boolean {
-        return (extraKeysView != null && extraKeysView!!.readControlButton()) || mVirtualControlKeyDown
+        val extraKeysView = termData?.extraKeysView
+        return (extraKeysView != null && extraKeysView.readControlButton()) || mVirtualControlKeyDown
     }
 
     override fun readAltKey(): Boolean {
-        return (extraKeysView != null && extraKeysView!!.readAltButton()) || mVirtualFnKeyDown
+        val extraKeysView = termData?.extraKeysView
+        return (extraKeysView != null && extraKeysView.readAltButton()) || mVirtualFnKeyDown
     }
 
     override fun onCodePoint(codePoint: Int, ctrlDown: Boolean, session: TerminalSession?): Boolean {
@@ -179,6 +182,8 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     fun updateSuggestions(title: String?, force: Boolean = false) {
+        val extraKeysView = termData?.extraKeysView
+
         if (extraKeysView == null || title == null || title.isEmpty()) {
             return
         }
@@ -192,13 +197,17 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     fun removeSuggestions() {
+        val extraKeysView = termData?.extraKeysView
         extraKeysView?.clearUserDefinedButton()
     }
 
     private fun changeFontSize(increase: Boolean) {
-        val changedSize = (if (increase) 1 else -1) * 2
-        val fontSize = termView!!.textSize + changedSize
-        termView!!.textSize = fontSize
-        NeoPreference.store(NeoPreference.KEY_FONT_SIZE, fontSize)
+        val termView = termData?.termView
+        if (termView != null) {
+            val changedSize = (if (increase) 1 else -1) * 2
+            val fontSize = termView.textSize + changedSize
+            termView.textSize = fontSize
+            NeoPreference.store(NeoPreference.KEY_FONT_SIZE, fontSize)
+        }
     }
 }

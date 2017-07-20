@@ -28,7 +28,7 @@ import java.util.UUID;
  * <p>
  * NOTE: The terminal session may outlive the EmulatorView, so be careful with callbacks!
  */
-public final class TerminalSession extends TerminalOutput {
+public class TerminalSession extends TerminalOutput {
 
     /** Callback to be invoked when a {@link TerminalSession} changes. */
     public interface SessionChangedCallback {
@@ -143,18 +143,16 @@ public final class TerminalSession extends TerminalOutput {
 
     private final String mShellPath;
     private final String mCwd;
-    private final String mInitialCommand;
     private final String[] mArgs;
     private final String[] mEnv;
 
-    public TerminalSession(String shellPath, String cwd, String initialCommand, String[] args, String[] env, SessionChangedCallback changeCallback) {
+    public TerminalSession(String shellPath, String cwd, String[] args, String[] env, SessionChangedCallback changeCallback) {
         mChangeCallback = changeCallback;
 
         this.mShellPath = shellPath;
         this.mCwd = cwd;
         this.mArgs = args;
         this.mEnv = env;
-        this.mInitialCommand = initialCommand;
     }
 
     /** Inform the attached pty of the new size and reflow or initialize the emulator. */
@@ -227,10 +225,6 @@ public final class TerminalSession extends TerminalOutput {
                 mMainThreadHandler.sendMessage(mMainThreadHandler.obtainMessage(MSG_PROCESS_EXITED, processExitCode));
             }
         }.start();
-
-        if (mInitialCommand != null && mInitialCommand.length() > 0) {
-            write(mInitialCommand + '\r');
-        }
     }
 
     /** Write data to the shell process. */

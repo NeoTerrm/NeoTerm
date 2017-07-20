@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import com.igalata.bubblepicker.BubblePickerListener
@@ -22,6 +21,7 @@ import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.preference.NeoPreference
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.utils.PackageUtils
+import io.neoterm.utils.TerminalUtils
 import io.neoterm.view.TerminalDialog
 import java.util.*
 
@@ -38,7 +38,6 @@ class SetupActivity : AppCompatActivity() {
     }
 
     lateinit var picker: BubblePicker
-    lateinit var nextButton: Button
     lateinit var toast: Toast
     var aptUpdated = false
 
@@ -46,7 +45,7 @@ class SetupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_setup)
         picker = findViewById(R.id.bubble_picker) as BubblePicker
-        nextButton = findViewById(R.id.setup_next) as Button
+        val nextButton = findViewById(R.id.setup_next) as Button
         nextButton.setOnClickListener {
             if (aptUpdated) {
                 val packageList = mutableListOf("apt", "install", "-y")
@@ -101,7 +100,6 @@ class SetupActivity : AppCompatActivity() {
                         .setMessage(error.toString())
                         .setNegativeButton(R.string.use_system_shell, { _, _ ->
                             setResult(Activity.RESULT_CANCELED)
-                            nextButton.visibility = View.VISIBLE
                             finish()
                         })
                         .setPositiveButton(R.string.retry, { dialog, _ ->
@@ -114,21 +112,25 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun executeAptUpdate() {
-        TerminalDialog(this)
-                .onFinish(object : TerminalDialog.SessionFinishedCallback {
-                    override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
-                        nextButton.visibility = View.VISIBLE
-                        val exit = finishedSession?.exitStatus ?: 1
-                        if (exit == 0) {
-                            dialog.dismiss()
-                            aptUpdated = true
-                        } else {
-                            dialog.setTitle(getString(R.string.error))
-                        }
-                    }
-                })
-                .execute(NeoTermPath.APT_BIN_PATH, arrayOf("apt", "update"))
-                .show("apt update")
+        TerminalUtils.executeApt(this, "update", { exitStatus, dialog ->
+            if (exitStatus == 0) {
+                dialog.dismiss()
+                aptUpdated = true
+                executeAptUpgrade()
+            } else {
+                dialog.setTitle(getString(R.string.error))
+            }
+        })
+    }
+
+    private fun executeAptUpgrade() {
+        TerminalUtils.executeApt(this, "upgrade", { exitStatus, dialog ->
+            if (exitStatus == 0) {
+                dialog.dismiss()
+            } else {
+                dialog.setTitle(getString(R.string.error))
+            }
+        })
     }
 
     @SuppressLint("ShowToast")

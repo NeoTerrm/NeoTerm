@@ -76,8 +76,11 @@ class NeoTermService : Service() {
     val sessions: List<TerminalSession>
         get() = mTerminalSessions
 
-    fun createTermSession(executablePath: String?, arguments: Array<String>?, cwd: String?, initialCommand: String?, env: Array<String>?, sessionCallback: TerminalSession.SessionChangedCallback?, systemShell: Boolean): TerminalSession {
-        val session = TerminalUtils.createSession(this, executablePath, arguments, cwd, initialCommand, env, sessionCallback, systemShell)
+    fun createTermSession(executablePath: String?, arguments: Array<String>?,
+                          cwd: String?, initialCommand: String?,
+                          env: Array<Pair<String, String>>?, sessionCallback:
+                          TerminalSession.SessionChangedCallback?, systemShell: Boolean): TerminalSession {
+        val session = TerminalUtils.createShellSession(this, executablePath, arguments, cwd, initialCommand, env, sessionCallback, systemShell)
         mTerminalSessions.add(session)
         updateNotification()
         return session

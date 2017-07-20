@@ -96,67 +96,6 @@ object NeoPreference {
         return null
     }
 
-    fun buildEnvironment(cwd: String?, systemShell: Boolean, executablePath: String): Array<String> {
-        var cwd = cwd
-        File(NeoTermPath.HOME_PATH).mkdirs()
-
-        if (cwd == null) cwd = NeoTermPath.HOME_PATH
-
-        val termEnv = "TERM=xterm-256color"
-        val homeEnv = "HOME=" + NeoTermPath.HOME_PATH
-        val androidRootEnv = "ANDROID_ROOT=" + System.getenv("ANDROID_ROOT")
-        val androidDataEnv = "ANDROID_DATA=" + System.getenv("ANDROID_DATA")
-        val externalStorageEnv = "EXTERNAL_STORAGE=" + System.getenv("EXTERNAL_STORAGE")
-
-        if (systemShell) {
-            val pathEnv = "PATH=" + System.getenv("PATH")
-            return arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv, externalStorageEnv, pathEnv)
-
-        } else {
-            val ps1Env = "PS1=$ "
-            val langEnv = "LANG=en_US.UTF-8"
-            val pathEnv = "PATH=" + buildPathEnv()
-            val ldEnv = "LD_LIBRARY_PATH=" + buildLdLibraryEnv()
-            val pwdEnv = "PWD=" + cwd
-            val tmpdirEnv = "TMPDIR=${NeoTermPath.USR_PATH}/tmp"
-
-            return arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv)
-        }
-    }
-
-    private fun buildLdLibraryEnv(): String {
-        val builder = StringBuilder("${NeoTermPath.USR_PATH}/lib")
-
-        val programSelection = NeoPreference.loadString(R.string.key_general_program_selection, VALUE_NEOTERM_ONLY)
-        val systemPath = System.getenv("LD_LIBRARY_PATH")
-
-        if (programSelection != VALUE_NEOTERM_ONLY) {
-            builder.append(":$systemPath")
-        }
-
-        return builder.toString()
-    }
-
-    private fun buildPathEnv(): String {
-        val builder = StringBuilder()
-        val programSelection = NeoPreference.loadString(R.string.key_general_program_selection, VALUE_NEOTERM_ONLY)
-        val basePath = "${NeoTermPath.USR_PATH}/bin:${NeoTermPath.USR_PATH}/bin/applets"
-        val systemPath = System.getenv("PATH")
-
-        when (programSelection) {
-            VALUE_NEOTERM_ONLY -> {
-                builder.append(basePath)
-            }
-            VALUE_NEOTERM_FIRST -> {
-                builder.append("$basePath:$systemPath")
-            }
-            VALUE_SYSTEM_FIRST -> {
-                builder.append("$systemPath:$basePath")
-            }
-        }
-        return builder.toString()
-    }
-
     /**
      * TODO
      * To print the job name about to be executed in bash:

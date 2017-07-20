@@ -2,7 +2,6 @@ package io.neoterm.ui.customization
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -57,7 +56,7 @@ class CustomizationActivity : AppCompatActivity() {
         viewClient = BasicViewClient(terminalView)
         sessionCallback = BasicSessionCallback(terminalView)
         TerminalUtils.setupTerminalView(terminalView, viewClient)
-        session = TerminalUtils.createSession(this, "${NeoTermPath.USR_PATH}/bin/applets/echo",
+        session = TerminalUtils.createShellSession(this, "${NeoTermPath.USR_PATH}/bin/applets/echo",
                 arrayOf("echo", "Hello NeoTerm."), null, null, null, sessionCallback, false)
         terminalView.attachSession(session)
 

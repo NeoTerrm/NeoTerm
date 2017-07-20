@@ -1,4 +1,4 @@
-package io.neoterm.ui.term.tab
+package io.neoterm.terminal.client
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -8,43 +8,40 @@ import android.os.Vibrator
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.preference.NeoPreference
-import io.neoterm.view.TerminalView
 
 /**
  * @author kiva
  */
 class TermSessionCallback : TerminalSession.SessionChangedCallback {
-    var termView: TerminalView? = null
-    var termTab: TermTab? = null
+    var termData: TermDataHolder? = null
 
     var bellId: Int = 0
     var soundPool: SoundPool? = null
 
     override fun onTextChanged(changedSession: TerminalSession?) {
-        termView?.onScreenUpdated()
+        termData?.termView?.onScreenUpdated()
     }
 
     override fun onTitleChanged(changedSession: TerminalSession?) {
         if (changedSession?.title != null) {
-            termTab?.updateTitle(changedSession.title)
+            termData?.termUI?.requireUpdateTitle(changedSession.title)
         }
     }
 
     override fun onSessionFinished(finishedSession: TerminalSession?) {
-        termTab?.onSessionFinished()
+        termData?.termUI?.requireOnSessionFinished()
     }
 
     override fun onClipboardText(session: TerminalSession?, text: String?) {
+        val termView = termData?.termView
         if (termView != null) {
-            val clipboard = termView!!.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard = termView.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             clipboard.primaryClip = ClipData.newPlainText("", text)
         }
     }
 
     override fun onBell(session: TerminalSession?) {
-        if (termView == null) {
-            return
-        }
+        val termView = termData?.termView ?: return
 
         if (NeoPreference.loadBoolean(R.string.key_general_bell, false)) {
             if (soundPool == null) {
@@ -61,8 +58,9 @@ class TermSessionCallback : TerminalSession.SessionChangedCallback {
     }
 
     override fun onColorsChanged(session: TerminalSession?) {
-        if (session != null) {
-            termView?.onScreenUpdated()
+        val termView = termData?.termView
+        if (session != null && termView != null) {
+            termView.onScreenUpdated()
         }
     }
 }

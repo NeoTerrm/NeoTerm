@@ -16,7 +16,7 @@ import io.neoterm.customize.script.UserScript
 import io.neoterm.customize.script.UserScriptManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
-import io.neoterm.ui.term.tab.TermSessionCallback
+import io.neoterm.terminal.client.TermSessionCallback
 import io.neoterm.utils.TerminalUtils
 import java.io.File
 

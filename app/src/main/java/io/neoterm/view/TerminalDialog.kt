@@ -16,13 +16,12 @@ import io.neoterm.utils.TerminalUtils
 class TerminalDialog(val context: Context) {
 
     interface SessionFinishedCallback {
-        fun onSessionFinished(dialog:TerminalDialog, finishedSession: TerminalSession?)
+        fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?)
     }
 
     @SuppressLint("InflateParams")
     private var view: View = LayoutInflater.from(context).inflate(R.layout.ui_term_dialog, null, false)
     private var terminalView: TerminalView
-    private var terminalViewClient: BasicViewClient
     private var terminalSessionCallback: BasicSessionCallback
     private var dialog: AlertDialog? = null
     private var terminalSession: TerminalSession? = null
@@ -31,10 +30,8 @@ class TerminalDialog(val context: Context) {
 
     init {
         terminalView = view.findViewById(R.id.terminal_view_dialog) as TerminalView
-        terminalViewClient = BasicViewClient(terminalView)
-        TerminalUtils.setupTerminalView(terminalView, terminalViewClient)
+        TerminalUtils.setupTerminalView(terminalView, BasicViewClient(terminalView))
 
-        terminalView.setTerminalViewClient(terminalViewClient)
         terminalSessionCallback = object : BasicSessionCallback(terminalView) {
             override fun onSessionFinished(finishedSession: TerminalSession?) {
                 sessionFinishedCallback?.onSessionFinished(this@TerminalDialog, finishedSession)
@@ -56,7 +53,7 @@ class TerminalDialog(val context: Context) {
                 }
                 .create()
 
-        terminalSession = TerminalUtils.createSession(context, executablePath, arguments, null, null, null, terminalSessionCallback, false)
+        terminalSession = TerminalUtils.createShellSession(context, executablePath, arguments, null, null, null, terminalSessionCallback, false)
         terminalView.attachSession(terminalSession)
         return this
     }
@@ -66,12 +63,12 @@ class TerminalDialog(val context: Context) {
         return this
     }
 
-    fun setTitle(title: String?) : TerminalDialog {
+    fun setTitle(title: String?): TerminalDialog {
         dialog?.setTitle(title)
         return this
     }
 
-    fun onFinish(finishedCallback: SessionFinishedCallback):TerminalDialog {
+    fun onFinish(finishedCallback: SessionFinishedCallback): TerminalDialog {
         this.sessionFinishedCallback = finishedCallback
         return this
     }
@@ -83,6 +80,14 @@ class TerminalDialog(val context: Context) {
 
     fun dismiss(): TerminalDialog {
         dialog?.dismiss()
+        return this
+    }
+
+    fun imeEnabled(enabled: Boolean): TerminalDialog {
+        if (enabled) {
+            terminalView.isFocusable = true
+            terminalView.isFocusableInTouchMode = true
+        }
         return this
     }
 }

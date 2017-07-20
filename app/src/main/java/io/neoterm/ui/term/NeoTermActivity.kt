@@ -33,10 +33,10 @@ import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.ui.setup.SetupActivity
-import io.neoterm.ui.term.tab.TermSessionCallback
+import io.neoterm.terminal.client.TermSessionCallback
 import io.neoterm.ui.term.tab.TermTab
 import io.neoterm.ui.term.tab.TermTabDecorator
-import io.neoterm.ui.term.tab.TermViewClient
+import io.neoterm.terminal.client.TermViewClient
 import io.neoterm.ui.term.tab.event.TabCloseEvent
 import io.neoterm.ui.term.tab.event.TitleChangedEvent
 import io.neoterm.ui.term.tab.event.ToggleFullScreenEvent
@@ -189,8 +189,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
 
             override fun onSelectionChanged(tabSwitcher: TabSwitcher, selectedTabIndex: Int, selectedTab: Tab?) {
-                if (selectedTab is TermTab && selectedTab.termSession != null) {
-                    NeoPreference.storeCurrentSession(selectedTab.termSession!!)
+                if (selectedTab is TermTab && selectedTab.termData.termSession != null) {
+                    NeoPreference.storeCurrentSession(selectedTab.termData.termSession!!)
                 }
             }
 
@@ -199,8 +199,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
                 if (tab is TermTab) {
-                    tab.termSession?.finishIfRunning()
-                    removeFinishedSession(tab.termSession)
+                    tab.termData.termSession?.finishIfRunning()
+                    removeFinishedSession(tab.termData.termSession)
                     tab.cleanup()
                 }
             }
@@ -387,28 +387,31 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         val tabCount = tabSwitcher.count
         (0..(tabCount - 1))
                 .map { tabSwitcher.getTab(it) }
-                .filter { it is TermTab && it.termSession == session }
+                .filter { it is TermTab && it.termData.termSession == session }
                 .forEach { return }
 
+        val sessionCallback = session.sessionChangedCallback as TermSessionCallback
+        val viewClient = TermViewClient(this)
+
         val tab = createTab(session.title) as TermTab
-        tab.sessionCallback = session.sessionChangedCallback as TermSessionCallback
-        tab.viewClient = TermViewClient(this)
-        tab.termSession = session
+        tab.termData.initializeSessionWith(session, sessionCallback, viewClient)
 
         addNewTab(tab, createRevealAnimation())
         switchToSession(tab)
     }
 
     private fun addNewSession(sessionName: String?, systemShell: Boolean, animation: Animation) {
-        val tab = createTab(sessionName) as TermTab
-        tab.sessionCallback = TermSessionCallback()
-        tab.viewClient = TermViewClient(this)
-        tab.termSession = termService!!.createTermSession(null, null,
-                null, null, null, tab.sessionCallback, systemShell)
+        val sessionCallback = TermSessionCallback()
+        val viewClient = TermViewClient(this)
+        val session = termService!!.createTermSession(null, null,
+                null, null, null, sessionCallback, systemShell)
 
         if (sessionName != null) {
-            tab.termSession!!.mSessionName = sessionName
+            session.mSessionName = sessionName
         }
+
+        val tab = createTab(sessionName) as TermTab
+        tab.termData.initializeSessionWith(session, sessionCallback, viewClient)
 
         addNewTab(tab, animation)
         switchToSession(tab)
@@ -421,7 +424,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         for (i in 0..tabSwitcher.count - 1) {
             val tab = tabSwitcher.getTab(i)
-            if (tab is TermTab && tab.termSession == session) {
+            if (tab is TermTab && tab.termData.termSession == session) {
                 switchToSession(tab)
                 break
             }

@@ -1,4 +1,4 @@
-package io.neoterm.ui.term.tab
+package io.neoterm.terminal.client
 
 import android.util.Log
 import android.view.KeyEvent

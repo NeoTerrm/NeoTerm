@@ -1,11 +1,11 @@
-package io.neoterm.terminal.client
+package io.neoterm.frontend.client
 
 import android.util.Log
 import android.view.KeyEvent
-import io.neoterm.customize.completion.AutoCompleteManager
-import io.neoterm.customize.completion.CompleteCandidate
-import io.neoterm.view.AutoCompletePopupWindow
-import io.neoterm.view.OnAutoCompleteListener
+import io.neoterm.frontend.completion.AutoCompleteManager
+import io.neoterm.frontend.completion.CompleteCandidate
+import io.neoterm.frontend.completion.AutoCompletePopupWindow
+import io.neoterm.frontend.completion.OnAutoCompleteListener
 import io.neoterm.view.TerminalView
 import java.util.*
 

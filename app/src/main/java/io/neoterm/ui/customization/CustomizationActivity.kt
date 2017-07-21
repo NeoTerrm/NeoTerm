@@ -16,11 +16,12 @@ import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.customize.font.FontManager
+import io.neoterm.frontend.ShellParameter
 import io.neoterm.utils.FileUtils
 import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.TerminalUtils
-import io.neoterm.view.BasicSessionCallback
-import io.neoterm.view.BasicViewClient
+import io.neoterm.frontend.tinyclient.BasicSessionCallback
+import io.neoterm.frontend.tinyclient.BasicViewClient
 import io.neoterm.view.ExtraKeysView
 import io.neoterm.view.TerminalView
 import java.io.File
@@ -56,8 +57,14 @@ class CustomizationActivity : AppCompatActivity() {
         viewClient = BasicViewClient(terminalView)
         sessionCallback = BasicSessionCallback(terminalView)
         TerminalUtils.setupTerminalView(terminalView, viewClient)
-        session = TerminalUtils.createShellSession(this, "${NeoTermPath.USR_PATH}/bin/applets/echo",
-                arrayOf("echo", "Hello NeoTerm."), null, null, null, sessionCallback, false)
+
+        val parameter = ShellParameter()
+                .executablePath("${NeoTermPath.USR_PATH}/bin/applets/echo")
+                .arguments(arrayOf("echo", "Hello NeoTerm."))
+                .callback(sessionCallback)
+                .systemShell(false)
+
+        session = TerminalUtils.createShellSession(this, parameter)
         terminalView.attachSession(session)
 
         findViewById(R.id.custom_install_font_button).setOnClickListener {

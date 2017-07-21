@@ -1,19 +1,19 @@
-package io.neoterm.terminal
+package io.neoterm.frontend
 
 import android.content.Context
 import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.preference.NeoPreference
 import io.neoterm.preference.NeoTermPath
-import io.neoterm.terminal.client.TermSessionCallback
 import java.io.File
 
 /**
  * @author kiva
  */
 open class ShellTermSession private constructor(shellPath: String, cwd: String, args: Array<String>, env: Array<String>, changeCallback: SessionChangedCallback) : TerminalSession(shellPath, cwd, args, env, changeCallback) {
-    var initialCommand : String? = null
+    var initialCommand: String? = null
 
     override fun initializeEmulator(columns: Int, rows: Int) {
         super.initializeEmulator(columns, rows)
@@ -25,15 +25,15 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
     }
 
     class Builder {
-        private var shell: String? = null
+        private var executablePath: String? = null
         private var cwd: String? = null
         private var args: MutableList<String>? = null
         private var env: MutableList<Pair<String, String>>? = null
         private var changeCallback: SessionChangedCallback? = null
         private var systemShell = false
 
-        fun shell(shell: String?): Builder {
-            this.shell = shell
+        fun executablePath(shell: String?): Builder {
+            this.executablePath = shell
             return this
         }
 
@@ -107,7 +107,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
         fun create(context: Context): ShellTermSession {
             val cwd = this.cwd ?: NeoTermPath.HOME_PATH
 
-            var shell = this.shell ?:
+            var shell = this.executablePath ?:
                     if (systemShell)
                         "/system/bin/sh"
                     else
@@ -119,7 +119,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
             }
 
             val args = this.args ?: mutableListOf(shell)
-            val env = transformEnvironment(this.env) ?: buildEnvironment(cwd, systemShell, shell)
+            val env = transformEnvironment(this.env) ?: buildEnvironment(cwd, systemShell)
             val callback = changeCallback ?: TermSessionCallback()
             return ShellTermSession(shell, cwd, args.toTypedArray(), env, callback)
         }
@@ -135,11 +135,9 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
         }
 
 
-        private fun buildEnvironment(cwd: String?, systemShell: Boolean, executablePath: String): Array<String> {
-            var cwd = cwd
+        private fun buildEnvironment(cwd: String?, systemShell: Boolean): Array<String> {
+            val cwd = cwd ?: NeoTermPath.HOME_PATH
             File(NeoTermPath.HOME_PATH).mkdirs()
-
-            if (cwd == null) cwd = NeoTermPath.HOME_PATH
 
             val termEnv = "TERM=xterm-256color"
             val homeEnv = "HOME=" + NeoTermPath.HOME_PATH

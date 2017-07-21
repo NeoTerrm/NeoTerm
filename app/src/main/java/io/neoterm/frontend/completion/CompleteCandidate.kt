@@ -1,4 +1,4 @@
-package io.neoterm.customize.completion
+package io.neoterm.frontend.completion
 
 /**
  * @author kiva

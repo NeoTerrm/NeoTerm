@@ -1,8 +1,11 @@
 package io.neoterm.utils
 
+import android.content.Context
 import io.neoterm.R
+import io.neoterm.backend.TerminalSession
 import io.neoterm.preference.NeoPreference
 import io.neoterm.preference.NeoTermPath
+import io.neoterm.frontend.floating.TerminalDialog
 import java.io.File
 
 /**
@@ -22,5 +25,18 @@ object PackageUtils {
                 .append(" stable main")
                 .append("\n")
                 .toString()
+    }
+
+    fun executeApt(context: Context, subCommand: String, callback: (Int, TerminalDialog) -> Unit) {
+        TerminalDialog(context)
+                .onFinish(object : TerminalDialog.SessionFinishedCallback {
+                    override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
+                        val exit = finishedSession?.exitStatus ?: 1
+                        callback(exit, dialog)
+                    }
+                })
+                .imeEnabled(true)
+                .execute(NeoTermPath.APT_BIN_PATH, arrayOf("apt", subCommand))
+                .show("apt $subCommand")
     }
 }

@@ -26,6 +26,7 @@ import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.customize.eks.EksKeysManager
 import io.neoterm.customize.font.FontManager
 import io.neoterm.customize.setup.BaseFileInstaller
+import io.neoterm.frontend.ShellParameter
 import io.neoterm.preference.NeoPermission
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
@@ -33,10 +34,10 @@ import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.ui.setup.SetupActivity
-import io.neoterm.terminal.client.TermSessionCallback
+import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.ui.term.tab.TermTab
 import io.neoterm.ui.term.tab.TermTabDecorator
-import io.neoterm.terminal.client.TermViewClient
+import io.neoterm.frontend.client.TermViewClient
 import io.neoterm.ui.term.tab.event.TabCloseEvent
 import io.neoterm.ui.term.tab.event.TitleChangedEvent
 import io.neoterm.ui.term.tab.event.ToggleFullScreenEvent
@@ -403,8 +404,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     private fun addNewSession(sessionName: String?, systemShell: Boolean, animation: Animation) {
         val sessionCallback = TermSessionCallback()
         val viewClient = TermViewClient(this)
-        val session = termService!!.createTermSession(null, null,
-                null, null, null, sessionCallback, systemShell)
+
+        val parameter = ShellParameter()
+                .callback(sessionCallback)
+                .systemShell(systemShell)
+        val session = termService!!.createTermSession(parameter)
 
         if (sessionName != null) {
             session.mSessionName = sessionName

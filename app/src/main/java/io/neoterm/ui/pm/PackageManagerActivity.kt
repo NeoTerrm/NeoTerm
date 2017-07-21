@@ -29,11 +29,8 @@ import io.neoterm.preference.NeoPreference
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
-import io.neoterm.utils.FileUtils
 import io.neoterm.utils.PackageUtils
-import io.neoterm.view.TerminalDialog
-import java.io.File
-import java.net.URL
+import io.neoterm.frontend.floating.TerminalDialog
 
 /**
  * @author kiva

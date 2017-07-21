@@ -1,4 +1,4 @@
-package io.neoterm.view
+package io.neoterm.frontend.floating
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -8,7 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.frontend.tinyclient.BasicSessionCallback
+import io.neoterm.frontend.tinyclient.BasicViewClient
+import io.neoterm.frontend.ShellParameter
 import io.neoterm.utils.TerminalUtils
+import io.neoterm.view.TerminalView
 
 /**
  * @author kiva
@@ -53,7 +57,12 @@ class TerminalDialog(val context: Context) {
                 }
                 .create()
 
-        terminalSession = TerminalUtils.createShellSession(context, executablePath, arguments, null, null, null, terminalSessionCallback, false)
+        val parameter = ShellParameter()
+                .executablePath(executablePath)
+                .arguments(arguments)
+                .callback(terminalSessionCallback)
+                .systemShell(false)
+        terminalSession = TerminalUtils.createShellSession(context, parameter)
         terminalView.attachSession(terminalSession)
         return this
     }

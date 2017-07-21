@@ -1,10 +1,12 @@
-package io.neoterm.view
+package io.neoterm.frontend.tinyclient
 
 import android.content.Context
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import io.neoterm.backend.TerminalSession
+import io.neoterm.view.TerminalView
+import io.neoterm.view.TerminalViewClient
 
 /**
  * @author kiva

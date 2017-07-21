@@ -21,8 +21,7 @@ import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.preference.NeoPreference
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.utils.PackageUtils
-import io.neoterm.utils.TerminalUtils
-import io.neoterm.view.TerminalDialog
+import io.neoterm.frontend.floating.TerminalDialog
 import java.util.*
 
 
@@ -112,7 +111,7 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun executeAptUpdate() {
-        TerminalUtils.executeApt(this, "update", { exitStatus, dialog ->
+        PackageUtils.executeApt(this, "update", { exitStatus, dialog ->
             if (exitStatus == 0) {
                 dialog.dismiss()
                 aptUpdated = true
@@ -124,7 +123,7 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun executeAptUpgrade() {
-        TerminalUtils.executeApt(this, "upgrade", { exitStatus, dialog ->
+        PackageUtils.executeApt(this, "upgrade", { exitStatus, dialog ->
             if (exitStatus == 0) {
                 dialog.dismiss()
             } else {

@@ -1,4 +1,4 @@
-package io.neoterm.customize.completion
+package io.neoterm.frontend.completion
 
 /**
  * @author kiva
@@ -10,7 +10,7 @@ object AutoCompleteManager {
         val programs = arrayOf("ls", "clean", "exit", "apt", "neoterm-normalize-binary", "less", "ln", "lsof")
         val desc = arrayOf("List files and directories",
                 "Clear screen",
-                "Exit current shell",
+                "Exit current executablePath",
                 "Installing, Updating, Upgrading packages",
                 "Fix program error caused by linux shebang",
                 "View files",

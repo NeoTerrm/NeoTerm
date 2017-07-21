@@ -1,4 +1,4 @@
-package io.neoterm.view
+package io.neoterm.frontend.completion
 
 import android.content.Context
 import android.view.Gravity
@@ -12,7 +12,7 @@ import android.widget.TextView
 import io.neoterm.R
 import io.neoterm.backend.TerminalColors
 import io.neoterm.customize.color.ColorSchemeManager
-import io.neoterm.customize.completion.CompleteCandidate
+import io.neoterm.view.TerminalView
 
 /**
  * @author kiva

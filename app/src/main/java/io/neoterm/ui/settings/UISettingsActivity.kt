@@ -4,12 +4,11 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatPreferenceActivity
 import android.view.MenuItem
-import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.preference.NeoPreference
 import io.neoterm.preference.NeoTermPath
-import io.neoterm.view.TerminalDialog
+import io.neoterm.frontend.floating.TerminalDialog
 
 /**
  * @author kiva

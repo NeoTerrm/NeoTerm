@@ -92,10 +92,10 @@ public class TerminalSession extends TerminalOutput {
     /** Callback which gets notified when a session finishes or changes title. */
     final SessionChangedCallback mChangeCallback;
 
-    /** The pid of the shell process. 0 if not started and -1 if finished running. */
+    /** The pid of the executablePath process. 0 if not started and -1 if finished running. */
     int mShellPid;
 
-    /** The exit status of the shell process. Only valid if ${@link #mShellPid} is -1. */
+    /** The exit status of the executablePath process. Only valid if ${@link #mShellPid} is -1. */
     int mShellExitStatus;
 
     /**
@@ -227,7 +227,7 @@ public class TerminalSession extends TerminalOutput {
         }.start();
     }
 
-    /** Write data to the shell process. */
+    /** Write data to the executablePath process. */
     @Override
     public void write(byte[] data, int offset, int count) {
         if (mShellPid > 0) mTerminalToProcessIOQueue.write(data, offset, count);
@@ -285,7 +285,7 @@ public class TerminalSession extends TerminalOutput {
         notifyScreenUpdate();
     }
 
-    /** Finish this terminal session by sending SIGKILL to the shell. */
+    /** Finish this terminal session by sending SIGKILL to the executablePath. */
     public void finishIfRunning() {
         if (isRunning()) {
             try {

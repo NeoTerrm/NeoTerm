@@ -4,11 +4,10 @@ import android.content.Context
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.font.FontManager
+import io.neoterm.frontend.ShellParameter
+import io.neoterm.frontend.ShellTermSession
 import io.neoterm.preference.NeoPreference
-import io.neoterm.preference.NeoTermPath
-import io.neoterm.terminal.ShellTermSession
 import io.neoterm.view.ExtraKeysView
-import io.neoterm.view.TerminalDialog
 import io.neoterm.view.TerminalView
 import io.neoterm.view.TerminalViewClient
 
@@ -31,20 +30,17 @@ object TerminalUtils {
     fun setupTerminalSession(session: TerminalSession?) {
     }
 
-    fun createShellSession(context: Context, executablePath: String?, arguments: Array<String>?,
-                           cwd: String?, initialCommand: String?, env: Array<Pair<String, String>>?,
-                           sessionCallback: TerminalSession.SessionChangedCallback?,
-                           systemShell: Boolean): TerminalSession {
-        val initCommand = initialCommand ?:
+    fun createShellSession(context: Context, parameter: ShellParameter): TerminalSession {
+        val initCommand = parameter.initialCommand ?:
                 NeoPreference.loadString(R.string.key_general_initial_command, "")
 
         val session = ShellTermSession.Builder()
-                .shell(executablePath)
-                .currentWorkingDirectory(cwd)
-                .callback(sessionCallback)
-                .systemShell(systemShell)
-                .envArray(env)
-                .argArray(arguments)
+                .executablePath(parameter.executablePath)
+                .currentWorkingDirectory(parameter.cwd)
+                .callback(parameter.sessionCallback)
+                .systemShell(parameter.systemShell)
+                .envArray(parameter.env)
+                .argArray(parameter.arguments)
                 .create(context)
         setupTerminalSession(session)
         session.initialCommand = initCommand
@@ -69,18 +65,5 @@ object TerminalUtils {
         }
         builder.append('"')
         return builder.toString()
-    }
-
-    fun executeApt(context: Context, subCommand: String, callback: (Int, TerminalDialog) -> Unit) {
-        TerminalDialog(context)
-                .onFinish(object : TerminalDialog.SessionFinishedCallback {
-                    override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
-                        val exit = finishedSession?.exitStatus ?: 1
-                        callback(exit, dialog)
-                    }
-                })
-                .imeEnabled(true)
-                .execute(NeoTermPath.APT_BIN_PATH, arrayOf("apt", subCommand))
-                .show("apt $subCommand")
     }
 }

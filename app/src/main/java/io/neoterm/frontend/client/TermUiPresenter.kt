@@ -1,4 +1,4 @@
-package io.neoterm.terminal.client
+package io.neoterm.frontend.client
 
 /**
  * @author kiva

@@ -35,6 +35,7 @@ import io.neoterm.backend.KeyHandler;
 import io.neoterm.backend.TerminalBuffer;
 import io.neoterm.backend.TerminalEmulator;
 import io.neoterm.backend.TerminalSession;
+import io.neoterm.frontend.completion.OnAutoCompleteListener;
 
 /**
  * View displaying and interacting with a {@link TerminalSession}.

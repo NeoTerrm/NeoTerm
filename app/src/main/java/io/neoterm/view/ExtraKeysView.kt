@@ -6,7 +6,6 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.HapticFeedbackConstants
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.HorizontalScrollView
@@ -16,26 +15,12 @@ import android.widget.ToggleButton
 import java.io.File
 import java.util.ArrayList
 
-import io.neoterm.customize.eks.EksConfig
 import io.neoterm.customize.eks.EksConfigParser
-import io.neoterm.customize.font.FontManager
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.utils.FileUtils
 import io.neoterm.view.eks.ControlButton
 import io.neoterm.view.eks.ExtraButton
 import io.neoterm.view.eks.StatedControlButton
-
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_ARROW_DOWN
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_ARROW_LEFT
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_ARROW_RIGHT
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_ARROW_UP
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_CTRL
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_END
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_ESC
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_HOME
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_PAGE_DOWN
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_PAGE_UP
-import io.neoterm.view.eks.ExtraButton.Companion.KEY_TAB
 
 /**
  * A view showing extra keys (such as Escape, Ctrl, Alt) not normally available on an Android soft

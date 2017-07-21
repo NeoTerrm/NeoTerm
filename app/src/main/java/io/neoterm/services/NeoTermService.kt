@@ -15,6 +15,7 @@ import android.support.v4.content.WakefulBroadcastReceiver
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
+import io.neoterm.frontend.ShellParameter
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import java.util.*
@@ -76,11 +77,8 @@ class NeoTermService : Service() {
     val sessions: List<TerminalSession>
         get() = mTerminalSessions
 
-    fun createTermSession(executablePath: String?, arguments: Array<String>?,
-                          cwd: String?, initialCommand: String?,
-                          env: Array<Pair<String, String>>?, sessionCallback:
-                          TerminalSession.SessionChangedCallback?, systemShell: Boolean): TerminalSession {
-        val session = TerminalUtils.createShellSession(this, executablePath, arguments, cwd, initialCommand, env, sessionCallback, systemShell)
+    fun createTermSession(parameter: ShellParameter): TerminalSession {
+        val session = TerminalUtils.createShellSession(this, parameter)
         mTerminalSessions.add(session)
         updateNotification()
         return session

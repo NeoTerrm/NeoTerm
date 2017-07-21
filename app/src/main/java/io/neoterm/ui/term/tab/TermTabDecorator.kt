@@ -12,11 +12,11 @@ import io.neoterm.BuildConfig
 import io.neoterm.R
 import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoPreference
-import io.neoterm.terminal.client.TermCompleteListener
+import io.neoterm.frontend.client.TermCompleteListener
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import io.neoterm.view.ExtraKeysView
-import io.neoterm.view.OnAutoCompleteListener
+import io.neoterm.frontend.completion.OnAutoCompleteListener
 import io.neoterm.view.TerminalView
 
 /**

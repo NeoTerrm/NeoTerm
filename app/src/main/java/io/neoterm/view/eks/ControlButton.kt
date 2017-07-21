@@ -2,8 +2,6 @@ package io.neoterm.view.eks
 
 import android.view.View
 
-import io.neoterm.view.ExtraKeysView
-
 /**
  * @author kiva
  */

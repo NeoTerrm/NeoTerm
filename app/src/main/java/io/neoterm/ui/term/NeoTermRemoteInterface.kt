@@ -14,9 +14,10 @@ import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.customize.script.UserScript
 import io.neoterm.customize.script.UserScriptManager
+import io.neoterm.frontend.ShellParameter
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
-import io.neoterm.terminal.client.TermSessionCallback
+import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.utils.TerminalUtils
 import java.io.File
 
@@ -68,9 +69,12 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
     }
 
     private fun openTerm(initialCommand: String?) {
-        val session = termService!!.createTermSession(null,
-                null, null, initialCommand,
-                null, TermSessionCallback(), false)
+        // TODO: check whether system executablePath we should use
+        val parameter = ShellParameter()
+                .initialCommand(initialCommand)
+                .callback(TermSessionCallback())
+                .systemShell(false)
+        val session = termService!!.createTermSession(parameter)
 
         // Set current session to our new one
         // In order to switch to it when entering NeoTermActivity

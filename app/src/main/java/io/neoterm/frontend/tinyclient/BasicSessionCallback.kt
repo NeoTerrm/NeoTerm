@@ -1,6 +1,7 @@
-package io.neoterm.view
+package io.neoterm.frontend.tinyclient
 
 import io.neoterm.backend.TerminalSession
+import io.neoterm.view.TerminalView
 
 /**
  * @author kiva

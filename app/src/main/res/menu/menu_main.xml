@@ -33,8 +33,8 @@ License.
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_item_discovery"
-        android:title="@string/discovery"
+        android:id="@+id/menu_item_float_up"
+        android:title="@string/float_up"
         app:showAsAction="never" />
 
     <item

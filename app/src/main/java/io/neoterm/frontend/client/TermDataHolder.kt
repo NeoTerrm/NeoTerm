@@ -2,7 +2,7 @@ package io.neoterm.frontend.client
 
 import io.neoterm.backend.TerminalSession
 import io.neoterm.view.ExtraKeysView
-import io.neoterm.frontend.completion.OnAutoCompleteListener
+import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
 import io.neoterm.view.TerminalView
 
 /**

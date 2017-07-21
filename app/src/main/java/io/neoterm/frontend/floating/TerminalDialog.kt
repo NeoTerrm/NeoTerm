@@ -1,18 +1,13 @@
 package io.neoterm.frontend.floating
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.view.LayoutInflater
-import android.view.View
-import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.frontend.ShellParameter
 import io.neoterm.frontend.tinyclient.BasicSessionCallback
 import io.neoterm.frontend.tinyclient.BasicViewClient
-import io.neoterm.frontend.ShellParameter
 import io.neoterm.utils.TerminalUtils
-import io.neoterm.view.TerminalView
 
 /**
  * @author kiva
@@ -23,9 +18,7 @@ class TerminalDialog(val context: Context) {
         fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?)
     }
 
-    @SuppressLint("InflateParams")
-    private var view: View = LayoutInflater.from(context).inflate(R.layout.ui_term_dialog, null, false)
-    private var terminalView: TerminalView
+    private var termWindowView = WindowTermView(context)
     private var terminalSessionCallback: BasicSessionCallback
     private var dialog: AlertDialog? = null
     private var terminalSession: TerminalSession? = null
@@ -33,10 +26,9 @@ class TerminalDialog(val context: Context) {
     private var cancelListener: DialogInterface.OnCancelListener? = null
 
     init {
-        terminalView = view.findViewById(R.id.terminal_view_dialog) as TerminalView
-        TerminalUtils.setupTerminalView(terminalView, BasicViewClient(terminalView))
+        termWindowView.setTerminalViewClient(BasicViewClient(termWindowView.terminalView))
 
-        terminalSessionCallback = object : BasicSessionCallback(terminalView) {
+        terminalSessionCallback = object : BasicSessionCallback(termWindowView.terminalView) {
             override fun onSessionFinished(finishedSession: TerminalSession?) {
                 sessionFinishedCallback?.onSessionFinished(this@TerminalDialog, finishedSession)
                 super.onSessionFinished(finishedSession)
@@ -50,7 +42,7 @@ class TerminalDialog(val context: Context) {
         }
 
         dialog = AlertDialog.Builder(context)
-                .setView(view)
+                .setView(termWindowView.rootView)
                 .setOnCancelListener {
                     terminalSession?.finishIfRunning()
                     cancelListener?.onCancel(it)
@@ -63,7 +55,7 @@ class TerminalDialog(val context: Context) {
                 .callback(terminalSessionCallback)
                 .systemShell(false)
         terminalSession = TerminalUtils.createShellSession(context, parameter)
-        terminalView.attachSession(terminalSession)
+        termWindowView.attachSession(terminalSession)
         return this
     }
 
@@ -94,8 +86,7 @@ class TerminalDialog(val context: Context) {
 
     fun imeEnabled(enabled: Boolean): TerminalDialog {
         if (enabled) {
-            terminalView.isFocusable = true
-            terminalView.isFocusableInTouchMode = true
+            termWindowView.setInputMethodEnabled(true)
         }
         return this
     }

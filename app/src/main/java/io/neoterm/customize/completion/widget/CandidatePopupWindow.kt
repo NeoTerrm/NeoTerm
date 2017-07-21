@@ -1,4 +1,4 @@
-package io.neoterm.frontend.completion
+package io.neoterm.customize.completion.widget
 
 import android.content.Context
 import android.view.Gravity
@@ -12,13 +12,14 @@ import android.widget.TextView
 import io.neoterm.R
 import io.neoterm.backend.TerminalColors
 import io.neoterm.customize.color.ColorSchemeManager
+import io.neoterm.frontend.completion.model.CompletionCandidate
 import io.neoterm.view.TerminalView
 
 /**
  * @author kiva
  */
-class AutoCompletePopupWindow(val context: Context) {
-    var candidates: List<CompleteCandidate>? = null
+class CandidatePopupWindow(val context: Context) {
+    var candidates: List<CompletionCandidate>? = null
     var popupWindow: PopupWindow? = null
     var wantsToFinish = false
     var candidateAdapter: CandidateAdapter? = null
@@ -60,21 +61,21 @@ class AutoCompletePopupWindow(val context: Context) {
         candidates = null
     }
 
-    class CandidateAdapter(val autoCompletePopupWindow: AutoCompletePopupWindow) : BaseAdapter() {
+    class CandidateAdapter(val candidatePopupWindow: CandidatePopupWindow) : BaseAdapter() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             var convertView = convertView
             val viewHolder: CandidateViewHolder =
                     if (convertView != null) {
                         convertView.tag as CandidateViewHolder
                     } else {
-                        convertView = LayoutInflater.from(autoCompletePopupWindow.context)
+                        convertView = LayoutInflater.from(candidatePopupWindow.context)
                                 .inflate(R.layout.item_complete_candidate, null, false)
                         val viewHolder = CandidateViewHolder(convertView)
                         convertView.tag = viewHolder
                         viewHolder
                     }
 
-            val candidate = getItem(position) as CompleteCandidate
+            val candidate = getItem(position) as CompletionCandidate
             viewHolder.apply {
                 display.text = candidate.displayName
                 if (candidate.description != null) {
@@ -90,7 +91,7 @@ class AutoCompletePopupWindow(val context: Context) {
         }
 
         override fun getItem(position: Int): Any? {
-            return autoCompletePopupWindow.candidates?.get(position)
+            return candidatePopupWindow.candidates?.get(position)
         }
 
         override fun getItemId(position: Int): Long {
@@ -98,7 +99,7 @@ class AutoCompletePopupWindow(val context: Context) {
         }
 
         override fun getCount(): Int {
-            return autoCompletePopupWindow.candidates?.size ?: 0
+            return candidatePopupWindow.candidates?.size ?: 0
         }
     }
 

@@ -32,9 +32,9 @@
 
         <activity
             android:name=".ui.term.NeoTermRemoteInterface"
-            android:theme="@style/AppTheme.Dark"
             android:excludeFromRecents="true"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -112,6 +112,10 @@
 
         <service
             android:name=".services.NeoTermService"
+            android:enabled="true" />
+
+        <service
+            android:name=".services.NeoFloatingTermService"
             android:enabled="true" />
 
         <meta-data

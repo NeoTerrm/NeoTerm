@@ -35,7 +35,7 @@ import io.neoterm.backend.KeyHandler;
 import io.neoterm.backend.TerminalBuffer;
 import io.neoterm.backend.TerminalEmulator;
 import io.neoterm.backend.TerminalSession;
-import io.neoterm.frontend.completion.OnAutoCompleteListener;
+import io.neoterm.frontend.completion.listener.OnAutoCompleteListener;
 
 /**
  * View displaying and interacting with a {@link TerminalSession}.
@@ -231,10 +231,17 @@ public final class TerminalView extends View {
 
     /**
      * @param client Listener for all kinds of key events, both hardware and IME (which makes it different from that
-     *                      available with {@link View#setOnKeyListener(OnKeyListener)}.
+     *               available with {@link View#setOnKeyListener(OnKeyListener)}.
      */
     public void setTerminalViewClient(TerminalViewClient client) {
         this.mClient = client;
+    }
+
+    @Override
+    public void setOnKeyListener(OnKeyListener l) {
+        if (l instanceof TerminalViewClient) {
+            setTerminalViewClient(((TerminalViewClient) l));
+        }
     }
 
     /**

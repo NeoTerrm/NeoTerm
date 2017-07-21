@@ -64,6 +64,6 @@ dependencies {
     compile 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
     compile 'com.github.wrdlbrnft:sorted-list-adapter:0.2.0.19'
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
-    compile 'com.ramotion.cardslider:card-slider:0.1.0'
+//    compile 'com.ramotion.cardslider:card-slider:0.1.0'
     compile 'com.github.igalata:Bubble-Picker:v0.2.4'
 }

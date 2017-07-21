@@ -29,6 +29,7 @@
     <string name="customization_settings">Customization</string>
 
     <string name="toggle_ime">Toggle IME</string>
+    <string name="float_up">Float Up</string>
     <string name="shell_not_found">Shell %s not found, please install it first.</string>
     <string name="fullscreen_mode_changed">FullScreen mode changed, please restart NeoTerm.</string>
     <string name="permission_denied">NeoTerm cannot get essential permissions, exiting.</string>
@@ -51,7 +52,7 @@
     <string name="crash_stack_trace">Stack Trace</string>
 
     <string name="installer_message">Installing</string>
-    <string name="installer_install_zsh_required">We are about to install oh-my-zsh and switch your login executablePath to zsh</string>
+    <string name="installer_install_zsh_required">We are about to install oh-my-zsh and switch your login program to zsh</string>
 
     <string name="pref_general_bell">Bell</string>
     <string name="pref_general_bell_desc">Bell when receiving \'\\a\'</string>
@@ -59,8 +60,8 @@
     <string name="pref_general_vibrate_desc">Vibrate when receiving \'\\a\'</string>
     <string name="pref_general_backspace_map_to_esc">BackSpace Mapped to Esc</string>
     <string name="pref_general_backspace_map_to_esc_desc">Send esc when backspace is pressed</string>
-    <string name="pref_general_shell" translatable="false">Shell</string>
-    <string name="pref_general_shell_desc">Which executablePath should we use when login</string>
+    <string name="pref_general_shell">Login Program</string>
+    <string name="pref_general_shell_desc">Which program should we use as shell when login</string>
     <string name="pref_general_program_selection">Program Selection</string>
     <string name="pref_general_program_selection_desc">When both Neo Term and your Android OS have a program, which one should we choose?</string>
     <string name="pref_general_initial_command">Initial Command</string>

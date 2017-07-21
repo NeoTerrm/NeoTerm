@@ -150,8 +150,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 startActivity(Intent(this, PackageManagerActivity::class.java))
                 true
             }
-            R.id.menu_item_discovery -> {
-                startActivity(Intent(this, SetupActivity::class.java))
+            R.id.menu_item_float_up -> {
+                val tab = tabSwitcher.selectedTab
+                if (tab != null && tab is TermTab) {
+                    floatTabUp(tab)
+                }
                 true
             }
             R.id.menu_item_new_session -> {
@@ -323,6 +326,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun floatTabUp(tab: TermTab) {
+
     }
 
     private fun enterSystemShell() {

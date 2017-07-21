@@ -5,13 +5,14 @@
     <string name="copy_text">复制</string>
     <string name="general_settings">通用设置</string>
     <string name="new_session">新建终端</string>
-    <string name="package_settings">软件包设置</string>
+    <string name="package_settings">软件包</string>
     <string name="paste_text">粘贴</string>
     <string name="pref_general_backspace_map_to_esc">返回键发送ESC</string>
     <string name="pref_general_backspace_map_to_esc_desc">当返回键按下时，发送ESC而不是关闭窗口</string>
     <string name="pref_general_bell">响铃</string>
     <string name="pref_general_bell_desc">收到 \'\\a\' 时响铃</string>
-    <string name="pref_general_shell_desc">登录时使用指定的 Shell</string>
+    <string name="pref_general_shell">登录程序</string>
+    <string name="pref_general_shell_desc">登录时使用指定的程序</string>
     <string name="pref_general_vibrate">振动</string>
     <string name="pref_general_vibrate_desc">收到 \'\\a\' 时振动</string>
     <string name="pref_general_program_selection">程序选择模式</string>
@@ -39,7 +40,7 @@
     <string name="ui_settings">界面设置</string>
     <string name="shell_not_found">Shell %s 未找到, 请先安装.</string>
     <string name="installer_message">正在安装</string>
-    <string name="installer_install_zsh_required">将要安装 oh-my-zsh 并将您的登录 executablePath 切换到 zsh</string>
+    <string name="installer_install_zsh_required">将要安装 oh-my-zsh 并将您的登录程序切换到 zsh</string>
     <string name="fullscreen_mode_changed">全屏模式已改变，请重启 NeoTerm</string>
     <string name="permission_denied">NeoTerm 无法取得必需的权限，正在退出</string>
     <string name="error">还有这种操作？</string>
@@ -50,6 +51,7 @@
     <string name="package_list_empty">软件包列表为空，请检查你的软件源</string>
     <string name="menu_refresh_list">刷新</string>
     <string name="menu_update">更新并刷新</string>
+    <string name="float_up">浮动窗口</string>
 
     <string-array name="pref_general_program_selection_entries">
         <item>只使用 NeoTerm</item>

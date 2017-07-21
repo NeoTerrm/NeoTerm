@@ -1,9 +1,9 @@
-package io.neoterm.frontend.completion
+package io.neoterm.frontend.completion.model
 
 /**
  * @author kiva
  */
-class CompleteCandidate(var completeString: String) {
+class CompletionCandidate(var completeString: String) {
     var displayName: String = completeString
     var description: String? = null
 }

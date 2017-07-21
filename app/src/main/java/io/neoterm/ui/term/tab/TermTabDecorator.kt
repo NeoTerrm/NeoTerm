@@ -16,7 +16,7 @@ import io.neoterm.frontend.client.TermCompleteListener
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import io.neoterm.view.ExtraKeysView
-import io.neoterm.frontend.completion.OnAutoCompleteListener
+import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
 import io.neoterm.view.TerminalView
 
 /**

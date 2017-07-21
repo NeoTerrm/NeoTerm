@@ -19,6 +19,10 @@ object NeoPreference {
     const val KEY_HAPPY_EGG = "neoterm_fun_happy"
     const val KEY_FONT_SIZE = "neoterm_general_font_size"
     const val KEY_CURRENT_SESSION = "neoterm_service_current_session"
+//    const val KEY_FLOATING_WINDOW_X = "neoterm_floating_window_x"
+//    const val KEY_FLOATING_WINDOW_Y = "neoterm_floating_window_y"
+//    const val KEY_FLOATING_WIDTH = "neoterm_floating_window_width"
+//    const val KEY_FLOATING_HEIGHT = "neoterm_floating_window_height"
 
     const val VALUE_HAPPY_EGG_TRIGGER = 8
     const val VALUE_NEOTERM_ONLY = "NeoTermOnly"
@@ -95,6 +99,23 @@ object NeoPreference {
         }
         return null
     }
+
+//    fun storeWindowSize(context: Context, width: Int, height: Int) {
+//        store(KEY_FLOATING_WIDTH, width)
+//        store(KEY_FLOATING_HEIGHT, height)
+//    }
+//
+//    fun storeWindowLocation(context: Context, x: Int, y: Int) {
+//        store(KEY_FLOATING_WINDOW_X, x)
+//        store(KEY_FLOATING_WINDOW_Y, y)
+//    }
+//
+//    fun applySavedWindowParameter(context: Context, layout: WindowManager.LayoutParams) {
+//        layout.x = loadInt(KEY_FLOATING_WINDOW_X, 200)
+//        layout.y = loadInt(KEY_FLOATING_WINDOW_Y, 200)
+//        layout.width = loadInt(KEY_FLOATING_WIDTH, 500)
+//        layout.height = loadInt(KEY_FLOATING_HEIGHT, 800)
+//    }
 
     /**
      * TODO

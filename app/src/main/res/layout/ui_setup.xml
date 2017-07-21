@@ -50,8 +50,7 @@
         android:layout_marginEnd="@dimen/preview_layout_margin"
         android:text="@string/setup_next"
         android:textColor="#9b9b9b"
-        android:textStyle="bold"
-        android:visibility="invisible" />
+        android:textStyle="bold" />
 
         <com.igalata.bubblepicker.rendering.BubblePicker
             android:id="@+id/bubble_picker"

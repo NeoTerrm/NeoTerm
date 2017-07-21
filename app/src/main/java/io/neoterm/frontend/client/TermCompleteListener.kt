@@ -2,10 +2,12 @@ package io.neoterm.frontend.client
 
 import android.util.Log
 import android.view.KeyEvent
-import io.neoterm.frontend.completion.AutoCompleteManager
-import io.neoterm.frontend.completion.CompleteCandidate
-import io.neoterm.frontend.completion.AutoCompletePopupWindow
-import io.neoterm.frontend.completion.OnAutoCompleteListener
+import io.neoterm.BuildConfig
+import io.neoterm.customize.completion.widget.CandidatePopupWindow
+import io.neoterm.frontend.completion.CompletionManager
+import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
+import io.neoterm.frontend.completion.model.CompletionCandidate
+import io.neoterm.frontend.completion.model.CompletionResult
 import io.neoterm.view.TerminalView
 import java.util.*
 
@@ -15,7 +17,7 @@ import java.util.*
 class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteListener {
 
     private val inputStack = Stack<Char>()
-    private val popupWindow = AutoCompletePopupWindow(terminalView!!.context)
+    private val popupWindow = CandidatePopupWindow(terminalView!!.context)
 
     override fun onKeyCode(keyCode: Int, keyMod: Int) {
         when (keyCode) {
@@ -52,25 +54,39 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
             return
         }
 
-        val candidates = AutoCompleteManager.filter(text)
-        Log.e("NeoTerm-AC", "Completing for $text")
-        candidates.forEach {
-            Log.e("NeoTerm-AC", "    Candidate: ${it.completeString}")
+        val result = CompletionManager.tryCompleteFor(text)
+        if (!result.hasResult()) {
+            // A provider accepted the task
+            // But no candidates are provided
+            // Give it zero angrily!
+            result.markScore(0)
+            return
         }
-        if (candidates.isNotEmpty()) {
-            showAutoCompleteCandidates(candidates)
+
+        if (BuildConfig.DEBUG) {
+            val candidates = result.candidates
+            Log.e("NeoTerm-AC", "Completing for $text")
+            candidates.forEach {
+                Log.e("NeoTerm-AC", "    Candidate: ${it.completeString}")
+            }
         }
+        showAutoCompleteCandidates(result)
     }
 
-    private fun showAutoCompleteCandidates(candidates: List<CompleteCandidate>) {
-        popupWindow.candidates = candidates
+    private fun showAutoCompleteCandidates(result: CompletionResult) {
+        popupWindow.candidates = result.candidates
         popupWindow.show(terminalView!!)
     }
 
     private fun getCurrentEditingText(): String {
         val builder = StringBuilder()
         val size = inputStack.size
-        (0..(size - 1))
+        var start = inputStack.lastIndexOf(' ')
+        if (start < 0) {
+            start = 0
+        }
+
+        (start..(size - 1))
                 .map { inputStack[it] }
                 .takeWhile { !(it == 0.toChar() || it == ' ') }
                 .forEach { builder.append(it) }

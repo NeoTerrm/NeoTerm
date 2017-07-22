@@ -1,18 +1,19 @@
 package io.neoterm.frontend.client
 
 import android.view.KeyEvent
-import io.neoterm.frontend.completion.widget.CandidatePopupWindow
 import io.neoterm.frontend.completion.CompletionManager
 import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
+import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener
+import io.neoterm.frontend.completion.model.CompletionCandidate
 import io.neoterm.frontend.completion.model.CompletionResult
+import io.neoterm.frontend.completion.widget.CandidatePopupWindow
 import io.neoterm.view.TerminalView
 import java.util.*
 
 /**
  * @author kiva
  */
-class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteListener {
-
+class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteListener, OnCandidateSelectedListener {
     private val inputStack = Stack<Char>()
     private var popupWindow: CandidatePopupWindow? = null
 
@@ -34,7 +35,7 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
         if (newText == null || newText.isEmpty()) {
             return
         }
-        newText.toCharArray().forEach { pushChar(it) }
+        pushString(newText)
         activateAutoCompletion()
     }
 
@@ -53,6 +54,23 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
             return true
         }
         return false
+    }
+
+    override fun onCandidateSelected(candidate: CompletionCandidate) {
+        val session = terminalView?.currentSession ?: return
+        val currentText = getCurrentEditingText()
+        val newText = candidate.completeString
+        var finalString = ""
+
+        val startIndex = newText.indexOf(currentText) + currentText.length
+        val endIndex = newText.length
+        val cutLength = endIndex - startIndex
+        if (cutLength > 0) {
+            finalString = newText.substring(startIndex, endIndex)
+        }
+
+        pushString(finalString)
+        session.write(finalString)
     }
 
     private fun activateAutoCompletion() {
@@ -82,6 +100,7 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
 
         if (popWindow == null) {
             popWindow = CandidatePopupWindow(termView.context)
+            popWindow.onCandidateSelectedListener = this
             this.popupWindow = popWindow
         }
 
@@ -112,6 +131,10 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
         if (inputStack.isNotEmpty()) {
             inputStack.pop()
         }
+    }
+
+    private fun pushString(string: String) {
+        string.toCharArray().forEach { pushChar(it) }
     }
 
     private fun pushChar(char: Char) {

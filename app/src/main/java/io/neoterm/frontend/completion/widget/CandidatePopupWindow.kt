@@ -1,15 +1,18 @@
 package io.neoterm.frontend.completion.widget
 
 import android.content.Context
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.BaseAdapter
+import android.widget.ListView
+import android.widget.PopupWindow
+import android.widget.TextView
 import io.neoterm.R
 import io.neoterm.backend.TerminalColors
 import io.neoterm.customize.color.ColorSchemeManager
+import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener
 import io.neoterm.frontend.completion.model.CompletionCandidate
 import io.neoterm.view.MaxHeightView
 import io.neoterm.view.TerminalView
@@ -19,9 +22,12 @@ import io.neoterm.view.TerminalView
  */
 class CandidatePopupWindow(val context: Context) {
     var candidates: List<CompletionCandidate>? = null
-    var popupWindow: PopupWindow? = null
-    var wantsToFinish = false
-    var candidateAdapter: CandidateAdapter? = null
+    var onCandidateSelectedListener: OnCandidateSelectedListener? = null
+
+    private var popupWindow: PopupWindow? = null
+    private var wantsToFinish = false
+    private var candidateAdapter: CandidateAdapter? = null
+    private var candidateListView: ListView? = null
 
     fun show(terminalView: TerminalView) {
         if (popupWindow == null && !wantsToFinish) {
@@ -58,10 +64,17 @@ class CandidatePopupWindow(val context: Context) {
         popupWindow.isOutsideTouchable = true
         popupWindow.isTouchable = true
         val contentView = LayoutInflater.from(context).inflate(R.layout.popup_auto_complete, null, false)
-        val candidateListView = contentView.findViewById(R.id.popup_complete_candidate_list) as ListView
+        val listView = contentView.findViewById(R.id.popup_complete_candidate_list) as ListView
         candidateAdapter = CandidateAdapter(this)
-        candidateListView.adapter = candidateAdapter
+        listView.adapter = candidateAdapter
+        listView.setOnItemClickListener({ _, _, position, _ ->
+            val selectedItem = candidates?.get(position)
+            if (selectedItem != null) {
+                onCandidateSelectedListener?.onCandidateSelected(selectedItem)
+            }
+        })
 
+        candidateListView = listView
         popupWindow.contentView = contentView
         return popupWindow
     }
@@ -69,6 +82,7 @@ class CandidatePopupWindow(val context: Context) {
     fun cleanup() {
         wantsToFinish = true
         popupWindow = null
+        candidateListView = null
         candidateAdapter = null
         candidates = null
     }

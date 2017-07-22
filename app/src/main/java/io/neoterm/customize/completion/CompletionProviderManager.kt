@@ -1,7 +1,8 @@
 package io.neoterm.customize.completion
 
 import android.content.Context
-import io.neoterm.customize.completion.provider.PathProvider
+import io.neoterm.customize.completion.provider.FileCompletionProvider
+import io.neoterm.customize.completion.provider.ProgramCompletionProvider
 import io.neoterm.frontend.completion.CompletionManager
 
 /**
@@ -9,6 +10,7 @@ import io.neoterm.frontend.completion.CompletionManager
  */
 object CompletionProviderManager {
     fun init(context: Context) {
-        CompletionManager.registerProvider(PathProvider())
+        CompletionManager.registerProvider(FileCompletionProvider())
+        CompletionManager.registerProvider(ProgramCompletionProvider())
     }
 }

@@ -17,14 +17,14 @@ android {
         applicationId "io.neoterm"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 14
-        versionName "1.2.0-rc3"
+        versionCode 15
+        versionName "1.2.0-rc4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        resConfigs "zh"
+        resConfigs "zh-rCN", "zh-rTW"
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++11"
-                abiFilters 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
+                abiFilters 'x86', 'x86_64', 'arm64-v8a'
             }
         }
         sourceSets {

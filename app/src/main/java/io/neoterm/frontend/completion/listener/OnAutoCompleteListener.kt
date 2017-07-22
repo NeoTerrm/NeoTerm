@@ -11,4 +11,6 @@ interface OnAutoCompleteListener {
     fun onKeyCode(keyCode: Int, keyMod: Int)
 
     fun onCleanUp()
+
+    fun onFinishCompletion(): Boolean
 }

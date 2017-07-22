@@ -37,7 +37,7 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
         resetAutoCompleteStatus()
     }
 
-    fun requireHideIme() {
+    override fun requireHideIme() {
         val terminalView = termData.termView
         if (terminalView != null) {
             val imm = terminalView.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -45,6 +45,10 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
                 imm.hideSoftInputFromWindow(terminalView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
             }
         }
+    }
+
+    override fun requireFinishAutoCompletion(): Boolean {
+        return termData.onAutoCompleteListener?.onFinishCompletion() ?: false
     }
 
     override fun requireToggleFullScreen() {

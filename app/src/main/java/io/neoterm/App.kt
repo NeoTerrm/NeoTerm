@@ -2,7 +2,7 @@ package io.neoterm
 
 import android.app.Application
 import io.neoterm.customize.color.ColorSchemeManager
-import io.neoterm.customize.completion.AutoCompletionManager
+import io.neoterm.customize.completion.CompletionProviderManager
 import io.neoterm.customize.font.FontManager
 import io.neoterm.customize.script.UserScriptManager
 import io.neoterm.preference.NeoPreference
@@ -22,7 +22,7 @@ class App : Application() {
         ColorSchemeManager.init(this)
         FontManager.init(this)
         UserScriptManager.init(this)
-        AutoCompletionManager.init(this)
+        CompletionProviderManager.init(this)
     }
 
     companion object {

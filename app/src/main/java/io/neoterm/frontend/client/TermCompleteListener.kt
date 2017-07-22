@@ -1,12 +1,9 @@
 package io.neoterm.frontend.client
 
-import android.util.Log
 import android.view.KeyEvent
-import io.neoterm.BuildConfig
-import io.neoterm.customize.completion.widget.CandidatePopupWindow
+import io.neoterm.frontend.completion.widget.CandidatePopupWindow
 import io.neoterm.frontend.completion.CompletionManager
 import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
-import io.neoterm.frontend.completion.model.CompletionCandidate
 import io.neoterm.frontend.completion.model.CompletionResult
 import io.neoterm.view.TerminalView
 import java.util.*
@@ -17,20 +14,18 @@ import java.util.*
 class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteListener {
 
     private val inputStack = Stack<Char>()
-    private val popupWindow = CandidatePopupWindow(terminalView!!.context)
+    private var popupWindow: CandidatePopupWindow? = null
 
     override fun onKeyCode(keyCode: Int, keyMod: Int) {
         when (keyCode) {
             KeyEvent.KEYCODE_DEL -> {
-                Log.e("NeoTerm-AC", "BackSpace")
                 popChar()
                 activateAutoCompletion()
             }
 
             KeyEvent.KEYCODE_ENTER -> {
-                Log.e("NeoTerm-AC", "Clear Chars")
                 clearChars()
-                popupWindow.dismiss()
+                popupWindow?.dismiss()
             }
         }
     }
@@ -44,8 +39,20 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
     }
 
     override fun onCleanUp() {
-        popupWindow.cleanup()
+        popupWindow?.dismiss()
+        popupWindow?.cleanup()
+        popupWindow = null
         terminalView = null
+    }
+
+    override fun onFinishCompletion(): Boolean {
+        val popWindow = popupWindow ?: return false
+
+        if (popWindow.isShowing()) {
+            popWindow.dismiss()
+            return true
+        }
+        return false
     }
 
     private fun activateAutoCompletion() {
@@ -62,20 +69,24 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
             result.markScore(0)
             return
         }
-
-        if (BuildConfig.DEBUG) {
-            val candidates = result.candidates
-            Log.e("NeoTerm-AC", "Completing for $text")
-            candidates.forEach {
-                Log.e("NeoTerm-AC", "    Candidate: ${it.completeString}")
-            }
-        }
         showAutoCompleteCandidates(result)
     }
 
     private fun showAutoCompleteCandidates(result: CompletionResult) {
-        popupWindow.candidates = result.candidates
-        popupWindow.show(terminalView!!)
+        val termView = terminalView
+        var popWindow = popupWindow
+
+        if (termView == null) {
+            return
+        }
+
+        if (popWindow == null) {
+            popWindow = CandidatePopupWindow(termView.context)
+            this.popupWindow = popWindow
+        }
+
+        popWindow.candidates = result.candidates
+        popWindow.show(termView)
     }
 
     private fun getCurrentEditingText(): String {

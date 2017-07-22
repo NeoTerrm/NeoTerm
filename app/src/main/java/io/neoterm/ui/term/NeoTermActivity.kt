@@ -226,7 +226,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 .takeWhile { it is TermTab }
                 .forEach {
                     val termTab = it as TermTab
-                    // After stopped, window locatinos may changed
+                    // After stopped, window locations may changed
                     // Rebind it at next time.
                     termTab.resetAutoCompleteStatus()
                 }

@@ -1,18 +1,17 @@
-package io.neoterm.customize.completion.widget
+package io.neoterm.frontend.completion.widget
 
 import android.content.Context
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ListView
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.*
 import io.neoterm.R
 import io.neoterm.backend.TerminalColors
 import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.frontend.completion.model.CompletionCandidate
+import io.neoterm.view.MaxHeightView
 import io.neoterm.view.TerminalView
 
 /**
@@ -30,8 +29,17 @@ class CandidatePopupWindow(val context: Context) {
         }
 
         candidateAdapter?.notifyDataSetChanged()
-        if (!(popupWindow?.isShowing ?: false)) {
-            popupWindow?.showAtLocation(terminalView, Gravity.BOTTOM.and(Gravity.START),
+
+        val popWindow = popupWindow
+        if (popWindow != null) {
+            // Ensure that the popup window will not cover the IME.
+            val rootView = popWindow.contentView
+            if (rootView is MaxHeightView) {
+                val maxHeight = terminalView.height
+                rootView.setMaxHeight(maxHeight)
+            }
+
+            popWindow.showAtLocation(terminalView, Gravity.BOTTOM.and(Gravity.START),
                     terminalView.cursorAbsX,
                     terminalView.cursorAbsY)
         }
@@ -39,6 +47,10 @@ class CandidatePopupWindow(val context: Context) {
 
     fun dismiss() {
         popupWindow?.dismiss()
+    }
+
+    fun isShowing(): Boolean {
+        return popupWindow?.isShowing ?: false
     }
 
     private fun createPopupWindow(): PopupWindow {

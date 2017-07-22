@@ -9,4 +9,6 @@ interface TermUiPresenter {
     fun requirePaste()
     fun requireUpdateTitle(title: String?)
     fun requireOnSessionFinished()
+    fun requireHideIme()
+    fun requireFinishAutoCompletion(): Boolean
 }

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NeoTerm</string>
+    <string name="about">關於</string>
+    <string name="copy_text">複製</string>
+    <string name="general_settings">一般設定</string>
+    <string name="new_session">新增終端</string>
+    <string name="package_settings">軟件包</string>
+    <string name="paste_text">貼上</string>
+    <string name="pref_general_backspace_map_to_esc">返回鍵發送ESC</string>
+    <string name="pref_general_backspace_map_to_esc_desc">按下返回鍵時，發送ESC而不關閉</string>
+    <string name="pref_general_bell">響鈴</string>
+    <string name="pref_general_bell_desc">收到 \'\\a\' 時響鈴</string>
+    <string name="pref_general_shell">登入程式</string>
+    <string name="pref_general_shell_desc">登入時使用指定的程式</string>
+    <string name="pref_general_vibrate">震動</string>
+    <string name="pref_general_vibrate_desc">收到 \'\\a\' 時震動</string>
+    <string name="pref_general_program_selection">程式選擇模式</string>
+    <string name="pref_general_program_selection_desc">當 NeoTerm 和 系統 都有同一個程式時，選擇要被執行的程式模式</string>
+    <string name="pref_general_initial_command">初始化指令</string>
+    <string name="pref_general_initial_command_desc">在新的創建新的終端時執行指令</string>
+    <string name="pref_package_source">軟體源</string>
+    <string name="pref_ui_close_tab_anim_next_tab">向下切換窗口</string>
+    <string name="pref_ui_close_tab_anim_next_tab_desc">關閉目前視窗時切換到下一個而不是上一個</string>
+    <string name="customization_settings_desc">字體，主題，擴充鍵盤，自動填充</string>
+    <string name="customization_settings">個人化</string>
+    <string name="pref_ui_fullscreen">全螢幕</string>
+    <string name="pref_ui_hide_toolbar">隱藏標題欄</string>
+    <string name="pref_ui_hide_toolbar_desc">在鍵盤顯示時隱藏標題欄</string>
+    <string name="pref_ui_suggestions">顯示建議 (需要 oh-my-zsh)</string>
+    <string name="pref_ui_suggestions_desc">使用一些程式時，在螢幕底部顯示快捷鍵</string>
+    <string name="pref_ui_wide_char_weight_explicit">為寬字元設定權重</string>
+    <string name="pref_ui_wide_char_weight_explicit_desc">如果快捷輸入欄顯示錯誤，請勾選此項目</string>
+    <string name="pref_customization_color_scheme">色彩主題</string>
+    <string name="pref_customization_font">字體</string>
+    <string name="settings">設定</string>
+    <string name="text_selection_more">更多</string>
+    <string name="toggle_ime">切換輸入法</string>
+    <string name="toggle_tab_switcher_menu_item">切換視窗</string>
+    <string name="ui_settings">介面設定</string>
+    <string name="shell_not_found">找不到 Shell %s, 請先安裝.</string>
+    <string name="installer_message">正在安装</string>
+    <string name="installer_install_zsh_required">將要安装 oh-my-zsh 並將登入程式切換到 zsh</string>
+    <string name="fullscreen_mode_changed">全螢幕模式已改變，請重新開啟 NeoTerm</string>
+    <string name="permission_denied">NeoTerm 無法取得必需的權限，正在退出</string>
+    <string name="error">還有這種操作？</string>
+    <string name="use_system_shell">使用系统Shell</string>
+    <string name="retry">重試</string>
+    <string name="source_changed">APT 源已改變，可能需要執行 apt update 來更新</string>
+    <string name="package_details">軟體包: %s\n版本: %s\n依賴: %s\n使用空間: %s\n描述: %s\n首頁: %s</string>
+    <string name="package_list_empty">軟體包列表為空，請檢查你的軟體源</string>
+    <string name="menu_refresh_list">重新整理</string>
+    <string name="menu_update">更新並重新整理</string>
+    <string name="float_up">懸浮視窗</string>
+
+    <string-array name="pref_general_program_selection_entries">
+        <item>只使用 NeoTerm</item>
+        <item>優先使用 NeoTerm</item>
+        <item>優先使用 System</item>
+    </string-array>
+    <string name="done">完成</string>
+    <string name="install">安裝</string>
+
+    <string-array name="pref_package_source_entries">
+        <item>預設軟體源 (穩定，推薦)</item>
+        <item>偵錯軟體源 (可能不穩定)</item>
+        <item>手動輸入…</item>
+    </string-array>
+    <string name="pref_customization_eks">擴充鍵盤</string>
+    <string name="general_settings_desc">響鈴，震動，Shell，初始化指令</string>
+    <string name="ui_settings_desc">全螢幕，標題欄，切換動畫</string>
+    <string name="package_settings_desc">軟體源，更新，升級</string>
+    <string name="install_font">安裝字體</string>
+    <string name="install_color">安裝色彩主題</string>
+    <string name="setup_hello">發現</string>
+    <string name="setup_info">你好，NeoTerm</string>
+    <string name="setup_info2">輕觸以選擇你的最愛</string>
+    <string name="setup_next">安裝</string>
+    <string name="discovery">發現</string>
+    <string name="crash_model">裝置: %s</string>
+    <string name="crash_app">程式: %s</string>
+    <string name="crash_stack_trace">錯誤訊息</string>
+    <string name="crash_tips">我們正在努力讓這個 Activity 永不見天日…</string>
+    <string name="service_status_text">%d 個終端</string>
+    <string name="service_lock_acquired"> (永不休眠)</string>
+    <string name="service_acquire_lock">開啟休眠鎖</string>
+    <string name="service_release_lock">關閉休眠鎖</string>
+    <string name="exit">離開</string>
+    <string name="term_here">在此處打開終端</string>
+    <string name="user_script">使用者腳本</string>
+    <string name="no_user_script_found_or_files_selected">没有找到可用的使用者腳本或是沒有檔案被選擇</string>
+    <string name="files_to_handle">處理的檔案</string>
+    <string name="available_user_scripts">可用的使用者腳本</string>
+    <string name="confirm_remove_file_from_list">從操作列表中中移除檔案？</string>
+</resources>

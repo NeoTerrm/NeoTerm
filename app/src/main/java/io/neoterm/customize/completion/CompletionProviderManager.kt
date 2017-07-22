@@ -7,7 +7,7 @@ import io.neoterm.frontend.completion.CompletionManager
 /**
  * @author kiva
  */
-object AutoCompletionManager {
+object CompletionProviderManager {
     fun init(context: Context) {
         CompletionManager.registerProvider(PathProvider())
     }

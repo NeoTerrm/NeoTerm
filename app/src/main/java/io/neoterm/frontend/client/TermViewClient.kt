@@ -2,6 +2,7 @@ package io.neoterm.frontend.client
 
 import android.content.Context
 import android.media.AudioManager
+import android.util.Log
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -59,6 +60,12 @@ class TermViewClient(val context: Context) : TerminalViewClient {
                 if (e?.action == KeyEvent.ACTION_DOWN && sessionFinished) {
                     termUI?.requireClose()
                     return true
+                }
+                return false
+            }
+            KeyEvent.KEYCODE_BACK -> {
+                if (e?.action == KeyEvent.ACTION_DOWN) {
+                    return termUI?.requireFinishAutoCompletion() ?: false
                 }
                 return false
             }

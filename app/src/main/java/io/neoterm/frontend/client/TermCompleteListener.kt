@@ -1,6 +1,8 @@
 package io.neoterm.frontend.client
 
+import android.util.Log
 import android.view.KeyEvent
+import io.neoterm.BuildConfig
 import io.neoterm.frontend.completion.CompletionManager
 import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
 import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener
@@ -16,12 +18,14 @@ import java.util.*
 class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteListener, OnCandidateSelectedListener {
     private val inputStack = Stack<Char>()
     private var popupWindow: CandidatePopupWindow? = null
+    private var lastCompletedIndex = 0
 
     override fun onKeyCode(keyCode: Int, keyMod: Int) {
         when (keyCode) {
             KeyEvent.KEYCODE_DEL -> {
                 popChar()
-                activateAutoCompletion()
+                fixLastCompletedIndex()
+                triggerCompletion()
             }
 
             KeyEvent.KEYCODE_ENTER -> {
@@ -31,12 +35,17 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
         }
     }
 
+    private fun fixLastCompletedIndex() {
+        val currentText = getCurrentEditingText()
+        lastCompletedIndex = minOf(lastCompletedIndex, currentText.length - 1)
+    }
+
     override fun onAutoComplete(newText: String?) {
         if (newText == null || newText.isEmpty()) {
             return
         }
         pushString(newText)
-        activateAutoCompletion()
+        triggerCompletion()
     }
 
     override fun onCleanUp() {
@@ -58,22 +67,40 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
 
     override fun onCandidateSelected(candidate: CompletionCandidate) {
         val session = terminalView?.currentSession ?: return
-        val currentText = getCurrentEditingText()
+        val textNeedCompletion = getCurrentEditingText().substring(lastCompletedIndex + 1)
         val newText = candidate.completeString
-        var finalString = ""
 
-        val startIndex = newText.indexOf(currentText) + currentText.length
+        val finalString: String
+        val startIndex = newText.indexOf(textNeedCompletion) + textNeedCompletion.length
+
         val endIndex = newText.length
         val cutLength = endIndex - startIndex
         if (cutLength > 0) {
             finalString = newText.substring(startIndex, endIndex)
+        } else {
+            // The same situation: startIndex < 0
+            // We are just triggering a completion
+            // No any other chars are input
+            // If a candidate selected, complete all.
+            finalString = newText
         }
 
-        pushString(finalString)
-        session.write(finalString)
+        if (BuildConfig.DEBUG) {
+            Log.e("NeoTerm-AC", "currentEditing: $textNeedCompletion, " +
+                    "start: $startIndex, end: $endIndex, " +
+                    "completeString: $newText, finalComplete: $finalString")
+        }
+        if (finalString.isNotEmpty()) {
+            pushString(finalString)
+            session.write(finalString)
+
+            // Trigger next completion
+            lastCompletedIndex = inputStack.size
+            triggerCompletion()
+        }
     }
 
-    private fun activateAutoCompletion() {
+    private fun triggerCompletion() {
         val text = getCurrentEditingText()
         if (text.isEmpty()) {
             return
@@ -85,6 +112,7 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
             // But no candidates are provided
             // Give it zero angrily!
             result.markScore(0)
+            onFinishCompletion()
             return
         }
         showAutoCompleteCandidates(result)
@@ -113,10 +141,11 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
         val size = inputStack.size
         var start = inputStack.lastIndexOf(' ')
         if (start < 0) {
-            start = 0
+            // Yes, it is -1, we will do `start + 1` below.
+            start = -1
         }
 
-        (start..(size - 1))
+        IntRange(start + 1, size - 1)
                 .map { inputStack[it] }
                 .takeWhile { !(it == 0.toChar() || it == ' ') }
                 .forEach { builder.append(it) }
@@ -125,6 +154,7 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
 
     private fun clearChars() {
         inputStack.clear()
+        lastCompletedIndex = 0
     }
 
     private fun popChar() {

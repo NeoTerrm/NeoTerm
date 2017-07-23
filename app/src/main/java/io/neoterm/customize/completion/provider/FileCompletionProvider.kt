@@ -38,8 +38,9 @@ open class FileCompletionProvider : ICandidateProvider {
             val candidates = mutableListOf<CompletionCandidate>()
             listDirectory(file, filter)
                     .mapTo(candidates, {
-                        val candidate = CompletionCandidate(transformToCompletionString(it))
+                        val candidate = CompletionCandidate(it.name)
                         candidate.description = generateDesc(it)
+                        candidate.displayName = generateDisplayName(it)
                         candidate
                     })
             return candidates
@@ -47,7 +48,7 @@ open class FileCompletionProvider : ICandidateProvider {
         return null
     }
 
-    open fun transformToCompletionString(file: File): String {
+    open fun generateDisplayName(file: File): String {
         return if (file.isDirectory) "${file.name}/" else file.name
     }
 

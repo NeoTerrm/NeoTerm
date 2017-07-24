@@ -4,8 +4,9 @@
     <string name="paste_text">Paste</string>
     <string name="text_selection_more">More</string>
 
-    <string name="toggle_tab_switcher_menu_item">Toggle switcher</string>
-    <string name="new_session">New session</string>
+    <string name="toggle_tab_switcher_menu_item">Toggle Tabs</string>
+    <string name="new_session">New Session</string>
+    <string name="new_system_session">New System Shell</string>
     <string name="service_status_text">%d session(s)</string>
     <string name="service_lock_acquired"> (Wake Locked)</string>
     <string name="service_acquire_lock">Acquire Lock</string>
@@ -28,7 +29,7 @@
     <string name="customization_settings_desc">Font, ColorScheme, ExtraKeys, AutoComplete</string>
     <string name="customization_settings">Customization</string>
 
-    <string name="toggle_ime">Toggle IME</string>
+    <string name="toggle_ime">Toggle Keyboard</string>
     <string name="float_up">Float Up</string>
     <string name="shell_not_found">Shell %s not found, please install it first.</string>
     <string name="fullscreen_mode_changed">FullScreen mode changed, please restart NeoTerm.</string>
@@ -52,7 +53,7 @@
     <string name="crash_stack_trace">Stack Trace</string>
 
     <string name="installer_message">Installing</string>
-    <string name="installer_install_zsh_required">We are about to install oh-my-zsh and switch your login program to zsh</string>
+    <string name="installer_install_zsh_required">We will install oh-my-zsh and switch your login program to zsh</string>
 
     <string name="pref_general_bell">Bell</string>
     <string name="pref_general_bell_desc">Bell when receiving \'\\a\'</string>
@@ -79,6 +80,7 @@
     <string name="pref_customization_color_scheme">Color Scheme</string>
     <string name="pref_customization_eks">Extra Keys</string>
     <string name="pref_package_source">Source</string>
+
     <string name="exit">Exit</string>
     <string name="term_here">Term Here</string>
     <string name="user_script">User Script</string>

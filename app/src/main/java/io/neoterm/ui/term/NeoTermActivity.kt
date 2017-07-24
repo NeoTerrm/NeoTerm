@@ -51,7 +51,6 @@ import org.greenrobot.eventbus.ThreadMode
 class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
         const val KEY_NO_RESTORE = "no_restore"
-        const val KEY_SYSTEM_SHELL = "system_shell"
         const val REQUEST_SETUP = 22313
     }
 
@@ -60,7 +59,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     lateinit var fullScreenHelper: FullScreenHelper
     lateinit var toolbar: Toolbar
     var addSessionListener = createAddSessionListener()
-    var systemShell = true
     var termService: NeoTermService? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,7 +160,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                     toggleSwitcher(showSwitcher = true, easterEgg = false)
                 }
                 val index = tabSwitcher.count
-                addNewSession("NeoTerm #" + index, systemShell, createRevealAnimation())
+                addNewSession("NeoTerm #" + index, getSystemShellMode(), createRevealAnimation())
+                true
+            }
+            R.id.menu_item_new_system_session -> {
+                forceAddSystemSession()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -300,9 +302,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             return
         }
 
-        if (isRecreating()) {
-            systemShell = NeoPreference.loadBoolean(KEY_SYSTEM_SHELL, true)
-        } else {
+        if (!isRecreating()) {
             if (BaseFileInstaller.needSetup()) {
                 val intent = Intent(this, SetupActivity::class.java)
                 intent.putExtra("setup", true)
@@ -319,8 +319,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 when (resultCode) {
                     Activity.RESULT_OK -> enterMain()
                     Activity.RESULT_CANCELED -> {
-                        systemShell = true
-                        enterSystemShell()
+                        setSystemShellMode(true)
+                        forceAddSystemSession()
                     }
                 }
             }
@@ -332,14 +332,20 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     }
 
-    private fun enterSystemShell() {
-        toggleSwitcher(showSwitcher = true, easterEgg = false)
-        addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
+    private fun forceAddSystemSession() {
+        if (!tabSwitcher.isSwitcherShown) {
+            toggleSwitcher(showSwitcher = true, easterEgg = false)
+        }
+        val index = tabSwitcher.count
+
+        // Fore system shell mode to be enabled.
+        addNewSession("NeoTerm #" + index, true, createRevealAnimation())
     }
 
     private fun enterMain() {
         initShortcutKeys()
-        systemShell = false
+        setSystemShellMode(false)
+
         if (!termService!!.sessions.isEmpty()) {
             for (session in termService!!.sessions) {
                 addNewSession(session)
@@ -347,7 +353,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             switchToSession(getStoredCurrentSessionOrLast())
         } else {
             toggleSwitcher(showSwitcher = true, easterEgg = false)
-            addNewSession("NeoTerm #0", systemShell, createRevealAnimation())
+            // Fore system shell mode to be disabled.
+            addNewSession("NeoTerm #0", false, createRevealAnimation())
         }
     }
 
@@ -366,7 +373,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun saveCurrentStatus() {
-        NeoPreference.store(KEY_SYSTEM_SHELL, systemShell)
+        setSystemShellMode(getSystemShellMode())
     }
 
     private fun peekRecreating(): Boolean {
@@ -472,7 +479,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     fun createAddSessionListener(): View.OnClickListener {
         return View.OnClickListener {
             val index = tabSwitcher.count
-            addNewSession("NeoTerm #" + index, systemShell, createRevealAnimation())
+            addNewSession("NeoTerm #" + index, getSystemShellMode(), createRevealAnimation())
         }
     }
 
@@ -558,6 +565,14 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         } else {
             tabSwitcher.hideSwitcher()
         }
+    }
+
+    private fun setSystemShellMode(systemShell: Boolean) {
+        NeoPreference.store(NeoPreference.KEY_SYSTEM_SHELL, systemShell)
+    }
+
+    private fun getSystemShellMode(): Boolean {
+        return NeoPreference.loadBoolean(NeoPreference.KEY_SYSTEM_SHELL, true)
     }
 
     @Suppress("unused")

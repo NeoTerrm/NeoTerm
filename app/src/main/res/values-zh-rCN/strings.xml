@@ -5,6 +5,7 @@
     <string name="copy_text">复制</string>
     <string name="general_settings">通用设置</string>
     <string name="new_session">新建终端</string>
+    <string name="new_system_session">新建系统终端</string>
     <string name="package_settings">软件包</string>
     <string name="paste_text">粘贴</string>
     <string name="pref_general_backspace_map_to_esc">返回键发送ESC</string>
@@ -35,7 +36,7 @@
     <string name="pref_customization_font">字体</string>
     <string name="settings">设置</string>
     <string name="text_selection_more">更多</string>
-    <string name="toggle_ime">切换输入法</string>
+    <string name="toggle_ime">切换键盘</string>
     <string name="toggle_tab_switcher_menu_item">切换窗口</string>
     <string name="ui_settings">界面设置</string>
     <string name="shell_not_found">Shell %s 未找到, 请先安装.</string>

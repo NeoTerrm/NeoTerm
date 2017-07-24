@@ -6,6 +6,7 @@ import android.preference.PreferenceManager
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.FileUtils
 import java.io.File
@@ -19,6 +20,7 @@ object NeoPreference {
     const val KEY_HAPPY_EGG = "neoterm_fun_happy"
     const val KEY_FONT_SIZE = "neoterm_general_font_size"
     const val KEY_CURRENT_SESSION = "neoterm_service_current_session"
+    const val KEY_SYSTEM_SHELL = "neoterm_core_system_shell"
 //    const val KEY_FLOATING_WINDOW_X = "neoterm_floating_window_x"
 //    const val KEY_FLOATING_WINDOW_Y = "neoterm_floating_window_y"
 //    const val KEY_FLOATING_WIDTH = "neoterm_floating_window_width"
@@ -98,6 +100,10 @@ object NeoPreference {
             i++
         }
         return null
+    }
+
+    fun isBaseFileInstalled() : Boolean {
+        return !BaseFileInstaller.needSetup()
     }
 
 //    fun storeWindowSize(context: Context, width: Int, height: Int) {

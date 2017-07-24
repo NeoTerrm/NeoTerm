@@ -5,6 +5,7 @@
     <string name="copy_text">複製</string>
     <string name="general_settings">一般設定</string>
     <string name="new_session">新增終端</string>
+    <string name="new_system_session">新增系統終端</string>
     <string name="package_settings">軟件包</string>
     <string name="paste_text">貼上</string>
     <string name="pref_general_backspace_map_to_esc">返回鍵發送ESC</string>
@@ -35,7 +36,7 @@
     <string name="pref_customization_font">字體</string>
     <string name="settings">設定</string>
     <string name="text_selection_more">更多</string>
-    <string name="toggle_ime">切換輸入法</string>
+    <string name="toggle_ime">切換鍵盤</string>
     <string name="toggle_tab_switcher_menu_item">切換視窗</string>
     <string name="ui_settings">介面設定</string>
     <string name="shell_not_found">找不到 Shell %s, 請先安裝.</string>

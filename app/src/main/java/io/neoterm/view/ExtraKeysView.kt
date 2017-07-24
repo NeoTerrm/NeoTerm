@@ -38,24 +38,27 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     init {
         gravity = Gravity.TOP
         orientation = LinearLayout.VERTICAL
+
         val scrollOne = HorizontalScrollView(context)
         val scrollTwo = HorizontalScrollView(context)
-        loadDefaultBuiltinExtraKeys()
-        loadDefaultUserDefinedExtraKeys()
         lineOne = initLine(scrollOne)
         lineTwo = initLine(scrollTwo)
         addView(scrollOne)
         addView(scrollTwo)
+
+        loadDefaultBuiltinExtraKeys()
+        loadDefaultUserDefinedExtraKeys()
         updateButtons()
     }
 
     private fun initLine(scroll: HorizontalScrollView): LinearLayout {
-        scroll.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
-        scroll.isFillViewport = true
-        scroll.isHorizontalScrollBarEnabled = false
         val line = LinearLayout(context)
         line.gravity = Gravity.START
         line.orientation = LinearLayout.HORIZONTAL
+
+        scroll.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
+        scroll.isFillViewport = true
+        scroll.isHorizontalScrollBarEnabled = false
         scroll.addView(line)
         return line
     }

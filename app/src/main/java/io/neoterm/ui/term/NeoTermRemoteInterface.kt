@@ -15,9 +15,9 @@ import io.neoterm.R
 import io.neoterm.customize.script.UserScript
 import io.neoterm.customize.script.UserScriptManager
 import io.neoterm.frontend.ShellParameter
+import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
-import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.utils.TerminalUtils
 import java.io.File
 
@@ -66,24 +66,6 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
             "UserScript" -> handleUserScript()
             else -> openTerm(null)
         }
-    }
-
-    private fun openTerm(initialCommand: String?) {
-        // TODO: check whether system executablePath we should use
-        val parameter = ShellParameter()
-                .initialCommand(initialCommand)
-                .callback(TermSessionCallback())
-                .systemShell(false)
-        val session = termService!!.createTermSession(parameter)
-
-        // Set current session to our new one
-        // In order to switch to it when entering NeoTermActivity
-        NeoPreference.storeCurrentSession(session)
-
-        val intent = Intent(this, NeoTermActivity::class.java)
-        intent.addCategory(Intent.CATEGORY_DEFAULT)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
     }
 
     private fun handleTermHere() {
@@ -150,21 +132,55 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
         val scriptsAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, scriptsListItem)
         scriptsList.adapter = scriptsAdapter
-        scriptsList.setOnItemClickListener { _, _, position, _ ->
-            val script = userScripts[position].scriptFile.absoluteFile
-            val argument = buildUserScriptArgument(filesToHandle)
 
-            openTerm("$script $argument")
+        scriptsList.setOnItemClickListener { _, _, position, _ ->
+            val userScript = userScripts[position]
+            val userScriptPath = userScript.scriptFile.absolutePath
+            val arguments = buildUserScriptArgument(userScriptPath, filesToHandle)
+
+            openCustomExecTerm(userScriptPath, arguments, userScript.scriptFile.parent)
             finish()
         }
     }
 
-    private fun buildUserScriptArgument(files: List<String>): String {
-        val builder = StringBuilder()
-        files.forEach {
-            builder.append(TerminalUtils.escapeString(it))
-            builder.append(" ")
-        }
-        return builder.toString()
+    private fun buildUserScriptArgument(userScriptPath: String, files: List<String>): Array<String> {
+        val arguments = mutableListOf(userScriptPath)
+        arguments.addAll(files)
+        return arguments.toTypedArray()
+    }
+
+    private fun openTerm(parameter: ShellParameter) {
+        val session = termService!!.createTermSession(parameter)
+
+        // Set current session to our new one
+        // In order to switch to it when entering NeoTermActivity
+        NeoPreference.storeCurrentSession(session)
+
+        val intent = Intent(this, NeoTermActivity::class.java)
+        intent.addCategory(Intent.CATEGORY_DEFAULT)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+    }
+
+    private fun openCustomExecTerm(executablePath: String?, arguments: Array<String>?, cwd: String?) {
+        val parameter = ShellParameter()
+                .executablePath(executablePath)
+                .arguments(arguments)
+                .currentWorkingDirectory(cwd)
+                .callback(TermSessionCallback())
+                .systemShell(detectSystemShell())
+        openTerm(parameter)
+    }
+
+    private fun openTerm(initialCommand: String?) {
+        val parameter = ShellParameter()
+                .initialCommand(initialCommand)
+                .callback(TermSessionCallback())
+                .systemShell(detectSystemShell())
+        openTerm(parameter)
+    }
+
+    private fun detectSystemShell(): Boolean {
+        return false
     }
 }

@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.TextView
 import io.neoterm.R
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 
 /**
  * @author kiva
@@ -24,14 +26,12 @@ class CrashActivity : AppCompatActivity() {
     private fun collectExceptionInfo(): String {
         val extra = intent.getSerializableExtra("exception")
         if (extra != null && extra is Throwable) {
-            val s = StringBuilder(extra.toString() + "\n\n")
-            for ((index, trace) in extra.stackTrace.withIndex()) {
-                s.append(String.format("  #%02d  ", index))
-                s.append("${trace.className}(${trace.fileName}:${trace.lineNumber})(native=${trace.isNativeMethod})")
-                return s.toString()
-            }
+            val byteArrayOutput = ByteArrayOutputStream()
+            val printStream = PrintStream(byteArrayOutput)
+            extra.printStackTrace(printStream)
+            return byteArrayOutput.toString("utf-8")
         }
-        return "are.you.kidding.me.NoExceptionFoundException: This is a bug, please contact me!"
+        return "are.you.kidding.me.NoExceptionFoundException: This is a bug, please contact developers!"
     }
 
     fun collectAppInfo(): String {

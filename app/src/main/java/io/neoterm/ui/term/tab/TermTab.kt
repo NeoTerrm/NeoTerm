@@ -9,9 +9,9 @@ import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.frontend.client.TermDataHolder
 import io.neoterm.frontend.client.TermUiPresenter
-import io.neoterm.ui.term.tab.event.TabCloseEvent
-import io.neoterm.ui.term.tab.event.TitleChangedEvent
-import io.neoterm.ui.term.tab.event.ToggleFullScreenEvent
+import io.neoterm.ui.term.event.TabCloseEvent
+import io.neoterm.ui.term.event.TitleChangedEvent
+import io.neoterm.ui.term.event.ToggleFullScreenEvent
 import org.greenrobot.eventbus.EventBus
 
 /**

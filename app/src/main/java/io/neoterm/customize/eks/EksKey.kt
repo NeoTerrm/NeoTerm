@@ -1,6 +1,6 @@
 package io.neoterm.customize.eks
 
-import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.eks.ExtraKeysView
 
 /**
  * @author kiva

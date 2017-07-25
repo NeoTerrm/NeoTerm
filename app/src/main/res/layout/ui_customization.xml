@@ -97,7 +97,7 @@
         android:layout_below="@id/custom_toolbar"
         android:layout_margin="@dimen/preview_layout_margin">
 
-        <io.neoterm.view.ExtraKeysView
+        <io.neoterm.view.eks.ExtraKeysView
             android:id="@+id/custom_extra_keys"
             style="?android:buttonBarStyle"
             android:layout_width="match_parent"

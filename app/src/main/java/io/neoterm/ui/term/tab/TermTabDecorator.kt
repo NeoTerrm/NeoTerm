@@ -15,7 +15,7 @@ import io.neoterm.preference.NeoPreference
 import io.neoterm.frontend.client.TermCompleteListener
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
-import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.eks.ExtraKeysView
 import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
 import io.neoterm.view.TerminalView
 
@@ -25,10 +25,6 @@ import io.neoterm.view.TerminalView
 class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
         val view = inflater.inflate(R.layout.ui_term, parent, false)
-        val extraKeysView = view.findViewById(R.id.extra_keys) as ExtraKeysView
-
-        extraKeysView.addBuiltinButton(context.fullScreenToggleButton)
-        extraKeysView.updateButtons()
         return view
     }
 
@@ -55,7 +51,6 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         TerminalUtils.setupTerminalView(view)
         TerminalUtils.setupExtraKeysView(extraKeysView)
         ColorSchemeManager.applyColorScheme(view, extraKeysView, ColorSchemeManager.getCurrentColorScheme())
-        context.fullScreenToggleButton.setStatus(NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false))
 
         if (tab is TermTab) {
             val termTab = tab

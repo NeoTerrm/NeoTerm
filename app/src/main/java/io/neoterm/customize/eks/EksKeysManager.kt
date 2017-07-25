@@ -2,7 +2,7 @@ package io.neoterm.customize.eks
 
 import android.content.Context
 import io.neoterm.customize.eks.builtin.BuiltinEksKeys
-import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.eks.ExtraKeysView
 
 /**
  * @author kiva
@@ -21,7 +21,7 @@ object EksKeysManager {
             return
         }
 
-        extraKeysView.loadDefaultUserDefinedExtraKeys()
+        extraKeysView.loadDefaultUserKeys()
     }
 
     fun registerShortcutKeys(program: String, eksKey: EksKey?) {

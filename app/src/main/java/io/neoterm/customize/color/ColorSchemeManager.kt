@@ -5,7 +5,7 @@ import io.neoterm.R
 import io.neoterm.preference.NeoPreference
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.utils.FileUtils
-import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.eks.ExtraKeysView
 import io.neoterm.view.TerminalView
 import java.io.File
 import java.io.FileOutputStream

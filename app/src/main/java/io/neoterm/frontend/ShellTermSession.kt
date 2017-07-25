@@ -17,7 +17,10 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
 
     override fun initializeEmulator(columns: Int, rows: Int) {
         super.initializeEmulator(columns, rows)
+        sendInitialCommand()
+    }
 
+    private fun sendInitialCommand() {
         val initCommand = initialCommand
         if (initCommand != null && initCommand.isNotEmpty()) {
             write(initCommand + '\r')

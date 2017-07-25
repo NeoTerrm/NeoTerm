@@ -6,7 +6,7 @@ import android.view.View
  * @author kiva
  */
 
-class TextButton @JvmOverloads constructor(text: String, withEnter: Boolean = false) : ExtraButton() {
+open class TextButton @JvmOverloads constructor(text: String, withEnter: Boolean = false) : ExtraButton() {
     private var withEnter = false
 
     init {

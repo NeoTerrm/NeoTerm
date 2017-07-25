@@ -2,7 +2,6 @@ package io.neoterm.frontend.client
 
 import android.content.Context
 import android.media.AudioManager
-import android.util.Log
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -205,7 +204,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
 
     fun removeSuggestions() {
         val extraKeysView = termData?.extraKeysView
-        extraKeysView?.clearUserDefinedButton()
+        extraKeysView?.clearUserKeys()
     }
 
     private fun changeFontSize(increase: Boolean) {

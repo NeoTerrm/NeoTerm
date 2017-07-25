@@ -19,11 +19,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_item_toggle_ime"
-        android:title="@string/toggle_ime"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/menu_item_float_up"
         android:title="@string/float_up"
         app:showAsAction="never" />

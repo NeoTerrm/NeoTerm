@@ -1,4 +1,4 @@
-package io.neoterm.view
+package io.neoterm.view.eks
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -18,15 +18,12 @@ import java.util.ArrayList
 import io.neoterm.customize.eks.EksConfigParser
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.utils.FileUtils
-import io.neoterm.view.eks.ControlButton
-import io.neoterm.view.eks.ExtraButton
-import io.neoterm.view.eks.StatedControlButton
 
 /**
  * A view showing extra keys (such as Escape, Ctrl, Alt) not normally available on an Android soft
  * keyboard.
  */
-class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class ScrollExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     private var builtinExtraKeys: MutableList<ExtraButton>? = null
     private var userDefinedExtraKeys: MutableList<ExtraButton>? = null
@@ -46,8 +43,8 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         addView(scrollOne)
         addView(scrollTwo)
 
-        loadDefaultBuiltinExtraKeys()
-        loadDefaultUserDefinedExtraKeys()
+        loadBuiltinKeys()
+        loadUserKeys()
         updateButtons()
     }
 
@@ -71,32 +68,26 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         return ALT.readState()
     }
 
-    fun addUserDefinedButton(button: ExtraButton) {
-        addButton(userDefinedExtraKeys, button)
+    fun addUserKey(button: ExtraButton) {
+        addKeyButton(userDefinedExtraKeys, button)
     }
 
-    fun addBuiltinButton(button: ExtraButton) {
-        addButton(builtinExtraKeys, button)
+    fun addBuiltinKey(button: ExtraButton) {
+        addKeyButton(builtinExtraKeys, button)
     }
 
-    private fun addButton(buttons: MutableList<ExtraButton>?, button: ExtraButton) {
-        if (buttons != null && !buttons.contains(button)) {
-            buttons.add(button)
-        }
-    }
-
-    fun clearUserDefinedButton() {
+    fun clearUserKeys() {
         userDefinedExtraKeys!!.clear()
     }
 
-    fun loadDefaultUserDefinedExtraKeys() {
-        userDefinedExtraKeys = ArrayList<ExtraButton>(7)
+    fun loadUserKeys() {
+        userDefinedExtraKeys = ArrayList<ExtraButton>(8)
         val defaultFile = File(NeoTermPath.EKS_DEFAULT_FILE)
         if (!defaultFile.exists()) {
             generateDefaultFile(defaultFile)
         }
 
-        clearUserDefinedButton()
+        clearUserKeys()
         try {
             val parser = EksConfigParser()
             parser.setInput(defaultFile)
@@ -105,14 +96,9 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
-    private fun generateDefaultFile(defaultFile: File) {
-        FileUtils.writeFile(defaultFile, DEFAULT_FILE_CONTENT.toByteArray())
-    }
-
-    internal fun loadDefaultBuiltinExtraKeys() {
+    fun loadBuiltinKeys() {
         builtinExtraKeys = ArrayList<ExtraButton>(7)
         builtinExtraKeys!!.clear()
         builtinExtraKeys!!.add(ESC)
@@ -133,14 +119,30 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         lineOne.removeAllViews()
         lineTwo.removeAllViews()
         for (extraButton in userDefinedExtraKeys!!) {
-            addExtraButton(lineOne, extraButton)
+            addKeyButton(lineOne, extraButton)
         }
         for (extraButton in builtinExtraKeys!!) {
-            addExtraButton(lineTwo, extraButton)
+            addKeyButton(lineTwo, extraButton)
         }
     }
 
-    private fun addExtraButton(contentView: LinearLayout, extraButton: ExtraButton) {
+    fun setTextColor(textColor: Int) {
+        NORMAL_TEXT_COLOR = textColor
+        updateButtons()
+    }
+
+    fun setTypeface(typeface: Typeface?) {
+        this.typeface = typeface
+        updateButtons()
+    }
+
+    private fun addKeyButton(buttons: MutableList<ExtraButton>?, button: ExtraButton) {
+        if (buttons != null && !buttons.contains(button)) {
+            buttons.add(button)
+        }
+    }
+
+    private fun addKeyButton(contentView: LinearLayout, extraButton: ExtraButton) {
         val button: Button
         if (extraButton is StatedControlButton) {
             val btn = extraButton
@@ -170,16 +172,6 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         contentView.addView(button)
     }
 
-    fun setTextColor(textColor: Int) {
-        NORMAL_TEXT_COLOR = textColor
-        updateButtons()
-    }
-
-    fun setTypeface(typeface: Typeface?) {
-        this.typeface = typeface
-        updateButtons()
-    }
-
     companion object {
         @SuppressLint("StaticFieldLeak")
         val CTRL = StatedControlButton(ExtraButton.KEY_CTRL)
@@ -207,5 +199,9 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
         var NORMAL_TEXT_COLOR = 0xFFFFFFFF.toInt()
         var SELECTED_TEXT_COLOR = 0xFF80DEEA.toInt()
+
+        private fun generateDefaultFile(defaultFile: File) {
+            FileUtils.writeFile(defaultFile, DEFAULT_FILE_CONTENT.toByteArray())
+        }
     }
 }

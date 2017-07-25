@@ -7,7 +7,7 @@ import io.neoterm.customize.font.FontManager
 import io.neoterm.frontend.ShellParameter
 import io.neoterm.frontend.ShellTermSession
 import io.neoterm.preference.NeoPreference
-import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.eks.ExtraKeysView
 import io.neoterm.view.TerminalView
 import io.neoterm.view.TerminalViewClient
 

@@ -22,7 +22,7 @@ import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.TerminalUtils
 import io.neoterm.frontend.tinyclient.BasicSessionCallback
 import io.neoterm.frontend.tinyclient.BasicViewClient
-import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.eks.ExtraKeysView
 import io.neoterm.view.TerminalView
 import java.io.File
 import java.io.FileInputStream

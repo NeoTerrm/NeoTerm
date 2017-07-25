@@ -2,7 +2,7 @@ package io.neoterm.customize.eks
 
 import android.util.Log
 import io.neoterm.preference.NeoTermPath
-import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.eks.ExtraKeysView
 import java.io.File
 
 /**
@@ -12,10 +12,10 @@ object EksConfigLoader {
     class ConfiguredEksKey(val config: EksConfig) : EksKey {
         override fun applyShortcutKeys(extraKeysView: ExtraKeysView) {
             if (config.withDefaultKeys) {
-                extraKeysView.loadDefaultUserDefinedExtraKeys()
+                extraKeysView.loadDefaultUserKeys()
             }
             for (button in config.shortcutKeys) {
-                extraKeysView.addUserDefinedButton(button)
+                extraKeysView.addUserKey(button)
             }
         }
     }
@@ -31,7 +31,7 @@ object EksConfigLoader {
                 val config = parser.parse()
 
                 // "default" is a reserved program used for default extra keys
-                // see ExtraKeysView.loadDefaultUserDefinedExtraKeys()
+                // see ExtraKeysView.loadDefaultUserKeys()
                 if (config.programNames.contains("default")) {
                     continue
                 }

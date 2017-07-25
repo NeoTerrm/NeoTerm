@@ -27,6 +27,8 @@ import io.neoterm.customize.eks.EksKeysManager
 import io.neoterm.customize.font.FontManager
 import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.frontend.ShellParameter
+import io.neoterm.frontend.client.TermSessionCallback
+import io.neoterm.frontend.client.TermViewClient
 import io.neoterm.preference.NeoPermission
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
@@ -34,13 +36,12 @@ import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.ui.setup.SetupActivity
-import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.ui.term.tab.TermTab
 import io.neoterm.ui.term.tab.TermTabDecorator
-import io.neoterm.frontend.client.TermViewClient
-import io.neoterm.ui.term.tab.event.TabCloseEvent
-import io.neoterm.ui.term.tab.event.TitleChangedEvent
-import io.neoterm.ui.term.tab.event.ToggleFullScreenEvent
+import io.neoterm.ui.term.event.TabCloseEvent
+import io.neoterm.ui.term.event.TitleChangedEvent
+import io.neoterm.ui.term.event.ToggleFullScreenEvent
+import io.neoterm.ui.term.event.ToggleImeEvent
 import io.neoterm.utils.FullScreenHelper
 import io.neoterm.view.eks.StatedControlButton
 import org.greenrobot.eventbus.EventBus
@@ -96,13 +97,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
         })
 
-        fullScreenToggleButton = object : StatedControlButton("FS", fullscreen) {
-            override fun onClick(view: View) {
-                super.onClick(view)
-                setFullScreenMode(super.toggleButton?.isChecked ?: false)
-            }
-        }
-
         tabSwitcher = findViewById(R.id.tab_switcher) as TabSwitcher
         tabSwitcher.decorator = TermTabDecorator(this)
         ViewCompat.setOnApplyWindowInsetsListener(tabSwitcher, createWindowInsetsListener())
@@ -135,13 +129,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         return when (item?.itemId) {
             R.id.menu_item_settings -> {
                 startActivity(Intent(this, SettingActivity::class.java))
-                true
-            }
-            R.id.menu_item_toggle_ime -> {
-                if (!tabSwitcher.isSwitcherShown) {
-                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
-                }
                 true
             }
             R.id.menu_item_package_settings -> {
@@ -600,6 +587,15 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     fun onToggleFullScreenEvent(toggleFullScreenEvent: ToggleFullScreenEvent) {
         val fullScreen = fullScreenHelper.fullScreen
         setFullScreenMode(!fullScreen)
+    }
+
+    @Suppress("unused", "UNUSED_PARAMETER")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onToggleImeEvent(toggleImeEvent: ToggleImeEvent) {
+        if (!tabSwitcher.isSwitcherShown) {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+        }
     }
 
 

@@ -2,7 +2,7 @@ package io.neoterm.customize.color
 
 import io.neoterm.backend.TerminalColorScheme
 import io.neoterm.backend.TerminalColors
-import io.neoterm.view.ExtraKeysView
+import io.neoterm.view.eks.ExtraKeysView
 import io.neoterm.view.TerminalView
 import java.io.File
 import java.io.FileInputStream

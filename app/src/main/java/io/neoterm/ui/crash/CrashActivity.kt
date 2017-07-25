@@ -28,8 +28,10 @@ class CrashActivity : AppCompatActivity() {
         if (extra != null && extra is Throwable) {
             val byteArrayOutput = ByteArrayOutputStream()
             val printStream = PrintStream(byteArrayOutput)
-            extra.printStackTrace(printStream)
-            return byteArrayOutput.toString("utf-8")
+            (extra.cause ?: extra).printStackTrace(printStream)
+            return byteArrayOutput.use {
+                byteArrayOutput.toString("utf-8")
+            }
         }
         return "are.you.kidding.me.NoExceptionFoundException: This is a bug, please contact developers!"
     }

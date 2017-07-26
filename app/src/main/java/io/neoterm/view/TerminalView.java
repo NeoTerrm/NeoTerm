@@ -281,7 +281,6 @@ public final class TerminalView extends View {
         outAttrs.imeOptions = EditorInfo.IME_FLAG_NO_FULLSCREEN;
 
         return new BaseInputConnection(this, true) {
-
             @Override
             public boolean finishComposingText() {
                 if (LOG_KEY_EVENTS) Log.i(EmulatorDebug.LOG_TAG, "IME: finishComposingText()");
@@ -304,7 +303,7 @@ public final class TerminalView extends View {
                 Editable content = getEditable();
                 sendTextToTerminal(content);
                 if (onAutoCompleteListener != null) {
-                    onAutoCompleteListener.onAutoComplete(content.toString());
+                    onAutoCompleteListener.onCompletionRequired(content.toString());
                 }
                 content.clear();
                 return true;
@@ -693,7 +692,7 @@ public final class TerminalView extends View {
                 char printingChar = (char) event.getUnicodeChar(metaState);
                 if (printingChar != '\b') {
                     // ASCII chars
-                    onAutoCompleteListener.onAutoComplete(new String(new char[]{printingChar}));
+                    onAutoCompleteListener.onCompletionRequired(new String(new char[]{printingChar}));
                 }
             }
         }

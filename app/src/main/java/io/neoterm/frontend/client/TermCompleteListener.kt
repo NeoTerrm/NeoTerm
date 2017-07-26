@@ -40,7 +40,7 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
         lastCompletedIndex = minOf(lastCompletedIndex, currentText.length - 1)
     }
 
-    override fun onAutoComplete(newText: String?) {
+    override fun onCompletionRequired(newText: String?) {
         if (newText == null || newText.isEmpty()) {
             return
         }
@@ -70,34 +70,25 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
         val textNeedCompletion = getCurrentEditingText().substring(lastCompletedIndex + 1)
         val newText = candidate.completeString
 
-        val finalString: String
-        val startIndex = newText.indexOf(textNeedCompletion) + textNeedCompletion.length
-
-        val endIndex = newText.length
-        val cutLength = endIndex - startIndex
-        if (cutLength > 0) {
-            finalString = newText.substring(startIndex, endIndex)
-        } else {
-            // The same situation: startIndex < 0
-            // We are just triggering a completion
-            // No any other chars are input
-            // If a candidate selected, complete all.
-            finalString = newText
+        val deleteLength = newText.indexOf(textNeedCompletion) + textNeedCompletion.length
+        if (deleteLength > 0) {
+            for (i in 0..deleteLength - 1) {
+                session.write("\b")
+                popChar()
+            }
         }
 
         if (BuildConfig.DEBUG) {
             Log.e("NeoTerm-AC", "currentEditing: $textNeedCompletion, " +
-                    "start: $startIndex, end: $endIndex, " +
-                    "completeString: $newText, finalComplete: $finalString")
+                    "deleteLength: $deleteLength, completeString: $newText")
         }
-        if (finalString.isNotEmpty()) {
-            pushString(finalString)
-            session.write(finalString)
 
-            // Trigger next completion
-            lastCompletedIndex = inputStack.size
-            triggerCompletion()
-        }
+        pushString(newText)
+        session.write(newText)
+
+        // Trigger next completion
+        lastCompletedIndex = inputStack.size
+        triggerCompletion()
     }
 
     private fun triggerCompletion() {

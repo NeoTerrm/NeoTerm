@@ -11,20 +11,28 @@ open class StatedControlButton @JvmOverloads constructor(text: String, var initS
     var toggleButton: ToggleButton? = null
 
     override fun onClick(view: View) {
-        setStatus(toggleButton!!.isChecked)
+        setStatus(toggleButton?.isChecked)
     }
 
-    fun setStatus(status: Boolean) {
-        toggleButton!!.isChecked = status
-        toggleButton!!.setTextColor(if (status) ExtraKeysView.SELECTED_TEXT_COLOR else ExtraKeysView.NORMAL_TEXT_COLOR)
+    fun setStatus(status: Boolean?) {
+        val button = toggleButton
+        if (button != null && status != null) {
+            button.isChecked = status
+            button.setTextColor(
+                    if (status) ExtraButton.SELECTED_TEXT_COLOR
+                    else ExtraButton.NORMAL_TEXT_COLOR
+            )
+        }
     }
 
     fun readState(): Boolean {
-        if (toggleButton!!.isPressed) return true
-        val result = toggleButton!!.isChecked
+        val button = toggleButton ?: return false
+
+        if (button.isPressed) return true
+        val result = button.isChecked
         if (result) {
-            toggleButton!!.isChecked = false
-            toggleButton!!.setTextColor(ExtraKeysView.NORMAL_TEXT_COLOR)
+            button.isChecked = false
+            button.setTextColor(ExtraButton.NORMAL_TEXT_COLOR)
         }
         return result
     }

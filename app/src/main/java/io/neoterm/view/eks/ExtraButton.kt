@@ -26,14 +26,15 @@ abstract class ExtraButton : View.OnClickListener {
         val KEY_PAGE_DOWN = "PgDn"
         val KEY_HOME = "Home"
         val KEY_END = "End"
-        val KEY_FN = "Fn"
-        val KEY_BACK_SLASH = "\\"
         val KEY_ARROW_UP = "▲"
         val KEY_ARROW_DOWN = "▼"
         val KEY_ARROW_LEFT = "◀"
         val KEY_ARROW_RIGHT = "▶"
-        val KEY_TOGGLE_FULL_SCREEN = "Fs"
+        val KEY_SHOW_ALL_BUTTONS = "···"
         val KEY_TOGGLE_IME = "Im"
+
+        var NORMAL_TEXT_COLOR = 0xFFFFFFFF.toInt()
+        var SELECTED_TEXT_COLOR = 0xFF80DEEA.toInt()
 
         fun sendKey(view: View, keyName: String) {
             var keyCode = 0

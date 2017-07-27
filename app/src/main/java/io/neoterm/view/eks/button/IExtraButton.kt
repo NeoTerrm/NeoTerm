@@ -1,21 +1,25 @@
-package io.neoterm.view.eks
+package io.neoterm.view.eks.button
 
+import android.content.Context
+import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
+import android.widget.Button
 
 import io.neoterm.R
-import io.neoterm.backend.TerminalSession
 import io.neoterm.view.TerminalView
 
 /**
  * @author kiva
  */
 
-abstract class ExtraButton : View.OnClickListener {
+abstract class IExtraButton : View.OnClickListener {
 
     var buttonText: String? = null
 
     abstract override fun onClick(view: View)
+
+    abstract fun makeButton(context: Context?, attrs: AttributeSet?, defStyleAttr: Int): Button
 
     companion object {
         val KEY_ESC = "Esc"

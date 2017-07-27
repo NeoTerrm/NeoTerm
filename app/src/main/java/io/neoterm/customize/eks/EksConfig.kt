@@ -1,6 +1,6 @@
 package io.neoterm.customize.eks
 
-import io.neoterm.view.eks.ExtraButton
+import io.neoterm.view.eks.button.IExtraButton
 
 /**
  * @author kiva
@@ -8,6 +8,6 @@ import io.neoterm.view.eks.ExtraButton
 class EksConfig {
     var version: Int = -1
     val programNames: MutableList<String> = mutableListOf()
-    val shortcutKeys: MutableList<ExtraButton> = mutableListOf()
+    val shortcutKeys: MutableList<IExtraButton> = mutableListOf()
     var withDefaultKeys: Boolean = true
 }

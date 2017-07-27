@@ -11,22 +11,27 @@ import android.widget.ToggleButton
 import io.neoterm.R
 import io.neoterm.customize.eks.EksConfigParser
 import io.neoterm.ui.term.event.ToggleImeEvent
+import io.neoterm.view.eks.button.ControlButton
+import io.neoterm.view.eks.button.IExtraButton
+import io.neoterm.view.eks.button.RepeatableButton
+import io.neoterm.view.eks.button.StatedControlButton
+import io.neoterm.view.eks.impl.ArrowButton
 import org.greenrobot.eventbus.EventBus
 
 class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     companion object {
-        private val ESC = ControlButton(ExtraButton.KEY_ESC)
-        private val TAB = ControlButton(ExtraButton.KEY_TAB)
-        private val PAGE_UP = ControlButton(ExtraButton.KEY_PAGE_UP)
-        private val PAGE_DOWN = ControlButton(ExtraButton.KEY_PAGE_DOWN)
-        private val HOME = ControlButton(ExtraButton.KEY_HOME)
-        private val END = ControlButton(ExtraButton.KEY_END)
-        private val ARROW_UP = ControlButton(ExtraButton.KEY_ARROW_UP)
-        private val ARROW_DOWN = ControlButton(ExtraButton.KEY_ARROW_DOWN)
-        private val ARROW_LEFT = ControlButton(ExtraButton.KEY_ARROW_LEFT)
-        private val ARROW_RIGHT = ControlButton(ExtraButton.KEY_ARROW_RIGHT)
-        private val TOGGLE_IME = object : ControlButton(ExtraButton.KEY_TOGGLE_IME) {
+        private val ESC = ControlButton(IExtraButton.KEY_ESC)
+        private val TAB = ControlButton(IExtraButton.KEY_TAB)
+        private val PAGE_UP = ControlButton(IExtraButton.KEY_PAGE_UP)
+        private val PAGE_DOWN = ControlButton(IExtraButton.KEY_PAGE_DOWN)
+        private val HOME = ControlButton(IExtraButton.KEY_HOME)
+        private val END = ControlButton(IExtraButton.KEY_END)
+        private val ARROW_UP = ArrowButton(IExtraButton.KEY_ARROW_UP)
+        private val ARROW_DOWN = ArrowButton(IExtraButton.KEY_ARROW_DOWN)
+        private val ARROW_LEFT = ArrowButton(IExtraButton.KEY_ARROW_LEFT)
+        private val ARROW_RIGHT = ArrowButton(IExtraButton.KEY_ARROW_RIGHT)
+        private val TOGGLE_IME = object : ControlButton(IExtraButton.KEY_TOGGLE_IME) {
             override fun onClick(view: View) {
                 EventBus.getDefault().post(ToggleImeEvent())
             }
@@ -37,19 +42,19 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         private val EXPANDED_ALPHA = 0.5f
     }
 
-    private val builtinKeys = mutableListOf<ExtraButton>()
-    private val userKeys = mutableListOf<ExtraButton>()
+    private val builtinKeys = mutableListOf<IExtraButton>()
+    private val userKeys = mutableListOf<IExtraButton>()
 
     private val buttonBars: MutableList<LinearLayout> = mutableListOf()
     private var typeface: Typeface? = null
 
     // Initialize StatedControlButton here
     // For avoid memory and context leak.
-    private val CTRL = StatedControlButton(ExtraButton.KEY_CTRL)
-    private val ALT = StatedControlButton(ExtraButton.KEY_ALT)
+    private val CTRL = StatedControlButton(IExtraButton.KEY_CTRL)
+    private val ALT = StatedControlButton(IExtraButton.KEY_ALT)
 
     private var buttonPanelExpanded = false
-    private val EXPAND_BUTTONS = object : ControlButton(ExtraButton.KEY_SHOW_ALL_BUTTONS) {
+    private val EXPAND_BUTTONS = object : ControlButton(IExtraButton.KEY_SHOW_ALL_BUTTONS) {
         override fun onClick(view: View) {
             expandButtonPanel()
         }
@@ -78,7 +83,7 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     }
 
     fun setTextColor(textColor: Int) {
-        ExtraButton.NORMAL_TEXT_COLOR = textColor
+        IExtraButton.NORMAL_TEXT_COLOR = textColor
         updateButtons()
     }
 
@@ -95,11 +100,11 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         return ALT.readState()
     }
 
-    fun addUserKey(button: ExtraButton) {
+    fun addUserKey(button: IExtraButton) {
         addKeyButton(userKeys, button)
     }
 
-    fun addBuiltinKey(button: ExtraButton) {
+    fun addBuiltinKey(button: IExtraButton) {
         addKeyButton(builtinKeys, button)
     }
 
@@ -173,28 +178,14 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         return buttonBars[position]
     }
 
-    private fun addKeyButton(buttons: MutableList<ExtraButton>?, button: ExtraButton) {
+    private fun addKeyButton(buttons: MutableList<IExtraButton>?, button: IExtraButton) {
         if (buttons != null && !buttons.contains(button)) {
             buttons.add(button)
         }
     }
 
-    private fun addKeyButton(contentView: LinearLayout, extraButton: ExtraButton) {
-        val outerButton: Button
-        if (extraButton is StatedControlButton) {
-            val btn = extraButton
-            val toggleButton = ToggleButton(context, null, android.R.attr.buttonBarButtonStyle)
-            btn.toggleButton = toggleButton
-            outerButton = toggleButton
-
-            outerButton.isClickable = true
-            if (btn.initState) {
-                btn.toggleButton!!.isChecked = true
-                btn.toggleButton!!.setTextColor(ExtraButton.SELECTED_TEXT_COLOR)
-            }
-        } else {
-            outerButton = Button(context, null, android.R.attr.buttonBarButtonStyle)
-        }
+    private fun addKeyButton(contentView: LinearLayout, extraButton: IExtraButton) {
+        val outerButton = extraButton.makeButton(context, null, android.R.attr.buttonBarButtonStyle)
 
         val param = GridLayout.LayoutParams()
         param.setGravity(Gravity.CENTER)
@@ -208,7 +199,7 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         outerButton.layoutParams = param
         outerButton.typeface = typeface
         outerButton.text = extraButton.buttonText
-        outerButton.setTextColor(ExtraButton.NORMAL_TEXT_COLOR)
+        outerButton.setTextColor(IExtraButton.NORMAL_TEXT_COLOR)
         outerButton.setAllCaps(false)
 
         outerButton.setOnClickListener {

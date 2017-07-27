@@ -93,4 +93,5 @@
     <string name="files_to_handle">处理的文件</string>
     <string name="available_user_scripts">可用的用户脚本</string>
     <string name="confirm_remove_file_from_list">从操作列表中移除文件？</string>
+    <string name="confirm_remove">移除?</string>
 </resources>

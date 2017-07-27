@@ -24,7 +24,7 @@
         android:summary="@string/customization_settings_desc"
         android:title="@string/customization_settings">
         <intent
-            android:targetClass="io.neoterm.ui.customization.CustomizationActivity"
+            android:targetClass="io.neoterm.ui.customize.CustomizeActivity"
             android:targetPackage="io.neoterm" />
     </Preference>
 

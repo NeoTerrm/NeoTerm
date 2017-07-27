@@ -86,7 +86,7 @@
             android:label="@string/package_settings"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
-            android:name=".ui.customization.CustomizationActivity"
+            android:name=".ui.customize.CustomizeActivity"
             android:label="@string/customization_settings"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity

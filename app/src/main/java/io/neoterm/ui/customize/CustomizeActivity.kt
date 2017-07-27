@@ -1,16 +1,14 @@
-package io.neoterm.ui.customization
+package io.neoterm.ui.customize
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.color.ColorSchemeManager
@@ -30,7 +28,7 @@ import java.io.FileInputStream
 /**
  * @author kiva
  */
-class CustomizationActivity : AppCompatActivity() {
+class CustomizeActivity : AppCompatActivity() {
     lateinit var terminalView: TerminalView
     lateinit var viewClient: BasicViewClient
     lateinit var sessionCallback: BasicSessionCallback

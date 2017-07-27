@@ -1,6 +1,6 @@
 package io.neoterm.customize.eks
 
-import io.neoterm.view.eks.TextButton
+import io.neoterm.view.eks.button.TextButton
 import java.io.*
 
 /**

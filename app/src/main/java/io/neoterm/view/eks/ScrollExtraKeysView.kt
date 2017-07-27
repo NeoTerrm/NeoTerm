@@ -18,6 +18,9 @@ import java.util.ArrayList
 import io.neoterm.customize.eks.EksConfigParser
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.utils.FileUtils
+import io.neoterm.view.eks.button.ControlButton
+import io.neoterm.view.eks.button.IExtraButton
+import io.neoterm.view.eks.button.StatedControlButton
 
 /**
  * A view showing extra keys (such as Escape, Ctrl, Alt) not normally available on an Android soft
@@ -25,8 +28,8 @@ import io.neoterm.utils.FileUtils
  */
 class ScrollExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    private var builtinExtraKeys: MutableList<ExtraButton>? = null
-    private var userDefinedExtraKeys: MutableList<ExtraButton>? = null
+    private var builtinExtraKeys: MutableList<IExtraButton>? = null
+    private var userDefinedExtraKeys: MutableList<IExtraButton>? = null
 
     private val lineOne: LinearLayout
     private val lineTwo: LinearLayout
@@ -68,11 +71,11 @@ class ScrollExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(
         return ALT.readState()
     }
 
-    fun addUserKey(button: ExtraButton) {
+    fun addUserKey(button: IExtraButton) {
         addKeyButton(userDefinedExtraKeys, button)
     }
 
-    fun addBuiltinKey(button: ExtraButton) {
+    fun addBuiltinKey(button: IExtraButton) {
         addKeyButton(builtinExtraKeys, button)
     }
 
@@ -81,7 +84,7 @@ class ScrollExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(
     }
 
     fun loadUserKeys() {
-        userDefinedExtraKeys = ArrayList<ExtraButton>(8)
+        userDefinedExtraKeys = ArrayList<IExtraButton>(8)
         val defaultFile = File(NeoTermPath.EKS_DEFAULT_FILE)
         if (!defaultFile.exists()) {
             generateDefaultFile(defaultFile)
@@ -99,7 +102,7 @@ class ScrollExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(
     }
 
     fun loadBuiltinKeys() {
-        builtinExtraKeys = ArrayList<ExtraButton>(7)
+        builtinExtraKeys = ArrayList<IExtraButton>(7)
         builtinExtraKeys!!.clear()
         builtinExtraKeys!!.add(ESC)
         builtinExtraKeys!!.add(CTRL)
@@ -136,13 +139,13 @@ class ScrollExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(
         updateButtons()
     }
 
-    private fun addKeyButton(buttons: MutableList<ExtraButton>?, button: ExtraButton) {
+    private fun addKeyButton(buttons: MutableList<IExtraButton>?, button: IExtraButton) {
         if (buttons != null && !buttons.contains(button)) {
             buttons.add(button)
         }
     }
 
-    private fun addKeyButton(contentView: LinearLayout, extraButton: ExtraButton) {
+    private fun addKeyButton(contentView: LinearLayout, extraButton: IExtraButton) {
         val button: Button
         if (extraButton is StatedControlButton) {
             val btn = extraButton
@@ -174,19 +177,19 @@ class ScrollExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(
 
     companion object {
         @SuppressLint("StaticFieldLeak")
-        val CTRL = StatedControlButton(ExtraButton.KEY_CTRL)
+        val CTRL = StatedControlButton(IExtraButton.KEY_CTRL)
         @SuppressLint("StaticFieldLeak")
-        val ALT = StatedControlButton(ExtraButton.KEY_ALT)
-        val ESC = ControlButton(ExtraButton.KEY_ESC)
-        val TAB = ControlButton(ExtraButton.KEY_TAB)
-        val PAGE_UP = ControlButton(ExtraButton.KEY_PAGE_UP)
-        val PAGE_DOWN = ControlButton(ExtraButton.KEY_PAGE_DOWN)
-        val HOME = ControlButton(ExtraButton.KEY_HOME)
-        val END = ControlButton(ExtraButton.KEY_END)
-        val ARROW_UP = ControlButton(ExtraButton.KEY_ARROW_UP)
-        val ARROW_DOWN = ControlButton(ExtraButton.KEY_ARROW_DOWN)
-        val ARROW_LEFT = ControlButton(ExtraButton.KEY_ARROW_LEFT)
-        val ARROW_RIGHT = ControlButton(ExtraButton.KEY_ARROW_RIGHT)
+        val ALT = StatedControlButton(IExtraButton.KEY_ALT)
+        val ESC = ControlButton(IExtraButton.KEY_ESC)
+        val TAB = ControlButton(IExtraButton.KEY_TAB)
+        val PAGE_UP = ControlButton(IExtraButton.KEY_PAGE_UP)
+        val PAGE_DOWN = ControlButton(IExtraButton.KEY_PAGE_DOWN)
+        val HOME = ControlButton(IExtraButton.KEY_HOME)
+        val END = ControlButton(IExtraButton.KEY_END)
+        val ARROW_UP = ControlButton(IExtraButton.KEY_ARROW_UP)
+        val ARROW_DOWN = ControlButton(IExtraButton.KEY_ARROW_DOWN)
+        val ARROW_LEFT = ControlButton(IExtraButton.KEY_ARROW_LEFT)
+        val ARROW_RIGHT = ControlButton(IExtraButton.KEY_ARROW_RIGHT)
 
         val DEFAULT_FILE_CONTENT = "version " + EksConfigParser.PARSER_VERSION + "\n" +
                 "program default\n" +

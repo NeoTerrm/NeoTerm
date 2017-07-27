@@ -43,7 +43,7 @@ import io.neoterm.ui.term.event.TitleChangedEvent
 import io.neoterm.ui.term.event.ToggleFullScreenEvent
 import io.neoterm.ui.term.event.ToggleImeEvent
 import io.neoterm.utils.FullScreenHelper
-import io.neoterm.view.eks.StatedControlButton
+import io.neoterm.view.eks.button.StatedControlButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

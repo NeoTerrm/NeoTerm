@@ -88,6 +88,7 @@
     <string name="files_to_handle">Files to Handle</string>
     <string name="available_user_scripts">Available User Scripts</string>
     <string name="confirm_remove_file_from_list">Remove file from list?</string>
+    <string name="confirm_remove">Remove this?</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

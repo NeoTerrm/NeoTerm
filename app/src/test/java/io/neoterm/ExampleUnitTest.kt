@@ -10,27 +10,5 @@ import java.net.URL
  *
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
-class ExampleUnitTest {
-    @Test
-    @Throws(Exception::class)
-    fun test_config_parser() {
-        val pm = NeoPackageManager.get()
-        pm.refreshPackageList(File("/Users/kiva/1.txt"), true)
-        val clang = pm.getPackageInfo("clang")
-        println(">>> Parsed ${pm.packageCount} packages.")
-    }
+class ExampleUnitTest
 
-    @Test
-    fun test_url() {
-        val url = URL("https://mirrors.geekpie.org/neoterm")
-        val builder = StringBuilder()
-        builder.append(url.host)
-        builder.append("_")
-        if (url.path.isNotEmpty()) {
-            builder.append(url.path.substring(1)) // Skip '/'
-        }
-        builder.append("_dists_stable_main_binary-")
-        val packageListFileName = builder.toString()
-        println(packageListFileName)
-    }
-}

@@ -84,6 +84,7 @@
     <string name="exit">Exit</string>
     <string name="term_here">Term Here</string>
     <string name="user_script">User Script</string>
+    <string name="command_shortcut">Command Shortcut</string>
     <string name="no_user_script_found_or_files_selected">No user script found or no files selected</string>
     <string name="files_to_handle">Files to Handle</string>
     <string name="available_user_scripts">Available User Scripts</string>

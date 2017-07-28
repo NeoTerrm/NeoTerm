@@ -27,7 +27,7 @@ class PackageModel(val packageInfo: NeoPackageInfo) : SortedListAdapter.ViewMode
         return context.getString(R.string.package_details,
                 packageInfo.packageName, packageInfo.version,
                 packageInfo.dependenciesString,
-                FileUtils.formatSize(packageInfo.installedSizeInBytes),
+                FileUtils.formatSizeInKB(packageInfo.installedSizeInBytes),
                 packageInfo.description, packageInfo.homePage)
     }
 }

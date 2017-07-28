@@ -64,8 +64,12 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
         when (className) {
             "TermHere" -> handleTermHere()
             "UserScript" -> handleUserScript()
+            "CommandShortcut" -> handleCommandShortcut()
             else -> openTerm(null)
         }
+    }
+
+    private fun handleCommandShortcut() {
     }
 
     private fun handleTermHere() {

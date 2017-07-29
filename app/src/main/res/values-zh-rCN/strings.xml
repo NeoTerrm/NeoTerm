@@ -95,4 +95,8 @@
     <string name="confirm_remove_file_from_list">从操作列表中移除文件？</string>
     <string name="confirm_remove">移除?</string>
     <string name="command_shortcut">命令快捷方式</string>
+    <string name="command_shortcut_display_title">展示标题</string>
+    <string name="command_shortcut_command">命令</string>
+    <string name="no_command_extra">没有找到需要执行的命令，是否忘记了传递参数？</string>
+    <string name="command_display_title_cannot_be_null">展示标题不可为空</string>
 </resources>

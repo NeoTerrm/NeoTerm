@@ -1,5 +1,6 @@
 package io.neoterm.ui.term
 
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -9,6 +10,7 @@ import android.os.IBinder
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.Toast
 import io.neoterm.R
@@ -20,6 +22,10 @@ import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.TerminalUtils
 import java.io.File
+import android.content.Intent.ShortcutIconResource
+import android.os.Parcelable
+
+
 
 
 /**
@@ -65,11 +71,54 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
             "TermHere" -> handleTermHere()
             "UserScript" -> handleUserScript()
             "CommandShortcut" -> handleCommandShortcut()
-            else -> openTerm(null)
+            else -> handleNormal()
         }
     }
 
+    private fun handleNormal() {
+        when (intent.action) {
+            ACTION_EXECUTE -> {
+                if (!intent.hasExtra(EXTRA_COMMAND)) {
+                    Toast.makeText(this, R.string.no_command_extra, Toast.LENGTH_SHORT).show()
+                    finish()
+                    return
+                }
+                val command = intent.getStringExtra(EXTRA_COMMAND)
+                openTerm(command)
+            }
+
+            else -> openTerm(null)
+        }
+        finish()
+    }
+
     private fun handleCommandShortcut() {
+        setContentView(R.layout.ui_command_shortcut)
+        val displayInput = findViewById(R.id.command_shortcut_display_title) as EditText
+        val commandInput = findViewById(R.id.command_shortcut_command) as EditText
+        findViewById(R.id.command_shortcut_create_fab)
+                .setOnClickListener {
+                    val displayTitle = displayInput.text.toString()
+                    if (displayTitle.isEmpty()) {
+                        displayInput.error = getString(R.string.command_display_title_cannot_be_null)
+                        return@setOnClickListener
+                    }
+
+                    val command = commandInput.text.toString()
+
+                    val executeIntent = Intent(this, NeoTermRemoteInterface::class.java)
+                    executeIntent.action = ACTION_EXECUTE
+                    executeIntent.putExtra(EXTRA_COMMAND, command)
+
+                    val shortcut = Intent("com.android.launcher.action.INSTALL_SHORTCUT")
+                    shortcut.putExtra("duplicate", true)
+                    val icon = ShortcutIconResource.fromContext(this, R.mipmap.ic_launcher)
+                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, executeIntent)
+                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, displayTitle)
+                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon)
+                    setResult(Activity.RESULT_OK, shortcut)
+                    finish()
+                }
     }
 
     private fun handleTermHere() {
@@ -186,5 +235,10 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
     private fun detectSystemShell(): Boolean {
         return false
+    }
+
+    companion object {
+        const val ACTION_EXECUTE = "neoterm.remote.execute.action"
+        const val EXTRA_COMMAND = "neoterm.remote.execute.extra.command"
     }
 }

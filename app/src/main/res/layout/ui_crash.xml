@@ -21,14 +21,6 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/crash_tips"
-            android:textColor="@color/colorAccent" />
-
-        <TextView
             android:id="@+id/crash_model"
             style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"

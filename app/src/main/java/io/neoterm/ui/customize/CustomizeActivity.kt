@@ -1,7 +1,6 @@
 package io.neoterm.ui.customize
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -40,7 +39,7 @@ class CustomizeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ui_customization)
+        setContentView(R.layout.ui_customize)
 
         // ensure that folders and files are exist
         ColorSchemeManager.init(this)

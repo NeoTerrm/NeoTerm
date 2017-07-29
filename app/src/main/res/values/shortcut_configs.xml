@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string translatable="false" name="id_shortcut_create_new_session">id_create_new_session</string>
+</resources>

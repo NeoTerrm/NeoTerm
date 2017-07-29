@@ -97,4 +97,6 @@
     <string name="command_shortcut">命令快捷方式</string>
     <string name="no_command_extra">沒有找到需要執行的命令，是否忘記了傳遞參數？</string>
     <string name="command_display_title_cannot_be_null">展示標題不可為空</string>
+    <string name="command_shortcut_display_title">"展示標題 "</string>
+    <string name="command_shortcut_command">命令</string>
 </resources>

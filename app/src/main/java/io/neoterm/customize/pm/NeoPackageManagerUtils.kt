@@ -32,6 +32,10 @@ object NeoPackageManagerUtils {
                 builder.append("_")
                 builder.append(url.path.substring(1)) // Skip '/'
             }
+            // https://github.com/NeoTerm/NeoTerm/issues/1
+            if (url.port != -1) {
+                builder.append(":${url.port}")
+            }
             builder.append("_dists_stable_main_binary-")
             return builder.toString()
         } catch (e: Exception) {

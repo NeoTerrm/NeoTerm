@@ -68,14 +68,14 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
             view.setTerminalViewClient(termData.viewClient)
             view.attachSession(termData.termSession)
 
-            // Still in progress
+            // Still in progress with lots of bugs to deal with.
             // Only available for developers.
-            if (BuildConfig.DEBUG) {
-                if (termData.onAutoCompleteListener == null) {
-                    termData.onAutoCompleteListener = createAutoCompleteListener(view)
-                }
-                view.onAutoCompleteListener = termData.onAutoCompleteListener
-            }
+//            if (BuildConfig.DEBUG) {
+//                if (termData.onAutoCompleteListener == null) {
+//                    termData.onAutoCompleteListener = createAutoCompleteListener(view)
+//                }
+//                view.onAutoCompleteListener = termData.onAutoCompleteListener
+//            }
         }
     }
 

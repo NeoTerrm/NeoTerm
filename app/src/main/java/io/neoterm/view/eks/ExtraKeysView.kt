@@ -4,16 +4,14 @@ import android.content.Context
 import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.*
-import android.widget.Button
 import android.widget.GridLayout
 import android.widget.LinearLayout
-import android.widget.ToggleButton
 import io.neoterm.R
 import io.neoterm.customize.eks.EksConfigParser
+import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.term.event.ToggleImeEvent
 import io.neoterm.view.eks.button.ControlButton
 import io.neoterm.view.eks.button.IExtraButton
-import io.neoterm.view.eks.button.RepeatableButton
 import io.neoterm.view.eks.button.StatedControlButton
 import io.neoterm.view.eks.impl.ArrowButton
 import org.greenrobot.eventbus.EventBus
@@ -40,6 +38,7 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         private val MAX_BUTTONS_PER_LINE = 7
         private val DEFAULT_ALPHA = 0.8f
         private val EXPANDED_ALPHA = 0.5f
+        private val USER_KEYS_BUTTON_LINE_START = 2
     }
 
     private val builtinKeys = mutableListOf<IExtraButton>()
@@ -64,6 +63,7 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         alpha = DEFAULT_ALPHA
         gravity = Gravity.TOP
         orientation = LinearLayout.VERTICAL
+        typeface = Typeface.createFromAsset(context.assets, "eks_font.ttf")
 
         initBuiltinKeys()
         loadDefaultUserKeys()
@@ -141,10 +141,9 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
     private fun updateButtonBars() {
         removeAllViews()
+
         buttonBars.asReversed()
-                .forEach {
-                    addView(it)
-                }
+                .forEach { addView(it) }
     }
 
     private fun expandButtonPanel(forceSetExpanded: Boolean? = null) {
@@ -156,16 +155,26 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         val visibility = if (buttonPanelExpanded) View.VISIBLE else View.GONE
         alpha = if (buttonPanelExpanded) EXPANDED_ALPHA else DEFAULT_ALPHA
 
-        for (i in 2..buttonBars.size - 1) {
-            buttonBars[i].visibility = visibility
-        }
+        IntRange(USER_KEYS_BUTTON_LINE_START, buttonBars.size - 1)
+                .map { buttonBars[it] }
+                .forEach { it.visibility = visibility }
     }
 
     private fun createNewButtonBar(): LinearLayout {
         val line = LinearLayout(context)
+
+        val layoutParams =
+                if (NeoPreference.loadBoolean(R.string.key_ui_eks_weight_explicit, false))
+                    LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
+                else
+                    LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT)
+
+        layoutParams.setMargins(0, 0, 0, 0)
+        line.setPadding(0, 0, 0, 0)
         line.gravity = Gravity.START
         line.orientation = LinearLayout.HORIZONTAL
-        line.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
+        line.layoutParams = layoutParams
         return line
     }
 
@@ -191,14 +200,13 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         param.setGravity(Gravity.CENTER)
         param.width = calculateButtonWidth()
         param.height = context.resources.getDimensionPixelSize(R.dimen.eks_height)
-        param.topMargin = 0
-        param.rightMargin = 0
-        param.leftMargin = 0
-        param.bottomMargin = 0
+        param.setMargins(0, 0, 0, 0)
 
         outerButton.layoutParams = param
+        outerButton.maxLines = 1
         outerButton.typeface = typeface
         outerButton.text = extraButton.buttonText
+        outerButton.setPadding(0, 0, 0, 0)
         outerButton.setTextColor(IExtraButton.NORMAL_TEXT_COLOR)
         outerButton.setAllCaps(false)
 

@@ -30,8 +30,8 @@
     <string name="pref_ui_hide_toolbar_desc">在鍵盤顯示時隱藏標題欄</string>
     <string name="pref_ui_suggestions">顯示建議 (需要 oh-my-zsh)</string>
     <string name="pref_ui_suggestions_desc">使用一些程式時，在螢幕底部顯示快捷鍵</string>
-    <string name="pref_ui_wide_char_weight_explicit">為寬字元設定權重</string>
-    <string name="pref_ui_wide_char_weight_explicit_desc">如果快捷輸入欄顯示錯誤，請勾選此項目</string>
+    <string name="pref_ui_eks_weight_explicit">為快捷鍵盤強制設定權重</string>
+    <string name="pref_ui_eks_weight_explicit_desc">如果快捷鍵盤顯示錯誤，請勾選此項目</string>
     <string name="pref_customization_color_scheme">色彩主題</string>
     <string name="pref_customization_font">字體</string>
     <string name="settings">設定</string>

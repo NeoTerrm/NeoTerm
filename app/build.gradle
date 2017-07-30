@@ -1,30 +1,21 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
 
 android {
-    signingConfigs {
-        release {
-            keyAlias 'kiva'
-            keyPassword 'k12fd15dp'
-            storeFile file('docs/kiva.keystore')
-            storePassword 'k12fd15dp'
-        }
-    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "io.neoterm"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 18
-        versionName "1.2.0-rc7"
+        versionCode 19
+        versionName "1.2.0-rc8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resConfigs "zh-rCN", "zh-rTW"
         externalNativeBuild {
             cmake {
                 cppFlags "-std=c++11"
-                abiFilters 'x86', 'x86_64', 'arm64-v8a'
+                abiFilters 'x86_64', 'arm64-v8a', 'armeabi-v7a'
             }
         }
         sourceSets {
@@ -39,7 +30,6 @@ android {
             zipAlignEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
             proguardFile 'app/proguard-rules.pro'
         }
     }

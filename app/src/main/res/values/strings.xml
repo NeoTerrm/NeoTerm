@@ -74,8 +74,8 @@
     <string name="pref_ui_close_tab_anim_next_tab_desc">Switch to the next tab instead of the previous tab when closing tab</string>
     <string name="pref_ui_suggestions">Show Suggestions (oh-my-zsh required)</string>
     <string name="pref_ui_suggestions_desc">When using some programs, show shortcut keys</string>
-    <string name="pref_ui_wide_char_weight_explicit">Use explicit weight for wide char</string>
-    <string name="pref_ui_wide_char_weight_explicit_desc">If suggestion bar show incorrect, please enable this</string>
+    <string name="pref_ui_eks_weight_explicit">Use explicit weight for ExtraKeysView</string>
+    <string name="pref_ui_eks_weight_explicit_desc">If ExtraKeysView shows incorrectly, please enable this</string>
     <string name="pref_customization_font">Font</string>
     <string name="pref_customization_color_scheme">Color Scheme</string>
     <string name="pref_customization_eks">Extra Keys</string>

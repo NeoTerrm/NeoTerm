@@ -31,6 +31,12 @@
         android:summary="@string/pref_general_backspace_map_to_esc_desc"
         android:title="@string/pref_general_backspace_map_to_esc" />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/key_general_auto_completion"
+        android:summary="@string/pref_general_auto_completion_desc"
+        android:title="@string/pref_general_auto_completion" />
+
     <ListPreference
         android:defaultValue="NeoTermOnly"
         android:entries="@array/pref_general_program_selection_entries"

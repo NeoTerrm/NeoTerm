@@ -69,7 +69,7 @@ class SetupActivity : AppCompatActivity() {
                                 if (finishedSession?.exitStatus == 0) {
                                     dialog.dismiss()
                                     if (withShell != null) {
-                                        NeoPreference.store(R.string.key_general_shell, withShell!!)
+                                        NeoPreference.setLoginShell(withShell!!)
                                     }
                                 } else {
                                     dialog.setTitle(getString(R.string.error))

@@ -1,7 +1,6 @@
 package io.neoterm.frontend
 
 import android.content.Context
-import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.client.TermSessionCallback
@@ -110,16 +109,11 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
         fun create(context: Context): ShellTermSession {
             val cwd = this.cwd ?: NeoTermPath.HOME_PATH
 
-            var shell = this.executablePath ?:
+            val shell = this.executablePath ?:
                     if (systemShell)
                         "/system/bin/sh"
                     else
-                        NeoTermPath.USR_PATH + "/bin/" + NeoPreference.loadString(R.string.key_general_shell, "sh")
-
-            if (!File(shell).exists()) {
-                Toast.makeText(context, context.getString(R.string.shell_not_found, shell), Toast.LENGTH_LONG).show()
-                shell = NeoTermPath.USR_PATH + "/bin/sh"
-            }
+                        NeoPreference.getLoginShell()
 
             val args = this.args ?: mutableListOf(shell)
             val env = transformEnvironment(this.env) ?: buildEnvironment(cwd, systemShell)
@@ -148,9 +142,12 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
             val androidDataEnv = "ANDROID_DATA=" + System.getenv("ANDROID_DATA")
             val externalStorageEnv = "EXTERNAL_STORAGE=" + System.getenv("EXTERNAL_STORAGE")
 
+            // PY Trace: Some programs support NeoTerm in a special way.
+            val neotermIdEnv = "__NEOTERM=1"
+
             if (systemShell) {
                 val pathEnv = "PATH=" + System.getenv("PATH")
-                return arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv, externalStorageEnv, pathEnv)
+                return arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv, externalStorageEnv, pathEnv, neotermIdEnv)
 
             } else {
                 val ps1Env = "PS1=$ "
@@ -160,7 +157,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
                 val pwdEnv = "PWD=" + cwd
                 val tmpdirEnv = "TMPDIR=${NeoTermPath.USR_PATH}/tmp"
 
-                return arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv)
+                return arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv, neotermIdEnv)
             }
         }
 

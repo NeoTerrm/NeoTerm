@@ -41,7 +41,7 @@ class UISettingsActivity : AppCompatPreferenceActivity() {
                     override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
                         if (finishedSession?.exitStatus == 0) {
                             dialog.dismiss()
-                            NeoPreference.store(R.string.key_general_shell, "zsh")
+                            NeoPreference.setLoginShell("zsh")
                         } else {
                             dialog.setTitle(getString(R.string.error))
                         }

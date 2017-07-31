@@ -99,4 +99,6 @@
     <string name="command_display_title_cannot_be_null">展示標題不可為空</string>
     <string name="command_shortcut_display_title">"展示標題 "</string>
     <string name="command_shortcut_command">命令</string>
+    <string name="pref_general_auto_completion">自動補全（實驗性）</string>
+    <string name="pref_general_auto_completion_desc">"輸入命令或者路徑時提供補全。該功能還在開發中，有許多bug需要解决 "</string>
 </resources>

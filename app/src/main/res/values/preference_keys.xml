@@ -6,6 +6,7 @@
     <string name="key_general_shell" translatable="false">neoterm_general_shell</string>
     <string name="key_general_program_selection" translatable="false">neoterm_general_program_selection</string>
     <string name="key_general_initial_command" translatable="false">neoterm_general_initial_command</string>
+    <string name="key_general_auto_completion" translatable="false">neoterm_general_auto_completion</string>
 
     <string name="key_ui_fullscreen" translatable="false">neoterm_ui_fullscreen</string>
     <string name="key_ui_hide_toolbar" translatable="false">neoterm_ui_hide_toolbar</string>

@@ -3,10 +3,11 @@ package io.neoterm.preference
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import android.system.ErrnoException
+import android.system.Os
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.FileUtils
 import java.io.File
@@ -102,9 +103,48 @@ object NeoPreference {
         return null
     }
 
-    fun isBaseFileInstalled() : Boolean {
-        return !BaseFileInstaller.needSetup()
+    fun setLoginShell(loginProgramName: String?): Boolean {
+        if (loginProgramName == null) {
+            return false
+        }
+
+        val loginProgramPath = findLoginProgram(loginProgramName) ?: return false
+
+        store(R.string.key_general_shell, loginProgramName)
+        symlinkLoginShell(loginProgramPath)
+        return true
     }
+
+    fun getLoginShell(): String {
+        val loginProgramName = loadString(R.string.key_general_shell, "sh")
+
+        // Some programs like ssh needs it
+        val shell = File(NeoTermPath.NEOTERM_SHELL_PATH)
+        if (!shell.exists()) {
+            symlinkLoginShell(loginProgramName)
+        }
+
+        return "${NeoTermPath.USR_PATH}/bin/$loginProgramName"
+    }
+
+    private fun symlinkLoginShell(loginProgramPath: String) {
+        File(NeoTermPath.CUSTOM_PATH).mkdirs()
+        try {
+            if (File(NeoTermPath.NEOTERM_SHELL_PATH).exists()) {
+                Os.remove(NeoTermPath.NEOTERM_SHELL_PATH)
+            }
+            Os.symlink(loginProgramPath, NeoTermPath.NEOTERM_SHELL_PATH)
+            Os.chmod(NeoTermPath.NEOTERM_SHELL_PATH, 448 /*Decimal of 0700 */)
+        } catch (e: ErrnoException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun findLoginProgram(loginProgramName: String): String? {
+        val file = File("${NeoTermPath.USR_PATH}/bin", loginProgramName)
+        return if (file.canExecute()) file.absolutePath else null
+    }
+
 
 //    fun storeWindowSize(context: Context, width: Int, height: Int) {
 //        store(KEY_FLOATING_WIDTH, width)

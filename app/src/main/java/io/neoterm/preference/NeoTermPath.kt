@@ -14,6 +14,7 @@ object NeoTermPath {
     const val APT_BIN_PATH = "$USR_PATH/bin/apt"
 
     const val CUSTOM_PATH = "$HOME_PATH/.neoterm"
+    const val NEOTERM_SHELL_PATH = "$CUSTOM_PATH/shell"
     const val EKS_PATH = "$CUSTOM_PATH/eks"
     const val EKS_DEFAULT_FILE = "$EKS_PATH/default.eks"
     const val FONT_PATH = "$CUSTOM_PATH/font"

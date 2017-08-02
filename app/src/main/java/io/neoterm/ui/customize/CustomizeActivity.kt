@@ -14,6 +14,7 @@ import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.customize.font.FontManager
 import io.neoterm.frontend.ShellParameter
+import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.utils.FileUtils
 import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.TerminalUtils
@@ -40,10 +41,6 @@ class CustomizeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_customize)
-
-        // ensure that folders and files are exist
-        ColorSchemeManager.init(this)
-        FontManager.init(this)
 
         val toolbar = findViewById(R.id.custom_toolbar) as Toolbar
         setSupportActionBar(toolbar)
@@ -80,32 +77,33 @@ class CustomizeActivity : AppCompatActivity() {
     }
 
     private fun setupSpinners() {
-        FontManager.refreshFontList()
-        setupSpinner(R.id.custom_font_spinner, FontManager.getFontNames(),
-                FontManager.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {
+        val fontManager = ServiceManager.getService<FontManager>()
+        val colorSchemeManager = ServiceManager.getService<ColorSchemeManager>()
+
+        setupSpinner(R.id.custom_font_spinner, fontManager.getFontNames(),
+                fontManager.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val fontName = parent!!.adapter!!.getItem(position) as String
-                val typeface = FontManager.getFont(fontName).getTypeFace()
+                val typeface = fontManager.getFont(fontName).getTypeFace()
                 terminalView.setTypeface(typeface)
                 extraKeysView.setTypeface(typeface)
-                FontManager.setCurrentFont(fontName)
+                fontManager.setCurrentFont(fontName)
             }
         })
 
-        ColorSchemeManager.refreshColorList()
-        setupSpinner(R.id.custom_color_spinner, ColorSchemeManager.getColorNames(),
-                ColorSchemeManager.getCurrentColorName(), object : AdapterView.OnItemSelectedListener {
+        setupSpinner(R.id.custom_color_spinner, colorSchemeManager.getColorNames(),
+                colorSchemeManager.getCurrentColorName(), object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val colorName = parent!!.adapter!!.getItem(position) as String
-                val color = ColorSchemeManager.getColor(colorName)
-                ColorSchemeManager.applyColorScheme(terminalView, extraKeysView, color)
-                ColorSchemeManager.setCurrentColor(colorName)
+                val color = colorSchemeManager.getColor(colorName)
+                colorSchemeManager.applyColorScheme(terminalView, extraKeysView, color)
+                colorSchemeManager.setCurrentColor(colorName)
             }
         })
     }

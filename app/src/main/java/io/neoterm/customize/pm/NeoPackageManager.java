@@ -5,27 +5,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
+import io.neoterm.frontend.service.NeoService;
+
 /**
  * @author kiva
  */
 
-public class NeoPackageManager {
-    private static final NeoPackageManager INSTANCE = new NeoPackageManager();
-
-    public static NeoPackageManager get() {
-        return INSTANCE;
-    }
-
+public class NeoPackageManager implements NeoService {
     private final Object lock = new Object();
     private boolean isRefreshing = false;
     private boolean queryEnabled = true;
     private HashMap<String, NeoPackageInfo> neoPackages;
 
-    private NeoPackageManager() {
-        neoPackages = new HashMap<>();
-    }
-
-    public NeoPackageInfo getPackageInfo(String packageName) {
+    private NeoPackageInfo getPackageInfo(String packageName) {
         return queryEnabled ? neoPackages.get(packageName) : null;
     }
 
@@ -107,5 +99,18 @@ public class NeoPackageManager {
             String item = splits[i].trim();
             depends[i] = getPackageInfo(item);
         }
+    }
+
+    @Override
+    public void onServiceInit() {
+        neoPackages = new HashMap<>();
+    }
+
+    @Override
+    public void onServiceDestroy() {
+    }
+
+    @Override
+    public void onServiceObtained() {
     }
 }

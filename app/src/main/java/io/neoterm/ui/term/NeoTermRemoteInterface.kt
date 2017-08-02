@@ -24,8 +24,7 @@ import io.neoterm.utils.TerminalUtils
 import java.io.File
 import android.content.Intent.ShortcutIconResource
 import android.os.Parcelable
-
-
+import io.neoterm.frontend.service.ServiceManager
 
 
 /**
@@ -151,8 +150,8 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
                 }
             }
 
-            UserScriptManager.reloadScripts()
-            val userScripts = UserScriptManager.userScripts
+            val userScriptManager = ServiceManager.getService<UserScriptManager>()
+            val userScripts = userScriptManager.userScripts
             if (userScripts.isNotEmpty() && filesToHandle.isNotEmpty()) {
                 setupUserScriptView(filesToHandle, userScripts)
 

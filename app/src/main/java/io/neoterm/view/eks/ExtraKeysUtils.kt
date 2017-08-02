@@ -1,6 +1,6 @@
 package io.neoterm.view.eks
 
-import io.neoterm.customize.eks.EksConfigParser
+import io.neoterm.customize.eks.ExtraKeyConfigParser
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.utils.FileUtils
 import java.io.File
@@ -10,7 +10,7 @@ import java.io.File
  */
 object ExtraKeysUtils {
     fun generateDefaultFile(defaultFile: File) {
-        val DEFAULT_FILE_CONTENT = "version " + EksConfigParser.PARSER_VERSION + "\n" +
+        val DEFAULT_FILE_CONTENT = "version " + ExtraKeyConfigParser.PARSER_VERSION + "\n" +
                 "program default\n" +
                 "define - false\n" +
                 "define / false\n" +

@@ -2,7 +2,9 @@ package io.neoterm.customize.font
 
 import android.content.Context
 import android.graphics.Typeface
+import io.neoterm.App
 import io.neoterm.R
+import io.neoterm.frontend.service.NeoService
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.preference.NeoPreference
 import io.neoterm.utils.FileUtils
@@ -11,30 +13,22 @@ import java.io.File
 /**
  * @author kiva
  */
-object FontManager {
+class FontManager : NeoService {
+    override fun onServiceInit() {
+        checkForFiles()
+    }
+
+    override fun onServiceDestroy() {
+    }
+
+    override fun onServiceObtained() {
+        checkForFiles()
+    }
+
     private val DEFAULT_FONT_NAME = "UbuntuMono"
 
     private lateinit var DEFAULT_FONT: NeoFont
     private lateinit var fonts: MutableMap<String, NeoFont>
-
-    fun init(context: Context) {
-        File(NeoTermPath.FONT_PATH).mkdirs()
-        fonts = mutableMapOf()
-
-        val defaultFontFile = fontFile(DEFAULT_FONT_NAME)
-        if (!defaultFontFile.exists()) {
-            if (!extractDefaultFont(context, defaultFontFile)) {
-                DEFAULT_FONT = loadDefaultFontFromAsset(context)
-                fonts.put(DEFAULT_FONT_NAME, DEFAULT_FONT)
-                return
-            }
-        }
-
-        if (!refreshFontList()) {
-            DEFAULT_FONT = loadDefaultFontFromAsset(context)
-            fonts.put(DEFAULT_FONT_NAME, DEFAULT_FONT)
-        }
-    }
 
     fun getDefaultFont(): NeoFont {
         return DEFAULT_FONT
@@ -108,5 +102,25 @@ object FontManager {
 
     private fun fontName(fontFile: File): String {
         return fontFile.nameWithoutExtension
+    }
+
+    private fun checkForFiles() {
+        File(NeoTermPath.FONT_PATH).mkdirs()
+        fonts = mutableMapOf()
+
+        val context = App.get()
+        val defaultFontFile = fontFile(DEFAULT_FONT_NAME)
+        if (!defaultFontFile.exists()) {
+            if (!extractDefaultFont(context, defaultFontFile)) {
+                DEFAULT_FONT = loadDefaultFontFromAsset(context)
+                fonts.put(DEFAULT_FONT_NAME, DEFAULT_FONT)
+                return
+            }
+        }
+
+        if (!refreshFontList()) {
+            DEFAULT_FONT = loadDefaultFontFromAsset(context)
+            fonts.put(DEFAULT_FONT_NAME, DEFAULT_FONT)
+        }
     }
 }

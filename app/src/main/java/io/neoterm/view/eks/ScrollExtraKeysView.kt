@@ -15,7 +15,7 @@ import android.widget.ToggleButton
 import java.io.File
 import java.util.ArrayList
 
-import io.neoterm.customize.eks.EksConfigParser
+import io.neoterm.customize.eks.ExtraKeyConfigParser
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.utils.FileUtils
 import io.neoterm.view.eks.button.ControlButton
@@ -92,7 +92,7 @@ class ScrollExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(
 
         clearUserKeys()
         try {
-            val parser = EksConfigParser()
+            val parser = ExtraKeyConfigParser()
             parser.setInput(defaultFile)
             val config = parser.parse()
             userDefinedExtraKeys!!.addAll(config.shortcutKeys)
@@ -191,7 +191,7 @@ class ScrollExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(
         val ARROW_LEFT = ControlButton(IExtraButton.KEY_ARROW_LEFT)
         val ARROW_RIGHT = ControlButton(IExtraButton.KEY_ARROW_RIGHT)
 
-        val DEFAULT_FILE_CONTENT = "version " + EksConfigParser.PARSER_VERSION + "\n" +
+        val DEFAULT_FILE_CONTENT = "version " + ExtraKeyConfigParser.PARSER_VERSION + "\n" +
                 "program default\n" +
                 "define - false\n" +
                 "define / false\n" +

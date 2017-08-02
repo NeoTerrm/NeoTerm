@@ -1,14 +1,25 @@
 package io.neoterm.customize.eks
 
-import android.content.Context
-import io.neoterm.customize.eks.builtin.BuiltinEksKeys
+import io.neoterm.customize.eks.builtin.BuiltinExtraKeys
+import io.neoterm.frontend.service.NeoService
 import io.neoterm.view.eks.ExtraKeysView
 
 /**
  * @author kiva
  */
-object EksKeysManager {
-    val EKS_KEYS: MutableMap<String, EksKey> = mutableMapOf()
+class ExtraKeysManager : NeoService {
+    override fun onServiceInit() {
+        checkForFiles()
+    }
+
+    override fun onServiceDestroy() {
+    }
+
+    override fun onServiceObtained() {
+        checkForFiles()
+    }
+
+    val EKS_KEYS: MutableMap<String, ExtraKey> = mutableMapOf()
 
     fun showShortcutKeys(program: String, extraKeysView: ExtraKeysView?) {
         if (extraKeysView == null) {
@@ -24,7 +35,7 @@ object EksKeysManager {
         extraKeysView.loadDefaultUserKeys()
     }
 
-    fun registerShortcutKeys(program: String, eksKey: EksKey?) {
+    fun registerShortcutKeys(program: String, eksKey: ExtraKey?) {
         if (eksKey == null) {
             if (this.EKS_KEYS.containsKey(program)) {
                 this.EKS_KEYS.remove(program)
@@ -35,8 +46,8 @@ object EksKeysManager {
         this.EKS_KEYS[program] = eksKey
     }
 
-    fun init(context: Context) {
-        BuiltinEksKeys.registerAll()
-        EksConfigLoader.loadDefinedConfigs()
+    private fun checkForFiles() {
+        BuiltinExtraKeys.registerAll()
+        ExtraKeyConfigLoader.loadDefinedConfigs(this)
     }
 }

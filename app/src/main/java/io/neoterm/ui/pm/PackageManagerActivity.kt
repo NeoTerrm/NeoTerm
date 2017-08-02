@@ -31,6 +31,7 @@ import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 import io.neoterm.utils.PackageUtils
 import io.neoterm.frontend.floating.TerminalDialog
+import io.neoterm.frontend.service.ServiceManager
 
 /**
  * @author kiva
@@ -192,7 +193,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         progressBar.visibility = View.VISIBLE
         progressBar.alpha = 0.0f
         Thread {
-            val pm = NeoPackageManager.get()
+            val pm = ServiceManager.getService<NeoPackageManager>()
             val sourceFiles = NeoPackageManagerUtils.detectSourceFiles()
 
             pm.clearPackages()

@@ -1,7 +1,9 @@
 package io.neoterm.customize.color
 
 import android.content.Context
+import io.neoterm.App
 import io.neoterm.R
+import io.neoterm.frontend.service.NeoService
 import io.neoterm.preference.NeoPreference
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.utils.FileUtils
@@ -13,30 +15,22 @@ import java.io.FileOutputStream
 /**
  * @author kiva
  */
-object ColorSchemeManager {
-    private const val DEFAULT_COLOR_NAME = "Default"
+class ColorSchemeManager : NeoService {
+    override fun onServiceObtained() {
+        checkForFiles()
+    }
+
+    override fun onServiceInit() {
+        checkForFiles()
+    }
+
+    override fun onServiceDestroy() {
+    }
+
+    private val DEFAULT_COLOR_NAME = "Default"
 
     private lateinit var DEFAULT_COLOR: NeoColorScheme
     private lateinit var colors: MutableMap<String, NeoColorScheme>
-
-    fun init(context: Context) {
-        File(NeoTermPath.COLORS_PATH).mkdirs()
-        colors = mutableMapOf()
-
-        val defaultColorFile = colorFile(DEFAULT_COLOR_NAME)
-        if (!defaultColorFile.exists()) {
-            if (extractDefaultColor(context, defaultColorFile)) {
-                DEFAULT_COLOR = DefaultColorScheme
-                colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
-                return
-            }
-        }
-
-        if (!refreshColorList()) {
-            DEFAULT_COLOR = DefaultColorScheme
-            colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
-        }
-    }
 
     private fun extractDefaultColor(context: Context, defaultColorFile: File): Boolean {
         try {
@@ -89,6 +83,25 @@ object ColorSchemeManager {
 
     private fun colorName(colorFile: File): String {
         return colorFile.nameWithoutExtension
+    }
+
+    private fun checkForFiles() {
+        File(NeoTermPath.COLORS_PATH).mkdirs()
+        colors = mutableMapOf()
+
+        val defaultColorFile = colorFile(DEFAULT_COLOR_NAME)
+        if (!defaultColorFile.exists()) {
+            if (extractDefaultColor(App.get(), defaultColorFile)) {
+                DEFAULT_COLOR = DefaultColorScheme
+                colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
+                return
+            }
+        }
+
+        if (!refreshColorList()) {
+            DEFAULT_COLOR = DefaultColorScheme
+            colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
+        }
     }
 
     fun getCurrentColorScheme(): NeoColorScheme {

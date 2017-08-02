@@ -6,7 +6,7 @@ import java.io.*
 /**
  * @author kiva
  */
-class EksConfigParser {
+class ExtraKeyConfigParser {
     companion object {
         const val PARSER_VERSION = 5
     }
@@ -25,8 +25,8 @@ class EksConfigParser {
         source = BufferedReader(InputStreamReader(inputStream))
     }
 
-    fun parse(): EksConfig {
-        val config = EksConfig()
+    fun parse(): ExtraKeyConfig {
+        val config = ExtraKeyConfig()
         var line: String? = source.readLine()
 
         while (line != null) {
@@ -57,12 +57,12 @@ class EksConfigParser {
         return config
     }
 
-    private fun parseWithDefault(line: String, config: EksConfig) {
+    private fun parseWithDefault(line: String, config: ExtraKeyConfig) {
         val value = line.substring("with-default".length).trim().trimEnd()
         config.withDefaultKeys = value == "true"
     }
 
-    private fun parseKeyDefine(line: String, config: EksConfig) {
+    private fun parseKeyDefine(line: String, config: ExtraKeyConfig) {
         val keyDefine = line.substring("define".length).trim().trimEnd()
         val keyValues = keyDefine.split(" ")
         if (keyValues.size < 2) {
@@ -75,7 +75,7 @@ class EksConfigParser {
         config.shortcutKeys.add(TextButton(buttonText, withEnter))
     }
 
-    private fun parseProgram(line: String, config: EksConfig) {
+    private fun parseProgram(line: String, config: ExtraKeyConfig) {
         val programNames = line.substring("program".length).trim().trimEnd()
         if (programNames.isEmpty()) {
             return
@@ -86,7 +86,7 @@ class EksConfigParser {
         }
     }
 
-    private fun parseHeader(line: String, config: EksConfig) {
+    private fun parseHeader(line: String, config: ExtraKeyConfig) {
         val version: Int
         val versionString = line.substring("version".length).trim().trimEnd()
         try {
@@ -95,7 +95,7 @@ class EksConfigParser {
             throw RuntimeException("Bad version '$versionString'")
         }
 
-        if (version > EksConfigParser.PARSER_VERSION) {
+        if (version > ExtraKeyConfigParser.PARSER_VERSION) {
             throw RuntimeException("Required version: $version, please upgrade your app")
         }
 

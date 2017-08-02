@@ -7,7 +7,7 @@ import android.view.*
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import io.neoterm.R
-import io.neoterm.customize.eks.EksConfigParser
+import io.neoterm.customize.eks.ExtraKeyConfigParser
 import io.neoterm.preference.NeoPreference
 import io.neoterm.ui.term.event.ToggleImeEvent
 import io.neoterm.view.eks.button.ControlButton
@@ -117,7 +117,7 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         clearUserKeys()
 
         try {
-            val parser = EksConfigParser()
+            val parser = ExtraKeyConfigParser()
             parser.setInput(defaultFile)
             val config = parser.parse()
             userKeys.addAll(config.shortcutKeys)

@@ -17,6 +17,7 @@ import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import io.neoterm.view.eks.ExtraKeysView
 import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
+import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.view.TerminalView
 
 /**
@@ -50,7 +51,9 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
 
         TerminalUtils.setupTerminalView(view)
         TerminalUtils.setupExtraKeysView(extraKeysView)
-        ColorSchemeManager.applyColorScheme(view, extraKeysView, ColorSchemeManager.getCurrentColorScheme())
+
+        val colorSchemeManager = ServiceManager.getService<ColorSchemeManager>()
+        colorSchemeManager.applyColorScheme(view, extraKeysView, colorSchemeManager.getCurrentColorScheme())
 
         if (tab is TermTab) {
             val termTab = tab

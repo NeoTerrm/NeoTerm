@@ -5,6 +5,6 @@ import io.neoterm.view.eks.ExtraKeysView
 /**
  * @author kiva
  */
-interface EksKey {
+interface ExtraKey {
     fun applyShortcutKeys(extraKeysView: ExtraKeysView)
 }

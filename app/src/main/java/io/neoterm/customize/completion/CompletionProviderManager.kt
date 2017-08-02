@@ -1,16 +1,22 @@
 package io.neoterm.customize.completion
 
-import android.content.Context
 import io.neoterm.customize.completion.provider.FileCompletionProvider
 import io.neoterm.customize.completion.provider.ProgramCompletionProvider
 import io.neoterm.frontend.completion.CompletionManager
+import io.neoterm.frontend.service.NeoService
 
 /**
  * @author kiva
  */
-object CompletionProviderManager {
-    fun init(context: Context) {
+class CompletionProviderManager : NeoService {
+    override fun onServiceInit() {
         CompletionManager.registerProvider(FileCompletionProvider())
         CompletionManager.registerProvider(ProgramCompletionProvider())
+    }
+
+    override fun onServiceDestroy() {
+    }
+
+    override fun onServiceObtained() {
     }
 }

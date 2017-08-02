@@ -9,6 +9,7 @@ import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.frontend.client.TermDataHolder
 import io.neoterm.frontend.client.TermUiPresenter
+import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.ui.term.event.TabCloseEvent
 import io.neoterm.ui.term.event.TitleChangedEvent
 import io.neoterm.ui.term.event.ToggleFullScreenEvent
@@ -23,8 +24,9 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
     var toolbar: Toolbar? = null
 
     fun updateColorScheme() {
-        ColorSchemeManager.applyColorScheme(termData.termView, termData.extraKeysView,
-                ColorSchemeManager.getCurrentColorScheme())
+        val colorSchemeManager = ServiceManager.getService<ColorSchemeManager>()
+        colorSchemeManager.applyColorScheme(termData.termView, termData.extraKeysView,
+                colorSchemeManager.getCurrentColorScheme())
     }
 
     fun cleanup() {

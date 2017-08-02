@@ -14,6 +14,7 @@ import io.neoterm.backend.TerminalColors
 import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener
 import io.neoterm.frontend.completion.model.CompletionCandidate
+import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.view.MaxHeightView
 import io.neoterm.view.TerminalView
 
@@ -135,7 +136,7 @@ class CandidatePopupWindow(val context: Context) {
         val splitView: View = rootView.findViewById(R.id.complete_split)
 
         init {
-            val colorScheme = ColorSchemeManager.getCurrentColorScheme()
+            val colorScheme = ServiceManager.getService<ColorSchemeManager>().getCurrentColorScheme()
             val textColor = TerminalColors.parse(colorScheme.foregroundColor)
             display.setTextColor(textColor)
             description.setTextColor(textColor)

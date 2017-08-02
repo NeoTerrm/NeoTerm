@@ -41,13 +41,12 @@ public class NeoPackageParser {
     private BufferedReader reader;
     private ParseStateListener stateListener;
 
-    public NeoPackageParser(InputStream inputStream) {
+    NeoPackageParser(InputStream inputStream) {
         reader = new BufferedReader(new InputStreamReader(inputStream));
     }
 
-    public NeoPackageParser setStateListener(ParseStateListener stateListener) {
+    void setStateListener(ParseStateListener stateListener) {
         this.stateListener = stateListener;
-        return this;
     }
 
     public void parse() throws IOException {

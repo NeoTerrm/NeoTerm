@@ -6,6 +6,7 @@ import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.font.FontManager
 import io.neoterm.frontend.ShellParameter
 import io.neoterm.frontend.ShellTermSession
+import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.view.eks.ExtraKeysView
 import io.neoterm.view.TerminalView
@@ -17,14 +18,14 @@ import io.neoterm.view.TerminalViewClient
 object TerminalUtils {
     fun setupTerminalView(terminalView: TerminalView?, terminalViewClient: TerminalViewClient? = null) {
         terminalView?.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
-        terminalView?.setTypeface(FontManager.getCurrentFont().getTypeFace())
+        terminalView?.setTypeface(ServiceManager.getService<FontManager>().getCurrentFont().getTypeFace())
         if (terminalViewClient != null) {
             terminalView?.setTerminalViewClient(terminalViewClient)
         }
     }
 
     fun setupExtraKeysView(extraKeysView: ExtraKeysView?) {
-        extraKeysView?.setTypeface(FontManager.getCurrentFont().getTypeFace())
+        extraKeysView?.setTypeface(ServiceManager.getService<FontManager>().getCurrentFont().getTypeFace())
     }
 
     fun setupTerminalSession(session: TerminalSession?) {

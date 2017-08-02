@@ -9,7 +9,8 @@ import android.view.inputmethod.InputMethodManager
 import io.neoterm.R
 import io.neoterm.backend.KeyHandler
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.eks.EksKeysManager
+import io.neoterm.customize.eks.ExtraKeysManager
+import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.view.TerminalViewClient
 
@@ -196,7 +197,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
 
         if (lastTitle != title || force) {
             removeSuggestions()
-            EksKeysManager.showShortcutKeys(title, extraKeysView)
+            ServiceManager.getService<ExtraKeysManager>().showShortcutKeys(title, extraKeysView)
             extraKeysView?.updateButtons()
             lastTitle = title
         }

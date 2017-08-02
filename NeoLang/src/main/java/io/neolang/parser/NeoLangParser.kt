@@ -26,8 +26,11 @@ class NeoLangParser {
 
     private fun updateParserStatus(tokens: List<NeoLangToken>) {
         if (tokens.isEmpty()) {
-            throw ParseException("Input tokens must be non-empty")
+            // Allow empty program
+            ast = NeoLangProgramNode.emptyNode()
+            return
         }
+
         this.tokens.clear()
         this.tokens.addAll(tokens)
         currentPosition = 0
@@ -48,7 +51,7 @@ class NeoLangParser {
             return true
 
         } else if (errorThrow) {
-            throw InvalidTokenException("Unexpected token type " +
+            throw InvalidTokenException("Unexpected token `${currentToken.tokenValue}' typed " +
                     "`${currentToken.tokenType}' near line ${currentToken.lineNumber}, " +
                     "expected $tokenType")
         }
@@ -98,7 +101,7 @@ class NeoLangParser {
 
     private fun attribute(): NeoLangAttributeNode? {
         val token = currentToken ?: throw InvalidTokenException("Unexpected token: null")
-        if (match(NeoLangTokenType.STRING)) {
+        if (match(NeoLangTokenType.ID)) {
             match(NeoLangTokenType.COLON, errorThrow = true)
             val block = block() ?: NeoLangBlockNode.emptyNode()
             return NeoLangAttributeNode(NeoLangStringNode(token), block)
@@ -112,6 +115,10 @@ class NeoLangParser {
             NeoLangTokenType.NUMBER -> {
                 match(NeoLangTokenType.NUMBER, errorThrow = true)
                 return NeoLangBlockNode(NeoLangNumberNode(token))
+            }
+            NeoLangTokenType.ID -> {
+                match(NeoLangTokenType.ID, errorThrow = true)
+                return NeoLangBlockNode(NeoLangStringNode(token))
             }
             NeoLangTokenType.STRING -> {
                 match(NeoLangTokenType.STRING, errorThrow = true)
@@ -127,7 +134,7 @@ class NeoLangParser {
             }
 
             else -> throw InvalidTokenException("Unexpected token `$token' for block, " +
-                    "expected `${NeoLangTokenType.NUMBER}', `${NeoLangTokenType.STRING}' or `${NeoLangTokenType.BRACKET_START}'")
+                    "expected `${NeoLangTokenType.NUMBER}', `${NeoLangTokenType.ID}' or `${NeoLangTokenType.BRACKET_START}'")
         }
     }
 

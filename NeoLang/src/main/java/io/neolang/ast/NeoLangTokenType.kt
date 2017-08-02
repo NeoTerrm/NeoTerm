@@ -6,11 +6,11 @@ package io.neolang.ast
 
 enum class NeoLangTokenType {
     NUMBER,
+    ID,
     STRING,
     BRACKET_START,
     BRACKET_END,
     COLON,
-    QUOTE,
     EOL,
     EOF,
 }

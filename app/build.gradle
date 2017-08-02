@@ -56,5 +56,5 @@ dependencies {
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
 //    compile 'com.ramotion.cardslider:card-slider:0.1.0'
 //    compile 'com.github.igalata:Bubble-Picker:v0.2.4'
-    implementation project(path: ':NeoLang')
+    compile project(path: ':NeoLang')
 }

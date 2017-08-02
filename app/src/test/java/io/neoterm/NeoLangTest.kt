@@ -1,5 +1,6 @@
 package io.neoterm
 
+import io.neolang.main.Main
 import org.junit.Test
 
 /**
@@ -10,10 +11,7 @@ import org.junit.Test
 class NeoLangTest {
     @Test
     fun testNeoLangParser() {
-        val parser = io.neolang.parser.NeoLangParser()
-        parser.setInputSource("app: { x: {} \n x: hello \n a: 1111 \n x: { x: 123 } }")
-        val ast = parser.parse()
-        println(ast)
+        Main.main(arrayOf("NeoLang/example/color-scheme.nl"))
     }
 }
 

@@ -1,4 +1,4 @@
-package io.neolang.command
+package io.neolang.main
 
 import io.neolang.parser.NeoLangParser
 import java.io.FileInputStream
@@ -20,20 +20,21 @@ class Main {
                 val programCode = readFully(it)
                 parser.setInputSource(programCode)
                 val ast = parser.parse()
-                println("Compile `$it' -> $ast")
+
+                val visitor = ast.visit().getVisitor(DisplayAstVisitor::class.java)
+                if (visitor != null) {
+                    println("Compile `$it' -> $ast")
+                    visitor.start()
+                }
             }
             return
         }
 
         private fun readFully(file: String): String {
-            try {
-                FileInputStream(file).use {
-                    val bytes = ByteArray(it.available())
-                    it.read(bytes)
-                    return String(bytes)
-                }
-            } catch (e: Exception) {
-                return ""
+            FileInputStream(file).use {
+                val bytes = ByteArray(it.available())
+                it.read(bytes)
+                return String(bytes)
             }
         }
     }

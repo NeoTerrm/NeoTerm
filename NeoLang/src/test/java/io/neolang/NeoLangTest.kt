@@ -1,4 +1,4 @@
-package io.neoterm
+package io.neolang
 
 import io.neolang.main.Main
 import org.junit.Test

@@ -13,7 +13,7 @@ import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.color.ColorSchemeManager
 import io.neoterm.preference.NeoTermPath
 import io.neoterm.customize.font.FontManager
-import io.neoterm.frontend.ShellParameter
+import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.utils.FileUtils
 import io.neoterm.utils.MediaUtils

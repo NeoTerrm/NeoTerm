@@ -1,4 +1,4 @@
-package io.neoterm.frontend
+package io.neoterm.frontend.shell
 
 import io.neoterm.backend.TerminalSession
 

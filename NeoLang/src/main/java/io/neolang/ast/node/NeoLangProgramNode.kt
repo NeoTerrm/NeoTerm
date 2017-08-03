@@ -1,4 +1,4 @@
-package io.neolang.ast
+package io.neolang.ast.node
 
 import io.neolang.ast.base.NeoLangAstBaseNode
 
@@ -6,7 +6,7 @@ import io.neolang.ast.base.NeoLangAstBaseNode
  * @author kiva
  */
 
-class NeoLangProgramNode(private val groups: List<NeoLangGroupNode>) : NeoLangAstBaseNode() {
+class NeoLangProgramNode(val groups: List<NeoLangGroupNode>) : NeoLangAstBaseNode() {
 
     override fun toString(): String {
         return "NeoLangProgramNode { groups: $groups }"

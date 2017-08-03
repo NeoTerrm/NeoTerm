@@ -4,8 +4,8 @@ import android.content.Context
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.font.FontManager
-import io.neoterm.frontend.ShellParameter
-import io.neoterm.frontend.ShellTermSession
+import io.neoterm.frontend.shell.ShellParameter
+import io.neoterm.frontend.shell.ShellTermSession
 import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.preference.NeoPreference
 import io.neoterm.view.eks.ExtraKeysView

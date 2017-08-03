@@ -7,6 +7,6 @@ import io.neolang.ast.base.NeoLangAst
  */
 class AstVisitor(private val ast: NeoLangAst, private val visitorCallback: IVisitorCallback) {
     fun start() {
-        // TODO visitor
+        AstVisitorImpl.visitStartAst(ast, visitorCallback)
     }
 }

@@ -2,6 +2,7 @@ package io.neolang.parser
 
 import io.neolang.ast.*
 import io.neolang.ast.base.NeoLangAst
+import io.neolang.ast.node.*
 
 /**
  * @author kiva

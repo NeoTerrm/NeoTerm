@@ -22,14 +22,10 @@ import android.widget.Toast
 import de.mrapp.android.tabswitcher.*
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.color.ColorSchemeManager
-import io.neoterm.customize.eks.ExtraKeysManager
-import io.neoterm.customize.font.FontManager
 import io.neoterm.customize.setup.BaseFileInstaller
-import io.neoterm.frontend.ShellParameter
+import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.frontend.client.TermViewClient
-import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.preference.NeoPermission
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
@@ -309,7 +305,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun floatTabUp(tab: TermTab) {
-
+        Toast.makeText(this, "In Progress", Toast.LENGTH_SHORT).show()
     }
 
     private fun forceAddSystemSession() {

@@ -20,12 +20,10 @@ class Main {
                 val programCode = readFully(it)
                 parser.setInputSource(programCode)
                 val ast = parser.parse()
-
-                val visitor = ast.visit().getVisitor(DisplayAstVisitor::class.java)
-                if (visitor != null) {
-                    println("Compile `$it' -> $ast")
-                    visitor.start()
-                }
+                println("Compile `$it'")
+                ast.visit()
+                        .getVisitor(DisplayProcessVisitor::class.java)
+                        ?.start()
             }
             return
         }

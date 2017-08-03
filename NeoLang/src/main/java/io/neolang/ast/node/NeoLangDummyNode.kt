@@ -1,4 +1,4 @@
-package io.neolang.ast
+package io.neolang.ast.node
 
 import io.neolang.ast.base.NeoLangAstBaseNode
 

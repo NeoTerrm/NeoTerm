@@ -10,9 +10,12 @@ object ServiceManager {
     val THROW_WHEN_SERVICE_NOT_FOUND = true
     val SERVICE_CACHE = ConcurrentHashMap<Class<out NeoService>, NeoService>()
 
-    fun registerService(serviceInterface: Class<out NeoService>) {
-        val service = createServiceInstance(serviceInterface)
-        SERVICE_CACHE.put(serviceInterface, service)
+    fun registerService(serviceClass: Class<out NeoService>) {
+        if (SERVICE_CACHE.containsKey(serviceClass)) {
+            throw ServiceDuplicateException(serviceClass.simpleName)
+        }
+        val service = createServiceInstance(serviceClass)
+        SERVICE_CACHE.put(serviceClass, service)
         service.onServiceInit()
     }
 
@@ -24,7 +27,6 @@ object ServiceManager {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
     inline fun <reified T : NeoService> getService(): T {
         Log.e("NeoTerm", SERVICE_CACHE.keys.toString())
         val serviceInterface = T::class.java

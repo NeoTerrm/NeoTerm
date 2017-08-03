@@ -23,6 +23,6 @@ object CrashHandler : Thread.UncaughtExceptionHandler {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("exception", e)
         App.get().startActivity(intent)
-        Process.killProcess(Process.myPid())
+        defaultHandler.uncaughtException(t, e)
     }
 }

@@ -16,14 +16,13 @@ import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.customize.script.UserScript
 import io.neoterm.customize.script.UserScriptManager
-import io.neoterm.frontend.ShellParameter
+import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.preference.NeoPreference
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.TerminalUtils
 import java.io.File
 import android.content.Intent.ShortcutIconResource
-import android.os.Parcelable
 import io.neoterm.frontend.service.ServiceManager
 
 

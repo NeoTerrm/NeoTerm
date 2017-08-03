@@ -15,7 +15,7 @@ import android.support.v4.content.WakefulBroadcastReceiver
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.ShellParameter
+import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import java.util.*

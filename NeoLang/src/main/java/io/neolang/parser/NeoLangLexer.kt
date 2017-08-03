@@ -8,10 +8,10 @@ import java.util.*
 
 /**
  * grammar: [
- * prog: group (group)*
+ * program: group (group)*
  * group: attribute (attribute)*
- * attribute: TEXT COLON block
- * block: NUMBER | TEXT | (BRACKET_START group BRACKET_END)
+ * attribute: ID COLON block
+ * block: STRING | NUMBER | (BRACKET_START group BRACKET_END)
  * ]
  */
 
@@ -122,7 +122,7 @@ class NeoLangLexer {
         val builder = StringBuilder()
 
         var loop = true
-        while (loop && currentChar != NeoLangTokenValue.QUOTE.value[0]) {
+        while (loop && currentChar != NeoLangTokenValue.QUOTE.value.asString()[0]) {
             // Skip escaped char
             if (currentChar == '\\') {
                 builder.append('\\')

@@ -14,7 +14,6 @@ import java.util.*
 open class NeoColorScheme(val colorName: String) {
     companion object {
         private const val COLOR_PREFIX = "color"
-
         const val COLOR_DIM_BLACK = 0
         const val COLOR_DIM_RED = 1
         const val COLOR_DIM_GREEN = 2
@@ -64,7 +63,7 @@ open class NeoColorScheme(val colorName: String) {
     }
 
     fun createConfig(): Properties {
-        // TODO: 设计新的配色方案语法，这个只是临时用一下
+        // TODO: 兼容旧版本的配置并且解析新版本的配置文件
         validateColors()
         val prop = Properties()
         prop.put("foreground", foregroundColor)
@@ -77,6 +76,7 @@ open class NeoColorScheme(val colorName: String) {
     }
 
     fun parseConfig(file: File): Boolean {
+        // TODO: 兼容旧版本的配置并且解析新版本的配置文件
         try {
             return FileInputStream(file).use {
                 val prop = Properties()

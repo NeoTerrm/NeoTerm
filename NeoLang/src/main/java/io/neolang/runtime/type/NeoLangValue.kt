@@ -16,6 +16,10 @@ class NeoLangValue(private val rawValue: Any) {
         }
     }
 
+    fun isValid() : Boolean {
+        return this != UNDEFINED
+    }
+
     companion object {
         val UNDEFINED = NeoLangValue("<undefined>")
     }

@@ -9,4 +9,9 @@ class AstVisitor(private val ast: NeoLangAst, private val visitorCallback: IVisi
     fun start() {
         AstVisitorImpl.visitStartAst(ast, visitorCallback)
     }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T : IVisitorCallback> getCallback() : T {
+        return visitorCallback as T
+    }
 }

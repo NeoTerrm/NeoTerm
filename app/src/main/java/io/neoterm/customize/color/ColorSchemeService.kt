@@ -1,7 +1,6 @@
 package io.neoterm.customize.color
 
 import android.content.Context
-import android.util.Log
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.frontend.preference.NeoPreference
@@ -32,15 +31,16 @@ class ColorSchemeService : NeoService {
 
     private fun extractDefaultColor(context: Context): Boolean {
         try {
-            val asset = context.assets
-            for (i in asset.list("colors")) {
-                val targetFile = File(NeoTermPath.COLORS_PATH, i)
-                if (!targetFile.exists()) {
-                    asset.open("colors/$i").use {
-                        FileUtils.writeFile(targetFile, it)
+            val assets = context.assets
+            assets.list("colors")
+                    .map { File(NeoTermPath.COLORS_PATH, it) }
+                    .takeWhile { !it.exists() }
+                    .forEach {
+                        val file = it
+                        assets.open("colors/${file.name}").use {
+                            FileUtils.writeFile(file, it)
+                        }
                     }
-                }
-            }
             return true
         } catch (e: Exception) {
             return false

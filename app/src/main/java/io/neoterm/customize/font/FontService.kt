@@ -4,9 +4,9 @@ import android.content.Context
 import android.graphics.Typeface
 import io.neoterm.App
 import io.neoterm.R
-import io.neoterm.frontend.service.NeoService
-import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.service.NeoService
 import io.neoterm.utils.FileUtils
 import java.io.File
 
@@ -25,7 +25,7 @@ class FontService : NeoService {
         checkForFiles()
     }
 
-    private val DEFAULT_FONT_NAME = "UbuntuMono"
+    private val DEFAULT_FONT_NAME = "SourceCodePro"
 
     private lateinit var DEFAULT_FONT: NeoFont
     private lateinit var fonts: MutableMap<String, NeoFont>
@@ -80,17 +80,21 @@ class FontService : NeoService {
     }
 
     private fun loadDefaultFontFromAsset(context: Context): NeoFont {
-        return NeoFont(Typeface.createFromAsset(context.assets, "$DEFAULT_FONT_NAME.ttf"))
+        return NeoFont(Typeface.createFromAsset(context.assets, "fonts/$DEFAULT_FONT_NAME.ttf"))
     }
 
-    private fun extractDefaultFont(context: Context, defaultFontFile: File): Boolean {
+    private fun extractDefaultFont(context: Context): Boolean {
         try {
             val assets = context.assets
-            val input = assets.open("$DEFAULT_FONT_NAME.ttf")
-            return input.use {
-                FileUtils.writeFile(defaultFontFile, it)
-                true
-            }
+            assets.list("fonts")
+                    .map { File(NeoTermPath.FONT_PATH, it) }
+                    .takeWhile { !it.exists() }
+                    .forEach { file ->
+                        assets.open("fonts/${file.name}").use {
+                            FileUtils.writeFile(file, it)
+                        }
+                    }
+            return true
         } catch (e: Exception) {
             return false
         }
@@ -111,7 +115,7 @@ class FontService : NeoService {
         val context = App.get()
         val defaultFontFile = fontFile(DEFAULT_FONT_NAME)
         if (!defaultFontFile.exists()) {
-            if (!extractDefaultFont(context, defaultFontFile)) {
+            if (!extractDefaultFont(context)) {
                 DEFAULT_FONT = loadDefaultFontFromAsset(context)
                 fonts.put(DEFAULT_FONT_NAME, DEFAULT_FONT)
                 return

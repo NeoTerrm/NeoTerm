@@ -101,4 +101,10 @@
     <string name="command_shortcut_command">命令</string>
     <string name="pref_general_auto_completion">自動補全（實驗性）</string>
     <string name="pref_general_auto_completion_desc">"輸入命令或者路徑時提供補全。該功能還在開發中，有許多bug需要解决 "</string>
+    <string name="menu_upgrade">陞級</string>
+    <string name="apt_update_ok">套裝軟體清單成功更新</string>
+    <string name="apt_upgrade_ok">套裝軟體已成功陞級</string>
+    <string name="installing_topic">安裝已開始，請注意荧幕上出現的提示</string>
+    <string name="session_closed">會話已關閉</string>
+    <string name="restore_session">取消</string>
 </resources>

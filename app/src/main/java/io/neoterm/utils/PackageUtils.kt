@@ -3,9 +3,9 @@ package io.neoterm.utils
 import android.content.Context
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.frontend.floating.TerminalDialog
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
-import io.neoterm.frontend.floating.TerminalDialog
 import java.io.File
 
 /**
@@ -27,7 +27,11 @@ object PackageUtils {
                 .toString()
     }
 
-    fun executeApt(context: Context, subCommand: String, callback: (Int, TerminalDialog) -> Unit) {
+    fun executeApt(context: Context, subCommand: String, extraArgs: Array<String>?, callback: (Int, TerminalDialog) -> Unit) {
+        val argArray =
+                if (extraArgs != null) arrayOf(NeoTermPath.APT_BIN_PATH, subCommand, *extraArgs)
+                else arrayOf(NeoTermPath.APT_BIN_PATH, subCommand)
+
         TerminalDialog(context)
                 .onFinish(object : TerminalDialog.SessionFinishedCallback {
                     override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
@@ -36,7 +40,7 @@ object PackageUtils {
                     }
                 })
                 .imeEnabled(true)
-                .execute(NeoTermPath.APT_BIN_PATH, arrayOf("apt", subCommand))
+                .execute(NeoTermPath.APT_BIN_PATH, argArray)
                 .show("apt $subCommand")
     }
 }

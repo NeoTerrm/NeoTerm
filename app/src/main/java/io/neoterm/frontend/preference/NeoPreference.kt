@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.system.ErrnoException
 import android.system.Os
+import android.util.TypedValue
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
@@ -32,10 +33,21 @@ object NeoPreference {
     const val VALUE_NEOTERM_FIRST = "NeoTermFirst"
     const val VALUE_SYSTEM_FIRST = "SystemFirst"
 
+    var MIN_FONT_SIZE: Int = 0
+        private set
+    var MAX_FONT_SIZE: Int = 0
+        private set
+
     private var preference: SharedPreferences? = null
 
     fun init(context: Context) {
         preference = PreferenceManager.getDefaultSharedPreferences(context)
+
+        // This is a bit arbitrary and sub-optimal. We want to give a sensible default for minimum font size
+        // to prevent invisible text due to zoom be mistake:
+        val dipInPixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1f, context.resources.displayMetrics)
+        MIN_FONT_SIZE = (4f * dipInPixels).toInt()
+        MAX_FONT_SIZE = 256
 
         // load apt source
         val sourceFile = File(NeoTermPath.SOURCE_FILE)
@@ -125,6 +137,10 @@ object NeoPreference {
         }
 
         return "${NeoTermPath.USR_PATH}/bin/$loginProgramName"
+    }
+
+    fun validateFontSize(fontSize: Int) : Int {
+        return Math.max(MIN_FONT_SIZE, Math.min(fontSize, MAX_FONT_SIZE))
     }
 
     private fun symlinkLoginShell(loginProgramPath: String) {

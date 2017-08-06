@@ -20,6 +20,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_upgrade"
+        android:title="@string/menu_upgrade"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_source"
         android:title="@string/pref_package_source"
         app:showAsAction="never" />

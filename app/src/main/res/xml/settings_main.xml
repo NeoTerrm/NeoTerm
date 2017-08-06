@@ -37,6 +37,7 @@
             android:targetPackage="io.neoterm" />
     </Preference>
 
+    <!--
     <Preference
         android:icon="@drawable/ic_guide_white_36dp"
         android:key="@string/discovery"
@@ -45,6 +46,7 @@
             android:targetClass="io.neoterm.ui.setup.SetupActivity"
             android:targetPackage="io.neoterm" />
     </Preference>
+    -->
 
     <Preference
         android:icon="@drawable/ic_info_white_36dp"

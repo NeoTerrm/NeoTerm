@@ -101,4 +101,10 @@
     <string name="command_display_title_cannot_be_null">展示标题不可为空</string>
     <string name="pref_general_auto_completion">自动补全（实验性）</string>
     <string name="pref_general_auto_completion_desc">输入命令或者路径时提供补全。该功能还在开发中，有许多bug需要解决</string>
+    <string name="menu_upgrade">升级</string>
+    <string name="apt_update_ok">软件包列表成功更新</string>
+    <string name="apt_upgrade_ok">软件包已成功升级</string>
+    <string name="installing_topic">安装已开始，请注意屏幕上出现的提示</string>
+    <string name="session_closed">会话已关闭</string>
+    <string name="restore_session">取消</string>
 </resources>

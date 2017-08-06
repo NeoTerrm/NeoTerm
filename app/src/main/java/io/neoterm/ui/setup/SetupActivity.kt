@@ -53,7 +53,7 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun executeAptUpdate() {
-        PackageUtils.executeApt(this, "update", { exitStatus, dialog ->
+        PackageUtils.executeApt(this, "update", null, { exitStatus, dialog ->
             if (exitStatus == 0) {
                 dialog.dismiss()
                 aptUpdated = true
@@ -65,7 +65,7 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun executeAptUpgrade() {
-        PackageUtils.executeApt(this, "upgrade", { exitStatus, dialog ->
+        PackageUtils.executeApt(this, "upgrade", arrayOf("-y"), { exitStatus, dialog ->
             if (exitStatus == 0) {
                 dialog.dismiss()
             } else {

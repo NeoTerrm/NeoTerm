@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import io.neoterm.backend.TerminalSession
+import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.view.TerminalView
 import io.neoterm.view.TerminalViewClient
 
@@ -16,7 +17,7 @@ class BasicViewClient(val terminalView: TerminalView) : TerminalViewClient {
         if (scale < 0.9f || scale > 1.1f) {
             val increase = scale > 1f
             val changedSize = (if (increase) 1 else -1) * 2
-            val fontSize = terminalView.textSize + changedSize
+            val fontSize = NeoPreference.validateFontSize(terminalView.textSize + changedSize)
             terminalView.textSize = fontSize
             return 1.0f
         }

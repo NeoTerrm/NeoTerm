@@ -23,15 +23,15 @@ import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.pm.NeoPackageService
 import io.neoterm.customize.pm.NeoPackageManagerUtils
+import io.neoterm.customize.pm.NeoPackageService
+import io.neoterm.frontend.floating.TerminalDialog
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 import io.neoterm.utils.PackageUtils
-import io.neoterm.frontend.floating.TerminalDialog
-import io.neoterm.frontend.service.ServiceManager
 
 /**
  * @author kiva
@@ -97,6 +97,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
                     })
                     .imeEnabled(true)
                     .show("Installing $packageName")
+            Toast.makeText(this, R.string.installing_topic, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -114,6 +115,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
             R.id.action_source -> changeSource()
             R.id.action_update_and_refresh -> executeAptUpdate()
             R.id.action_refresh -> refreshPackageList()
+            R.id.action_upgrade -> executeAptUpgrade()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -176,16 +178,34 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     }
 
     private fun executeAptUpdate() {
-        TerminalDialog(this@PackageManagerActivity)
-                .onFinish(object : TerminalDialog.SessionFinishedCallback {
-                    override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
-                        dialog.dismiss()
-                        refreshPackageList()
-                    }
-                })
-                .execute(NeoTermPath.APT_BIN_PATH, arrayOf("apt", "update"))
-                .imeEnabled(true)
-                .show("apt update")
+        PackageUtils.executeApt(this, "update", null, { exitStatus, dialog ->
+            if (exitStatus != 0) {
+                dialog.setTitle(getString(R.string.error))
+                return@executeApt
+            }
+            Toast.makeText(this, R.string.apt_update_ok, Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+            refreshPackageList()
+        })
+    }
+
+    private fun executeAptUpgrade() {
+        PackageUtils.executeApt(this, "update", null, { exitStatus, dialog ->
+            if (exitStatus != 0) {
+                dialog.setTitle(getString(R.string.error))
+                return@executeApt
+            }
+            dialog.dismiss()
+
+            PackageUtils.executeApt(this, "upgrade", arrayOf("-y"), out@ { exitStatus, dialog ->
+                if (exitStatus != 0) {
+                    dialog.setTitle(getString(R.string.error))
+                    return@out
+                }
+                Toast.makeText(this, R.string.apt_upgrade_ok, Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            })
+        })
     }
 
     private fun refreshPackageList() {

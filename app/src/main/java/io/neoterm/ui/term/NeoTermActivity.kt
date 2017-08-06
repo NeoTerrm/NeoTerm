@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
+import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
@@ -23,24 +24,23 @@ import de.mrapp.android.tabswitcher.*
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.setup.BaseFileInstaller
-import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.frontend.client.TermViewClient
 import io.neoterm.frontend.preference.NeoPermission
 import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.services.NeoTermService
 import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.ui.setup.SetupActivity
-import io.neoterm.ui.term.tab.TermTab
-import io.neoterm.ui.term.tab.TermTabDecorator
 import io.neoterm.ui.term.event.TabCloseEvent
 import io.neoterm.ui.term.event.TitleChangedEvent
 import io.neoterm.ui.term.event.ToggleFullScreenEvent
 import io.neoterm.ui.term.event.ToggleImeEvent
+import io.neoterm.ui.term.tab.TermTab
+import io.neoterm.ui.term.tab.TermTabDecorator
 import io.neoterm.utils.FullScreenHelper
-import io.neoterm.view.eks.button.StatedControlButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -53,7 +53,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     lateinit var tabSwitcher: TabSwitcher
-    lateinit var fullScreenToggleButton: StatedControlButton
     lateinit var fullScreenHelper: FullScreenHelper
     lateinit var toolbar: Toolbar
     var addSessionListener = createAddSessionListener()
@@ -62,7 +61,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        NeoPreference.init(this)
         NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
 
         val fullscreen = NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
@@ -106,8 +104,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         menuInflater.inflate(R.menu.menu_main, menu)
 
         TabSwitcher.setupWithMenu(tabSwitcher, toolbar.menu, View.OnClickListener {
-            val imm = this@NeoTermActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             if (!tabSwitcher.isSwitcherShown) {
+                val imm = this@NeoTermActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 if (imm.isActive && tabSwitcher.selectedTab is TermTab) {
                     val tab = tabSwitcher.selectedTab as TermTab
                     tab.requireHideIme()
@@ -130,13 +128,13 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 startActivity(Intent(this, PackageManagerActivity::class.java))
                 true
             }
-            R.id.menu_item_float_up -> {
-                val tab = tabSwitcher.selectedTab
-                if (tab != null && tab is TermTab) {
-                    floatTabUp(tab)
-                }
-                true
-            }
+//            R.id.menu_item_float_up -> {
+//                val tab = tabSwitcher.selectedTab
+//                if (tab != null && tab is TermTab) {
+//                    floatTabUp(tab)
+//                }
+//                true
+//            }
             R.id.menu_item_new_session -> {
                 if (!tabSwitcher.isSwitcherShown) {
                     toggleSwitcher(showSwitcher = true, easterEgg = false)
@@ -181,9 +179,23 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
                 if (tab is TermTab) {
-                    tab.termData.termSession?.finishIfRunning()
-                    removeFinishedSession(tab.termData.termSession)
-                    tab.cleanup()
+                    Snackbar.make(tabSwitcher, R.string.session_closed, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.restore_session, { _ ->
+                                tabSwitcher.addTab(tab)
+                            })
+                            .addCallback(object : Snackbar.Callback() {
+                                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                    super.onDismissed(transientBottomBar, event)
+                                    if (event == DISMISS_EVENT_SWIPE
+                                            || event == DISMISS_EVENT_TIMEOUT
+                                            || event == DISMISS_EVENT_CONSECUTIVE) {
+                                        tab.termData.termSession?.finishIfRunning()
+                                        removeFinishedSession(tab.termData.termSession)
+                                        tab.cleanup()
+                                    }
+                                }
+                            })
+                            .show()
                 }
             }
 
@@ -482,9 +494,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         return RevealAnimation.Builder().setX(x).setY(y).create()
     }
 
-//    private fun createPeekAnimation(): Animation {
-//        return PeekAnimation.Builder().setX(tabSwitcher.width / 2f).create()
-//    }
+    private fun createPeekAnimation(): Animation {
+        return PeekAnimation.Builder().setX(tabSwitcher.width / 2f).create()
+    }
 
     private fun getNavigationMenuItem(): View? {
         val toolbars = tabSwitcher.toolbars

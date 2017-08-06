@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import de.mrapp.android.tabswitcher.Tab
 import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
-import io.neoterm.BuildConfig
 import io.neoterm.R
-import io.neoterm.customize.color.ColorSchemeManager
-import io.neoterm.preference.NeoPreference
+import io.neoterm.customize.color.ColorSchemeService
+import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.client.TermCompleteListener
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
@@ -52,7 +51,7 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         TerminalUtils.setupTerminalView(view)
         TerminalUtils.setupExtraKeysView(extraKeysView)
 
-        val colorSchemeManager = ServiceManager.getService<ColorSchemeManager>()
+        val colorSchemeManager = ServiceManager.getService<ColorSchemeService>()
         colorSchemeManager.applyColorScheme(view, extraKeysView, colorSchemeManager.getCurrentColorScheme())
 
         if (tab is TermTab) {

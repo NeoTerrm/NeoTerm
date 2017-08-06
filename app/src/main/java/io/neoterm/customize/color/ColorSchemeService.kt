@@ -1,21 +1,21 @@
 package io.neoterm.customize.color
 
 import android.content.Context
+import android.util.Log
 import io.neoterm.App
 import io.neoterm.R
+import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.service.NeoService
-import io.neoterm.preference.NeoPreference
-import io.neoterm.preference.NeoTermPath
 import io.neoterm.utils.FileUtils
-import io.neoterm.view.eks.ExtraKeysView
 import io.neoterm.view.TerminalView
+import io.neoterm.view.eks.ExtraKeysView
 import java.io.File
-import java.io.FileOutputStream
 
 /**
  * @author kiva
  */
-class ColorSchemeManager : NeoService {
+class ColorSchemeService : NeoService {
     override fun onServiceObtained() {
         checkForFiles()
     }
@@ -27,18 +27,11 @@ class ColorSchemeManager : NeoService {
     override fun onServiceDestroy() {
     }
 
-    private val DEFAULT_COLOR_NAME = "Default"
-
     private lateinit var DEFAULT_COLOR: NeoColorScheme
     private lateinit var colors: MutableMap<String, NeoColorScheme>
 
-    private fun extractDefaultColor(context: Context, defaultColorFile: File): Boolean {
+    private fun extractDefaultColor(context: Context): Boolean {
         try {
-            val prop = DefaultColorScheme.createConfig()
-            FileOutputStream(defaultColorFile).use {
-                prop.store(it, "Created by NeoColorSchemeManager")
-            }
-
             val asset = context.assets
             for (i in asset.list("colors")) {
                 val targetFile = File(NeoTermPath.COLORS_PATH, i)
@@ -57,15 +50,17 @@ class ColorSchemeManager : NeoService {
     fun refreshColorList(): Boolean {
         colors.clear()
         val colorDir = File(NeoTermPath.COLORS_PATH)
-        for (file in colorDir.listFiles({ pathname -> pathname.name.endsWith(".color") })) {
-            val colorName = colorName(file)
-            val color = NeoColorScheme(colorName)
+        for (file in colorDir.listFiles({ pathname ->
+            pathname.name.endsWith(".color") || pathname.name.endsWith(".nl")
+        })) {
+            val color = NeoColorScheme()
 
-            color.parseConfig(file)
-            colors.put(colorName, color)
+            if (color.loadConfigure(file)) {
+                colors.put(color.colorName, color)
+            }
         }
-        if (colors.containsKey(DEFAULT_COLOR_NAME)) {
-            DEFAULT_COLOR = colors[DEFAULT_COLOR_NAME]!!
+        if (colors.containsKey(DefaultColorScheme.colorName)) {
+            DEFAULT_COLOR = colors[DefaultColorScheme.colorName]!!
             return true
         }
         return false
@@ -77,21 +72,13 @@ class ColorSchemeManager : NeoService {
         }
     }
 
-    private fun colorFile(colorName: String): File {
-        return File("${NeoTermPath.COLORS_PATH}/$colorName.color")
-    }
-
-    private fun colorName(colorFile: File): String {
-        return colorFile.nameWithoutExtension
-    }
-
     private fun checkForFiles() {
         File(NeoTermPath.COLORS_PATH).mkdirs()
         colors = mutableMapOf()
 
-        val defaultColorFile = colorFile(DEFAULT_COLOR_NAME)
+        val defaultColorFile = colorFile(DefaultColorScheme.colorName)
         if (!defaultColorFile.exists()) {
-            if (extractDefaultColor(App.get(), defaultColorFile)) {
+            if (!extractDefaultColor(App.get())) {
                 DEFAULT_COLOR = DefaultColorScheme
                 colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
                 return
@@ -109,10 +96,10 @@ class ColorSchemeManager : NeoService {
     }
 
     fun getCurrentColorName(): String {
-        var currentColorName = NeoPreference.loadString(R.string.key_customization_color_scheme, DEFAULT_COLOR_NAME)
+        var currentColorName = NeoPreference.loadString(R.string.key_customization_color_scheme, DefaultColorScheme.colorName)
         if (!colors.containsKey(currentColorName)) {
-            currentColorName = DEFAULT_COLOR_NAME
-            NeoPreference.store(R.string.key_customization_color_scheme, DEFAULT_COLOR_NAME)
+            currentColorName = DefaultColorScheme.colorName
+            NeoPreference.store(R.string.key_customization_color_scheme, DefaultColorScheme.colorName)
         }
         return currentColorName
     }
@@ -129,5 +116,11 @@ class ColorSchemeManager : NeoService {
 
     fun setCurrentColor(colorName: String) {
         NeoPreference.store(R.string.key_customization_color_scheme, colorName)
+    }
+
+    companion object {
+        fun colorFile(colorName: String): File {
+            return File("${NeoTermPath.COLORS_PATH}/$colorName.nl")
+        }
     }
 }

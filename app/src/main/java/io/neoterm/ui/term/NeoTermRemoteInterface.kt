@@ -15,10 +15,10 @@ import android.widget.ListView
 import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.customize.script.UserScript
-import io.neoterm.customize.script.UserScriptManager
+import io.neoterm.customize.script.UserScriptService
 import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.frontend.client.TermSessionCallback
-import io.neoterm.preference.NeoPreference
+import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.TerminalUtils
 import java.io.File
@@ -149,7 +149,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
                 }
             }
 
-            val userScriptManager = ServiceManager.getService<UserScriptManager>()
+            val userScriptManager = ServiceManager.getService<UserScriptService>()
             val userScripts = userScriptManager.userScripts
             if (userScripts.isNotEmpty() && filesToHandle.isNotEmpty()) {
                 setupUserScriptView(filesToHandle, userScripts)

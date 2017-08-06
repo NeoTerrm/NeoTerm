@@ -10,7 +10,7 @@ class ConfigVisitor : IVisitorCallback {
     private val contextStack = Stack<NeoLangContext>()
     private val definedContext = mutableListOf<NeoLangContext>()
 
-    fun getContext(contextName: String) : NeoLangContext {
+    fun getContext(contextName: String): NeoLangContext {
         definedContext.forEach {
             if (it.contextName == contextName) {
                 return it
@@ -19,7 +19,7 @@ class ConfigVisitor : IVisitorCallback {
         return emptyContext
     }
 
-    fun getAttribute(contextName: String, attrName: String) : NeoLangValue {
+    fun getAttribute(contextName: String, attrName: String): NeoLangValue {
         return getContext(contextName).getAttribute(attrName)
     }
 

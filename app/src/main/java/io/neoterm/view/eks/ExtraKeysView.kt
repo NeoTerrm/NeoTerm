@@ -8,7 +8,7 @@ import android.widget.GridLayout
 import android.widget.LinearLayout
 import io.neoterm.R
 import io.neoterm.customize.eks.ExtraKeyConfigParser
-import io.neoterm.preference.NeoPreference
+import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.ui.term.event.ToggleImeEvent
 import io.neoterm.view.eks.button.ControlButton
 import io.neoterm.view.eks.button.IExtraButton

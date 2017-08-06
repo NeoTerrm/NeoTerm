@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatPreferenceActivity
 import android.view.MenuItem
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.preference.NeoPreference
-import io.neoterm.preference.NeoTermPath
+import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.floating.TerminalDialog
 
 /**

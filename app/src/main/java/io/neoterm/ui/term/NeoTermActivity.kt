@@ -26,8 +26,8 @@ import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.frontend.client.TermViewClient
-import io.neoterm.preference.NeoPermission
-import io.neoterm.preference.NeoPreference
+import io.neoterm.frontend.preference.NeoPermission
+import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.services.NeoTermService
 import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.ui.pm.PackageManagerActivity

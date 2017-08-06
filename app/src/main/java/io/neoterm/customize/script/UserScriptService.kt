@@ -1,13 +1,13 @@
 package io.neoterm.customize.script
 
 import io.neoterm.frontend.service.NeoService
-import io.neoterm.preference.NeoTermPath
+import io.neoterm.frontend.preference.NeoTermPath
 import java.io.File
 
 /**
  * @author kiva
  */
-class UserScriptManager : NeoService {
+class UserScriptService : NeoService {
     override fun onServiceInit() {
         userScripts = mutableListOf()
         reloadScripts()

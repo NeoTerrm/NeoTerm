@@ -8,15 +8,16 @@ import io.neolang.runtime.type.NeoLangValue
 class NeoLangContext(val contextName: String) {
     private val attributes = mutableMapOf<String, NeoLangValue>()
 
-    fun defineAttribute(attributeName: String, attributeValue: NeoLangValue) {
+    fun defineAttribute(attributeName: String, attributeValue: NeoLangValue): NeoLangContext {
         attributes[attributeName] = attributeValue
+        return this
     }
 
-    fun getAttribute(attributeName: String) : NeoLangValue {
+    fun getAttribute(attributeName: String): NeoLangValue {
         return attributes[attributeName] ?: NeoLangValue.UNDEFINED
     }
 
-    fun getAttributes() : Map<String, NeoLangValue> {
+    fun getAttributes(): Map<String, NeoLangValue> {
         return attributes
     }
 }

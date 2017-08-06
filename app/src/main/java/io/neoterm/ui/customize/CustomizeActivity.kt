@@ -10,9 +10,9 @@ import android.view.View
 import android.widget.*
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.color.ColorSchemeManager
-import io.neoterm.preference.NeoTermPath
-import io.neoterm.customize.font.FontManager
+import io.neoterm.customize.color.ColorSchemeService
+import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.customize.font.FontService
 import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.utils.FileUtils
@@ -77,8 +77,8 @@ class CustomizeActivity : AppCompatActivity() {
     }
 
     private fun setupSpinners() {
-        val fontManager = ServiceManager.getService<FontManager>()
-        val colorSchemeManager = ServiceManager.getService<ColorSchemeManager>()
+        val fontManager = ServiceManager.getService<FontService>()
+        val colorSchemeManager = ServiceManager.getService<ColorSchemeService>()
 
         setupSpinner(R.id.custom_font_spinner, fontManager.getFontNames(),
                 fontManager.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {

@@ -16,7 +16,7 @@ import java.io.File
 import java.util.ArrayList
 
 import io.neoterm.customize.eks.ExtraKeyConfigParser
-import io.neoterm.preference.NeoTermPath
+import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.utils.FileUtils
 import io.neoterm.view.eks.button.ControlButton
 import io.neoterm.view.eks.button.IExtraButton

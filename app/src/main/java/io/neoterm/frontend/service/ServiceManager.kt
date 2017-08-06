@@ -28,7 +28,6 @@ object ServiceManager {
     }
 
     inline fun <reified T : NeoService> getService(): T {
-        Log.e("NeoTerm", SERVICE_CACHE.keys.toString())
         val serviceInterface = T::class.java
         val service: NeoService? = SERVICE_CACHE[serviceInterface]
 

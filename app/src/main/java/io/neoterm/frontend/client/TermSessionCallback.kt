@@ -7,7 +7,7 @@ import android.media.SoundPool
 import android.os.Vibrator
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.preference.NeoPreference
+import io.neoterm.frontend.preference.NeoPreference
 
 /**
  * @author kiva

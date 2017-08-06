@@ -7,7 +7,7 @@ import io.neoterm.view.eks.ExtraKeysView
 /**
  * @author kiva
  */
-class ExtraKeysManager : NeoService {
+class ExtraKeysService : NeoService {
     override fun onServiceInit() {
         checkForFiles()
     }

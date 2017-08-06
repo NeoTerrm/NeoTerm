@@ -8,7 +8,7 @@ import io.neoterm.frontend.service.NeoService
 /**
  * @author kiva
  */
-class CompletionProviderManager : NeoService {
+class CompletionService : NeoService {
     override fun onServiceInit() {
         CompletionManager.registerProvider(FileCompletionProvider())
         CompletionManager.registerProvider(ProgramCompletionProvider())

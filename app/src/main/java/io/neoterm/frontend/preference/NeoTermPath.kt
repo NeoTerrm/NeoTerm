@@ -1,4 +1,4 @@
-package io.neoterm.preference
+package io.neoterm.frontend.preference
 
 import android.annotation.SuppressLint
 import io.neoterm.BuildConfig

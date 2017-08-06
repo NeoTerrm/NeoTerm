@@ -5,15 +5,15 @@ import android.graphics.Typeface
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.frontend.service.NeoService
-import io.neoterm.preference.NeoTermPath
-import io.neoterm.preference.NeoPreference
+import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.utils.FileUtils
 import java.io.File
 
 /**
  * @author kiva
  */
-class FontManager : NeoService {
+class FontService : NeoService {
     override fun onServiceInit() {
         checkForFiles()
     }

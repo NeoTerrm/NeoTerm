@@ -1,8 +1,8 @@
 package io.neoterm
 
 import android.app.Application
-import io.neoterm.frontend.NeoFrontend
-import io.neoterm.preference.NeoPreference
+import io.neoterm.customize.NeoInitializer
+import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.utils.CrashHandler
 
 /**
@@ -14,7 +14,7 @@ class App : Application() {
         app = this
         NeoPreference.init(this)
         CrashHandler.init()
-        NeoFrontend.initialize()
+        NeoInitializer.initialize(this)
     }
 
     companion object {

@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
 import android.system.Os;
-import android.util.Log;
 import android.util.Pair;
 
 import java.io.BufferedReader;
@@ -23,8 +22,9 @@ import java.util.zip.ZipInputStream;
 
 import io.neoterm.R;
 import io.neoterm.backend.EmulatorDebug;
-import io.neoterm.preference.NeoPreference;
-import io.neoterm.preference.NeoTermPath;
+import io.neoterm.frontend.logging.NLog;
+import io.neoterm.frontend.preference.NeoPreference;
+import io.neoterm.frontend.preference.NeoTermPath;
 
 public final class BaseFileInstaller {
     public interface ResultListener {
@@ -144,7 +144,7 @@ public final class BaseFileInstaller {
                         }
                     });
                 } catch (final Exception e) {
-                    Log.e(EmulatorDebug.LOG_TAG, "Bootstrap error", e);
+                    NLog.INSTANCE.e(EmulatorDebug.LOG_TAG, "Bootstrap error", e);
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

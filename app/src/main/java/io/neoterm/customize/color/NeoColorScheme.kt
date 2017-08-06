@@ -2,37 +2,47 @@ package io.neoterm.customize.color
 
 import io.neoterm.backend.TerminalColorScheme
 import io.neoterm.backend.TerminalColors
-import io.neoterm.view.eks.ExtraKeysView
+import io.neoterm.customize.config.ConfigureService
+import io.neoterm.frontend.config.ConfigVisitor
+import io.neoterm.frontend.logging.NLog
+import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.view.TerminalView
+import io.neoterm.view.eks.ExtraKeysView
 import java.io.File
-import java.io.FileInputStream
-import java.util.*
 
 /**
  * @author kiva
  */
-open class NeoColorScheme(val colorName: String) {
+open class NeoColorScheme {
     companion object {
         private const val COLOR_PREFIX = "color"
-        const val COLOR_DIM_BLACK = 0
-        const val COLOR_DIM_RED = 1
-        const val COLOR_DIM_GREEN = 2
-        const val COLOR_DIM_YELLOW = 3
-        const val COLOR_DIM_BLUE = 4
-        const val COLOR_DIM_MAGENTA = 5
-        const val COLOR_DIM_CYAN = 6
-        const val COLOR_DIM_WHITE = 7
+        const val COLOR_CONTEXT_NAME = "colors"
+        const val COLOR_META_CONTEXT_NAME = "color-scheme"
 
-        const val COLOR_BRIGHT_BLACK = 8
-        const val COLOR_BRIGHT_RED = 9
-        const val COLOR_BRIGHT_GREEN = 10
-        const val COLOR_BRIGHT_YELLOW = 11
-        const val COLOR_BRIGHT_BLUE = 12
-        const val COLOR_BRIGHT_MAGENTA = 13
-        const val COLOR_BRIGHT_CYAN = 14
-        const val COLOR_BRIGHT_WHITE = 15
+        const val COLOR_META_NAME = "name"
+        const val COLOR_META_VERSION = "version"
+
+//        const val COLOR_DIM_BLACK = 0
+//        const val COLOR_DIM_RED = 1
+//        const val COLOR_DIM_GREEN = 2
+//        const val COLOR_DIM_YELLOW = 3
+//        const val COLOR_DIM_BLUE = 4
+//        const val COLOR_DIM_MAGENTA = 5
+//        const val COLOR_DIM_CYAN = 6
+//        const val COLOR_DIM_WHITE = 7
+//
+//        const val COLOR_BRIGHT_BLACK = 8
+//        const val COLOR_BRIGHT_RED = 9
+//        const val COLOR_BRIGHT_GREEN = 10
+//        const val COLOR_BRIGHT_YELLOW = 11
+//        const val COLOR_BRIGHT_BLUE = 12
+//        const val COLOR_BRIGHT_MAGENTA = 13
+//        const val COLOR_BRIGHT_CYAN = 14
+//        const val COLOR_BRIGHT_WHITE = 15
     }
 
+    lateinit var colorName: String
+    var colorVersion: String? = null
     var foregroundColor: String? = null
     var backgroundColor: String? = null
     var cursorColor: String? = null
@@ -62,41 +72,54 @@ open class NeoColorScheme(val colorName: String) {
         cursorColor = cursorColor ?: DefaultColorScheme.cursorColor
     }
 
-    fun createConfig(): Properties {
-        // TODO: 兼容旧版本的配置并且解析新版本的配置文件
-        validateColors()
-        val prop = Properties()
-        prop.put("foreground", foregroundColor)
-        prop.put("background", backgroundColor)
-        prop.put("cursor", cursorColor)
-        for (i in color.keys) {
-            prop.put(COLOR_PREFIX + i, color[i])
-        }
-        return prop
-    }
+    fun loadConfigure(file: File): Boolean {
+        val loaderService = ServiceManager.getService<ConfigureService>()
 
-    fun parseConfig(file: File): Boolean {
-        // TODO: 兼容旧版本的配置并且解析新版本的配置文件
-        try {
-            return FileInputStream(file).use {
-                val prop = Properties()
-                prop.load(it)
-                prop.all {
-                    when (it.key) {
-                        "foreground" -> foregroundColor = it.value as String
-                        "background" -> backgroundColor = it.value as String
-                        "cursor" -> cursorColor = it.value as String
-                        (it.key as String).startsWith(COLOR_PREFIX) -> {
-                            val colorType = (it.key as String).substringAfter(COLOR_PREFIX)
-                            setColor(colorType.toInt(), it.value as String)
-                        }
-                    }
-                    true
-                }
-                true
-            }
-        } catch (e: Exception) {
+        val configure = loaderService.newLoader(file).loadConfigure()
+
+        if (configure == null) {
+            NLog.e("ColorScheme", "Failed to load color config: ${file.absolutePath}")
             return false
         }
+
+        val visitor = configure.getVisitor()
+        val colorName = getMetaByVisitor(visitor, COLOR_META_NAME)
+        if (colorName == null) {
+            NLog.e("ColorScheme", "Failed to load color config: ${file.absolutePath}: ColorScheme must have a name")
+            return false
+        }
+
+        this.colorName = colorName
+        this.colorVersion = getMetaByVisitor(visitor, COLOR_META_VERSION)
+
+        backgroundColor = getColorByVisitor(visitor, "background")
+        foregroundColor = getColorByVisitor(visitor, "foreground")
+        cursorColor = getColorByVisitor(visitor, "cursor")
+        visitor.getContext(COLOR_CONTEXT_NAME).getAttributes().forEach {
+            val colorIndex = try {
+                it.key.substringAfter(COLOR_PREFIX).toInt()
+            } catch (e: Exception) {
+                -1
+            }
+
+            if (colorIndex == -1) {
+                NLog.w("ColorScheme", "Invalid color type: ${it.key}")
+            } else {
+                setColor(colorIndex, it.value.asString())
+            }
+        }
+
+        validateColors()
+        return true
+    }
+
+    private fun getMetaByVisitor(visitor: ConfigVisitor, metaName: String): String? {
+        val value = visitor.getAttribute(COLOR_META_CONTEXT_NAME, metaName)
+        return if (value.isValid()) value.asString() else null
+    }
+
+    private fun getColorByVisitor(visitor: ConfigVisitor, colorName: String): String? {
+        val value = visitor.getAttribute(COLOR_CONTEXT_NAME, colorName)
+        return if (value.isValid()) value.asString() else null
     }
 }

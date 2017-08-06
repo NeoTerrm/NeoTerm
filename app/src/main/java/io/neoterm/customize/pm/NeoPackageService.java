@@ -11,7 +11,7 @@ import io.neoterm.frontend.service.NeoService;
  * @author kiva
  */
 
-public class NeoPackageManager implements NeoService {
+public class NeoPackageService implements NeoService {
     private final Object lock = new Object();
     private boolean isRefreshing = false;
     private boolean queryEnabled = true;

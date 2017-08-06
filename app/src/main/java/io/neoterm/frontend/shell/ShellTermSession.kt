@@ -4,8 +4,8 @@ import android.content.Context
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.client.TermSessionCallback
-import io.neoterm.preference.NeoPreference
-import io.neoterm.preference.NeoTermPath
+import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.preference.NeoTermPath
 import java.io.File
 
 /**

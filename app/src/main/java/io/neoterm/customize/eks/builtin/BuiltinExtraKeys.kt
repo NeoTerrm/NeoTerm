@@ -1,6 +1,6 @@
 package io.neoterm.customize.eks.builtin
 
-import io.neoterm.preference.NeoTermPath
+import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.customize.eks.ExtraKeyConfigParser
 import io.neoterm.utils.FileUtils
 import java.io.File

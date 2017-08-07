@@ -137,7 +137,8 @@ object NLog {
             returnTag = sGlobalTag
         } else {
             returnTag = "$sGlobalTag-$returnTag"
-            val targetElement = Thread.currentThread().stackTrace[3]
+            // DO NOT USE Thread.currentThread
+            val targetElement = Throwable().stackTrace[3]
             var className = targetElement.className
             val classNameInfo = className.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             if (classNameInfo.isNotEmpty()) {

@@ -87,7 +87,8 @@
     <string name="term_here">Term Here</string>
     <string name="user_script">User Script</string>
     <string name="command_shortcut">Command Shortcut</string>
-    <string name="no_user_script_found_or_files_selected">No user script found or no files selected</string>
+    <string name="no_user_script_found">No user script found</string>
+    <string name="no_files_selected">No files selected</string>
     <string name="files_to_handle">Files to Handle</string>
     <string name="available_user_scripts">Available User Scripts</string>
     <string name="confirm_remove_file_from_list">Remove file from list?</string>
@@ -102,6 +103,8 @@
     <string name="installing_topic">Installation started. Please pay attention to the prompt that appears on the screen</string>
     <string name="session_closed">Session was closed</string>
     <string name="restore_session">Cancel</string>
+    <string name="show_help">Show Help</string>
+    <string name="service_connection_failed">Failed to connect to service</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

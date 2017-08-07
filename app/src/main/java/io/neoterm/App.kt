@@ -1,6 +1,11 @@
 package io.neoterm
 
+import android.app.AlertDialog
 import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.view.WindowManager
 import io.neoterm.customize.NeoInitializer
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.utils.CrashHandler
@@ -17,11 +22,34 @@ class App : Application() {
         NeoInitializer.initialize(this)
     }
 
-    companion object {
-        private var app: App? = null
+    fun errorDialog(context: Context, message: Int, dismissCallback: (() -> Unit)?) {
+        errorDialog(context, getString(message), dismissCallback)
+    }
 
+    fun errorDialog(context: Context, message: String, dismissCallback: (() -> Unit)?) {
+        AlertDialog.Builder(context)
+                .setTitle(R.string.error)
+                .setMessage(message)
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(R.string.show_help, { _, _ ->
+                    openHelpLink()
+                })
+                .setOnDismissListener {
+                    dismissCallback?.invoke()
+                }
+                .show()
+    }
+
+    fun openHelpLink() {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://neoterm.github.io/NeoTerm-wiki")))
+    }
+
+    companion object {
+
+        private var app: App? = null
         fun get(): App {
             return app!!
         }
+
     }
 }

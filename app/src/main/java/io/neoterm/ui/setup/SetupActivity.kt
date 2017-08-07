@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.Toast
+import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.utils.PackageUtils
@@ -46,7 +47,11 @@ class SetupActivity : AppCompatActivity() {
                         .setPositiveButton(R.string.retry, { dialog, _ ->
                             dialog.dismiss()
                             BaseFileInstaller.installBaseFiles(this@SetupActivity, resultListener)
-                        }).show()
+                        })
+                        .setNeutralButton(R.string.show_help, { _, _ ->
+                            App.get().openHelpLink()
+                        })
+                        .show()
             }
         }
         BaseFileInstaller.installBaseFiles(this, resultListener)

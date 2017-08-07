@@ -23,6 +23,9 @@ import io.neoterm.services.NeoTermService
 import io.neoterm.utils.TerminalUtils
 import java.io.File
 import android.content.Intent.ShortcutIconResource
+import android.util.Log
+import io.neoterm.App
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.service.ServiceManager
 
 
@@ -37,7 +40,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
         val serviceIntent = Intent(this, NeoTermService::class.java)
         startService(serviceIntent)
         if (!bindService(serviceIntent, this, 0)) {
-            finish()
+            App.get().errorDialog(this, R.string.service_connection_failed, { finish() })
         }
     }
 
@@ -77,8 +80,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
         when (intent.action) {
             ACTION_EXECUTE -> {
                 if (!intent.hasExtra(EXTRA_COMMAND)) {
-                    Toast.makeText(this, R.string.no_command_extra, Toast.LENGTH_SHORT).show()
-                    finish()
+                    App.get().errorDialog(this, R.string.no_command_extra, { finish() })
                     return
                 }
                 val command = intent.getStringExtra(EXTRA_COMMAND)
@@ -133,9 +135,17 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
     }
 
     private fun handleUserScript() {
+        val filesToHandle = mutableListOf<String>()
+        val userScriptService = ServiceManager.getService<UserScriptService>()
+        val userScripts = userScriptService.userScripts
+        if (userScripts.isEmpty()) {
+            App.get().errorDialog(this, R.string.no_user_script_found, { finish() })
+            return
+        }
+
         if (intent.hasExtra(Intent.EXTRA_STREAM)) {
+            // action send
             val extra = intent.extras.get(Intent.EXTRA_STREAM)
-            val filesToHandle = mutableListOf<String>()
 
             when (extra) {
                 is ArrayList<*> -> {
@@ -148,16 +158,15 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
                     filesToHandle.add(File(extra.path).absolutePath)
                 }
             }
+        } else if (intent.data != null) {
+            // action view
+            filesToHandle.add(File(intent.data.path).absolutePath)
+        }
 
-            val userScriptManager = ServiceManager.getService<UserScriptService>()
-            val userScripts = userScriptManager.userScripts
-            if (userScripts.isNotEmpty() && filesToHandle.isNotEmpty()) {
-                setupUserScriptView(filesToHandle, userScripts)
-
-            } else {
-                Toast.makeText(this, R.string.no_user_script_found_or_files_selected, Toast.LENGTH_LONG).show()
-                finish()
-            }
+        if (filesToHandle.isNotEmpty()) {
+            setupUserScriptView(filesToHandle, userScripts)
+        } else {
+            App.get().errorDialog(this, R.string.no_files_selected, { finish() })
         }
     }
 

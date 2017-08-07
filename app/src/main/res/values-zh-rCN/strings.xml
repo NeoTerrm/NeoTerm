@@ -89,7 +89,8 @@
     <string name="exit">退出</string>
     <string name="term_here">在此处打开终端</string>
     <string name="user_script">用户脚本</string>
-    <string name="no_user_script_found_or_files_selected">没有找到可用的用户脚本或者没有文件被选择</string>
+    <string name="no_user_script_found">没有找到可用的用户脚本</string>
+    <string name="no_files_selected">没有文件被选择</string>
     <string name="files_to_handle">处理的文件</string>
     <string name="available_user_scripts">可用的用户脚本</string>
     <string name="confirm_remove_file_from_list">从操作列表中移除文件？</string>
@@ -107,4 +108,6 @@
     <string name="installing_topic">安装已开始，请注意屏幕上出现的提示</string>
     <string name="session_closed">会话已关闭</string>
     <string name="restore_session">取消</string>
+    <string name="show_help">查看帮助</string>
+    <string name="service_connection_failed">无法连接到服务</string>
 </resources>

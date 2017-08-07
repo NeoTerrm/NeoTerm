@@ -89,7 +89,8 @@
     <string name="exit">離開</string>
     <string name="term_here">在此處打開終端</string>
     <string name="user_script">使用者腳本</string>
-    <string name="no_user_script_found_or_files_selected">没有找到可用的使用者腳本或是沒有檔案被選擇</string>
+    <string name="no_user_script_found">没有找到可用的使用者腳本</string>
+    <string name="no_files_selected">沒有檔案被選擇</string>
     <string name="files_to_handle">處理的檔案</string>
     <string name="available_user_scripts">可用的使用者腳本</string>
     <string name="confirm_remove_file_from_list">從操作列表中中移除檔案？</string>
@@ -107,4 +108,6 @@
     <string name="installing_topic">安裝已開始，請注意荧幕上出現的提示</string>
     <string name="session_closed">會話已關閉</string>
     <string name="restore_session">取消</string>
+    <string name="show_help">查看幫助</string>
+    <string name="service_connection_failed">無法連接到服務</string>
 </resources>

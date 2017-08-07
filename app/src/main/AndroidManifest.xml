@@ -13,10 +13,10 @@
         android:name=".App"
         android:allowBackup="true"
         android:extractNativeLibs="true"
-        android:resizeableActivity="true"
         android:fullBackupContent="@xml/backup_config"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:resizeableActivity="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -66,6 +66,15 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <data android:mimeType="*/*" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <data android:scheme="file" />
+
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
 
                 <data android:mimeType="*/*" />

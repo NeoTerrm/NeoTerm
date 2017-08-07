@@ -179,23 +179,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
                 if (tab is TermTab) {
-                    Snackbar.make(tabSwitcher, R.string.session_closed, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.restore_session, { _ ->
-                                tabSwitcher.addTab(tab)
-                            })
-                            .addCallback(object : Snackbar.Callback() {
-                                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                                    super.onDismissed(transientBottomBar, event)
-                                    if (event == DISMISS_EVENT_SWIPE
-                                            || event == DISMISS_EVENT_TIMEOUT
-                                            || event == DISMISS_EVENT_CONSECUTIVE) {
-                                        tab.termData.termSession?.finishIfRunning()
-                                        removeFinishedSession(tab.termData.termSession)
-                                        tab.cleanup()
-                                    }
-                                }
-                            })
-                            .show()
+                    closeTab(tab)
                 }
             }
 
@@ -227,6 +211,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         super.onDestroy()
         PreferenceManager.getDefaultSharedPreferences(this)
                 .unregisterOnSharedPreferenceChangeListener(this)
+
         if (termService != null) {
             if (termService!!.sessions.isEmpty()) {
                 termService!!.stopSelf()
@@ -523,6 +508,12 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
     }
 
+    private fun closeTab(tab: TermTab) {
+        SessionRemover.removeSession(tab)
+        removeFinishedSession(tab.termData.termSession)
+        Snackbar.make(tabSwitcher, R.string.session_closed, Snackbar.LENGTH_SHORT).show()
+    }
+
     private fun toggleSwitcher(showSwitcher: Boolean, easterEgg: Boolean) {
         if (tabSwitcher.count > 0) {
             if (showSwitcher) {
@@ -606,5 +597,4 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             toolbar.title = titleChangedEvent.title
         }
     }
-
 }

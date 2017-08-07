@@ -137,7 +137,7 @@ object NLog {
             returnTag = sGlobalTag
         } else {
             returnTag = "$sGlobalTag-$returnTag"
-            val targetElement = Throwable().stackTrace[3]
+            val targetElement = Thread.currentThread().stackTrace[3]
             var className = targetElement.className
             val classNameInfo = className.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             if (classNameInfo.isNotEmpty()) {
@@ -151,13 +151,13 @@ object NLog {
             }
             if (sLogHeadSwitch) {
                 val head = Formatter()
-                        .format("%s, %s(%s:%d)",
+                        .format("[Thread:%s], %s(%s:%d): ",
                                 Thread.currentThread().name,
                                 targetElement.methodName,
                                 targetElement.fileName,
                                 targetElement.lineNumber)
                         .toString()
-                return arrayOf(returnTag, head + LINE_SEP, " [$head]: ")
+                return arrayOf(returnTag, head, head)
             }
         }
         return arrayOf(returnTag, "", ": ")

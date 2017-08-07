@@ -173,19 +173,13 @@ public final class BaseFileInstaller {
 
     private static HttpURLConnection openBaseFileConnection() throws IOException {
         String arch = determineArchName();
-        String baseUrl = NeoTermPath.INSTANCE.getDEFAULT_SOURCE();
+        String baseUrl = NeoTermPath.RELEASE_SOURCE;
 
         // Use the same source
         NeoPreference.INSTANCE.store(R.string.key_package_source, baseUrl);
 
         return (HttpURLConnection) new URL(baseUrl + "/boot/" + arch + ".zip").openConnection();
     }
-
-//    private static URL determineZipUrl() throws MalformedURLException {
-//        String archName = determineArchName();
-//        String baseUrl = NeoTermPath.INSTANCE.getSERVER_BOOT_URL();
-//        return new URL(baseUrl + "/" + archName + ".zip");
-//    }
 
     private static String determineArchName() {
         for (String androidArch : Build.SUPPORTED_ABIS) {

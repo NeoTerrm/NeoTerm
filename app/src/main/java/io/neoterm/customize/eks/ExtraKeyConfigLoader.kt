@@ -9,7 +9,7 @@ import java.io.File
  * @author kiva
  */
 object ExtraKeyConfigLoader {
-    class ConfiguredExtraKey(val config: ExtraKeyConfig) : ExtraKey {
+    class ConfiguredExtraKey(val config: NeoExtraKey) : IExtraKey {
         override fun applyShortcutKeys(extraKeysView: ExtraKeysView) {
             if (config.withDefaultKeys) {
                 extraKeysView.loadDefaultUserKeys()
@@ -42,7 +42,7 @@ object ExtraKeyConfigLoader {
         }
     }
 
-    private fun registerConfig(extraKeysManager: ExtraKeysService, config: ExtraKeyConfig) {
+    private fun registerConfig(extraKeysManager: ExtraKeysService, config: NeoExtraKey) {
         val shortcutKey = ConfiguredExtraKey(config)
         for (programName in config.programNames) {
             extraKeysManager.registerShortcutKeys(programName, shortcutKey)

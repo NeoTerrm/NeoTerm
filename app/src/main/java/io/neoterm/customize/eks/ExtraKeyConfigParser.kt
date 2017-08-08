@@ -25,8 +25,8 @@ class ExtraKeyConfigParser {
         source = BufferedReader(InputStreamReader(inputStream))
     }
 
-    fun parse(): ExtraKeyConfig {
-        val config = ExtraKeyConfig()
+    fun parse(): NeoExtraKey {
+        val config = NeoExtraKey()
         var line: String? = source.readLine()
 
         while (line != null) {
@@ -57,12 +57,12 @@ class ExtraKeyConfigParser {
         return config
     }
 
-    private fun parseWithDefault(line: String, config: ExtraKeyConfig) {
+    private fun parseWithDefault(line: String, config: NeoExtraKey) {
         val value = line.substring("with-default".length).trim().trimEnd()
         config.withDefaultKeys = value == "true"
     }
 
-    private fun parseKeyDefine(line: String, config: ExtraKeyConfig) {
+    private fun parseKeyDefine(line: String, config: NeoExtraKey) {
         val keyDefine = line.substring("define".length).trim().trimEnd()
         val keyValues = keyDefine.split(" ")
         if (keyValues.size < 2) {
@@ -75,7 +75,7 @@ class ExtraKeyConfigParser {
         config.shortcutKeys.add(TextButton(buttonText, withEnter))
     }
 
-    private fun parseProgram(line: String, config: ExtraKeyConfig) {
+    private fun parseProgram(line: String, config: NeoExtraKey) {
         val programNames = line.substring("program".length).trim().trimEnd()
         if (programNames.isEmpty()) {
             return
@@ -86,7 +86,7 @@ class ExtraKeyConfigParser {
         }
     }
 
-    private fun parseHeader(line: String, config: ExtraKeyConfig) {
+    private fun parseHeader(line: String, config: NeoExtraKey) {
         val version: Int
         val versionString = line.substring("version".length).trim().trimEnd()
         try {

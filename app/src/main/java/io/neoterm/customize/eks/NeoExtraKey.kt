@@ -5,7 +5,7 @@ import io.neoterm.view.eks.button.IExtraButton
 /**
  * @author kiva
  */
-class ExtraKeyConfig {
+class NeoExtraKey {
     var version: Int = -1
     val programNames: MutableList<String> = mutableListOf()
     val shortcutKeys: MutableList<IExtraButton> = mutableListOf()

@@ -1,6 +1,8 @@
 package io.neolang.parser
 
-import io.neolang.ast.*
+import io.neolang.ast.NeoLangToken
+import io.neolang.ast.NeoLangTokenType
+import io.neolang.ast.NeoLangTokenValue
 import io.neolang.ast.base.NeoLangAst
 import io.neolang.ast.node.*
 
@@ -8,9 +10,6 @@ import io.neolang.ast.node.*
  * @author kiva
  */
 class NeoLangParser {
-    var ast: NeoLangAst? = null
-        private set
-
     private val lexer = NeoLangLexer()
     private var tokens = mutableListOf<NeoLangToken>()
     private var currentPosition: Int = 0
@@ -21,22 +20,20 @@ class NeoLangParser {
     }
 
     fun parse(): NeoLangAst {
-        updateParserStatus(lexer.lex())
-        return ast ?: throw ParseException("AST is null")
+        return updateParserStatus(lexer.lex()) ?: throw ParseException("AST is null")
     }
 
-    private fun updateParserStatus(tokens: List<NeoLangToken>) {
+    private fun updateParserStatus(tokens: List<NeoLangToken>): NeoLangAst? {
         if (tokens.isEmpty()) {
             // Allow empty program
-            ast = NeoLangProgramNode.emptyNode()
-            return
+            return NeoLangProgramNode.emptyNode()
         }
 
         this.tokens.clear()
         this.tokens.addAll(tokens)
         currentPosition = 0
         currentToken = tokens[currentPosition]
-        ast = program()
+        return program()
     }
 
     private fun match(tokenType: NeoLangTokenType, errorThrow: Boolean = false): Boolean {

@@ -19,7 +19,7 @@ class ExtraKeysService : NeoService {
         checkForFiles()
     }
 
-    val EKS_KEYS: MutableMap<String, ExtraKey> = mutableMapOf()
+    val EKS_KEYS: MutableMap<String, IExtraKey> = mutableMapOf()
 
     fun showShortcutKeys(program: String, extraKeysView: ExtraKeysView?) {
         if (extraKeysView == null) {
@@ -35,7 +35,7 @@ class ExtraKeysService : NeoService {
         extraKeysView.loadDefaultUserKeys()
     }
 
-    fun registerShortcutKeys(program: String, eksKey: ExtraKey?) {
+    fun registerShortcutKeys(program: String, eksKey: IExtraKey?) {
         if (eksKey == null) {
             if (this.EKS_KEYS.containsKey(program)) {
                 this.EKS_KEYS.remove(program)

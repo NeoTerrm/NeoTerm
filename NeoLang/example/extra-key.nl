@@ -1,3 +1,13 @@
 extra-key: {
-    program: { "vim", "vi" }
+    program: [ "vim", "vi" ]
+    key: [
+        {
+           display: "Ctrl"
+           code: "<CTRL>"
+        },
+        {
+            display: "Esc"
+            code: "<ESC>"
+        }
+    ]
 }

@@ -1,8 +1,8 @@
 package io.neolang.ast.node
 
-import io.neolang.ast.base.NeoLangAstBaseNode
+import io.neolang.ast.base.NeoLangBaseNode
 
 /**
  * @author kiva
  */
-class NeoLangDummyNode : NeoLangAstBaseNode()
+class NeoLangDummyNode : NeoLangBaseNode()

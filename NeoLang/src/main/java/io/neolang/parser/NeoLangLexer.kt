@@ -11,7 +11,7 @@ import java.util.*
  * program: group (group)*
  * group: attribute (attribute)*
  * attribute: ID COLON block
- * block: STRING | NUMBER | (BRACKET_START group BRACKET_END)
+ * block: STRING | NUMBER | (BRACKET_START [group|] BRACKET_END) | (ARRAY_START [block(<,block>)+|] ARRAY_END)
  * ]
  */
 
@@ -97,6 +97,18 @@ class NeoLangLexer {
                     moveToNextChar()
                     NeoLangToken(NeoLangTokenType.BRACKET_END, currentToken)
                 }
+                NeoLangTokenValue.ARRAY_START -> {
+                    moveToNextChar()
+                    NeoLangToken(NeoLangTokenType.ARRAY_START, currentToken)
+                }
+                NeoLangTokenValue.ARRAY_END -> {
+                    moveToNextChar()
+                    NeoLangToken(NeoLangTokenType.ARRAY_END, currentToken)
+                }
+                NeoLangTokenValue.COMMA -> {
+                    moveToNextChar(eofThrow = true)
+                    NeoLangToken(NeoLangTokenType.COMMA, currentToken)
+                }
                 NeoLangTokenValue.QUOTE -> {
                     NeoLangToken(NeoLangTokenType.STRING, NeoLangTokenValue.wrap(getNextTokenAsString()))
                 }
@@ -106,7 +118,7 @@ class NeoLangLexer {
                     } else if (isIdentifier(currentChar, true)) {
                         NeoLangToken(NeoLangTokenType.ID, NeoLangTokenValue.wrap(getNextTokenAsId()))
                     } else {
-                        throw InvalidTokenException("Unexpected character: " + currentChar)
+                        throw InvalidTokenException("Unexpected character near line $lineNumber: $currentChar")
                     }
                 }
             }

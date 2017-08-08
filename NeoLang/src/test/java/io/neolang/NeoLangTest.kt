@@ -10,8 +10,8 @@ import org.junit.Test
  */
 class NeoLangTest {
     @Test
-    fun testNeoLangParser() {
-        Main.main(arrayOf("NeoLang/example/color-scheme.nl"))
+    fun arrayTest() {
+        Main.main(arrayOf("NeoLang/example/extra-key.nl"))
     }
 }
 

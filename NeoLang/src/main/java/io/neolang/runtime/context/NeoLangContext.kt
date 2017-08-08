@@ -17,6 +17,10 @@ class NeoLangContext(val contextName: String) {
         return attributes[attributeName] ?: NeoLangValue.UNDEFINED
     }
 
+    fun defineArray() {
+
+    }
+
     fun getAttributes(): Map<String, NeoLangValue> {
         return attributes
     }

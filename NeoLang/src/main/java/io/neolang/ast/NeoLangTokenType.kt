@@ -10,7 +10,10 @@ enum class NeoLangTokenType {
     STRING,
     BRACKET_START,
     BRACKET_END,
+    ARRAY_START,
+    ARRAY_END,
     COLON,
+    COMMA,
     EOL,
     EOF,
 }

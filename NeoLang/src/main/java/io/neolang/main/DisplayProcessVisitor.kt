@@ -1,13 +1,13 @@
 package io.neolang.main
 
-import io.neolang.ast.visitor.IVisitorCallback
+import io.neolang.ast.visitor.IVisitorCallbackAdapter
 import io.neolang.runtime.context.NeoLangContext
 import java.util.*
 
 /**
  * @author kiva
  */
-class DisplayProcessVisitor : IVisitorCallback {
+class DisplayProcessVisitor : IVisitorCallbackAdapter() {
     private val contextStack = Stack<NeoLangContext>()
 
     override fun onStart() {
@@ -30,7 +30,10 @@ class DisplayProcessVisitor : IVisitorCallback {
 
     override fun onExitContext() {
         val context = contextStack.pop()
-        println(">>> Exiting Context ${context.contextName}")
+        println(">>> Exiting & Dumping Context ${context.contextName}")
+        context.getAttributes().entries.forEach {
+            println("     > [${it.key}]: ${it.value.asString()}")
+        }
     }
 
     override fun getCurrentContext(): NeoLangContext {

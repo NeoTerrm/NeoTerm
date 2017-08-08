@@ -432,14 +432,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         tabSwitcher.addTab(tab, 0, animation)
     }
 
-    private fun removeFinishedSession(finishedSession: TerminalSession?) {
-        if (termService == null || finishedSession == null) {
-            return
-        }
-
-        termService!!.removeTermSession(finishedSession)
-    }
-
     private fun getStoredCurrentSessionOrLast(): TerminalSession? {
         val stored = NeoPreference.getCurrentSession(termService)
         if (stored != null) return stored
@@ -509,8 +501,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun closeTab(tab: TermTab) {
-        SessionRemover.removeSession(tab)
-        removeFinishedSession(tab.termData.termSession)
+        SessionRemover.removeSession(termService, tab)
         Snackbar.make(tabSwitcher, R.string.session_closed, Snackbar.LENGTH_SHORT).show()
     }
 

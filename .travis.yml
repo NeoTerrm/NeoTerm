@@ -17,5 +17,4 @@ before_install:
   - export ANDROID_NDK_HOME=$HOME/android-ndk
 
 script:
-  - ./gradlew testDebugUnitTest
-
+  - ./gradlew assembleDebug

@@ -98,17 +98,19 @@ open class NeoColorScheme {
         backgroundColor = getColorByVisitor(visitor, "background")
         foregroundColor = getColorByVisitor(visitor, "foreground")
         cursorColor = getColorByVisitor(visitor, "cursor")
-        visitor.getCurrentContext().getChild(COLOR_CONTEXT_NAME).getAttributes().forEach {
-            val colorIndex = try {
-                it.key.substringAfter(COLOR_PREFIX).toInt()
-            } catch (e: Exception) {
-                -1
-            }
+        visitor.getContext(COLOR_PATH).getAttributes().forEach {
+            if (it.key.startsWith(COLOR_PREFIX)) {
+                val colorIndex = try {
+                    it.key.substringAfter(COLOR_PREFIX).toInt()
+                } catch (e: Exception) {
+                    -1
+                }
 
-            if (colorIndex == -1) {
-                NLog.w("ColorScheme", "Invalid color type: ${it.key}")
-            } else {
-                setColor(colorIndex, it.value.asString())
+                if (colorIndex == -1) {
+                    NLog.w("ColorScheme", "Invalid color type: ${it.key}")
+                } else {
+                    setColor(colorIndex, it.value.asString())
+                }
             }
         }
 

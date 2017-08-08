@@ -1,8 +1,10 @@
 package io.neoterm
 
 import io.neoterm.customize.color.NeoColorScheme
+import io.neoterm.customize.config.ConfigureService
 import io.neoterm.frontend.config.ConfigVisitor
 import io.neoterm.frontend.config.NeoConfigureFile
+import io.neoterm.frontend.service.ServiceManager
 import org.junit.Test
 import java.io.File
 
@@ -10,16 +12,6 @@ import java.io.File
  * @author kiva
  */
 class ConfigureFileTest {
-    private fun getMetaByVisitor(visitor: ConfigVisitor, metaName: String): String? {
-        val value = visitor.getAttribute(NeoColorScheme.COLOR_META_PATH, metaName)
-        return if (value.isValid()) value.asString() else null
-    }
-
-    private fun getColorByVisitor(visitor: ConfigVisitor, colorName: String): String? {
-        val value = visitor.getAttribute(NeoColorScheme.COLOR_PATH, colorName)
-        return if (value.isValid()) value.asString() else null
-    }
-
     private fun parseConfigure(filePath: String): ConfigVisitor? {
         val config = NeoConfigureFile(File(filePath))
         if (config.parseConfigure()) {
@@ -31,12 +23,15 @@ class ConfigureFileTest {
 
     @Test
     fun colorConfigureTest() {
-        val visitor = parseConfigure("NeoLang/example/color-scheme.nl")
-        if (visitor != null) {
-            println("colorName:    ${getMetaByVisitor(visitor, NeoColorScheme.COLOR_META_NAME)}")
-            println("colorVersion: ${getMetaByVisitor(visitor, NeoColorScheme.COLOR_META_VERSION)}")
-            println("background:   ${getColorByVisitor(visitor, "background")}")
-            println("foreground:   ${getColorByVisitor(visitor, "foreground")}")
+        ServiceManager.registerService(ConfigureService::class.java)
+        val color = NeoColorScheme()
+        if (color.loadConfigure(File("NeoLang/example/color-scheme.nl"))) {
+            println("colorName:    ${color.colorName}")
+            println("colorVersion: ${color.colorVersion}")
+            println("background:   ${color.backgroundColor}")
+            println("foreground:   ${color.foregroundColor}")
+            println("color1:       ${color.color[1]}")
+            println("color2:       ${color.color[2]}")
         }
     }
 

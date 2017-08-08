@@ -3,7 +3,9 @@ color-scheme: {
     version: 1.1
 
     colors: {
-        background: #000000
-        foreground: #212121
+        background: #777721
+        foreground: #111233
+        color1: #color1
+        color2: #color2
     }
 }

@@ -1,4 +1,5 @@
-sudo: false
+sudo: true
+dist: trusty
 language: android
 jdk: oraclejdk8
 
@@ -9,10 +10,9 @@ android:
     - build-tools-25.0.2
     - android-25
     - extra-android-m2repository
-    - addon-cmake-3.6.4111459
-    - extra-cmake-3.6.4111459
 
 before_install:
+  - echo "y" | sdkmanager "cmake;3.6.4111459"
   - git clone https://github.com/urho3d/android-ndk.git $HOME/android-ndk
   - export ANDROID_NDK_HOME=$HOME/android-ndk
 

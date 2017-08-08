@@ -1,7 +1,8 @@
-package io.neoterm.frontend.config
+package io.neolang.visitor
 
 import io.neolang.ast.visitor.IVisitorCallback
 import io.neolang.runtime.context.NeoLangContext
+import io.neolang.runtime.type.NeoLangArray
 import io.neolang.runtime.type.NeoLangValue
 
 class ConfigVisitor : IVisitorCallback {
@@ -17,6 +18,11 @@ class ConfigVisitor : IVisitorCallback {
 
     fun getAttribute(contextPath: Array<String>, attrName: String) : NeoLangValue {
         return getContext(contextPath).getAttribute(attrName)
+    }
+
+    fun getArray(contextPath: Array<String>, arrayName: String) : NeoLangArray {
+        // We use NeoLangContext as arrays and array elements now
+        return NeoLangArray.createFromContext(getContext(contextPath).getChild(arrayName))
     }
 
     override fun onStart() {

@@ -2,7 +2,7 @@ package io.neoterm
 
 import io.neoterm.customize.color.NeoColorScheme
 import io.neoterm.customize.config.ConfigureService
-import io.neoterm.frontend.config.ConfigVisitor
+import io.neolang.visitor.ConfigVisitor
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.service.ServiceManager
 import org.junit.Test
@@ -23,7 +23,11 @@ class ConfigureFileTest {
 
     @Test
     fun colorConfigureTest() {
-        ServiceManager.registerService(ConfigureService::class.java)
+        try {
+            ServiceManager.registerService(ConfigureService::class.java)
+        } catch (ignore: Throwable) {
+        }
+
         val color = NeoColorScheme()
         if (color.loadConfigure(File("NeoLang/example/color-scheme.nl"))) {
             println("colorName:    ${color.colorName}")
@@ -37,7 +41,22 @@ class ConfigureFileTest {
 
     @Test
     fun extraKeyConfigureTest() {
-        parseConfigure("NeoLang/example/extra-key.nl")
+        val visitor = parseConfigure("NeoLang/example/extra-key.nl")
+        if (visitor != null) {
+            val programs = visitor.getArray(arrayOf("extra-key"), "program")
+            programs.forEachIndexed { index, element ->
+                println("program[$index]: ${element.eval().asString()}")
+            }
+
+            val keys = visitor.getArray(arrayOf("extra-key"), "key")
+            keys.forEachIndexed { index, element ->
+                if (element.isBlock()) {
+                    println("key[$index]: " +
+                            "display: ${element.eval("display").asString()}, " +
+                            "code: ${element.eval("code").asString()}")
+                }
+            }
+        }
     }
 
     @Test

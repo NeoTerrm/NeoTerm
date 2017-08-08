@@ -1,6 +1,7 @@
 package io.neolang.main
 
 import io.neolang.parser.NeoLangParser
+import io.neolang.visitor.DisplayProcessVisitor
 import java.io.FileInputStream
 
 /**

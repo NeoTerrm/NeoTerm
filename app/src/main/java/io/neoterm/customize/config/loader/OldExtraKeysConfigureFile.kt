@@ -2,7 +2,7 @@ package io.neoterm.customize.config.loader
 
 import io.neoterm.customize.eks.ExtraKeyConfigParser
 import io.neoterm.customize.eks.NeoExtraKey
-import io.neoterm.frontend.config.ConfigVisitor
+import io.neolang.visitor.ConfigVisitor
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.view.eks.button.TextButton
 import java.io.BufferedReader

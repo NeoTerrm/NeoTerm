@@ -3,7 +3,7 @@ package io.neoterm.customize.color
 import io.neoterm.backend.TerminalColorScheme
 import io.neoterm.backend.TerminalColors
 import io.neoterm.customize.config.ConfigureService
-import io.neoterm.frontend.config.ConfigVisitor
+import io.neolang.visitor.ConfigVisitor
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.view.TerminalView

@@ -2,7 +2,7 @@ package io.neoterm.customize.config.loader
 
 import io.neolang.runtime.type.NeoLangValue
 import io.neoterm.customize.color.NeoColorScheme
-import io.neoterm.frontend.config.ConfigVisitor
+import io.neolang.visitor.ConfigVisitor
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
 import java.io.File

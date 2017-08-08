@@ -5,7 +5,6 @@ import io.neolang.ast.NeoLangTokenType
 import io.neolang.ast.NeoLangTokenValue
 import io.neolang.ast.base.NeoLangAst
 import io.neolang.ast.node.*
-import io.neolang.runtime.type.NeoLangArrayElement
 
 /**
  * @author kiva
@@ -123,7 +122,7 @@ class NeoLangParser {
         var index = 0
 
         if (block != null) {
-            val elements = mutableListOf(NeoLangArrayElement(index++, block))
+            val elements = mutableListOf(NeoLangArrayNode.Companion.ArrayElement(index++, block))
 
             if (match(NeoLangTokenType.COMMA)) {
                 // More than one elements
@@ -133,7 +132,7 @@ class NeoLangParser {
                     if (block == null) {
                         break
                     }
-                    elements.add(NeoLangArrayElement(index++, block))
+                    elements.add(NeoLangArrayNode.Companion.ArrayElement(index++, block))
 
                     // Meet the last element
                     if (!match(NeoLangTokenType.COMMA)) {

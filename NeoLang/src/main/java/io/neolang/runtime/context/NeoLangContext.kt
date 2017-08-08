@@ -11,9 +11,8 @@ class NeoLangContext(val contextName: String) {
     }
 
     private val attributes = mutableMapOf<String, NeoLangValue>()
-
+    val children = mutableListOf<NeoLangContext>()
     var parent: NeoLangContext? = null
-    var children = mutableListOf<NeoLangContext>()
 
     fun defineAttribute(attributeName: String, attributeValue: NeoLangValue): NeoLangContext {
         attributes[attributeName] = attributeValue

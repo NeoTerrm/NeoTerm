@@ -1,8 +1,18 @@
 package io.neolang.runtime.type
 
-import io.neolang.ast.node.NeoLangBlockNode
-
 /**
  * @author kiva
  */
-class NeoLangArrayElement(val index: Int, val block: NeoLangBlockNode)
+open class NeoLangArrayElement {
+    open fun eval(): NeoLangValue {
+        return NeoLangValue.UNDEFINED
+    }
+
+    open fun eval(key: String): NeoLangValue {
+        return NeoLangValue.UNDEFINED
+    }
+
+    open fun isBlock(): Boolean {
+        return false
+    }
+}

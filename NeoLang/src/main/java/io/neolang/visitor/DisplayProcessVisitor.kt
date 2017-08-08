@@ -1,4 +1,4 @@
-package io.neolang.main
+package io.neolang.visitor
 
 import io.neolang.ast.visitor.IVisitorCallbackAdapter
 import io.neolang.runtime.context.NeoLangContext

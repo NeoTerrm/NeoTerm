@@ -1,6 +1,7 @@
 package io.neoterm.frontend.config
 
 import io.neolang.parser.NeoLangParser
+import io.neolang.visitor.ConfigVisitor
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.utils.FileUtils
 import java.io.File

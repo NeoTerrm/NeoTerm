@@ -6,7 +6,14 @@ import io.neolang.runtime.type.NeoLangValue
  * @author kiva
  */
 class NeoLangContext(val contextName: String) {
+    companion object {
+        private val emptyContext = NeoLangContext("<Context-Empty>")
+    }
+
     private val attributes = mutableMapOf<String, NeoLangValue>()
+
+    var parent: NeoLangContext? = null
+    var children = mutableListOf<NeoLangContext>()
 
     fun defineAttribute(attributeName: String, attributeValue: NeoLangValue): NeoLangContext {
         attributes[attributeName] = attributeValue
@@ -14,11 +21,17 @@ class NeoLangContext(val contextName: String) {
     }
 
     fun getAttribute(attributeName: String): NeoLangValue {
-        return attributes[attributeName] ?: NeoLangValue.UNDEFINED
+        return attributes[attributeName] ?: parent?.getAttribute(attributeName) ?: NeoLangValue.UNDEFINED
     }
 
-    fun defineArray() {
-
+    fun getChild(contextName: String): NeoLangContext {
+        var found: NeoLangContext? = null
+        children.forEach {
+            if (it.contextName == contextName) {
+                found = it
+            }
+        }
+        return found ?: emptyContext
     }
 
     fun getAttributes(): Map<String, NeoLangValue> {

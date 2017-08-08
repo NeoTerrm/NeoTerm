@@ -3,47 +3,49 @@ package io.neoterm.frontend.config
 import io.neolang.ast.visitor.IVisitorCallback
 import io.neolang.runtime.context.NeoLangContext
 import io.neolang.runtime.type.NeoLangValue
-import java.util.*
 
 class ConfigVisitor : IVisitorCallback {
-    private val emptyContext = NeoLangContext("<NeoTerm-Empty-Safety>")
-    private val contextStack = Stack<NeoLangContext>()
-    private val definedContext = mutableListOf<NeoLangContext>()
+    private var currentContext: NeoLangContext? = null
 
-    fun getContext(contextName: String): NeoLangContext {
-        definedContext.forEach {
-            if (it.contextName == contextName) {
-                return it
-            }
+    fun getContext(contextPath: Array<String>) : NeoLangContext {
+        var context = getCurrentContext()
+        contextPath.forEach {
+            context = context.getChild(it)
         }
-        return emptyContext
+        return context
     }
 
-    fun getAttribute(contextName: String, attrName: String): NeoLangValue {
-        return getContext(contextName).getAttribute(attrName)
+    fun getAttribute(contextPath: Array<String>, attrName: String) : NeoLangValue {
+        return getContext(contextPath).getAttribute(attrName)
     }
 
     override fun onStart() {
-        onEnterContext("global")
+        currentContext = NeoLangContext("global")
     }
 
     override fun onFinish() {
-        while (contextStack.isNotEmpty()) {
-            onExitContext()
+        var context = currentContext
+        while (context != null && context.parent != null) {
+            context = context.parent
         }
+        this.currentContext = context
     }
 
     override fun onEnterContext(contextName: String) {
-        val context = NeoLangContext(contextName)
-        contextStack.push(context)
+        val newContext = NeoLangContext(contextName)
+        newContext.parent = currentContext
+        currentContext!!.children.add(newContext)
+        currentContext = newContext
     }
 
     override fun onExitContext() {
-        val context = contextStack.pop()
-        definedContext.add(context)
+        val context = currentContext
+        if (context != null && context.parent != null) {
+            this.currentContext = context.parent
+        }
     }
 
     override fun getCurrentContext(): NeoLangContext {
-        return contextStack.peek()
+        return currentContext!!
     }
 }

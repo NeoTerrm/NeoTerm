@@ -22,6 +22,9 @@ open class NeoColorScheme {
         const val COLOR_META_NAME = "name"
         const val COLOR_META_VERSION = "version"
 
+        val COLOR_META_PATH = arrayOf(COLOR_META_CONTEXT_NAME)
+        val COLOR_PATH = arrayOf(COLOR_META_CONTEXT_NAME, COLOR_CONTEXT_NAME)
+
 //        const val COLOR_DIM_BLACK = 0
 //        const val COLOR_DIM_RED = 1
 //        const val COLOR_DIM_GREEN = 2
@@ -95,7 +98,7 @@ open class NeoColorScheme {
         backgroundColor = getColorByVisitor(visitor, "background")
         foregroundColor = getColorByVisitor(visitor, "foreground")
         cursorColor = getColorByVisitor(visitor, "cursor")
-        visitor.getContext(COLOR_CONTEXT_NAME).getAttributes().forEach {
+        visitor.getCurrentContext().getChild(COLOR_CONTEXT_NAME).getAttributes().forEach {
             val colorIndex = try {
                 it.key.substringAfter(COLOR_PREFIX).toInt()
             } catch (e: Exception) {
@@ -114,12 +117,12 @@ open class NeoColorScheme {
     }
 
     private fun getMetaByVisitor(visitor: ConfigVisitor, metaName: String): String? {
-        val value = visitor.getAttribute(COLOR_META_CONTEXT_NAME, metaName)
+        val value = visitor.getAttribute(COLOR_META_PATH, metaName)
         return if (value.isValid()) value.asString() else null
     }
 
     private fun getColorByVisitor(visitor: ConfigVisitor, colorName: String): String? {
-        val value = visitor.getAttribute(COLOR_CONTEXT_NAME, colorName)
+        val value = visitor.getAttribute(COLOR_PATH, colorName)
         return if (value.isValid()) value.asString() else null
     }
 }

@@ -77,6 +77,9 @@ class NeoLangParser {
         return NeoLangProgramNode.emptyNode()
     }
 
+    /**
+     * @param attrName Only available when group is a attribute value
+     */
     private fun group(): NeoLangGroupNode? {
         val token = currentToken ?: throw InvalidTokenException("Unexpected token: null")
 
@@ -115,13 +118,11 @@ class NeoLangParser {
     private fun array(arrayName: NeoLangStringNode): NeoLangArrayNode? {
         val token = currentToken ?: throw InvalidTokenException("Unexpected token: null")
 
-
         // TODO: Multiple Array
         var block = blockNonArrayElement(arrayName)
         var index = 0
 
         if (block != null) {
-
             val elements = mutableListOf(NeoLangArrayElement(index++, block))
 
             if (match(NeoLangTokenType.COMMA)) {
@@ -149,7 +150,7 @@ class NeoLangParser {
 
 
     /**
-     * @attrName The block holder's name
+     * @param attrName The block holder's name
      */
     private fun block(attrName: NeoLangStringNode): NeoLangBlockNode? {
         val block = blockNonArrayElement(attrName)
@@ -172,7 +173,10 @@ class NeoLangParser {
         }
     }
 
-    private fun blockNonArrayElement(attrName: NeoLangStringNode): NeoLangBlockNode? {
+    /**
+     * @param attrName Only available when group is a attribute value
+     */
+    private fun blockNonArrayElement(attrName: NeoLangStringNode?): NeoLangBlockNode? {
         val token = currentToken ?: throw InvalidTokenException("Unexpected token: null")
 
         return when (token.tokenType) {

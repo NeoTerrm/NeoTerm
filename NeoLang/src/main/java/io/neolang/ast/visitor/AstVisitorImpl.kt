@@ -2,6 +2,7 @@ package io.neolang.ast.visitor
 
 import io.neolang.ast.base.NeoLangAst
 import io.neolang.ast.node.*
+import io.neolang.runtime.type.NeoLangValue
 
 
 /**
@@ -38,9 +39,29 @@ internal object AstVisitorImpl {
 
         visitorCallback.onEnterContext(arrayName)
         ast.elements.forEach {
-            AstVisitorImpl.visitBlock(it.block, it.index.toString(), visitorCallback)
+            AstVisitorImpl.visitArrayElementBlock(it.block, it.index, visitorCallback)
+//            AstVisitorImpl.visitBlock(it.block, it.index.toString(), visitorCallback)
         }
         visitorCallback.onExitContext()
+    }
+
+    fun visitArrayElementBlock(ast: NeoLangBlockNode, index: Int, visitorCallback: IVisitorCallback) {
+        val visitingNode = ast.ast
+        when (visitingNode) {
+            is NeoLangGroupNode -> {
+                // is a sub block, e.g.
+                // block: { $blockName: {} }
+                visitorCallback.onEnterContext(index.toString())
+                AstVisitorImpl.visitGroup(visitingNode, visitorCallback)
+                visitorCallback.onExitContext()
+            }
+            is NeoLangStringNode -> {
+                definePrimaryData(index.toString(), visitingNode.eval(), visitorCallback)
+            }
+            is NeoLangNumberNode -> {
+                definePrimaryData(index.toString(), visitingNode.eval(), visitorCallback)
+            }
+        }
     }
 
     fun visitBlock(ast: NeoLangBlockNode, blockName: String, visitorCallback: IVisitorCallback) {
@@ -50,7 +71,6 @@ internal object AstVisitorImpl {
                 // is a sub block, e.g.
                 // block: { $blockName: {} }
 
-                // FIXME: Block in Array
                 visitorCallback.onEnterContext(blockName)
                 AstVisitorImpl.visitGroup(visitingNode, visitorCallback)
                 visitorCallback.onExitContext()
@@ -61,13 +81,17 @@ internal object AstVisitorImpl {
             }
             is NeoLangStringNode -> {
                 // block: { $blockName: "hello" }
-                visitorCallback.getCurrentContext().defineAttribute(blockName, visitingNode.eval())
+                definePrimaryData(blockName, visitingNode.eval(), visitorCallback)
             }
             is NeoLangNumberNode -> {
                 // block: { $blockName: 123.456 }
-                visitorCallback.getCurrentContext().defineAttribute(blockName, visitingNode.eval())
+                definePrimaryData(blockName, visitingNode.eval(), visitorCallback)
             }
         }
+    }
+
+    private fun definePrimaryData(name: String, value: NeoLangValue, visitorCallback: IVisitorCallback) {
+        visitorCallback.getCurrentContext().defineAttribute(name, value)
     }
 
     fun visitStartAst(ast: NeoLangAst, visitorCallback: IVisitorCallback) {

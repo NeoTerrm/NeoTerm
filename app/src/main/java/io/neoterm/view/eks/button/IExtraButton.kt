@@ -16,6 +16,7 @@ import io.neoterm.view.TerminalView
 abstract class IExtraButton : View.OnClickListener {
 
     var buttonText: String? = null
+    var displayText: String? = null
 
     abstract override fun onClick(view: View)
 
@@ -25,7 +26,7 @@ abstract class IExtraButton : View.OnClickListener {
         val KEY_ESC = "Esc"
         val KEY_TAB = "Tab"
         val KEY_CTRL = "Ctrl"
-        val  KEY_ALT = "Alt"
+        val KEY_ALT = "Alt"
         val KEY_PAGE_UP = "PgUp"
         val KEY_PAGE_DOWN = "PgDn"
         val KEY_HOME = "Home"

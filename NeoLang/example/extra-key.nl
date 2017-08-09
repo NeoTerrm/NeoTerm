@@ -1,10 +1,14 @@
 extra-key: {
+    version: 10
+    with-default: true
+
     program: [ "vim", "vi" ]
+
     key: [
-        "hello",
         {
            display: "Ctrl"
            code: "<CTRL>"
+           with-enter: true
         },
         {
             display: "Esc"

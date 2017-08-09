@@ -1,8 +1,9 @@
 package io.neoterm
 
+import io.neolang.visitor.ConfigVisitor
 import io.neoterm.customize.color.NeoColorScheme
 import io.neoterm.customize.config.ConfigureService
-import io.neolang.visitor.ConfigVisitor
+import io.neoterm.customize.eks.NeoExtraKey
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.service.ServiceManager
 import org.junit.Test
@@ -41,21 +42,14 @@ class ConfigureFileTest {
 
     @Test
     fun extraKeyConfigureTest() {
-        val visitor = parseConfigure("NeoLang/example/extra-key.nl")
-        if (visitor != null) {
-            val programs = visitor.getArray(arrayOf("extra-key"), "program")
-            programs.forEachIndexed { index, element ->
-                println("program[$index]: ${element.eval().asString()}")
-            }
+        try {
+            ServiceManager.registerService(ConfigureService::class.java)
+        } catch (ignore: Throwable) {
+        }
 
-            val keys = visitor.getArray(arrayOf("extra-key"), "key")
-            keys.forEachIndexed { index, element ->
-                if (element.isBlock()) {
-                    println("key[$index]: " +
-                            "display: ${element.eval("display").asString()}, " +
-                            "code: ${element.eval("code").asString()}")
-                }
-            }
+        val extraKey = NeoExtraKey()
+        if (extraKey.loadConfigure(File("NeoLang/example/extra-key.nl"))) {
+            println(extraKey)
         }
     }
 

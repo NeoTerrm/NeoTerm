@@ -10,10 +10,11 @@ import android.widget.Button
  */
 
 open class TextButton @JvmOverloads constructor(text: String, withEnter: Boolean = false) : IExtraButton() {
-    private var withEnter = false
+    var withEnter = false
 
     init {
         this.buttonText = text
+        this.displayText = text
         this.withEnter = withEnter
     }
 

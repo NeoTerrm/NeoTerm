@@ -7,7 +7,6 @@ import android.view.*
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import io.neoterm.R
-import io.neoterm.customize.eks.ExtraKeyConfigParser
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.ui.term.event.ToggleImeEvent
 import io.neoterm.view.eks.button.ControlButton
@@ -113,17 +112,18 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     }
 
     fun loadDefaultUserKeys() {
-        val defaultFile = ExtraKeysUtils.getDefaultFile()
+//        val defaultFile = ExtraKeysUtils.getDefaultFile()
         clearUserKeys()
 
-        try {
-            val parser = ExtraKeyConfigParser()
-            parser.setInput(defaultFile)
-            val config = parser.parse()
-            userKeys.addAll(config.shortcutKeys)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        // TODO: loadDefaultUserKeys
+//        try {
+//            val parser = ExtraKeyConfigParser()
+//            parser.setInput(defaultFile)
+//            val config = parser.parse()
+//            userKeys.addAll(config.shortcutKeys)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
     }
 
     fun updateButtons() {
@@ -205,7 +205,7 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         outerButton.layoutParams = param
         outerButton.maxLines = 1
         outerButton.typeface = typeface
-        outerButton.text = extraButton.buttonText
+        outerButton.text = extraButton.displayText
         outerButton.setPadding(0, 0, 0, 0)
         outerButton.setTextColor(IExtraButton.NORMAL_TEXT_COLOR)
         outerButton.setAllCaps(false)

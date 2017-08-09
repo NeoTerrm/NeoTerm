@@ -1,8 +1,9 @@
 package io.neoterm.customize.eks
 
-import io.neoterm.customize.eks.builtin.BuiltinExtraKeys
+import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.service.NeoService
 import io.neoterm.view.eks.ExtraKeysView
+import java.io.File
 
 /**
  * @author kiva
@@ -47,7 +48,13 @@ class ExtraKeysService : NeoService {
     }
 
     private fun checkForFiles() {
-        BuiltinExtraKeys.registerAll()
-        ExtraKeyConfigLoader.loadDefinedConfigs(this)
+        // TODO: Builtin keys
+        loadConfigure()
+    }
+
+    private fun loadConfigure() {
+        val configDir = File(NeoTermPath.EKS_PATH)
+        configDir.mkdirs()
+        // TODO: Load configure.
     }
 }

@@ -1,12 +1,13 @@
 package io.neoterm.customize.config.loader
 
-import io.neoterm.customize.eks.ExtraKeyConfigParser
-import io.neoterm.customize.eks.NeoExtraKey
+import io.neolang.runtime.type.NeoLangValue
 import io.neolang.visitor.ConfigVisitor
+import io.neoterm.customize.eks.NeoExtraKey
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.view.eks.button.TextButton
 import java.io.BufferedReader
 import java.io.File
+import java.io.FileReader
 
 /**
  * @author kiva
@@ -15,7 +16,46 @@ class OldExtraKeysConfigureFile(configureFile: File) : NeoConfigureFile(configur
     override var configVisitor: ConfigVisitor? = null
 
     override fun parseConfigure(): Boolean {
-        return super.parseConfigure()
+        try {
+            val config = parseOldConfig(BufferedReader(FileReader(configureFile)))
+            return generateVisitor(config)
+        } catch (e: Exception) {
+            return false
+        }
+    }
+
+    private fun generateVisitor(config: NeoExtraKey): Boolean {
+        configVisitor = ConfigVisitor()
+        val visitor = configVisitor!!
+        visitor.onStart()
+        visitor.onEnterContext(NeoExtraKey.EKS_META_CONTEXT_NAME)
+        visitor.getCurrentContext()
+                .defineAttribute(NeoExtraKey.EKS_META_VERSION, NeoLangValue(config.version))
+                .defineAttribute(NeoExtraKey.EKS_META_WITH_DEFAULT, NeoLangValue(config.withDefaultKeys))
+
+        // program
+        visitor.onEnterContext(NeoExtraKey.EKS_META_PROGRAM)
+        config.programNames.forEachIndexed { index, program ->
+            visitor.getCurrentContext().defineAttribute(index.toString(), NeoLangValue(program))
+        }
+        visitor.onExitContext()
+
+        // key
+        visitor.onEnterContext(NeoExtraKey.EKS_META_KEY)
+        config.shortcutKeys.forEachIndexed { index, button ->
+            if (button is TextButton) {
+                visitor.onEnterContext(index.toString())
+                visitor.getCurrentContext()
+                        .defineAttribute(NeoExtraKey.EKS_META_WITH_ENTER, NeoLangValue(button.withEnter))
+                        .defineAttribute(NeoExtraKey.EKS_META_DISPLAY, NeoLangValue(button.buttonText!!))
+                        .defineAttribute(NeoExtraKey.EKS_META_CODE, NeoLangValue(button.buttonText!!))
+                visitor.onExitContext()
+            }
+        }
+        visitor.onExitContext()
+
+        visitor.onFinish()
+        return true
     }
 
     private fun parseOldConfig(source: BufferedReader): NeoExtraKey {
@@ -29,13 +69,13 @@ class OldExtraKeysConfigureFile(configureFile: File) : NeoConfigureFile(configur
                 continue
             }
 
-            if (line.startsWith("version")) {
+            if (line.startsWith(NeoExtraKey.EKS_META_VERSION)) {
                 parseHeader(line, config)
-            } else if (line.startsWith("program")) {
+            } else if (line.startsWith(NeoExtraKey.EKS_META_PROGRAM)) {
                 parseProgram(line, config)
             } else if (line.startsWith("define")) {
                 parseKeyDefine(line, config)
-            } else if (line.startsWith("with-default")) {
+            } else if (line.startsWith(NeoExtraKey.EKS_META_WITH_DEFAULT)) {
                 parseWithDefault(line, config)
             }
             line = source.readLine()
@@ -51,7 +91,7 @@ class OldExtraKeysConfigureFile(configureFile: File) : NeoConfigureFile(configur
     }
 
     private fun parseWithDefault(line: String, config: NeoExtraKey) {
-        val value = line.substring("with-default".length).trim().trimEnd()
+        val value = line.substring(NeoExtraKey.EKS_META_WITH_DEFAULT.length).trim().trimEnd()
         config.withDefaultKeys = value == "true"
     }
 
@@ -69,7 +109,7 @@ class OldExtraKeysConfigureFile(configureFile: File) : NeoConfigureFile(configur
     }
 
     private fun parseProgram(line: String, config: NeoExtraKey) {
-        val programNames = line.substring("program".length).trim().trimEnd()
+        val programNames = line.substring(NeoExtraKey.EKS_META_PROGRAM.length).trim().trimEnd()
         if (programNames.isEmpty()) {
             return
         }
@@ -81,15 +121,11 @@ class OldExtraKeysConfigureFile(configureFile: File) : NeoConfigureFile(configur
 
     private fun parseHeader(line: String, config: NeoExtraKey) {
         val version: Int
-        val versionString = line.substring("version".length).trim().trimEnd()
+        val versionString = line.substring(NeoExtraKey.EKS_META_VERSION.length).trim().trimEnd()
         try {
             version = Integer.parseInt(versionString)
         } catch (e: NumberFormatException) {
             throw RuntimeException("Bad version '$versionString'")
-        }
-
-        if (version > ExtraKeyConfigParser.PARSER_VERSION) {
-            throw RuntimeException("Required version: $version, please upgrade your app")
         }
 
         config.version = version

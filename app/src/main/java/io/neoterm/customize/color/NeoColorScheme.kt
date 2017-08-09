@@ -77,7 +77,6 @@ open class NeoColorScheme {
 
     fun loadConfigure(file: File): Boolean {
         val loaderService = ServiceManager.getService<ConfigureService>()
-
         val configure = loaderService.newLoader(file).loadConfigure()
 
         if (configure == null) {

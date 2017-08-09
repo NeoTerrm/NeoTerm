@@ -2,6 +2,7 @@ package io.neoterm.customize.eks
 
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.customize.config.ConfigureService
+import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.view.eks.ExtraKeysView
@@ -42,11 +43,17 @@ class NeoExtraKey {
     }
 
     fun loadConfigure(file: File): Boolean {
+        // TODO: Refactor with NeoColorScheme#loadConfigure
         val loaderService = ServiceManager.getService<ConfigureService>()
-        val configure = loaderService.newLoader(file).loadConfigure()
 
-        if (configure == null) {
-            NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}")
+        val configure: NeoConfigureFile?
+        try {
+            configure = loaderService.newLoader(file).loadConfigure()
+            if (configure == null) {
+                throw RuntimeException("Parse configuration failed.")
+            }
+        } catch (e: Exception) {
+            NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}: ${e.localizedMessage}")
             return false
         }
 

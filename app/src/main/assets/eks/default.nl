@@ -10,7 +10,7 @@ extra-key: {
             code: "/"
         },
         {
-            code: "\\"
+            code: "\"
         },
         {
             code: "|"

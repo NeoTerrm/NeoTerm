@@ -4,6 +4,7 @@ import io.neoterm.backend.TerminalColorScheme
 import io.neoterm.backend.TerminalColors
 import io.neoterm.customize.config.ConfigureService
 import io.neolang.visitor.ConfigVisitor
+import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.view.TerminalView
@@ -76,11 +77,17 @@ open class NeoColorScheme {
     }
 
     fun loadConfigure(file: File): Boolean {
+        // TODO: Refactor with NeoExtraKey#loadConfigure
         val loaderService = ServiceManager.getService<ConfigureService>()
-        val configure = loaderService.newLoader(file).loadConfigure()
 
-        if (configure == null) {
-            NLog.e("ColorScheme", "Failed to load color config: ${file.absolutePath}")
+        val configure: NeoConfigureFile?
+        try {
+            configure = loaderService.newLoader(file).loadConfigure()
+            if (configure == null) {
+                throw RuntimeException("Parse configuration failed.")
+            }
+        } catch (e: Exception) {
+            NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}: ${e.localizedMessage}")
             return false
         }
 

@@ -135,11 +135,11 @@ class NeoLangLexer {
 
         var loop = true
         while (loop && currentChar != NeoLangTokenValue.QUOTE.value.asString()[0]) {
-            // Skip escaped char
-            if (currentChar == '\\') {
-                builder.append('\\')
-                moveToNextChar(eofThrow = true)
-            }
+            // NeoLang does not support escaped char
+//            if (currentChar == '\\') {
+//                builder.append('\\')
+//                moveToNextChar(eofThrow = true)
+//            }
             builder.append(currentChar)
             loop = moveToNextChar()
         }

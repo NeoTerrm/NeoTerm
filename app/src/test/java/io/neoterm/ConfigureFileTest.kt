@@ -1,5 +1,6 @@
 package io.neoterm
 
+import io.neolang.main.Main
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.customize.color.NeoColorScheme
 import io.neoterm.customize.config.ConfigureService
@@ -48,7 +49,7 @@ class ConfigureFileTest {
         }
 
         val extraKey = NeoExtraKey()
-        if (extraKey.loadConfigure(File("NeoLang/example/extra-key.nl"))) {
+        if (extraKey.loadConfigure(File("/Users/kiva/Documents/NeoTerm/app/src/main/assets/eks/vim.nl"))) {
             println("programs:     ${extraKey.programNames}")
             println("version:      ${extraKey.version}")
             println("with-default: ${extraKey.withDefaultKeys}")

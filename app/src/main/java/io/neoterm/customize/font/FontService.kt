@@ -7,6 +7,7 @@ import io.neoterm.R
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.service.NeoService
+import io.neoterm.utils.AssetsUtils
 import io.neoterm.utils.FileUtils
 import java.io.File
 
@@ -85,15 +86,7 @@ class FontService : NeoService {
 
     private fun extractDefaultFont(context: Context): Boolean {
         try {
-            val assets = context.assets
-            assets.list("fonts")
-                    .map { File(NeoTermPath.FONT_PATH, it) }
-                    .takeWhile { !it.exists() }
-                    .forEach { file ->
-                        assets.open("fonts/${file.name}").use {
-                            FileUtils.writeFile(file, it)
-                        }
-                    }
+            AssetsUtils.extractAssetsDir(context, "fonts", NeoTermPath.FONT_PATH)
             return true
         } catch (e: Exception) {
             return false

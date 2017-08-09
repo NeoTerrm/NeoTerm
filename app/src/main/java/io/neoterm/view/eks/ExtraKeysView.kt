@@ -7,13 +7,16 @@ import android.view.*
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import io.neoterm.R
+import io.neoterm.customize.eks.NeoExtraKey
 import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.ui.term.event.ToggleImeEvent
 import io.neoterm.view.eks.button.ControlButton
 import io.neoterm.view.eks.button.IExtraButton
 import io.neoterm.view.eks.button.StatedControlButton
 import io.neoterm.view.eks.impl.ArrowButton
 import org.greenrobot.eventbus.EventBus
+import java.io.File
 
 class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -112,18 +115,11 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     }
 
     fun loadDefaultUserKeys() {
-//        val defaultFile = ExtraKeysUtils.getDefaultFile()
         clearUserKeys()
-
-        // TODO: loadDefaultUserKeys
-//        try {
-//            val parser = ExtraKeyConfigParser()
-//            parser.setInput(defaultFile)
-//            val config = parser.parse()
-//            userKeys.addAll(config.shortcutKeys)
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
+        val defaultConfig = NeoExtraKey()
+        if (defaultConfig.loadConfigure(File(NeoTermPath.EKS_DEFAULT_FILE))) {
+            userKeys.addAll(defaultConfig.shortcutKeys)
+        }
     }
 
     fun updateButtons() {

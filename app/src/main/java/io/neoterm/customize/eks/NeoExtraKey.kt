@@ -4,6 +4,7 @@ import io.neolang.visitor.ConfigVisitor
 import io.neoterm.customize.config.ConfigureService
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.service.ServiceManager
+import io.neoterm.view.eks.ExtraKeysView
 import io.neoterm.view.eks.button.IExtraButton
 import io.neoterm.view.eks.button.TextButton
 import java.io.File
@@ -30,6 +31,15 @@ class NeoExtraKey {
     val programNames: MutableList<String> = mutableListOf()
     val shortcutKeys: MutableList<IExtraButton> = mutableListOf()
     var withDefaultKeys: Boolean = true
+
+    fun applyExtraKeys(extraKeysView: ExtraKeysView) {
+        if (withDefaultKeys) {
+            extraKeysView.loadDefaultUserKeys()
+        }
+        for (button in shortcutKeys) {
+            extraKeysView.addUserKey(button)
+        }
+    }
 
     fun loadConfigure(file: File): Boolean {
         val loaderService = ServiceManager.getService<ConfigureService>()

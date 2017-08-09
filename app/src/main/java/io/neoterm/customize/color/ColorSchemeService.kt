@@ -6,6 +6,7 @@ import io.neoterm.R
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.service.NeoService
+import io.neoterm.utils.AssetsUtils
 import io.neoterm.utils.FileUtils
 import io.neoterm.view.TerminalView
 import io.neoterm.view.eks.ExtraKeysView
@@ -31,16 +32,7 @@ class ColorSchemeService : NeoService {
 
     private fun extractDefaultColor(context: Context): Boolean {
         try {
-            val assets = context.assets
-            assets.list("colors")
-                    .map { File(NeoTermPath.COLORS_PATH, it) }
-                    .takeWhile { !it.exists() }
-                    .forEach {
-                        val file = it
-                        assets.open("colors/${file.name}").use {
-                            FileUtils.writeFile(file, it)
-                        }
-                    }
+            AssetsUtils.extractAssetsDir(context, "colors", NeoTermPath.COLORS_PATH)
             return true
         } catch (e: Exception) {
             return false

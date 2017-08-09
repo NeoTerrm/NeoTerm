@@ -1,6 +1,8 @@
 NeoTerm
 =======
 [![Travis build status](https://travis-ci.org/NeoTerm/NeoTerm.svg?branch=master)](https://travis-ci.org/NeoTerm/NeoTerm)
+![](https://img.shields.io/badge/language-Kotlin-green.svg)
+![](https://img.shields.io/badge/license-GPLv3-000000.svg)
 
 A modern-designed android terminal emulator for the 21st century.
 

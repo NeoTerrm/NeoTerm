@@ -18,6 +18,10 @@ abstract class IExtraButton : View.OnClickListener {
     var buttonText: String? = null
     var displayText: String? = null
 
+    override fun toString(): String {
+        return "${this.javaClass.simpleName} { display: $displayText, code: $buttonText }"
+    }
+
     abstract override fun onClick(view: View)
 
     abstract fun makeButton(context: Context?, attrs: AttributeSet?, defStyleAttr: Int): Button

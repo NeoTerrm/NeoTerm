@@ -77,7 +77,7 @@ class NeoExtraKey {
                 }
 
         // We must cal toDouble() before toInt()
-        // Because in NeoLang, numbers are default convert into Double
+        // Because in NeoLang, numbers are default to Double
         version = getMetaByVisitor(visitor, EKS_META_VERSION)?.toDouble()?.toInt() ?: 0
         withDefaultKeys = "true" == getMetaByVisitor(visitor, EKS_META_WITH_DEFAULT)
         return true

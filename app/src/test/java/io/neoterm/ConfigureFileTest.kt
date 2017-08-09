@@ -49,10 +49,10 @@ class ConfigureFileTest {
 
         val extraKey = NeoExtraKey()
         if (extraKey.loadConfigure(File("NeoLang/example/extra-key.nl"))) {
-            println("programs:    ${extraKey.programNames}")
-            println("version:     ${extraKey.version}")
-            println("with-default:${extraKey.withDefaultKeys}")
-            println("keys:        ${extraKey.shortcutKeys}")
+            println("programs:     ${extraKey.programNames}")
+            println("version:      ${extraKey.version}")
+            println("with-default: ${extraKey.withDefaultKeys}")
+            println("keys:         ${extraKey.shortcutKeys}")
         }
     }
 

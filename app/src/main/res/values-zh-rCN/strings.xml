@@ -25,7 +25,7 @@
     <string name="pref_package_source">软件源</string>
     <string name="pref_ui_close_tab_anim_next_tab">向下切换窗口</string>
     <string name="pref_ui_close_tab_anim_next_tab_desc">关闭当前窗口时切换到下一个窗口而不是上一个</string>
-    <string name="customization_settings_desc">字体，主题，拓展键盘，自动补全</string>
+    <string name="customization_settings_desc">字体，主题</string>
     <string name="customization_settings">个性化</string>
     <string name="pref_ui_fullscreen">全屏</string>
     <string name="pref_ui_hide_toolbar">隐藏标题栏</string>
@@ -96,7 +96,7 @@
     <string name="confirm_remove_file_from_list">从操作列表中移除文件？</string>
     <string name="confirm_remove">移除?</string>
     <string name="command_shortcut">命令快捷方式</string>
-    <string name="command_shortcut_display_title">展示标题</string>
+    <string name="command_shortcut_display_title">标题</string>
     <string name="command_shortcut_command">命令</string>
     <string name="no_command_extra">没有找到需要执行的命令，是否忘记了传递参数？</string>
     <string name="command_display_title_cannot_be_null">展示标题不可为空</string>

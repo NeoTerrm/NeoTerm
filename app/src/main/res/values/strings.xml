@@ -26,7 +26,7 @@
     <string name="ui_settings_desc">FullScreen, Title Bar, Animation</string>
     <string name="package_settings">Package Settings</string>
     <string name="package_settings_desc">Source, Updates, Upgrades</string>
-    <string name="customization_settings_desc">Font, ColorScheme, ExtraKeys, AutoComplete</string>
+    <string name="customization_settings_desc">Font, ColorScheme</string>
     <string name="customization_settings">Customization</string>
 
     <string name="toggle_ime">Toggle Keyboard</string>
@@ -92,8 +92,8 @@
     <string name="files_to_handle">Files to Handle</string>
     <string name="available_user_scripts">Available User Scripts</string>
     <string name="confirm_remove_file_from_list">Remove file from list?</string>
-    <string name="confirm_remove">Remove this?</string>
-    <string name="command_shortcut_display_title">Display Title</string>
+    <string name="confirm_remove">Remove?</string>
+    <string name="command_shortcut_display_title">Title</string>
     <string name="command_shortcut_command">Command</string>
     <string name="no_command_extra">No command provided, did you put extras?</string>
     <string name="command_display_title_cannot_be_null">Display title cannot be null</string>

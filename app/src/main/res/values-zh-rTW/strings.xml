@@ -25,7 +25,7 @@
     <string name="pref_package_source">軟體源</string>
     <string name="pref_ui_close_tab_anim_next_tab">向下切換窗口</string>
     <string name="pref_ui_close_tab_anim_next_tab_desc">關閉目前視窗時切換到下一個而不是上一個</string>
-    <string name="customization_settings_desc">字體，主題，擴充鍵盤，自動填充</string>
+    <string name="customization_settings_desc">字體，主題</string>
     <string name="customization_settings">個人化</string>
     <string name="pref_ui_fullscreen">全螢幕</string>
     <string name="pref_ui_hide_toolbar">隱藏標題欄</string>
@@ -98,7 +98,7 @@
     <string name="command_shortcut">命令快捷方式</string>
     <string name="no_command_extra">沒有找到需要執行的命令，是否忘記了傳遞參數？</string>
     <string name="command_display_title_cannot_be_null">展示標題不可為空</string>
-    <string name="command_shortcut_display_title">"展示標題 "</string>
+    <string name="command_shortcut_display_title">"標題 "</string>
     <string name="command_shortcut_command">命令</string>
     <string name="pref_general_auto_completion">自動補全（實驗性）</string>
     <string name="pref_general_auto_completion_desc">"輸入命令或者路徑時提供補全。該功能還在開發中，有許多bug需要解决 "</string>

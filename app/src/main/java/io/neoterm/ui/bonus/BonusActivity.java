@@ -50,12 +50,11 @@ public class BonusActivity extends AppCompatActivity {
 
     Drawable makeRipple() {
         final int idx = newColorIndex();
-        final ShapeDrawable popbg = new ShapeDrawable(new OvalShape());
-        popbg.getPaint().setColor(FLAVORS[idx]);
-        final RippleDrawable ripple = new RippleDrawable(
+        final ShapeDrawable lollipopBackground = new ShapeDrawable(new OvalShape());
+        lollipopBackground.getPaint().setColor(FLAVORS[idx]);
+        return new RippleDrawable(
                 ColorStateList.valueOf(FLAVORS[idx + 1]),
-                popbg, null);
-        return ripple;
+                lollipopBackground, null);
     }
 
     @Override

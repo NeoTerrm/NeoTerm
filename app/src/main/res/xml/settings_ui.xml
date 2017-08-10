@@ -19,12 +19,6 @@
 
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="@string/key_ui_suggestions"
-        android:summary="@string/pref_ui_suggestions_desc"
-        android:title="@string/pref_ui_suggestions" />
-
-    <CheckBoxPreference
-        android:defaultValue="false"
         android:key="@string/key_ui_eks_weight_explicit"
         android:summary="@string/pref_ui_eks_weight_explicit_desc"
         android:title="@string/pref_ui_eks_weight_explicit" />

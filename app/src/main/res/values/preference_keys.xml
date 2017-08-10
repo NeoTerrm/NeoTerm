@@ -7,11 +7,11 @@
     <string name="key_general_program_selection" translatable="false">neoterm_general_program_selection</string>
     <string name="key_general_initial_command" translatable="false">neoterm_general_initial_command</string>
     <string name="key_general_auto_completion" translatable="false">neoterm_general_auto_completion</string>
+    <string name="key_general_volume_as_control" translatable="false">neoterm_general_volume_as_control</string>
 
     <string name="key_ui_fullscreen" translatable="false">neoterm_ui_fullscreen</string>
     <string name="key_ui_hide_toolbar" translatable="false">neoterm_ui_hide_toolbar</string>
     <string name="key_ui_next_tab_anim" translatable="false">neoterm_ui_next_tab_anim</string>
-    <string name="key_ui_suggestions" translatable="false">neoterm_ui_suggestions</string>
     <string name="key_ui_eks_weight_explicit" translatable="false">neoterm_ui_eks_weight_explicit</string>
 
     <string name="key_package_source" translatable="false">neoterm_package_source</string>

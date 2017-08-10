@@ -10,8 +10,8 @@ import io.neoterm.R
 import io.neoterm.backend.KeyHandler
 import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.eks.ExtraKeysService
-import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.service.ServiceManager
 import io.neoterm.view.TerminalViewClient
 
 
@@ -53,6 +53,12 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun onKeyDown(keyCode: Int, e: KeyEvent?, session: TerminalSession?): Boolean {
+        // Volume keys as special keys
+        if (NeoPreference.loadBoolean(R.string.key_general_volume_as_control, false)
+                && handleVirtualKeys(keyCode, e, true)) {
+            return true
+        }
+
         val termUI = termData?.termUI
 
         when (keyCode) {
@@ -198,7 +204,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         if (lastTitle != title || force) {
             removeSuggestions()
             ServiceManager.getService<ExtraKeysService>().showShortcutKeys(title, extraKeysView)
-            extraKeysView?.updateButtons()
+            extraKeysView.updateButtons()
             lastTitle = title
         }
     }

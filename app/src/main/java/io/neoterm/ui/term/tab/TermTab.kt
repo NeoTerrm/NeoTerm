@@ -4,9 +4,7 @@ import android.content.Context
 import android.support.v7.widget.Toolbar
 import android.view.inputmethod.InputMethodManager
 import de.mrapp.android.tabswitcher.Tab
-import io.neoterm.R
 import io.neoterm.customize.color.ColorSchemeService
-import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.client.TermDataHolder
 import io.neoterm.frontend.client.TermUiPresenter
 import io.neoterm.frontend.service.ServiceManager
@@ -70,11 +68,7 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
         if (title != null && title.isNotEmpty()) {
             this.title = title
             EventBus.getDefault().post(TitleChangedEvent(title))
-            if (NeoPreference.loadBoolean(R.string.key_ui_suggestions, true)) {
-                termData.viewClient?.updateSuggestions(title)
-            } else {
-                termData.viewClient?.removeSuggestions()
-            }
+            termData.viewClient?.updateSuggestions(title)
         }
     }
 
@@ -90,5 +84,7 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
     fun resetStatus() {
         resetAutoCompleteStatus()
         termData.extraKeysView?.updateButtons()
+        termData.termView?.updateSize()
+        termData.termView?.onScreenUpdated()
     }
 }

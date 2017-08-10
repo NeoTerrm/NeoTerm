@@ -4,8 +4,8 @@
     <string name="about">关于</string>
     <string name="copy_text">复制</string>
     <string name="general_settings">通用设置</string>
-    <string name="new_session">新建终端</string>
-    <string name="new_system_session">新建系统终端</string>
+    <string name="new_session">新建会话</string>
+    <string name="new_system_session">新建系统会话</string>
     <string name="package_settings">软件包</string>
     <string name="paste_text">粘贴</string>
     <string name="pref_general_backspace_map_to_esc">返回键发送ESC</string>
@@ -19,7 +19,9 @@
     <string name="pref_general_program_selection">程序选择模式</string>
     <string name="pref_general_program_selection_desc">当 NeoTerm 和 系统 中都含有同一个程序时，选择将要被执行的程序的模式</string>
     <string name="pref_general_initial_command">初始命令</string>
-    <string name="pref_general_initial_command_desc">在新的实例创建时执行命令</string>
+    <string name="pref_general_initial_command_desc">在新的会话创建时执行命令</string>
+    <string name="pref_general_volume_as_control">将音量键作为特殊键</string>
+    <string name="pref_general_volume_as_control_desc">音量下为 Ctrl\n音量上为 FN</string>
     <string name="pref_package_source">软件源</string>
     <string name="pref_ui_close_tab_anim_next_tab">向下切换窗口</string>
     <string name="pref_ui_close_tab_anim_next_tab_desc">关闭当前窗口时切换到下一个窗口而不是上一个</string>
@@ -28,8 +30,6 @@
     <string name="pref_ui_fullscreen">全屏</string>
     <string name="pref_ui_hide_toolbar">隐藏标题栏</string>
     <string name="pref_ui_hide_toolbar_desc">键盘显示时隐藏标题栏</string>
-    <string name="pref_ui_suggestions">显示建议 (需要 oh-my-zsh)</string>
-    <string name="pref_ui_suggestions_desc">使用一些软件时，屏幕下方显示快捷键</string>
     <string name="pref_ui_eks_weight_explicit">为快捷键盘强制设置权重</string>
     <string name="pref_ui_eks_weight_explicit_desc">如果快捷键盘显示不正确，请勾选本项</string>
     <string name="pref_customization_color_scheme">配色方案</string>
@@ -82,7 +82,7 @@
     <string name="crash_app">应用: %s</string>
     <string name="crash_stack_trace">堆栈信息</string>
     <string name="crash_tips">我们正努力让这个 Activity 永不见天日…</string>
-    <string name="service_status_text">%d 个实例</string>
+    <string name="service_status_text">%d 个会话</string>
     <string name="service_lock_acquired"> (永不休眠)</string>
     <string name="service_acquire_lock">取得休眠锁</string>
     <string name="service_release_lock">释放休眠锁</string>

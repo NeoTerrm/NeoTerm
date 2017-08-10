@@ -27,7 +27,6 @@ import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.frontend.client.TermViewClient
-import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.preference.NeoPermission
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.shell.ShellParameter
@@ -79,15 +78,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         fullScreenHelper = FullScreenHelper.injectActivity(this, fullscreen, peekRecreating())
         fullScreenHelper.setKeyBoardListener(object : FullScreenHelper.KeyBoardListener {
             override fun onKeyboardChange(isShow: Boolean, keyboardHeight: Int) {
-                var tab: TermTab? = null
-
                 if (tabSwitcher.selectedTab is TermTab) {
-                    tab = tabSwitcher.selectedTab as TermTab
-                }
-
-                if (NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
-                        || NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
-                    tab?.toolbar?.visibility = if (isShow) View.GONE else View.VISIBLE
+                    val tab = tabSwitcher.selectedTab as TermTab
+                    // isShow -> toolbarHide
+                    toggleToolbar(tab.toolbar, !isShow)
                 }
             }
         })
@@ -100,6 +94,33 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         val serviceIntent = Intent(this, NeoTermService::class.java)
         startService(serviceIntent)
         bindService(serviceIntent, this, 0)
+    }
+
+    private fun toggleToolbar(toolbar: Toolbar?, visible: Boolean) {
+        if (toolbar == null) {
+            return
+        }
+
+        if (NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
+                || NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
+//            val statusBarHeight = FullScreenHelper.getStatusBarHeight(this)
+//            if (statusBarHeight < 0) {
+            toolbar.visibility = if (visible) View.VISIBLE else View.GONE
+//                return
+//            }
+//            val toolbarHeight = toolbar.height
+//
+//            val translationY = if (visible) toolbarHeight.toFloat() else -toolbarHeight.toFloat()
+//            val visibility = if (visible) View.VISIBLE else View.GONE
+//
+//            toolbar.animate()
+//                    .translationYBy(translationY)
+//                    .setDuration(50L)
+//                    .withEndAction {
+//                        toolbar.visibility = visibility
+//                    }
+//                    .start()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

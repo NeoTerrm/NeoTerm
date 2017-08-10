@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 
 /**
@@ -115,6 +114,15 @@ class FullScreenHelper private constructor(activity: Activity, var fullScreen: B
     companion object {
         fun injectActivity(activity: Activity, fullScreen: Boolean, recreate: Boolean): FullScreenHelper {
             return FullScreenHelper(activity, fullScreen, recreate)
+        }
+
+        fun getStatusBarHeight(context: Context): Int {
+            val resourceId = context.resources.getIdentifier("status_bar_height",
+                    "dimen", "android")
+            if (resourceId > 0) {
+                return context.resources.getDimensionPixelSize(resourceId)
+            }
+            return -1
         }
     }
 }

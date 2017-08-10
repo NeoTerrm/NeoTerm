@@ -69,13 +69,13 @@
     <string name="pref_general_initial_command_desc">Execute commands when a session is being created</string>
     <string name="pref_general_auto_completion">Auto Completion(Experimental)</string>
     <string name="pref_general_auto_completion_desc">Enable complete things when typing commands or path. This is still work in progress with lots of bugs to deal with</string>
+    <string name="pref_general_volume_as_control">Use volume up and down as special keys</string>
+    <string name="pref_general_volume_as_control_desc">Volume Down as Ctrl\nVolume Up as FN</string>
     <string name="pref_ui_fullscreen">Full Screen</string>
     <string name="pref_ui_hide_toolbar">Hide Toolbar</string>
     <string name="pref_ui_hide_toolbar_desc">Hide toolbar when keyboard is showing</string>
     <string name="pref_ui_close_tab_anim_next_tab">Next tab animation</string>
     <string name="pref_ui_close_tab_anim_next_tab_desc">Switch to the next tab instead of the previous tab when closing tab</string>
-    <string name="pref_ui_suggestions">Show Suggestions (oh-my-zsh required)</string>
-    <string name="pref_ui_suggestions_desc">When using some programs, show shortcut keys</string>
     <string name="pref_ui_eks_weight_explicit">Use explicit weight for ExtraKeysView</string>
     <string name="pref_ui_eks_weight_explicit_desc">If ExtraKeysView shows incorrectly, please enable this</string>
     <string name="pref_customization_font">Font</string>

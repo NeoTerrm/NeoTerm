@@ -43,7 +43,7 @@ open class RepeatableButton(buttonText: String) : ControlButton(buttonText) {
                 mHandler.sendEmptyMessage(0)
                 false
             }
-            this.setOnTouchListener { v, event ->
+            this.setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_UP) {
                     isMotionEventUp = true
                 }

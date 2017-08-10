@@ -4,8 +4,8 @@
     <string name="about">關於</string>
     <string name="copy_text">複製</string>
     <string name="general_settings">一般設定</string>
-    <string name="new_session">新增終端</string>
-    <string name="new_system_session">新增系統終端</string>
+    <string name="new_session">新增會話</string>
+    <string name="new_system_session">新增系統會話</string>
     <string name="package_settings">軟件包</string>
     <string name="paste_text">貼上</string>
     <string name="pref_general_backspace_map_to_esc">返回鍵發送ESC</string>
@@ -19,7 +19,9 @@
     <string name="pref_general_program_selection">程式選擇模式</string>
     <string name="pref_general_program_selection_desc">當 NeoTerm 和 系統 都有同一個程式時，選擇要被執行的程式模式</string>
     <string name="pref_general_initial_command">初始化指令</string>
-    <string name="pref_general_initial_command_desc">在新的創建新的終端時執行指令</string>
+    <string name="pref_general_initial_command_desc">在新的創建新的會話時執行指令</string>
+    <string name="pref_general_volume_as_control">將音量鍵作為特殊鍵</string>
+    <string name="pref_general_volume_as_control_desc">音量下為 Ctrl\n音量上為 FN</string>
     <string name="pref_package_source">軟體源</string>
     <string name="pref_ui_close_tab_anim_next_tab">向下切換窗口</string>
     <string name="pref_ui_close_tab_anim_next_tab_desc">關閉目前視窗時切換到下一個而不是上一個</string>
@@ -28,8 +30,6 @@
     <string name="pref_ui_fullscreen">全螢幕</string>
     <string name="pref_ui_hide_toolbar">隱藏標題欄</string>
     <string name="pref_ui_hide_toolbar_desc">在鍵盤顯示時隱藏標題欄</string>
-    <string name="pref_ui_suggestions">顯示建議 (需要 oh-my-zsh)</string>
-    <string name="pref_ui_suggestions_desc">使用一些程式時，在螢幕底部顯示快捷鍵</string>
     <string name="pref_ui_eks_weight_explicit">為快捷鍵盤強制設定權重</string>
     <string name="pref_ui_eks_weight_explicit_desc">如果快捷鍵盤顯示錯誤，請勾選此項目</string>
     <string name="pref_customization_color_scheme">色彩主題</string>
@@ -82,7 +82,7 @@
     <string name="crash_app">程式: %s</string>
     <string name="crash_stack_trace">錯誤訊息</string>
     <string name="crash_tips">我們正在努力讓這個 Activity 永不見天日…</string>
-    <string name="service_status_text">%d 個終端</string>
+    <string name="service_status_text">%d 個會話</string>
     <string name="service_lock_acquired"> (永不休眠)</string>
     <string name="service_acquire_lock">開啟休眠鎖</string>
     <string name="service_release_lock">關閉休眠鎖</string>

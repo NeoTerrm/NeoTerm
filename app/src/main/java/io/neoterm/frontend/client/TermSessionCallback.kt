@@ -46,13 +46,13 @@ class TermSessionCallback : TerminalSession.SessionChangedCallback {
         if (NeoPreference.loadBoolean(R.string.key_general_bell, false)) {
             if (soundPool == null) {
                 soundPool = SoundPool.Builder().setMaxStreams(1).build()
-                bellId = soundPool!!.load(termView!!.context, R.raw.bell, 1)
+                bellId = soundPool!!.load(termView.context, R.raw.bell, 1)
             }
             soundPool?.play(bellId, 1f, 1f, 0, 0, 1f)
         }
 
         if (NeoPreference.loadBoolean(R.string.key_general_vibrate, false)) {
-            val vibrator = termView!!.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            val vibrator = termView.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             vibrator.vibrate(100)
         }
     }

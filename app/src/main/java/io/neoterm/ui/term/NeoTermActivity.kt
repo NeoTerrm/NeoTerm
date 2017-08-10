@@ -197,12 +197,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         super.onStop()
         (0..tabSwitcher.count - 1)
                 .map { tabSwitcher.getTab(it) }
-                .takeWhile { it is TermTab }
+                .filterIsInstance(TermTab::class.java)
                 .forEach {
-                    val termTab = it as TermTab
                     // After stopped, window locations may changed
                     // Rebind it at next time.
-                    termTab.resetAutoCompleteStatus()
+                    it.resetAutoCompleteStatus()
                 }
         EventBus.getDefault().unregister(this)
     }
@@ -228,6 +227,14 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                     toggleSwitcher(showSwitcher = false, easterEgg = false)
                     return true
                 }
+            }
+            KeyEvent.KEYCODE_MENU -> {
+                if (toolbar.isOverflowMenuShowing) {
+                    toolbar.hideOverflowMenu()
+                } else {
+                    toolbar.showOverflowMenu()
+                }
+                return true
             }
         }
         return super.onKeyDown(keyCode, event)
@@ -484,7 +491,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
             (0..size - 1)
                     .map { toolbar.getChildAt(it) }
-                    .filterIsInstance<ImageButton>()
+                    .filterIsInstance(ImageButton::class.java)
                     .forEach { return it }
         }
 

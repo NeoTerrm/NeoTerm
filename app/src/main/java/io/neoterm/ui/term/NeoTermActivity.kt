@@ -6,6 +6,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
@@ -26,6 +27,7 @@ import io.neoterm.backend.TerminalSession
 import io.neoterm.customize.setup.BaseFileInstaller
 import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.frontend.client.TermViewClient
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.preference.NeoPermission
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.shell.ShellParameter
@@ -195,14 +197,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     override fun onStop() {
         super.onStop()
-        (0..tabSwitcher.count - 1)
-                .map { tabSwitcher.getTab(it) }
-                .filterIsInstance(TermTab::class.java)
-                .forEach {
-                    // After stopped, window locations may changed
-                    // Rebind it at next time.
-                    it.resetAutoCompleteStatus()
-                }
+        // After stopped, window locations may changed
+        // Rebind it at next time.
+        forEachTab { it.resetAutoCompleteStatus() }
         EventBus.getDefault().unregister(this)
     }
 
@@ -306,6 +303,16 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig == null) {
+            return
+        }
+
+        // When rotate the screen, extra keys may get updated.
+        forEachTab { it.resetStatus() }
     }
 
     private fun floatTabUp(tab: TermTab) {
@@ -549,6 +556,13 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     private fun getSystemShellMode(): Boolean {
         return NeoPreference.loadBoolean(NeoPreference.KEY_SYSTEM_SHELL, true)
+    }
+
+    private fun forEachTab(callback: (TermTab) -> Unit) {
+        (0..tabSwitcher.count - 1)
+                .map { tabSwitcher.getTab(it) }
+                .filterIsInstance(TermTab::class.java)
+                .forEach(callback)
     }
 
     @Suppress("unused")

@@ -86,4 +86,9 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
         termData.onAutoCompleteListener?.onCleanUp()
         termData.onAutoCompleteListener = null
     }
+
+    fun resetStatus() {
+        resetAutoCompleteStatus()
+        termData.extraKeysView?.updateButtons()
+    }
 }

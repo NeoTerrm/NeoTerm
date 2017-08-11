@@ -38,6 +38,10 @@ android {
             path "CMakeLists.txt"
         }
     }
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {

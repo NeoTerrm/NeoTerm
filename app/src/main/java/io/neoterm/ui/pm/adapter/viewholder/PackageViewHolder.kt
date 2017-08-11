@@ -10,8 +10,8 @@ import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 
 class PackageViewHolder(private val rootView: View, private val listener: PackageAdapter.Listener) : SortedListAdapter.ViewHolder<PackageModel>(rootView) {
-    private val packageNameView: TextView = rootView.findViewById(R.id.package_item_name) as TextView
-    private val packageDescView: TextView = rootView.findViewById(R.id.package_item_desc) as TextView
+    private val packageNameView: TextView = rootView.findViewById<TextView>(R.id.package_item_name)
+    private val packageDescView: TextView = rootView.findViewById<TextView>(R.id.package_item_desc)
 
     override fun performBind(item: PackageModel) {
         rootView.setOnClickListener { listener.onModelClicked(item) }

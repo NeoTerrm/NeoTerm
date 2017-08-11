@@ -15,7 +15,7 @@
     <string name="setup_hello">Discovery</string>
     <string name="setup_info">Hello, NeoTerm</string>
     <string name="setup_info2">Tap to choose your favorites</string>
-    <string name="setup_next">Install</string>
+    <string name="setup_next">After a short installation process,\nyou can start using NeoTerm</string>
 
     <string name="about">About</string>
     <string name="discovery">Discovery</string>
@@ -105,6 +105,13 @@
     <string name="restore_session">Cancel</string>
     <string name="show_help">Show Help</string>
     <string name="service_connection_failed">Failed to connect to service</string>
+    <string name="about_version_label">Version</string>
+    <string name="about_developers_label">Main Developers</string>
+    <string name="about_libraries_label">Libraries</string>
+    <string name="about_source_label">Source Code</string>
+    <string name="support_donate_label">Donate</string>
+    <string name="support_donate_description">If you like this app, you can offer developers a cup of coffee</string>
+    <string name="about_developers"><a href="https://github.com/zt515">Kiva</a> for Maintaining<br/><a href="https://github.com/Crixec">Crixec</a>for Icon Design</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

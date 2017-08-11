@@ -67,7 +67,7 @@ abstract class IExtraButton : View.OnClickListener {
                 view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
                 view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, keyCode))
             } else {
-                val terminalView = view.findViewById(R.id.terminal_view) as TerminalView
+                val terminalView = view.findViewById<TerminalView>(R.id.terminal_view)
                 val session = terminalView.currentSession
                 session?.write(chars)
             }

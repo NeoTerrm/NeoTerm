@@ -36,7 +36,7 @@ class FullScreenHelper private constructor(activity: Activity, var fullScreen: B
     }
 
     init {
-        val content = activity.findViewById(android.R.id.content) as FrameLayout
+        val content = activity.findViewById<FrameLayout>(android.R.id.content)
         mChildOfContent = content.getChildAt(0)
         mChildOfContent.viewTreeObserver.addOnGlobalLayoutListener {
             if (this@FullScreenHelper.fullScreen) {

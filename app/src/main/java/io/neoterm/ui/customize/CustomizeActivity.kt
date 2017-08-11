@@ -42,12 +42,12 @@ class CustomizeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_customize)
 
-        val toolbar = findViewById(R.id.custom_toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.custom_toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        terminalView = findViewById(R.id.terminal_view) as TerminalView
-        extraKeysView = findViewById(R.id.custom_extra_keys) as ExtraKeysView
+        terminalView = findViewById<TerminalView>(R.id.terminal_view)
+        extraKeysView = findViewById<ExtraKeysView>(R.id.custom_extra_keys)
         viewClient = BasicViewClient(terminalView)
         sessionCallback = BasicSessionCallback(terminalView)
         TerminalUtils.setupTerminalView(terminalView, viewClient)
@@ -61,14 +61,14 @@ class CustomizeActivity : AppCompatActivity() {
         session = TerminalUtils.createShellSession(this, parameter)
         terminalView.attachSession(session)
 
-        findViewById(R.id.custom_install_font_button).setOnClickListener {
+        findViewById<View>(R.id.custom_install_font_button).setOnClickListener {
             val intent = Intent()
             intent.action = Intent.ACTION_GET_CONTENT
             intent.type = "*/*"
             startActivityForResult(Intent.createChooser(intent, getString(R.string.install_font)), REQUEST_SELECT_FONT)
         }
 
-        findViewById(R.id.custom_install_color_button).setOnClickListener {
+        findViewById<View>(R.id.custom_install_color_button).setOnClickListener {
             val intent = Intent()
             intent.action = Intent.ACTION_GET_CONTENT
             intent.type = "*/*"
@@ -109,7 +109,7 @@ class CustomizeActivity : AppCompatActivity() {
     }
 
     private fun setupSpinner(id: Int, data: List<String>, selected: String, listener: AdapterView.OnItemSelectedListener) {
-        val spinner = findViewById(id) as Spinner
+        val spinner = findViewById<Spinner>(id)
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter

@@ -16,16 +16,11 @@ import io.neoterm.utils.PackageUtils
  * @author kiva
  */
 class SetupActivity : AppCompatActivity() {
-    lateinit var toast: Toast
     var aptUpdated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_setup)
-        val nextButton = findViewById(R.id.setup_next) as Button
-        nextButton.setOnClickListener {
-            finish()
-        }
         installBaseFiles()
     }
 
@@ -73,6 +68,7 @@ class SetupActivity : AppCompatActivity() {
         PackageUtils.executeApt(this, "upgrade", arrayOf("-y"), { exitStatus, dialog ->
             if (exitStatus == 0) {
                 dialog.dismiss()
+                finish()
             } else {
                 dialog.setTitle(getString(R.string.error))
             }

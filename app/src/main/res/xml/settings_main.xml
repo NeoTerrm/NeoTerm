@@ -50,7 +50,10 @@
 
     <Preference
         android:icon="@drawable/ic_info_white_36dp"
-        android:key="@string/about"
-        android:title="@string/about" />
+        android:title="@string/about" >
+        <intent
+            android:targetClass="io.neoterm.ui.about.AboutActivity"
+            android:targetPackage="io.neoterm" />
+    </Preference>
 
 </PreferenceScreen>

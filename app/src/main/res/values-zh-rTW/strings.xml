@@ -76,7 +76,7 @@
     <string name="setup_hello">發現</string>
     <string name="setup_info">你好，NeoTerm</string>
     <string name="setup_info2">輕觸以選擇你的最愛</string>
-    <string name="setup_next">安裝</string>
+    <string name="setup_next">短暫的安裝過程之後，\n即可開始使用NeoTerm</string>
     <string name="discovery">發現</string>
     <string name="crash_model">裝置: %s</string>
     <string name="crash_app">程式: %s</string>
@@ -110,4 +110,11 @@
     <string name="restore_session">取消</string>
     <string name="show_help">查看幫助</string>
     <string name="service_connection_failed">無法連接到服務</string>
+    <string name="about_version_label">版本</string>
+    <string name="about_developers_label">主要開發者</string>
+    <string name="about_libraries_label">協力廠商庫</string>
+    <string name="about_source_label">源碼</string>
+    <string name="support_donate_label">捐贈</string>
+    <string name="support_donate_description">如果你喜歡這個app，你可以考慮請作者喝杯咖啡</string>
+    <string name="about_developers"><a href="https://github.com/zt515">Kiva</a> 維護<br/><a href="https://github.com/Crixec">Crixec</a> 圖標設計</string>
 </resources>

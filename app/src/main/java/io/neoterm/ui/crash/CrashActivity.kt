@@ -16,11 +16,11 @@ class CrashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_crash)
-        setSupportActionBar(findViewById(R.id.crash_toolbar) as Toolbar)
+        setSupportActionBar(findViewById<Toolbar>(R.id.crash_toolbar))
 
-        (findViewById(R.id.crash_model) as TextView).text = getString(R.string.crash_model, collectModelInfo())
-        (findViewById(R.id.crash_app_version) as TextView).text = getString(R.string.crash_app, collectAppInfo())
-        (findViewById(R.id.crash_details) as TextView).text = collectExceptionInfo()
+        (findViewById<TextView>(R.id.crash_model)).text = getString(R.string.crash_model, collectModelInfo())
+        (findViewById<TextView>(R.id.crash_app_version)).text = getString(R.string.crash_app, collectAppInfo())
+        (findViewById<TextView>(R.id.crash_details)).text = collectExceptionInfo()
     }
 
     private fun collectExceptionInfo(): String {

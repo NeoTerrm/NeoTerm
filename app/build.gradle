@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "io.neoterm"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 22
         versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -49,13 +49,15 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'
-    implementation project(':chrome-tabs')
-    implementation 'com.android.support:design:25.3.1'
+    implementation 'com.android.support:design:26.0.0'
+    implementation 'com.android.support:cardview-v7:26.0.0'
     compile 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
     compile 'com.github.wrdlbrnft:sorted-list-adapter:0.2.0.19'
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
+    compile('de.psdev.licensesdialog:licensesdialog:1.8.3')
     //    compile 'com.ramotion.cardslider:card-slider:0.1.0'
     //    compile 'com.github.igalata:Bubble-Picker:v0.2.4'
+    implementation project(':chrome-tabs')
     implementation project(path: ':NeoLang')
     androidTestImplementation project(path: ':NeoLang')
 }

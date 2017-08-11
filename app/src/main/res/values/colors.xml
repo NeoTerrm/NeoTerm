@@ -7,25 +7,7 @@
     <color name="textColor">#fefefe</color>
     <color name="textColorSecondary">#ced7db</color>
 
-    <color name="blueStart">#4EFFF3</color>
-    <color name="blueEnd">#0ca6f9</color>
-    <color name="purpleStart">#a369ff</color>
-    <color name="purpleEnd">#0e56ff</color>
-    <color name="roseStart">#FF6A00</color>
-    <color name="roseEnd">#ef0276</color>
-    <color name="greenStart">#a7f56e</color>
-    <color name="greenEnd">#11c612</color>
     <color name="popup_background">#7f000000</color>
     <color name="popup_split_background">#efefef</color>
-
-    <integer-array name="bubble_colors">
-        <item>@color/roseStart</item>
-        <item>@color/roseEnd</item>
-        <item>@color/blueStart</item>
-        <item>@color/blueEnd</item>
-        <item>@color/greenStart</item>
-        <item>@color/greenEnd</item>
-        <item>@color/purpleStart</item>
-        <item>@color/purpleEnd</item>
-    </integer-array>
+    <color name="list_download_item_color_dark">#363636</color>
 </resources>

@@ -65,7 +65,7 @@ class CandidatePopupWindow(val context: Context) {
         popupWindow.isOutsideTouchable = true
         popupWindow.isTouchable = true
         val contentView = LayoutInflater.from(context).inflate(R.layout.popup_auto_complete, null, false)
-        val listView = contentView.findViewById(R.id.popup_complete_candidate_list) as ListView
+        val listView = contentView.findViewById<ListView>(R.id.popup_complete_candidate_list)
         candidateAdapter = CandidateAdapter(this)
         listView.adapter = candidateAdapter
         listView.setOnItemClickListener({ _, _, position, _ ->
@@ -131,8 +131,8 @@ class CandidatePopupWindow(val context: Context) {
     }
 
     class CandidateViewHolder(rootView: View) {
-        val display: TextView = rootView.findViewById(R.id.complete_display) as TextView
-        val description: TextView = rootView.findViewById(R.id.complete_description) as TextView
+        val display: TextView = rootView.findViewById<TextView>(R.id.complete_display)
+        val description: TextView = rootView.findViewById<TextView>(R.id.complete_description)
         val splitView: View = rootView.findViewById(R.id.complete_split)
 
         init {

@@ -92,6 +92,12 @@
         </activity-alias>
 
         <activity
+            android:name=".ui.about.AboutActivity"
+            android:exported="false"
+            android:label="@string/about"
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
+
+        <activity
             android:name=".ui.crash.CrashActivity"
             android:exported="false"
             android:label="@string/error"

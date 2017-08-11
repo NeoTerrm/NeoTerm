@@ -54,12 +54,12 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_package_manager)
-        val toolbar = findViewById(R.id.pm_toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.pm_toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        progressBar = findViewById(R.id.package_loading_progress_bar) as ProgressBar
-        recyclerView = findViewById(R.id.package_list) as RecyclerView
+        progressBar = findViewById<ProgressBar>(R.id.package_loading_progress_bar)
+        recyclerView = findViewById<RecyclerView>(R.id.package_list)
         recyclerView.setHasFixedSize(true)
         adapter = PackageAdapter(this, COMPARATOR, object : PackageAdapter.Listener {
             override fun onModelClicked(model: PackageModel) {

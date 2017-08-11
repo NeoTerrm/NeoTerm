@@ -18,7 +18,7 @@ class WindowTermView(val context: Context) {
     @SuppressLint("InflateParams")
     var rootView: View = LayoutInflater.from(context).inflate(R.layout.ui_term_dialog, null, false)
         private set
-    var terminalView: TerminalView = rootView.findViewById(R.id.terminal_view_dialog) as TerminalView
+    var terminalView: TerminalView = rootView.findViewById<TerminalView>(R.id.terminal_view_dialog)
         private set
 
     init {

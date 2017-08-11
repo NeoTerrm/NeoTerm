@@ -72,7 +72,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         setContentView(R.layout.ui_main)
 
-        toolbar = findViewById(R.id.terminal_toolbar) as Toolbar
+        toolbar = findViewById<Toolbar>(R.id.terminal_toolbar)
         setSupportActionBar(toolbar)
 
         fullScreenHelper = FullScreenHelper.injectActivity(this, fullscreen, peekRecreating())
@@ -86,7 +86,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
         })
 
-        tabSwitcher = findViewById(R.id.tab_switcher) as TabSwitcher
+        tabSwitcher = findViewById<TabSwitcher>(R.id.tab_switcher)
         tabSwitcher.decorator = TermTabDecorator(this)
         ViewCompat.setOnApplyWindowInsetsListener(tabSwitcher, createWindowInsetsListener())
         tabSwitcher.showToolbars(false)
@@ -334,6 +334,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         // When rotate the screen, extra keys may get updated.
         forEachTab { it.resetStatus() }
+//        tabSwitcher
     }
 
     private fun floatTabUp(tab: TermTab) {

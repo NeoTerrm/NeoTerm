@@ -24,6 +24,7 @@ import io.neoterm.utils.TerminalUtils
 import java.io.File
 import android.content.Intent.ShortcutIconResource
 import android.util.Log
+import android.view.View
 import io.neoterm.App
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.service.ServiceManager
@@ -94,9 +95,9 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
     private fun handleCommandShortcut() {
         setContentView(R.layout.ui_command_shortcut)
-        val displayInput = findViewById(R.id.command_shortcut_display_title) as EditText
-        val commandInput = findViewById(R.id.command_shortcut_command) as EditText
-        findViewById(R.id.command_shortcut_create_fab)
+        val displayInput = findViewById<EditText>(R.id.command_shortcut_display_title)
+        val commandInput = findViewById<EditText>(R.id.command_shortcut_command)
+        findViewById<View>(R.id.command_shortcut_create_fab)
                 .setOnClickListener {
                     val displayTitle = displayInput.text.toString()
                     if (displayTitle.isEmpty()) {
@@ -172,7 +173,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
     private fun setupUserScriptView(filesToHandle: MutableList<String>, userScripts: List<UserScript>) {
         setContentView(R.layout.ui_user_script_list)
-        val filesList = findViewById(R.id.user_script_file_list) as ListView
+        val filesList = findViewById<ListView>(R.id.user_script_file_list)
         val filesAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, filesToHandle)
         filesList.adapter = filesAdapter
         filesList.setOnItemClickListener { _, _, position, _ ->
@@ -186,7 +187,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
                     .show()
         }
 
-        val scriptsList = findViewById(R.id.user_script_script_list) as ListView
+        val scriptsList = findViewById<ListView>(R.id.user_script_script_list)
         val scriptsListItem = mutableListOf<String>()
         userScripts.mapTo(scriptsListItem, { it.scriptFile.nameWithoutExtension })
 

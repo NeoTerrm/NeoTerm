@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import de.psdev.licensesdialog.LicensesDialog
@@ -72,7 +73,21 @@ class AboutActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.donateView).setOnClickListener {
-            Toast.makeText(this, "我知道没人会捐赠的，所以这部分没写", Toast.LENGTH_LONG).show()
+            AlertDialog.Builder(this)
+                    .setTitle(R.string.support_donate_label)
+                    .setPositiveButton("Alipay", {_, _ ->
+                        Donation.donate(this, "FKX025062MBLAG6E90RYBC")
+                    })
+                    .setNegativeButton("QQ", {_, _ ->
+                        val qrImage = ImageView(this)
+                        qrImage.setImageResource(R.drawable.donation_qq)
+                        AlertDialog.Builder(this)
+                                .setView(qrImage)
+                                .setPositiveButton(android.R.string.yes, null)
+                                .show()
+                    })
+                    .setNeutralButton(android.R.string.no, null)
+                    .show()
         }
     }
 

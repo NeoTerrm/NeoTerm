@@ -72,7 +72,6 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
         when (className) {
             "TermHere" -> handleTermHere()
             "UserScript" -> handleUserScript()
-            "CommandShortcut" -> handleCommandShortcut()
             else -> handleNormal()
         }
     }
@@ -91,35 +90,6 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
             else -> openTerm(null)
         }
         finish()
-    }
-
-    private fun handleCommandShortcut() {
-        setContentView(R.layout.ui_command_shortcut)
-        val displayInput = findViewById<EditText>(R.id.command_shortcut_display_title)
-        val commandInput = findViewById<EditText>(R.id.command_shortcut_command)
-        findViewById<View>(R.id.command_shortcut_create_fab)
-                .setOnClickListener {
-                    val displayTitle = displayInput.text.toString()
-                    if (displayTitle.isEmpty()) {
-                        displayInput.error = getString(R.string.command_display_title_cannot_be_null)
-                        return@setOnClickListener
-                    }
-
-                    val command = commandInput.text.toString()
-
-                    val executeIntent = Intent(this, NeoTermRemoteInterface::class.java)
-                    executeIntent.action = ACTION_EXECUTE
-                    executeIntent.putExtra(EXTRA_COMMAND, command)
-
-                    val shortcut = Intent("com.android.launcher.action.INSTALL_SHORTCUT")
-                    shortcut.putExtra("duplicate", true)
-                    val icon = ShortcutIconResource.fromContext(this, R.mipmap.ic_launcher)
-                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, executeIntent)
-                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_NAME, displayTitle)
-                    shortcut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon)
-                    setResult(Activity.RESULT_OK, shortcut)
-                    finish()
-                }
     }
 
     private fun handleTermHere() {

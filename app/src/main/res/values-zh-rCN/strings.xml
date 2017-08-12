@@ -116,5 +116,7 @@
     <string name="about_source_label">源码</string>
     <string name="support_donate_label">捐赠</string>
     <string name="support_donate_description">如果你喜欢这个app，你可以考虑请作者喝杯咖啡</string>
-    <string name="about_developers"><a href="https://github.com/zt515">Kiva</a> 维护<br/><a href="https://github.com/Crixec">Crixec</a> 图标设计</string>
+    <string name="about_developers">Kiva 维护\nCrixec 图标设计</string>
+    <string name="about_credits_label">特别鸣谢</string>
+    <string name="about_credits">nullptr 时刻支持我\n酷安用户 @NimaQu 赞助服务器\nQQ用户 @My 提供免费网络</string>
 </resources>

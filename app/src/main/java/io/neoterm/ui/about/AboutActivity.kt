@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.text.Html
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -40,7 +39,14 @@ class AboutActivity : AppCompatActivity() {
         findViewById<View>(R.id.developersView).setOnClickListener {
             AlertDialog.Builder(this)
                     .setTitle(R.string.about_developers_label)
-                    .setMessage(Html.fromHtml(getString(R.string.about_developers)))
+                    .setMessage(R.string.about_developers)
+                    .show()
+        }
+
+        findViewById<View>(R.id.creditsView).setOnClickListener {
+            AlertDialog.Builder(this)
+                    .setTitle(R.string.about_credits_label)
+                    .setMessage(R.string.about_credits)
                     .show()
         }
 
@@ -50,7 +56,6 @@ class AboutActivity : AppCompatActivity() {
             notices.addNotice(Notice("Android-Terminal-Emulator", "https://github.com/jackpal/Android-Terminal-Emulator", "Copyright (C) 2011-2016 Steven Luo", ApacheSoftwareLicense20()))
             notices.addNotice(Notice("ChromeLikeTabSwitcher", "https://github.com/michael-rapp/ChromeLikeTabSwitcher", "Copyright 2016 - 2017 Michael Rapp", ApacheSoftwareLicense20()))
             notices.addNotice(Notice("EventBus", "http://greenrobot.org", "Copyright (C) 2012-2016 Markus Junginger, greenrobot (http://greenrobot.org)", ApacheSoftwareLicense20()))
-            notices.addNotice(Notice("LicenseDialog", "http://psdev.de/LicensesDialog", "Copyright 2013-2017 Philip Schiffer", ApacheSoftwareLicense20()))
             notices.addNotice(Notice("ModularAdapter", "https://wrdlbrnft.github.io/ModularAdapter", "Copyright 2017 Wrdlbrnft", MITLicense()))
             notices.addNotice(Notice("RecyclerView-FastScroll", "Copyright (c) 2016, Tim Malseed", "Copyright (c) 2016, Tim Malseed", ApacheSoftwareLicense20()))
             notices.addNotice(Notice("SortedListAdapter", "https://wrdlbrnft.github.io/SortedListAdapter/", "Copyright 2017 Wrdlbrnft", MITLicense()))

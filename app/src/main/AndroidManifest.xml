@@ -82,15 +82,6 @@
             </intent-filter>
         </activity-alias>
 
-        <activity-alias
-            android:name=".ui.term.CommandShortcut"
-            android:label="@string/command_shortcut"
-            android:targetActivity=".ui.term.NeoTermRemoteInterface">
-            <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
-            </intent-filter>
-        </activity-alias>
-
         <activity
             android:name=".ui.about.AboutActivity"
             android:exported="false"

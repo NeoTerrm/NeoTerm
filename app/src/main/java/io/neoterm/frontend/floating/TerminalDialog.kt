@@ -76,6 +76,8 @@ class TerminalDialog(val context: Context) {
 
     fun show(title: String?) {
         dialog?.setTitle(title)
+        dialog?.setCancelable(false)
+        dialog?.setCanceledOnTouchOutside(false)
         dialog?.show()
     }
 

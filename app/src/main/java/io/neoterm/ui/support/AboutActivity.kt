@@ -1,4 +1,4 @@
-package io.neoterm.ui.about
+package io.neoterm.ui.support
 
 import android.content.Intent
 import android.content.pm.PackageManager

@@ -32,6 +32,17 @@
             </intent-filter>
         </activity>
 
+        <activity-alias
+            android:name=".NeoLotMainActivity"
+            android:targetActivity="io.neoterm.ui.term.NeoTermActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.IOT_LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity-alias>
+
         <activity
             android:name=".ui.term.NeoTermRemoteInterface"
             android:configChanges="orientation|keyboardHidden"
@@ -83,11 +94,10 @@
         </activity-alias>
 
         <activity
-            android:name=".ui.about.AboutActivity"
+            android:name=".ui.support.AboutActivity"
             android:exported="false"
             android:label="@string/about"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
-
         <activity
             android:name=".ui.crash.CrashActivity"
             android:exported="false"
@@ -95,43 +105,46 @@
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
             android:name=".ui.setup.SetupActivity"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.bonus.BonusActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
             android:name=".ui.pm.PackageManagerActivity"
+            android:exported="false"
             android:label="@string/package_settings"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
             android:name=".ui.customize.CustomizeActivity"
+            android:exported="false"
             android:label="@string/customization_settings"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
             android:name=".ui.customize.ColorSchemeActivity"
+            android:exported="false"
             android:label="@string/pref_customization_color_scheme"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
+            android:name=".ui.support.HelpActivity"
+            android:exported="false"
+            android:label="@string/faq"
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
+
+        <activity
             android:name=".ui.settings.SettingActivity"
+            android:exported="false"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".ui.settings.GeneralSettingsActivity"
+            android:exported="false"
             android:theme="@style/AppTheme.Dark" />
         <activity
             android:name=".ui.settings.UISettingsActivity"
+            android:exported="false"
             android:theme="@style/AppTheme.Dark" />
-
-        <activity-alias
-            android:name=".NeoLotMainActivity"
-            android:targetActivity="io.neoterm.ui.term.NeoTermActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.IOT_LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity-alias>
 
         <service
             android:name=".services.NeoTermService"

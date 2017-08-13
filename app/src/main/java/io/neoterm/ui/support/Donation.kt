@@ -1,4 +1,4 @@
-package io.neoterm.ui.about
+package io.neoterm.ui.support
 
 import android.app.Activity
 import android.content.ActivityNotFoundException

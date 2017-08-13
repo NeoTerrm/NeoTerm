@@ -118,6 +118,7 @@
     <string name="about_credits_label">Acknowledgements</string>
     <string name="about_credits">nullptr for accompanying me\nCoolApk User @NimaQu for providing server\nQQ User @My for providing free network</string>
     <string name="new_color_scheme">New Color Scheme</string>
+    <string name="faq">FAQ</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

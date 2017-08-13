@@ -13,6 +13,7 @@ import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.ui.term.event.ToggleImeEvent
 import io.neoterm.view.eks.button.ControlButton
 import io.neoterm.view.eks.button.IExtraButton
+import io.neoterm.view.eks.button.RepeatableButton
 import io.neoterm.view.eks.button.StatedControlButton
 import io.neoterm.view.eks.impl.ArrowButton
 import org.greenrobot.eventbus.EventBus
@@ -23,8 +24,8 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     companion object {
         private val ESC = ControlButton(IExtraButton.KEY_ESC)
         private val TAB = ControlButton(IExtraButton.KEY_TAB)
-        private val PAGE_UP = ControlButton(IExtraButton.KEY_PAGE_UP)
-        private val PAGE_DOWN = ControlButton(IExtraButton.KEY_PAGE_DOWN)
+        private val PAGE_UP = RepeatableButton(IExtraButton.KEY_PAGE_UP)
+        private val PAGE_DOWN = RepeatableButton(IExtraButton.KEY_PAGE_DOWN)
         private val HOME = ControlButton(IExtraButton.KEY_HOME)
         private val END = ControlButton(IExtraButton.KEY_END)
         private val ARROW_UP = ArrowButton(IExtraButton.KEY_ARROW_UP)

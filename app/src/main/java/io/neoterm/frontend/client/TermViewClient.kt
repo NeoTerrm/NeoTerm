@@ -12,7 +12,7 @@ import io.neoterm.backend.TerminalSession
 import io.neoterm.component.eks.ExtraKeysComponent
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.view.TerminalViewClient
+import io.neoterm.frontend.terminal.TerminalViewClient
 
 
 /**

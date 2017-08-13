@@ -6,8 +6,8 @@ import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.view.TerminalView
-import io.neoterm.view.TerminalViewClient
+import io.neoterm.frontend.terminal.TerminalView
+import io.neoterm.frontend.terminal.TerminalViewClient
 
 /**
  * @author kiva

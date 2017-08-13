@@ -1,4 +1,4 @@
-package io.neoterm.view;
+package io.neoterm.frontend.terminal;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

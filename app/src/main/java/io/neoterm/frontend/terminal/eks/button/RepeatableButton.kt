@@ -1,4 +1,4 @@
-package io.neoterm.view.eks.button
+package io.neoterm.frontend.terminal.eks.button
 
 import android.content.Context
 import android.os.Handler

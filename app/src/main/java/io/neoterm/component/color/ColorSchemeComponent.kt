@@ -7,8 +7,8 @@ import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.utils.AssetsUtils
-import io.neoterm.view.TerminalView
-import io.neoterm.view.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.TerminalView
+import io.neoterm.frontend.terminal.eks.ExtraKeysView
 import java.io.File
 
 /**

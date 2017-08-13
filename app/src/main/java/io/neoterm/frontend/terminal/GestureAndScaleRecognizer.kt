@@ -1,4 +1,4 @@
-package io.neoterm.view
+package io.neoterm.frontend.terminal
 
 import android.content.Context
 import android.view.GestureDetector

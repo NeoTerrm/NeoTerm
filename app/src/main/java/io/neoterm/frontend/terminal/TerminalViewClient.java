@@ -1,4 +1,4 @@
-package io.neoterm.view;
+package io.neoterm.frontend.terminal;
 
 import android.view.KeyEvent;
 import android.view.MotionEvent;

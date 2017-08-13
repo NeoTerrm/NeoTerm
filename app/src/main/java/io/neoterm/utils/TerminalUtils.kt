@@ -8,9 +8,9 @@ import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.frontend.shell.ShellTermSession
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.view.eks.ExtraKeysView
-import io.neoterm.view.TerminalView
-import io.neoterm.view.TerminalViewClient
+import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.TerminalView
+import io.neoterm.frontend.terminal.TerminalViewClient
 
 /**
  * @author kiva

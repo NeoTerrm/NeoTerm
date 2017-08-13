@@ -1,7 +1,6 @@
 package io.neoterm.ui.customize
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
@@ -12,8 +11,8 @@ import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.frontend.tinyclient.BasicSessionCallback
 import io.neoterm.frontend.tinyclient.BasicViewClient
 import io.neoterm.utils.TerminalUtils
-import io.neoterm.view.TerminalView
-import io.neoterm.view.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.TerminalView
+import io.neoterm.frontend.terminal.eks.ExtraKeysView
 
 /**
  * @author kiva
@@ -38,6 +37,7 @@ open class BaseCustomizeActivity : AppCompatActivity() {
         viewClient = BasicViewClient(terminalView)
         sessionCallback = BasicSessionCallback(terminalView)
         TerminalUtils.setupTerminalView(terminalView, viewClient)
+        TerminalUtils.setupExtraKeysView(extraKeysView)
 
         val parameter = ShellParameter()
                 .executablePath("${NeoTermPath.USR_PATH}/bin/applets/echo")

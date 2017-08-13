@@ -4,12 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.utils.TerminalUtils
-import io.neoterm.view.TerminalView
-import io.neoterm.view.TerminalViewClient
+import io.neoterm.frontend.terminal.TerminalView
+import io.neoterm.frontend.terminal.TerminalViewClient
 
 /**
  * @author kiva

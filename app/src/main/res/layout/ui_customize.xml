@@ -97,7 +97,7 @@
         android:layout_below="@id/custom_toolbar"
         android:layout_margin="@dimen/preview_layout_margin">
 
-        <io.neoterm.view.eks.ExtraKeysView
+        <io.neoterm.frontend.terminal.eks.ExtraKeysView
             android:id="@+id/custom_extra_keys"
             style="?android:buttonBarStyle"
             android:layout_width="match_parent"
@@ -106,7 +106,7 @@
             android:background="@color/terminal_background"
             android:orientation="horizontal" />
 
-        <io.neoterm.view.TerminalView
+        <io.neoterm.frontend.terminal.TerminalView
             android:id="@+id/terminal_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

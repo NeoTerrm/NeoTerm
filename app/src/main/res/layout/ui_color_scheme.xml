@@ -21,15 +21,16 @@
         android:layout_margin="@dimen/preview_layout_margin"
         android:background="@color/terminal_background">
 
-        <io.neoterm.view.eks.ExtraKeysView
+        <io.neoterm.frontend.terminal.eks.ExtraKeysView
             android:id="@+id/custom_extra_keys"
             style="?android:buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/eks_height_two_line"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:visibility="gone" />
 
-        <io.neoterm.view.TerminalView
+        <io.neoterm.frontend.terminal.TerminalView
             android:id="@+id/terminal_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

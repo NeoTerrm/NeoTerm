@@ -4,7 +4,7 @@ import io.neolang.runtime.type.NeoLangValue
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.component.eks.NeoExtraKey
 import io.neoterm.frontend.config.NeoConfigureFile
-import io.neoterm.view.eks.button.TextButton
+import io.neoterm.frontend.terminal.eks.button.TextButton
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader

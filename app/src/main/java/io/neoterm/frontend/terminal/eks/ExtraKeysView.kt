@@ -1,4 +1,4 @@
-package io.neoterm.view.eks
+package io.neoterm.frontend.terminal.eks
 
 import android.content.Context
 import android.graphics.Typeface
@@ -11,11 +11,11 @@ import io.neoterm.component.eks.NeoExtraKey
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.ui.term.event.ToggleImeEvent
-import io.neoterm.view.eks.button.ControlButton
-import io.neoterm.view.eks.button.IExtraButton
-import io.neoterm.view.eks.button.RepeatableButton
-import io.neoterm.view.eks.button.StatedControlButton
-import io.neoterm.view.eks.impl.ArrowButton
+import io.neoterm.frontend.terminal.eks.button.ControlButton
+import io.neoterm.frontend.terminal.eks.button.IExtraButton
+import io.neoterm.frontend.terminal.eks.button.RepeatableButton
+import io.neoterm.frontend.terminal.eks.button.StatedControlButton
+import io.neoterm.frontend.terminal.eks.impl.ArrowButton
 import org.greenrobot.eventbus.EventBus
 import java.io.File
 

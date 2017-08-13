@@ -14,10 +14,10 @@ import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.client.TermCompleteListener
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
-import io.neoterm.view.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.eks.ExtraKeysView
 import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.view.TerminalView
+import io.neoterm.frontend.terminal.TerminalView
 
 /**
  * @author kiva

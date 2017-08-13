@@ -15,8 +15,7 @@ import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener
 import io.neoterm.frontend.completion.model.CompletionCandidate
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.view.MaxHeightView
-import io.neoterm.view.TerminalView
+import io.neoterm.frontend.terminal.TerminalView
 
 /**
  * @author kiva

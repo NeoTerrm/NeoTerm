@@ -1,4 +1,4 @@
-package io.neoterm.view.eks.button
+package io.neoterm.frontend.terminal.eks.button
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Button
 
 import io.neoterm.R
-import io.neoterm.view.TerminalView
+import io.neoterm.frontend.terminal.TerminalView
 
 /**
  * @author kiva

@@ -9,7 +9,7 @@ import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener
 import io.neoterm.frontend.completion.model.CompletionCandidate
 import io.neoterm.frontend.completion.model.CompletionResult
 import io.neoterm.frontend.completion.widget.CandidatePopupWindow
-import io.neoterm.view.TerminalView
+import io.neoterm.frontend.terminal.TerminalView
 import java.util.*
 
 /**

@@ -5,9 +5,9 @@ import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.view.eks.ExtraKeysView
-import io.neoterm.view.eks.button.IExtraButton
-import io.neoterm.view.eks.button.TextButton
+import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.eks.button.IExtraButton
+import io.neoterm.frontend.terminal.eks.button.TextButton
 import java.io.File
 
 /**

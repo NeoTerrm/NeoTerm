@@ -32,7 +32,7 @@ object NeoTermPath {
     val SERVER_BOOT_URL: String
 
     init {
-        DEFAULT_SOURCE = if (BuildConfig.DEBUG) DEBUG_SOURCE else RELEASE_SOURCE
+        DEFAULT_SOURCE = DEBUG_SOURCE
         SERVER_BASE_URL = DEFAULT_SOURCE
         SERVER_BOOT_URL = "$SERVER_BASE_URL/boot"
     }

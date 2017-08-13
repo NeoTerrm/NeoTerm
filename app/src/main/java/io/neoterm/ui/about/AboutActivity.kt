@@ -9,9 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20
 import de.psdev.licensesdialog.licenses.GnuGeneralPublicLicense30
@@ -75,16 +73,12 @@ class AboutActivity : AppCompatActivity() {
         findViewById<View>(R.id.donateView).setOnClickListener {
             AlertDialog.Builder(this)
                     .setTitle(R.string.support_donate_label)
-                    .setPositiveButton("Alipay", {_, _ ->
-                        Donation.donate(this, "FKX025062MBLAG6E90RYBC")
+                    .setMessage(R.string.support_donate_dialog_text)
+                    .setPositiveButton(R.string.support_donate_alipay, {_, _ ->
+                        Donation.donateByAlipay(this, "FKX025062MBLAG6E90RYBC")
                     })
-                    .setNegativeButton("QQ", {_, _ ->
-                        val qrImage = ImageView(this)
-                        qrImage.setImageResource(R.drawable.donation_qq)
-                        AlertDialog.Builder(this)
-                                .setView(qrImage)
-                                .setPositiveButton(android.R.string.yes, null)
-                                .show()
+                    .setNegativeButton(R.string.support_donate_qq, {_, _ ->
+                        Donation.donateByQQ(this)
                     })
                     .setNeutralButton(android.R.string.no, null)
                     .show()

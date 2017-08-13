@@ -63,8 +63,8 @@
     <string name="install">安裝</string>
 
     <string-array name="pref_package_source_entries">
-        <item>預設軟體源 (穩定，推薦)</item>
-        <item>偵錯軟體源 (可能不穩定)</item>
+        <item>mirrors.geekpie.org</item>
+        <item>neoterm.studio</item>
         <item>手動輸入…</item>
     </string-array>
     <string name="pref_customization_eks">擴充鍵盤</string>
@@ -119,4 +119,7 @@
     <string name="about_developers">Kiva 維護\nCrixec 圖標設計</string>
     <string name="about_credits_label">特別鳴謝</string>
     <string name="about_credits">nullptr 時刻支持我\n酷安用戶 @NimaQu 贊助服務器\nQQ用戶 @My 提供免費網絡</string>
+    <string name="support_donate_dialog_text">這個app是我在課餘時間製作的，一個人不僅要維護app，還要維護各種套裝軟體和服務器，如果能得到你的支持，我將更有動力繼續完善下去</string>
+    <string name="support_donate_qq">QQ</string>
+    <string name="support_donate_alipay">支付寶</string>
 </resources>

@@ -109,6 +109,10 @@
             android:label="@string/customization_settings"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
+            android:name=".ui.customize.ColorSchemeActivity"
+            android:label="@string/pref_customization_color_scheme"
+            android:theme="@style/AppTheme.NoActionBar.Dark" />
+        <activity
             android:name=".ui.settings.SettingActivity"
             android:theme="@style/AppTheme.Dark" />
         <activity

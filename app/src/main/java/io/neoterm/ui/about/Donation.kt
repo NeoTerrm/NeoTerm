@@ -2,7 +2,11 @@ package io.neoterm.ui.about
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.support.v7.app.AlertDialog
+import android.widget.ImageView
+import io.neoterm.R
 import java.net.URISyntaxException
 
 object Donation {
@@ -15,8 +19,17 @@ object Donation {
             "%3Dweb-other&_t=1472443966571#Intent;" +
             "scheme=alipayqr;package=com.eg.android.AlipayGphone;end"
 
-    fun donate(activity: Activity, payCode: String): Boolean {
+    fun donateByAlipay(activity: Activity, payCode: String): Boolean {
         return startIntentUrl(activity, INTENT_URL_FORMAT.replace("{payCode}", payCode))
+    }
+
+    fun donateByQQ(context: Context) {
+        val qrImage = ImageView(context)
+        qrImage.setImageResource(R.drawable.donation_qq)
+        AlertDialog.Builder(context)
+                .setView(qrImage)
+                .setPositiveButton(android.R.string.yes, null)
+                .show()
     }
 
     private fun startIntentUrl(activity: Activity, intentFullUrl: String): Boolean {

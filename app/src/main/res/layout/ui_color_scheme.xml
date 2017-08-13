@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/color_scheme_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:visibility="visible"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/preview_layout_margin"
+        android:background="@color/terminal_background">
+
+        <io.neoterm.view.eks.ExtraKeysView
+            android:id="@+id/color_scheme_extra_keys"
+            style="?android:buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/eks_height_two_line"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" />
+
+        <io.neoterm.view.TerminalView
+            android:id="@+id/terminal_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/custom_extra_keys"
+            android:fadeScrollbars="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scrollbars="vertical" />
+
+    </RelativeLayout>
+
+</LinearLayout>

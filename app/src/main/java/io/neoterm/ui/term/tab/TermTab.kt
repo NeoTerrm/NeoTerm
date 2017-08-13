@@ -4,10 +4,10 @@ import android.content.Context
 import android.support.v7.widget.Toolbar
 import android.view.inputmethod.InputMethodManager
 import de.mrapp.android.tabswitcher.Tab
-import io.neoterm.customize.color.ColorSchemeService
+import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.frontend.client.TermDataHolder
 import io.neoterm.frontend.client.TermUiPresenter
-import io.neoterm.frontend.service.ServiceManager
+import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.ui.term.event.TabCloseEvent
 import io.neoterm.ui.term.event.TitleChangedEvent
 import io.neoterm.ui.term.event.ToggleFullScreenEvent
@@ -22,7 +22,7 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
     var toolbar: Toolbar? = null
 
     fun updateColorScheme() {
-        val colorSchemeManager = ServiceManager.getService<ColorSchemeService>()
+        val colorSchemeManager = ComponentManager.getService<ColorSchemeComponent>()
         colorSchemeManager.applyColorScheme(termData.termView, termData.extraKeysView,
                 colorSchemeManager.getCurrentColorScheme())
     }

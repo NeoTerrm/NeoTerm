@@ -122,4 +122,5 @@
     <string name="support_donate_dialog_text">这个app是我在课余时间制作的，一个人不仅要维护app，还要维护各种软件包和服务器，如果能得到你的支持，我将更有动力继续将app完善下去</string>
     <string name="support_donate_qq">QQ</string>
     <string name="support_donate_alipay">支付宝</string>
+    <string name="new_color_scheme">新建配色方案</string>
 </resources>

@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/color_scheme_toolbar"
+        android:id="@+id/custom_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
@@ -22,7 +22,7 @@
         android:background="@color/terminal_background">
 
         <io.neoterm.view.eks.ExtraKeysView
-            android:id="@+id/color_scheme_extra_keys"
+            android:id="@+id/custom_extra_keys"
             style="?android:buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/eks_height_two_line"

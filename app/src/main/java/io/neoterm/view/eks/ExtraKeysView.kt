@@ -7,7 +7,7 @@ import android.view.*
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import io.neoterm.R
-import io.neoterm.customize.eks.NeoExtraKey
+import io.neoterm.component.eks.NeoExtraKey
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.ui.term.event.ToggleImeEvent

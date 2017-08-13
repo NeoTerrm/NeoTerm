@@ -4,7 +4,7 @@ import android.content.Context
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import io.neoterm.R
 
-import io.neoterm.customize.pm.NeoPackageInfo
+import io.neoterm.component.pm.NeoPackageInfo
 import io.neoterm.utils.FileUtils
 
 /**

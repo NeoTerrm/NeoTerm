@@ -11,10 +11,10 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import io.neoterm.R
 import io.neoterm.backend.TerminalColors
-import io.neoterm.customize.color.ColorSchemeService
+import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener
 import io.neoterm.frontend.completion.model.CompletionCandidate
-import io.neoterm.frontend.service.ServiceManager
+import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.view.MaxHeightView
 import io.neoterm.view.TerminalView
 
@@ -136,7 +136,7 @@ class CandidatePopupWindow(val context: Context) {
         val splitView: View = rootView.findViewById(R.id.complete_split)
 
         init {
-            val colorScheme = ServiceManager.getService<ColorSchemeService>().getCurrentColorScheme()
+            val colorScheme = ComponentManager.getService<ColorSchemeComponent>().getCurrentColorScheme()
             val textColor = TerminalColors.parse(colorScheme.foregroundColor)
             display.setTextColor(textColor)
             description.setTextColor(textColor)

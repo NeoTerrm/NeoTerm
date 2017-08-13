@@ -1,12 +1,11 @@
 package io.neoterm
 
-import io.neolang.main.Main
 import io.neolang.visitor.ConfigVisitor
-import io.neoterm.customize.color.NeoColorScheme
-import io.neoterm.customize.config.ConfigureService
-import io.neoterm.customize.eks.NeoExtraKey
+import io.neoterm.component.color.NeoColorScheme
+import io.neoterm.component.config.ConfigureComponent
+import io.neoterm.component.eks.NeoExtraKey
 import io.neoterm.frontend.config.NeoConfigureFile
-import io.neoterm.frontend.service.ServiceManager
+import io.neoterm.frontend.component.ComponentManager
 import org.junit.Test
 import java.io.File
 
@@ -26,7 +25,7 @@ class ConfigureFileTest {
     @Test
     fun colorConfigureTest() {
         try {
-            ServiceManager.registerService(ConfigureService::class.java)
+            ComponentManager.registerComponent(ConfigureComponent::class.java)
         } catch (ignore: Throwable) {
         }
 
@@ -44,7 +43,7 @@ class ConfigureFileTest {
     @Test
     fun extraKeyConfigureTest() {
         try {
-            ServiceManager.registerService(ConfigureService::class.java)
+            ComponentManager.registerComponent(ConfigureComponent::class.java)
         } catch (ignore: Throwable) {
         }
 

@@ -24,7 +24,7 @@ import android.widget.Toast
 import de.mrapp.android.tabswitcher.*
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.setup.BaseFileInstaller
+import io.neoterm.component.setup.BaseFileInstaller
 import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.frontend.client.TermViewClient
 import io.neoterm.frontend.preference.NeoPermission

@@ -1,6 +1,5 @@
 package io.neoterm.ui.term
 
-import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -10,24 +9,18 @@ import android.os.IBinder
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.ListView
-import android.widget.Toast
+import io.neoterm.App
 import io.neoterm.R
-import io.neoterm.customize.script.UserScript
-import io.neoterm.customize.script.UserScriptService
-import io.neoterm.frontend.shell.ShellParameter
+import io.neoterm.component.script.UserScript
+import io.neoterm.component.script.UserScriptComponent
 import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.TerminalUtils
 import java.io.File
-import android.content.Intent.ShortcutIconResource
-import android.util.Log
-import android.view.View
-import io.neoterm.App
-import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.service.ServiceManager
 
 
 /**
@@ -47,8 +40,13 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
     override fun onDestroy() {
         super.onDestroy()
-        termService = null
-        unbindService(this)
+        if (termService != null) {
+            if (termService!!.sessions.isEmpty()) {
+                termService!!.stopSelf()
+            }
+            termService = null
+            unbindService(this)
+        }
     }
 
     override fun onServiceDisconnected(name: ComponentName?) {
@@ -107,7 +105,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
     private fun handleUserScript() {
         val filesToHandle = mutableListOf<String>()
-        val userScriptService = ServiceManager.getService<UserScriptService>()
+        val userScriptService = ComponentManager.getService<UserScriptComponent>()
         val userScripts = userScriptService.userScripts
         if (userScripts.isEmpty()) {
             App.get().errorDialog(this, R.string.no_user_script_found, { finish() })

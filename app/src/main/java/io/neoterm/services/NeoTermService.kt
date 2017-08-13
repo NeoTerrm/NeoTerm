@@ -94,9 +94,8 @@ class NeoTermService : Service() {
     }
 
     private fun updateNotification() {
-        if (sessions.isNotEmpty()) {
-            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(NOTIFICATION_ID, createNotification())
-        }
+        val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        service.notify(NOTIFICATION_ID, createNotification())
     }
 
     private fun createNotification(): Notification {

@@ -4,11 +4,9 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.widget.Button
-import android.widget.Toast
 import io.neoterm.App
 import io.neoterm.R
-import io.neoterm.customize.setup.BaseFileInstaller
+import io.neoterm.component.setup.BaseFileInstaller
 import io.neoterm.utils.PackageUtils
 
 

@@ -23,12 +23,12 @@ import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.pm.NeoPackageManagerUtils
-import io.neoterm.customize.pm.NeoPackageService
+import io.neoterm.component.pm.NeoPackageManagerUtils
+import io.neoterm.component.pm.NeoPackageComponent
 import io.neoterm.frontend.floating.TerminalDialog
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
-import io.neoterm.frontend.service.ServiceManager
+import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 import io.neoterm.utils.PackageUtils
@@ -213,7 +213,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         progressBar.visibility = View.VISIBLE
         progressBar.alpha = 0.0f
         Thread {
-            val pm = ServiceManager.getService<NeoPackageService>()
+            val pm = ComponentManager.getService<NeoPackageComponent>()
             val sourceFiles = NeoPackageManagerUtils.detectSourceFiles()
 
             pm.clearPackages()

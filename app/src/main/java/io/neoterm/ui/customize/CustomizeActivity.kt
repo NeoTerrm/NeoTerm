@@ -1,65 +1,35 @@
 package io.neoterm.ui.customize
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
 import io.neoterm.R
-import io.neoterm.backend.TerminalSession
-import io.neoterm.customize.color.ColorSchemeService
+import io.neoterm.component.color.ColorSchemeComponent
+import io.neoterm.component.font.FontComponent
 import io.neoterm.frontend.preference.NeoTermPath
-import io.neoterm.customize.font.FontService
-import io.neoterm.frontend.shell.ShellParameter
-import io.neoterm.frontend.service.ServiceManager
+import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.utils.FileUtils
 import io.neoterm.utils.MediaUtils
-import io.neoterm.utils.TerminalUtils
-import io.neoterm.frontend.tinyclient.BasicSessionCallback
-import io.neoterm.frontend.tinyclient.BasicViewClient
-import io.neoterm.view.eks.ExtraKeysView
-import io.neoterm.view.TerminalView
 import java.io.File
 import java.io.FileInputStream
 
 /**
  * @author kiva
  */
-class CustomizeActivity : AppCompatActivity() {
-    lateinit var terminalView: TerminalView
-    lateinit var viewClient: BasicViewClient
-    lateinit var sessionCallback: BasicSessionCallback
-    lateinit var session: TerminalSession
-    lateinit var extraKeysView: ExtraKeysView
-
+class CustomizeActivity : BaseCustomizeActivity() {
     val REQUEST_SELECT_FONT = 22222
     val REQUEST_SELECT_COLOR = 22223
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ui_customize)
-
-        val toolbar = findViewById<Toolbar>(R.id.custom_toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        terminalView = findViewById<TerminalView>(R.id.terminal_view)
-        extraKeysView = findViewById<ExtraKeysView>(R.id.custom_extra_keys)
-        viewClient = BasicViewClient(terminalView)
-        sessionCallback = BasicSessionCallback(terminalView)
-        TerminalUtils.setupTerminalView(terminalView, viewClient)
-
-        val parameter = ShellParameter()
-                .executablePath("${NeoTermPath.USR_PATH}/bin/applets/echo")
-                .arguments(arrayOf("echo", "Hello NeoTerm."))
-                .callback(sessionCallback)
-                .systemShell(false)
-
-        session = TerminalUtils.createShellSession(this, parameter)
-        terminalView.attachSession(session)
+        initCustomizationComponent(R.layout.ui_customize)
 
         findViewById<View>(R.id.custom_install_font_button).setOnClickListener {
             val intent = Intent()
@@ -69,16 +39,25 @@ class CustomizeActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.custom_install_color_button).setOnClickListener {
-            val intent = Intent()
-            intent.action = Intent.ACTION_GET_CONTENT
-            intent.type = "*/*"
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.install_color)), REQUEST_SELECT_COLOR)
+            AlertDialog.Builder(this)
+                    .setMessage(R.string.pref_customization_font)
+                    .setNeutralButton(android.R.string.no, null)
+                    .setPositiveButton(R.string.install_font, { _, _ ->
+                        val intent = Intent()
+                        intent.action = Intent.ACTION_GET_CONTENT
+                        intent.type = "*/*"
+                        startActivityForResult(Intent.createChooser(intent, getString(R.string.install_color)), REQUEST_SELECT_COLOR)
+                    })
+                    .setNegativeButton(R.string.new_color_scheme, { _, _ ->
+                        startActivity(Intent(this, ColorSchemeActivity::class.java))
+                    })
+                    .show()
         }
     }
 
     private fun setupSpinners() {
-        val fontManager = ServiceManager.getService<FontService>()
-        val colorSchemeManager = ServiceManager.getService<ColorSchemeService>()
+        val fontManager = ComponentManager.getService<FontComponent>()
+        val colorSchemeManager = ComponentManager.getService<ColorSchemeComponent>()
 
         setupSpinner(R.id.custom_font_spinner, fontManager.getFontNames(),
                 fontManager.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {

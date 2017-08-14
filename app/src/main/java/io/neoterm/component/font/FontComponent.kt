@@ -2,11 +2,14 @@ package io.neoterm.component.font
 
 import android.content.Context
 import android.graphics.Typeface
+import android.view.View
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.component.NeoComponent
+import io.neoterm.frontend.terminal.TerminalView
+import io.neoterm.frontend.terminal.eks.ExtraKeysView
 import io.neoterm.utils.AssetsUtils
 import java.io.File
 
@@ -14,24 +17,13 @@ import java.io.File
  * @author kiva
  */
 class FontComponent : NeoComponent {
-    override fun onServiceInit() {
-        checkForFiles()
-    }
-
-    override fun onServiceDestroy() {
-    }
-
-    override fun onServiceObtained() {
-        checkForFiles()
-    }
-
     private val DEFAULT_FONT_NAME = "SourceCodePro"
 
     private lateinit var DEFAULT_FONT: NeoFont
     private lateinit var fonts: MutableMap<String, NeoFont>
 
-    fun getDefaultFont(): NeoFont {
-        return DEFAULT_FONT
+    fun applyFont(terminalView: TerminalView?, extraKeysView: ExtraKeysView?, font: NeoFont?) {
+        font?.applyFont(terminalView, extraKeysView)
     }
 
     fun getCurrentFont(): NeoFont {
@@ -61,7 +53,7 @@ class FontComponent : NeoComponent {
         return list
     }
 
-    fun refreshFontList(): Boolean {
+    fun reloadFonts(): Boolean {
         fonts.clear()
         fonts.put("Android Monospace", NeoFont(Typeface.MONOSPACE))
         fonts.put("Android Sans Serif", NeoFont(Typeface.SANS_SERIF))
@@ -77,6 +69,17 @@ class FontComponent : NeoComponent {
             return true
         }
         return false
+    }
+
+    override fun onServiceInit() {
+        checkForFiles()
+    }
+
+    override fun onServiceDestroy() {
+    }
+
+    override fun onServiceObtained() {
+        checkForFiles()
     }
 
     private fun loadDefaultFontFromAsset(context: Context): NeoFont {
@@ -114,7 +117,7 @@ class FontComponent : NeoComponent {
             }
         }
 
-        if (!refreshFontList()) {
+        if (!reloadFonts()) {
             DEFAULT_FONT = loadDefaultFontFromAsset(context)
             fonts.put(DEFAULT_FONT_NAME, DEFAULT_FONT)
         }

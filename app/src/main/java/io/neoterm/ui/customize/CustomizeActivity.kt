@@ -56,33 +56,32 @@ class CustomizeActivity : BaseCustomizeActivity() {
     }
 
     private fun setupSpinners() {
-        val fontManager = ComponentManager.getService<FontComponent>()
-        val colorSchemeManager = ComponentManager.getService<ColorSchemeComponent>()
+        val fontComponent = ComponentManager.getService<FontComponent>()
+        val colorSchemeComponent = ComponentManager.getService<ColorSchemeComponent>()
 
-        setupSpinner(R.id.custom_font_spinner, fontManager.getFontNames(),
-                fontManager.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {
+        setupSpinner(R.id.custom_font_spinner, fontComponent.getFontNames(),
+                fontComponent.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val fontName = parent!!.adapter!!.getItem(position) as String
-                val typeface = fontManager.getFont(fontName).getTypeFace()
-                terminalView.setTypeface(typeface)
-                extraKeysView.setTypeface(typeface)
-                fontManager.setCurrentFont(fontName)
+                val font = fontComponent.getFont(fontName)
+                fontComponent.applyFont(terminalView, extraKeysView, font)
+                fontComponent.setCurrentFont(fontName)
             }
         })
 
-        setupSpinner(R.id.custom_color_spinner, colorSchemeManager.getColorNames(),
-                colorSchemeManager.getCurrentColorName(), object : AdapterView.OnItemSelectedListener {
+        setupSpinner(R.id.custom_color_spinner, colorSchemeComponent.getColorSchemeNames(),
+                colorSchemeComponent.getCurrentColorSchemeName(), object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val colorName = parent!!.adapter!!.getItem(position) as String
-                val color = colorSchemeManager.getColor(colorName)
-                colorSchemeManager.applyColorScheme(terminalView, extraKeysView, color)
-                colorSchemeManager.setCurrentColor(colorName)
+                val color = colorSchemeComponent.getColorScheme(colorName)
+                colorSchemeComponent.applyColorScheme(terminalView, extraKeysView, color)
+                colorSchemeComponent.setCurrentColorScheme(colorName)
             }
         })
     }

@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.DialogInterface
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.shell.ShellParameter
-import io.neoterm.frontend.tinyclient.BasicSessionCallback
-import io.neoterm.frontend.tinyclient.BasicViewClient
+import io.neoterm.frontend.client.BasicSessionCallback
+import io.neoterm.frontend.client.BasicViewClient
 import io.neoterm.utils.TerminalUtils
 
 /**

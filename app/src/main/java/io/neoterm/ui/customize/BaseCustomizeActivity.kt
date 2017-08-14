@@ -8,8 +8,8 @@ import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.shell.ShellParameter
-import io.neoterm.frontend.tinyclient.BasicSessionCallback
-import io.neoterm.frontend.tinyclient.BasicViewClient
+import io.neoterm.frontend.client.BasicSessionCallback
+import io.neoterm.frontend.client.BasicViewClient
 import io.neoterm.utils.TerminalUtils
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.eks.ExtraKeysView

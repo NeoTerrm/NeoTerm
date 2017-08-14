@@ -56,26 +56,6 @@ open class NeoColorScheme {
         this.color[type] = color
     }
 
-    fun applyColors(view: TerminalView, extraKeysView: ExtraKeysView?) {
-        validateColors()
-        val scheme = TerminalColorScheme()
-        scheme.updateWith(foregroundColor, backgroundColor, cursorColor, color)
-        val session = view.currentSession
-        if (session != null && session.emulator != null) {
-            session.emulator.setColorScheme(scheme)
-        }
-
-        view.setBackgroundColor(TerminalColors.parse(backgroundColor))
-        extraKeysView?.setBackgroundColor(TerminalColors.parse(backgroundColor))
-        extraKeysView?.setTextColor(TerminalColors.parse(foregroundColor))
-    }
-
-    private fun validateColors() {
-        backgroundColor = backgroundColor ?: DefaultColorScheme.backgroundColor
-        foregroundColor = foregroundColor ?: DefaultColorScheme.foregroundColor
-        cursorColor = cursorColor ?: DefaultColorScheme.cursorColor
-    }
-
     fun loadConfigure(file: File): Boolean {
         // TODO: Refactor with NeoExtraKey#loadConfigure
         val loaderService = ComponentManager.getService<ConfigureComponent>()
@@ -122,6 +102,31 @@ open class NeoColorScheme {
 
         validateColors()
         return true
+    }
+
+    internal fun applyColorScheme(view: TerminalView?, extraKeysView: ExtraKeysView?) {
+        validateColors()
+
+        if (view != null) {
+            val scheme = TerminalColorScheme()
+            scheme.updateWith(foregroundColor, backgroundColor, cursorColor, color)
+            val session = view.currentSession
+            if (session != null && session.emulator != null) {
+                session.emulator.setColorScheme(scheme)
+            }
+            view.setBackgroundColor(TerminalColors.parse(backgroundColor))
+        }
+
+        if (extraKeysView != null) {
+            extraKeysView.setBackgroundColor(TerminalColors.parse(backgroundColor))
+            extraKeysView.setTextColor(TerminalColors.parse(foregroundColor))
+        }
+    }
+
+    private fun validateColors() {
+        backgroundColor = backgroundColor ?: DefaultColorScheme.backgroundColor
+        foregroundColor = foregroundColor ?: DefaultColorScheme.foregroundColor
+        cursorColor = cursorColor ?: DefaultColorScheme.cursorColor
     }
 
     private fun getMetaByVisitor(visitor: ConfigVisitor, metaName: String): String? {

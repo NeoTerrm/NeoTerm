@@ -1,4 +1,4 @@
-package io.neoterm.frontend.tinyclient
+package io.neoterm.frontend.client
 
 import android.content.Context
 import android.view.KeyEvent

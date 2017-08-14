@@ -1,4 +1,4 @@
-package io.neoterm.frontend.completion.widget
+package io.neoterm.frontend.completion.view
 
 import android.content.Context
 import android.view.Gravity

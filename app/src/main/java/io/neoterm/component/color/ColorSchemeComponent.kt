@@ -15,30 +15,16 @@ import java.io.File
  * @author kiva
  */
 class ColorSchemeComponent : NeoComponent {
-    override fun onServiceObtained() {
-        checkForFiles()
-    }
-
-    override fun onServiceInit() {
-        checkForFiles()
-    }
-
-    override fun onServiceDestroy() {
+    companion object {
+        fun colorFile(colorName: String): File {
+            return File("${NeoTermPath.COLORS_PATH}/$colorName.nl")
+        }
     }
 
     private lateinit var DEFAULT_COLOR: NeoColorScheme
     private lateinit var colors: MutableMap<String, NeoColorScheme>
 
-    private fun extractDefaultColor(context: Context): Boolean {
-        try {
-            AssetsUtils.extractAssetsDir(context, "colors", NeoTermPath.COLORS_PATH)
-            return true
-        } catch (e: Exception) {
-            return false
-        }
-    }
-
-    fun refreshColorList(): Boolean {
+    fun reloadColorSchemes(): Boolean {
         colors.clear()
         val colorDir = File(NeoTermPath.COLORS_PATH)
         for (file in colorDir.listFiles({ pathname ->
@@ -58,8 +44,53 @@ class ColorSchemeComponent : NeoComponent {
     }
 
     fun applyColorScheme(view: TerminalView?, extraKeysView: ExtraKeysView?, colorScheme: NeoColorScheme?) {
-        if (view != null && colorScheme != null) {
-            colorScheme.applyColors(view, extraKeysView)
+        colorScheme?.applyColorScheme(view, extraKeysView)
+    }
+
+    fun getCurrentColorScheme(): NeoColorScheme {
+        return colors[getCurrentColorSchemeName()]!!
+    }
+
+    fun getCurrentColorSchemeName(): String {
+        var currentColorName = NeoPreference.loadString(R.string.key_customization_color_scheme, DefaultColorScheme.colorName)
+        if (!colors.containsKey(currentColorName)) {
+            currentColorName = DefaultColorScheme.colorName
+            NeoPreference.store(R.string.key_customization_color_scheme, DefaultColorScheme.colorName)
+        }
+        return currentColorName
+    }
+
+    fun getColorScheme(colorName: String): NeoColorScheme {
+        return if (colors.containsKey(colorName)) colors[colorName]!! else getCurrentColorScheme()
+    }
+
+    fun getColorSchemeNames(): List<String> {
+        val list = ArrayList<String>()
+        list += colors.keys
+        return list
+    }
+
+    fun setCurrentColorScheme(colorName: String) {
+        NeoPreference.store(R.string.key_customization_color_scheme, colorName)
+    }
+
+    override fun onServiceObtained() {
+        checkForFiles()
+    }
+
+    override fun onServiceInit() {
+        checkForFiles()
+    }
+
+    override fun onServiceDestroy() {
+    }
+
+    private fun extractDefaultColor(context: Context): Boolean {
+        try {
+            AssetsUtils.extractAssetsDir(context, "colors", NeoTermPath.COLORS_PATH)
+            return true
+        } catch (e: Exception) {
+            return false
         }
     }
 
@@ -76,42 +107,9 @@ class ColorSchemeComponent : NeoComponent {
             }
         }
 
-        if (!refreshColorList()) {
+        if (!reloadColorSchemes()) {
             DEFAULT_COLOR = DefaultColorScheme
             colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
-        }
-    }
-
-    fun getCurrentColorScheme(): NeoColorScheme {
-        return colors[getCurrentColorName()]!!
-    }
-
-    fun getCurrentColorName(): String {
-        var currentColorName = NeoPreference.loadString(R.string.key_customization_color_scheme, DefaultColorScheme.colorName)
-        if (!colors.containsKey(currentColorName)) {
-            currentColorName = DefaultColorScheme.colorName
-            NeoPreference.store(R.string.key_customization_color_scheme, DefaultColorScheme.colorName)
-        }
-        return currentColorName
-    }
-
-    fun getColor(colorName: String): NeoColorScheme {
-        return if (colors.containsKey(colorName)) colors[colorName]!! else getCurrentColorScheme()
-    }
-
-    fun getColorNames(): List<String> {
-        val list = ArrayList<String>()
-        list += colors.keys
-        return list
-    }
-
-    fun setCurrentColor(colorName: String) {
-        NeoPreference.store(R.string.key_customization_color_scheme, colorName)
-    }
-
-    companion object {
-        fun colorFile(colorName: String): File {
-            return File("${NeoTermPath.COLORS_PATH}/$colorName.nl")
         }
     }
 }

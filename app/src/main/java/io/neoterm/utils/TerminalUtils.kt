@@ -4,13 +4,13 @@ import android.content.Context
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.font.FontComponent
-import io.neoterm.frontend.shell.ShellParameter
-import io.neoterm.frontend.shell.ShellTermSession
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.frontend.shell.ShellParameter
+import io.neoterm.frontend.shell.ShellTermSession
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.TerminalViewClient
+import io.neoterm.frontend.terminal.eks.ExtraKeysView
 
 /**
  * @author kiva
@@ -18,14 +18,19 @@ import io.neoterm.frontend.terminal.TerminalViewClient
 object TerminalUtils {
     fun setupTerminalView(terminalView: TerminalView?, terminalViewClient: TerminalViewClient? = null) {
         terminalView?.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
-        terminalView?.setTypeface(ComponentManager.getService<FontComponent>().getCurrentFont().getTypeFace())
+
+        val fontComponent = ComponentManager.getService<FontComponent>()
+        fontComponent.applyFont(terminalView, null, fontComponent.getCurrentFont())
+
         if (terminalViewClient != null) {
             terminalView?.setTerminalViewClient(terminalViewClient)
         }
     }
 
     fun setupExtraKeysView(extraKeysView: ExtraKeysView?) {
-        extraKeysView?.setTypeface(ComponentManager.getService<FontComponent>().getCurrentFont().getTypeFace())
+        val fontComponent = ComponentManager.getService<FontComponent>()
+        val font = fontComponent.getCurrentFont()
+        fontComponent.applyFont(null, extraKeysView, font)
     }
 
     fun setupTerminalSession(session: TerminalSession?) {

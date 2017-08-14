@@ -1,4 +1,4 @@
-package io.neoterm.frontend.tinyclient
+package io.neoterm.frontend.client
 
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.terminal.TerminalView

@@ -1,6 +1,8 @@
 package io.neoterm.component.font
 
 import android.graphics.Typeface
+import io.neoterm.frontend.terminal.TerminalView
+import io.neoterm.frontend.terminal.eks.ExtraKeysView
 import java.io.File
 
 /**
@@ -18,7 +20,13 @@ class NeoFont {
         this.typeface = typeface
     }
 
-    fun getTypeFace(): Typeface? {
+    internal fun applyFont(terminalView: TerminalView?, extraKeysView: ExtraKeysView?) {
+        val typeface = getTypeFace()
+        terminalView?.setTypeface(typeface)
+        extraKeysView?.setTypeface(typeface)
+    }
+
+    private fun getTypeFace(): Typeface? {
         if (typeface == null && fontFile == null) {
             return null
         }

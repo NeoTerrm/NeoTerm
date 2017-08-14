@@ -1,19 +1,18 @@
 package io.neoterm.ui.settings
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatPreferenceActivity
 import android.view.MenuItem
 import io.neoterm.R
 
 /**
  * @author kiva
  */
-class GeneralSettingsActivity : AppCompatPreferenceActivity() {
+class GeneralSettingsActivity : BasePreferenceActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar.title = getString(R.string.general_settings)
-        supportActionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = getString(R.string.general_settings)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         addPreferencesFromResource(R.xml.setting_general)
     }
 

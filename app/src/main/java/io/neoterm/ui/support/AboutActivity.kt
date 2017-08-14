@@ -39,6 +39,7 @@ class AboutActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                     .setTitle(R.string.about_developers_label)
                     .setMessage(R.string.about_developers)
+                    .setPositiveButton(android.R.string.yes, null)
                     .show()
         }
 
@@ -46,6 +47,7 @@ class AboutActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                     .setTitle(R.string.about_credits_label)
                     .setMessage(R.string.about_credits)
+                    .setPositiveButton(android.R.string.yes, null)
                     .show()
         }
 

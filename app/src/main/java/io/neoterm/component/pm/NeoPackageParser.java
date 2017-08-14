@@ -86,7 +86,7 @@ public class NeoPackageParser {
 
             switch (key) {
                 case KEY_ARCH:
-                    packageInfo.setArchitecture(NeoPackageArchitecture.Companion.parse(value));
+                    packageInfo.setArchitecture(Architecture.Companion.parse(value));
                     break;
                 case KEY_DEPENDS:
                     packageInfo.setDependenciesString(value);

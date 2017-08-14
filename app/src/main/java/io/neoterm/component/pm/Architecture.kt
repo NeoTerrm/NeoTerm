@@ -4,13 +4,13 @@ package io.neoterm.component.pm
  * @author kiva
  */
 
-enum class NeoPackageArchitecture {
+enum class Architecture {
     ALL, ARM, AARCH64, X86, X86_64;
 
 
     companion object {
 
-        fun parse(arch: String): NeoPackageArchitecture {
+        fun parse(arch: String): Architecture {
             when (arch) {
                 "arm" -> return ARM
                 "aarch64" -> return AARCH64

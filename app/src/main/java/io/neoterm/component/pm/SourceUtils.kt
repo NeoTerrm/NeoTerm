@@ -9,7 +9,7 @@ import java.net.URL
 /**
  * @author kiva
  */
-object NeoPackageManagerUtils {
+object SourceUtils {
 
     fun detectSourceFiles(): ArrayList<File> {
         val sourceFiles = ArrayList<File>()
@@ -28,13 +28,14 @@ object NeoPackageManagerUtils {
             val url = URL(sourceUrl)
             val builder = StringBuilder()
             builder.append(url.host)
-            if (url.path != null && url.path.isNotEmpty()) {
-                builder.append("_")
-                builder.append(url.path.substring(1)) // Skip '/'
-            }
             // https://github.com/NeoTerm/NeoTerm/issues/1
             if (url.port != -1) {
                 builder.append(":${url.port}")
+            }
+
+            if (url.path != null && url.path.isNotEmpty()) {
+                builder.append("_")
+                builder.append(url.path.substring(1)) // Skip '/'
             }
             builder.append("_dists_stable_main_binary-")
             return builder.toString()

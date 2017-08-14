@@ -8,7 +8,7 @@ class NeoPackageInfo {
     var packageName: String? = null
     var isEssential: Boolean = false
     var version: String? = null
-    var architecture: NeoPackageArchitecture = NeoPackageArchitecture.ALL
+    var architecture: Architecture = Architecture.ALL
     var maintainer: String? = null
     var installedSizeInBytes: Long = 0L
     var fileName: String? = null

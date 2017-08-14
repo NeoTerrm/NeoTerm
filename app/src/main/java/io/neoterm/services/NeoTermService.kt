@@ -1,16 +1,14 @@
 package io.neoterm.services
 
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
 import android.os.Binder
 import android.os.IBinder
 import android.os.PowerManager
+import android.support.v4.app.NotificationCompat
 import android.support.v4.content.WakefulBroadcastReceiver
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
@@ -109,16 +107,16 @@ class NeoTermService : Service() {
         val lockAcquired = mWakeLock != null
         if (lockAcquired) contentText += getString(R.string.service_lock_acquired)
 
-        val builder = Notification.Builder(this)
+        val builder = NotificationCompat.Builder(this, DEFAULT_CHANNEL_ID)
         builder.setContentTitle(getText(R.string.app_name))
         builder.setContentText(contentText)
         builder.setSmallIcon(R.drawable.ic_terminal_running)
         builder.setContentIntent(pendingIntent)
         builder.setOngoing(true)
         builder.setShowWhen(false)
-        builder.setColor(0xFF000000.toInt())
+        builder.color = 0xFF000000.toInt()
 
-        builder.setPriority(if (lockAcquired) Notification.PRIORITY_HIGH else Notification.PRIORITY_MIN)
+        builder.priority = if (lockAcquired) NotificationCompat.PRIORITY_HIGH else NotificationCompat.PRIORITY_MIN
 
         val exitIntent = Intent(this, NeoTermService::class.java).setAction(ACTION_SERVICE_STOP)
         builder.addAction(android.R.drawable.ic_delete, getString(R.string.exit), PendingIntent.getService(this, 0, exitIntent, 0))
@@ -168,5 +166,8 @@ class NeoTermService : Service() {
         val ACTION_ACQUIRE_LOCK = "neoterm.action.termService.lock.acquire"
         val ACTION_RELEASE_LOCK = "neoterm.action.termService.lock.release"
         private val NOTIFICATION_ID = 52019
+
+        // Copy from NotificationChannel.java
+        val DEFAULT_CHANNEL_ID = "miscellaneous"
     }
 }

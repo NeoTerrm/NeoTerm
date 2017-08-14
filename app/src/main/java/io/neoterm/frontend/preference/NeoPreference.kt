@@ -23,6 +23,7 @@ object NeoPreference {
     const val KEY_FONT_SIZE = "neoterm_general_font_size"
     const val KEY_CURRENT_SESSION = "neoterm_service_current_session"
     const val KEY_SYSTEM_SHELL = "neoterm_core_system_shell"
+    const val KEY_SOURCES = "neoterm_source_source_list"
 //    const val KEY_FLOATING_WINDOW_X = "neoterm_floating_window_x"
 //    const val KEY_FLOATING_WINDOW_Y = "neoterm_floating_window_y"
 //    const val KEY_FLOATING_WIDTH = "neoterm_floating_window_width"
@@ -59,6 +60,14 @@ object NeoPreference {
                 store(R.string.key_package_source, array[1])
             }
         }
+    }
+
+    fun storeStrings(key: String, value: Set<String>) {
+        preference!!.edit().putStringSet(key, value).apply()
+    }
+
+    fun loadStrings(key: String) : Set<String> {
+        return preference!!.getStringSet(key, setOf())
     }
 
     fun store(key: Int, value: Any) {

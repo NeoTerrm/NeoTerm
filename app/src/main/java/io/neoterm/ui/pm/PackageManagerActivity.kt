@@ -3,7 +3,6 @@ package io.neoterm.ui.pm
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
@@ -23,12 +22,13 @@ import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.component.pm.SourceUtils
 import io.neoterm.component.pm.NeoPackageComponent
+import io.neoterm.component.pm.SourceManager
+import io.neoterm.component.pm.SourceUtils
+import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.floating.TerminalDialog
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
-import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 import io.neoterm.utils.PackageUtils
@@ -121,57 +121,49 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     }
 
     private fun changeSource() {
-        val sourceList = resources.getStringArray(R.array.pref_package_source_values)
+        val sourceManager = ComponentManager.getComponent<NeoPackageComponent>().sourceManager
+        val sourceList = sourceManager.sources
+
         val currentSource = NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE)
         var checkedItem = sourceList.indexOf(currentSource)
         if (checkedItem == -1) {
-            checkedItem = sourceList.size - 1
+            // Users may edit source.list on his own
+            checkedItem = sourceList.size
+            sourceManager.addSource(currentSource)
         }
 
-        @SuppressLint("ShowToast")
-        var toast = Toast.makeText(this, "", Toast.LENGTH_SHORT)
         var selectedIndex = 0
-
         AlertDialog.Builder(this)
                 .setTitle(R.string.pref_package_source)
-                .setSingleChoiceItems(R.array.pref_package_source_entries, checkedItem, { dialog, which ->
-                    if (which == sourceList.size - 1) {
-                        changeSourceToUserInput()
-                        dialog.dismiss()
-                    } else {
-                        selectedIndex = which
-                        toast.cancel()
-                        toast = Toast.makeText(this@PackageManagerActivity, sourceList[which], Toast.LENGTH_SHORT)
-                        toast.show()
-                    }
+                .setSingleChoiceItems(sourceList.toTypedArray(), checkedItem, { _, which ->
+                    selectedIndex = which
                 })
                 .setPositiveButton(android.R.string.yes, { _, _ ->
-                    if (selectedIndex != sourceList.size - 1) {
-                        changeSourceInternal(sourceList[selectedIndex])
-                    }
+                    changeSourceInternal(sourceManager, sourceList.elementAt(selectedIndex))
+                })
+                .setNeutralButton(R.string.new_source, { _, _ ->
+                    changeSourceToUserInput(sourceManager)
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .show()
     }
 
-    private fun changeSourceToUserInput() {
+    private fun changeSourceToUserInput(sourceManager: SourceManager) {
         val editText = EditText(this)
-        val currentSource = NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE)
-        editText.setText(currentSource)
-        editText.requestFocus()
-        editText.setSelection(0, currentSource.length)
         AlertDialog.Builder(this)
                 .setTitle(R.string.pref_package_source)
                 .setView(editText)
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, { _, _ ->
                     val source = editText.text.toString()
-                    changeSourceInternal(source)
+                    changeSourceInternal(sourceManager, source)
                 })
                 .show()
     }
 
-    private fun changeSourceInternal(source: String) {
+    private fun changeSourceInternal(sourceManager: SourceManager, source: String) {
+        sourceManager.addSource(source)
+        sourceManager.applyChanges()
         NeoPreference.store(R.string.key_package_source, source)
         PackageUtils.syncSource()
         executeAptUpdate()
@@ -213,12 +205,12 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         progressBar.visibility = View.VISIBLE
         progressBar.alpha = 0.0f
         Thread {
-            val pm = ComponentManager.getService<NeoPackageComponent>()
+            val pm = ComponentManager.getComponent<NeoPackageComponent>()
             val sourceFiles = SourceUtils.detectSourceFiles()
 
             pm.clearPackages()
             for (index in sourceFiles.indices) {
-                pm.refreshPackageList(sourceFiles[index], false)
+                pm.reloadPackages(sourceFiles[index], false)
             }
 
             val packages = pm.packages

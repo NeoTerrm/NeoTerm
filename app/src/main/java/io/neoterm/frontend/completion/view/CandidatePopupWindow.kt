@@ -135,7 +135,7 @@ class CandidatePopupWindow(val context: Context) {
         val splitView: View = rootView.findViewById(R.id.complete_split)
 
         init {
-            val colorScheme = ComponentManager.getService<ColorSchemeComponent>().getCurrentColorScheme()
+            val colorScheme = ComponentManager.getComponent<ColorSchemeComponent>().getCurrentColorScheme()
             val textColor = TerminalColors.parse(colorScheme.foregroundColor)
             display.setTextColor(textColor)
             description.setTextColor(textColor)

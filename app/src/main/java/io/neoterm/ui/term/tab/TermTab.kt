@@ -22,7 +22,7 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
     var toolbar: Toolbar? = null
 
     fun updateColorScheme() {
-        val colorSchemeManager = ComponentManager.getService<ColorSchemeComponent>()
+        val colorSchemeManager = ComponentManager.getComponent<ColorSchemeComponent>()
         colorSchemeManager.applyColorScheme(termData.termView, termData.extraKeysView,
                 colorSchemeManager.getCurrentColorScheme())
     }

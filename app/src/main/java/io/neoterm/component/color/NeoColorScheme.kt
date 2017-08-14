@@ -58,7 +58,7 @@ open class NeoColorScheme {
 
     fun loadConfigure(file: File): Boolean {
         // TODO: Refactor with NeoExtraKey#loadConfigure
-        val loaderService = ComponentManager.getService<ConfigureComponent>()
+        val loaderService = ComponentManager.getComponent<ConfigureComponent>()
 
         val configure: NeoConfigureFile?
         try {

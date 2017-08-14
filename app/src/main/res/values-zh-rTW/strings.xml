@@ -62,11 +62,6 @@
     <string name="done">完成</string>
     <string name="install">安裝</string>
 
-    <string-array name="pref_package_source_entries">
-        <item>mirrors.geekpie.org</item>
-        <item>neoterm.studio</item>
-        <item>手動輸入…</item>
-    </string-array>
     <string name="pref_customization_eks">擴充鍵盤</string>
     <string name="general_settings_desc">響鈴，震動，Shell，初始化指令</string>
     <string name="ui_settings_desc">全螢幕，標題欄，切換動畫</string>

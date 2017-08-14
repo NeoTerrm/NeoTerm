@@ -29,7 +29,11 @@ public class NeoPackageComponent implements NeoComponent {
         return queryEnabled ? neoPackages.size() : -1;
     }
 
-    public void refreshPackageList(File packageListFile, boolean clearPrevious) throws IOException {
+    public SourceManager getSourceManager() {
+        return new SourceManager();
+    }
+
+    public void reloadPackages(File packageListFile, boolean clearPrevious) throws IOException {
         synchronized (lock) {
             if (isRefreshing) {
                 return;

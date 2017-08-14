@@ -62,11 +62,6 @@
     <string name="done">完成</string>
     <string name="install">安装</string>
 
-    <string-array name="pref_package_source_entries">
-        <item>mirrors.geekpie.org</item>
-        <item>neoterm.studio</item>
-        <item>输入…</item>
-    </string-array>
     <string name="pref_customization_eks">拓展键盘</string>
     <string name="general_settings_desc">响铃，振动，Shell，初始命令</string>
     <string name="ui_settings_desc">全屏，标题栏，切换动画</string>
@@ -124,4 +119,5 @@
     <string name="support_donate_alipay">支付宝</string>
     <string name="new_color_scheme">新建配色方案</string>
     <string name="faq">常见问题</string>
+    <string name="new_source">新建</string>
 </resources>

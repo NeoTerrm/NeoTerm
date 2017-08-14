@@ -203,7 +203,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
 
         if (lastTitle != title || force) {
             removeSuggestions()
-            ComponentManager.getService<ExtraKeysComponent>().showShortcutKeys(title, extraKeysView)
+            ComponentManager.getComponent<ExtraKeysComponent>().showShortcutKeys(title, extraKeysView)
             extraKeysView.updateButtons()
             lastTitle = title
         }

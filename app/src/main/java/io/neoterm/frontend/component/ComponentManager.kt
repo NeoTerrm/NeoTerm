@@ -25,7 +25,7 @@ object ComponentManager {
         }
     }
 
-    inline fun <reified T : NeoComponent> getService(): T {
+    inline fun <reified T : NeoComponent> getComponent(): T {
         val serviceInterface = T::class.java
         val service: NeoComponent = COMPONENTS[serviceInterface] ?:
                 throw ComponentNotFoundException(serviceInterface.simpleName)

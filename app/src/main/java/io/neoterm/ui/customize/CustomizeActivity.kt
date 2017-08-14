@@ -56,8 +56,8 @@ class CustomizeActivity : BaseCustomizeActivity() {
     }
 
     private fun setupSpinners() {
-        val fontComponent = ComponentManager.getService<FontComponent>()
-        val colorSchemeComponent = ComponentManager.getService<ColorSchemeComponent>()
+        val fontComponent = ComponentManager.getComponent<FontComponent>()
+        val colorSchemeComponent = ComponentManager.getComponent<ColorSchemeComponent>()
 
         setupSpinner(R.id.custom_font_spinner, fontComponent.getFontNames(),
                 fontComponent.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {

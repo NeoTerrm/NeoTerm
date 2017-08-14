@@ -105,7 +105,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
     private fun handleUserScript() {
         val filesToHandle = mutableListOf<String>()
-        val userScriptService = ComponentManager.getService<UserScriptComponent>()
+        val userScriptService = ComponentManager.getComponent<UserScriptComponent>()
         val userScripts = userScriptService.userScripts
         if (userScripts.isEmpty()) {
             App.get().errorDialog(this, R.string.no_user_script_found, { finish() })

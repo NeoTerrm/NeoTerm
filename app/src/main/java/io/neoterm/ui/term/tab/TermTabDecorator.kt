@@ -51,7 +51,7 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         TerminalUtils.setupTerminalView(view)
         TerminalUtils.setupExtraKeysView(extraKeysView)
 
-        val colorSchemeManager = ComponentManager.getService<ColorSchemeComponent>()
+        val colorSchemeManager = ComponentManager.getComponent<ColorSchemeComponent>()
         colorSchemeManager.applyColorScheme(view, extraKeysView, colorSchemeManager.getCurrentColorScheme())
 
         if (tab is TermTab) {

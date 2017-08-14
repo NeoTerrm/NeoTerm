@@ -19,7 +19,7 @@ object TerminalUtils {
     fun setupTerminalView(terminalView: TerminalView?, terminalViewClient: TerminalViewClient? = null) {
         terminalView?.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
 
-        val fontComponent = ComponentManager.getService<FontComponent>()
+        val fontComponent = ComponentManager.getComponent<FontComponent>()
         fontComponent.applyFont(terminalView, null, fontComponent.getCurrentFont())
 
         if (terminalViewClient != null) {
@@ -28,7 +28,7 @@ object TerminalUtils {
     }
 
     fun setupExtraKeysView(extraKeysView: ExtraKeysView?) {
-        val fontComponent = ComponentManager.getService<FontComponent>()
+        val fontComponent = ComponentManager.getComponent<FontComponent>()
         val font = fontComponent.getCurrentFont()
         fontComponent.applyFont(null, extraKeysView, font)
     }

@@ -4,9 +4,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.frontend.client.BasicSessionCallback
 import io.neoterm.frontend.client.BasicViewClient
+import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.utils.TerminalUtils
 
 /**
@@ -76,7 +76,6 @@ class TerminalDialog(val context: Context) {
 
     fun show(title: String?) {
         dialog?.setTitle(title)
-        dialog?.setCancelable(false)
         dialog?.setCanceledOnTouchOutside(false)
         dialog?.show()
     }

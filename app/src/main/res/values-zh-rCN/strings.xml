@@ -120,4 +120,9 @@
     <string name="new_color_scheme">新建配色方案</string>
     <string name="faq">常见问题</string>
     <string name="new_source">新建</string>
+    <string name="process_exit_info">进程已结束</string>
+    <string name="process_exit_code">状态 %d</string>
+    <string name="process_exit_signal">信号 %d</string>
+    <string name="process_exit_prompt">按回车关闭</string>
+    <string name="process_exit_prompt_press_back">按返回关闭</string>
 </resources>

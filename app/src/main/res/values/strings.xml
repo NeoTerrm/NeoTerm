@@ -120,6 +120,11 @@
     <string name="new_color_scheme">New Color Scheme</string>
     <string name="faq">FAQ</string>
     <string name="new_source">New</string>
+    <string name="process_exit_info">Process completed</string>
+    <string name="process_exit_code">code %d</string>
+    <string name="process_exit_signal">signal %d</string>
+    <string name="process_exit_prompt">press Enter</string>
+    <string name="process_exit_prompt_press_back">Press Back</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

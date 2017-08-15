@@ -124,16 +124,7 @@ public class TerminalSession extends TerminalOutput {
                 cleanupResources(exitCode);
                 mChangeCallback.onSessionFinished(TerminalSession.this);
 
-                String exitDescription = "\r\n[Process completed";
-                if (exitCode > 0) {
-                    // Non-zero process exit.
-                    exitDescription += " (code " + exitCode + ")";
-                } else if (exitCode < 0) {
-                    // Negated signal.
-                    exitDescription += " (signal " + (-exitCode) + ")";
-                }
-                exitDescription += " - press Enter]";
-
+                String exitDescription = getExitDescription(exitCode);
                 byte[] bytesToWrite = exitDescription.getBytes(StandardCharsets.UTF_8);
                 mEmulator.append(bytesToWrite, bytesToWrite.length);
                 notifyScreenUpdate();
@@ -294,6 +285,19 @@ public class TerminalSession extends TerminalOutput {
                 Log.w("neoterm-termux", "Failed sending SIGKILL: " + e.getMessage());
             }
         }
+    }
+
+    protected String getExitDescription(int exitCode) {
+        String exitDescription = "\r\n[Process completed";
+        if (exitCode > 0) {
+            // Non-zero process exit.
+            exitDescription += " (code " + exitCode + ")";
+        } else if (exitCode < 0) {
+            // Negated signal.
+            exitDescription += " (signal " + (-exitCode) + ")";
+        }
+        exitDescription += " - press Enter]";
+        return exitDescription;
     }
 
     /** Cleanup resources when the process exits. */

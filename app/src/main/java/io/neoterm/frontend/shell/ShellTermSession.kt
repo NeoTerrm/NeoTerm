@@ -1,6 +1,7 @@
 package io.neoterm.frontend.shell
 
 import android.content.Context
+import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.client.TermSessionCallback
@@ -13,10 +14,30 @@ import java.io.File
  */
 open class ShellTermSession private constructor(shellPath: String, cwd: String, args: Array<String>, env: Array<String>, changeCallback: SessionChangedCallback) : TerminalSession(shellPath, cwd, args, env, changeCallback) {
     var initialCommand: String? = null
+    var exitPrompt = App.get().getString(R.string.process_exit_prompt)
 
     override fun initializeEmulator(columns: Int, rows: Int) {
         super.initializeEmulator(columns, rows)
         sendInitialCommand()
+    }
+
+    override fun getExitDescription(exitCode: Int): String {
+        val builder = StringBuilder("\r\n[")
+        val context = App.get()
+        builder.append(context.getString(R.string.process_exit_info))
+        if (exitCode > 0) {
+            // Non-zero process exit.
+            builder.append(" (")
+            builder.append(context.getString(R.string.process_exit_code, exitCode))
+            builder.append(")")
+        } else if (exitCode < 0) {
+            // Negated signal.
+            builder.append(" (")
+            builder.append(context.getString(R.string.process_exit_signal, -exitCode))
+            builder.append(")")
+        }
+        builder.append(" - $exitPrompt]")
+        return builder.toString()
     }
 
     private fun sendInitialCommand() {

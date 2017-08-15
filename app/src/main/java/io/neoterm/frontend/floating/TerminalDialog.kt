@@ -3,10 +3,12 @@ package io.neoterm.frontend.floating
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.client.BasicSessionCallback
 import io.neoterm.frontend.client.BasicViewClient
 import io.neoterm.frontend.shell.ShellParameter
+import io.neoterm.frontend.shell.ShellTermSession
 import io.neoterm.utils.TerminalUtils
 
 /**
@@ -55,6 +57,9 @@ class TerminalDialog(val context: Context) {
                 .callback(terminalSessionCallback)
                 .systemShell(false)
         terminalSession = TerminalUtils.createShellSession(context, parameter)
+        if (terminalSession is ShellTermSession) {
+            (terminalSession as ShellTermSession).exitPrompt = context.getString(R.string.process_exit_prompt_press_back)
+        }
         termWindowView.attachSession(terminalSession)
         return this
     }

@@ -4,6 +4,7 @@ import io.neolang.runtime.type.NeoLangValue
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.component.eks.NeoExtraKey
 import io.neoterm.frontend.config.NeoConfigureFile
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.eks.button.TextButton
 import java.io.BufferedReader
 import java.io.File
@@ -20,6 +21,7 @@ class OldExtraKeysConfigureFile(configureFile: File) : NeoConfigureFile(configur
             val config = parseOldConfig(BufferedReader(FileReader(configureFile)))
             return generateVisitor(config)
         } catch (e: Exception) {
+            NLog.e("ConfigureLoader", "Failed to load old extra keys config: ${e.localizedMessage}")
             return false
         }
     }

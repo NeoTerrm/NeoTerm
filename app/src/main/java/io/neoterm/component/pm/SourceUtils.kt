@@ -1,6 +1,7 @@
 package io.neoterm.component.pm
 
 import io.neoterm.R
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import java.io.File
@@ -13,13 +14,19 @@ object SourceUtils {
 
     fun detectSourceFiles(): ArrayList<File> {
         val sourceFiles = ArrayList<File>()
-        val sourceUrl = NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE)
-        val packageFilePrefix = detectSourceFilePrefix(sourceUrl)
-        if (packageFilePrefix.isNotEmpty()) {
-            File(NeoTermPath.PACKAGE_LIST_DIR)
-                    .listFiles()
-                    .filterTo(sourceFiles) { it.name.startsWith(packageFilePrefix) }
+        try {
+            val sourceUrl = NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE)
+            val packageFilePrefix = detectSourceFilePrefix(sourceUrl)
+            if (packageFilePrefix.isNotEmpty()) {
+                File(NeoTermPath.PACKAGE_LIST_DIR)
+                        .listFiles()
+                        .filterTo(sourceFiles) { it.name.startsWith(packageFilePrefix) }
+            }
+        } catch (e: Exception) {
+            sourceFiles.clear()
+            NLog.e("PM", "Failed to detect source files: ${e.localizedMessage}")
         }
+
         return sourceFiles
     }
 
@@ -40,6 +47,7 @@ object SourceUtils {
             builder.append("_dists_stable_main_binary-")
             return builder.toString()
         } catch (e: Exception) {
+            NLog.e("PM", "Failed to detect source file prefix: ${e.localizedMessage}")
             return ""
         }
     }

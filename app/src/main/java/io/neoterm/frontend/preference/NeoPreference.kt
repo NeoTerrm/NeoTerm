@@ -9,6 +9,7 @@ import android.util.TypedValue
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.FileUtils
 import java.io.File
@@ -161,6 +162,7 @@ object NeoPreference {
             Os.symlink(loginProgramPath, NeoTermPath.NEOTERM_SHELL_PATH)
             Os.chmod(NeoTermPath.NEOTERM_SHELL_PATH, 448 /*Decimal of 0700 */)
         } catch (e: ErrnoException) {
+            NLog.e("Preference", "Failed to symlink login shell: ${e.localizedMessage}")
             e.printStackTrace()
         }
     }

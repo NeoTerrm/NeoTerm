@@ -6,6 +6,7 @@ import io.neoterm.R
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.component.NeoComponent
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.utils.AssetsUtils
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.eks.ExtraKeysView
@@ -90,6 +91,7 @@ class ColorSchemeComponent : NeoComponent {
             AssetsUtils.extractAssetsDir(context, "colors", NeoTermPath.COLORS_PATH)
             return true
         } catch (e: Exception) {
+            NLog.e("ColorScheme", "Failed to extract default colors: ${e.localizedMessage}")
             return false
         }
     }

@@ -1,5 +1,6 @@
 package io.neoterm.utils
 
+import io.neoterm.frontend.logging.NLog
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -18,6 +19,7 @@ object FileUtils {
                 true
             }
         } catch (e: Exception) {
+            NLog.e("FileUtils", "Failed to write file: ${e.localizedMessage}")
             return false
         }
     }

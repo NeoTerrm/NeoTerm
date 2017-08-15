@@ -1,4 +1,4 @@
-package io.neoterm.ui.pm.adapter.viewholder
+package io.neoterm.ui.pm.adapter.holder
 
 import android.view.View
 import android.widget.TextView

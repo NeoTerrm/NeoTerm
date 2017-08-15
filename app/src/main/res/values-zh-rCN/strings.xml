@@ -125,4 +125,32 @@
     <string name="process_exit_signal">信号 %d</string>
     <string name="process_exit_prompt">按回车关闭</string>
     <string name="process_exit_prompt_press_back">按返回关闭</string>
+    <string name="save_color_info">输入新的配色方案名</string>
+    <string name="save_color_scheme_name_template">新配色方案</string>
+    <string name="save_color">保存配色方案</string>
+    <string name="discard_changes">丢弃所有改动？</string>
+    <string name="save">保存</string>
+    <string name="input_new_value">输入新颜色</string>
+
+    <string-array name="color_item_names">
+        <item>背景色</item>
+        <item>前景色</item>
+        <item>光标颜色</item>
+        <item>黑色</item>
+        <item>红色</item>
+        <item>绿色</item>
+        <item>黄色</item>
+        <item>蓝色</item>
+        <item>洋红色</item>
+        <item>青色</item>
+        <item>白色</item>
+        <item>亮黑色</item>
+        <item>亮红色</item>
+        <item>亮绿色</item>
+        <item>亮黄色</item>
+        <item>亮蓝色</item>
+        <item>亮洋红色</item>
+        <item>亮青色</item>
+        <item>亮白色</item>
+    </string-array>
 </resources>

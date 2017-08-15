@@ -1,12 +1,12 @@
 package io.neoterm.component.color
 
+import io.neolang.visitor.ConfigVisitor
 import io.neoterm.backend.TerminalColorScheme
 import io.neoterm.backend.TerminalColors
 import io.neoterm.component.config.ConfigureComponent
-import io.neolang.visitor.ConfigVisitor
+import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.eks.ExtraKeysView
 import java.io.File
@@ -26,23 +26,30 @@ open class NeoColorScheme {
         val COLOR_META_PATH = arrayOf(COLOR_META_CONTEXT_NAME)
         val COLOR_PATH = arrayOf(COLOR_META_CONTEXT_NAME, COLOR_CONTEXT_NAME)
 
-//        const val COLOR_DIM_BLACK = 0
-//        const val COLOR_DIM_RED = 1
-//        const val COLOR_DIM_GREEN = 2
-//        const val COLOR_DIM_YELLOW = 3
-//        const val COLOR_DIM_BLUE = 4
-//        const val COLOR_DIM_MAGENTA = 5
-//        const val COLOR_DIM_CYAN = 6
-//        const val COLOR_DIM_WHITE = 7
-//
-//        const val COLOR_BRIGHT_BLACK = 8
-//        const val COLOR_BRIGHT_RED = 9
-//        const val COLOR_BRIGHT_GREEN = 10
-//        const val COLOR_BRIGHT_YELLOW = 11
-//        const val COLOR_BRIGHT_BLUE = 12
-//        const val COLOR_BRIGHT_MAGENTA = 13
-//        const val COLOR_BRIGHT_CYAN = 14
-//        const val COLOR_BRIGHT_WHITE = 15
+        const val COLOR_TYPE_BEGIN = -3
+        const val COLOR_TYPE_END = 15
+
+        const val COLOR_BACKGROUND = -3
+        const val COLOR_FOREGROUND = -2
+        const val COLOR_CURSOR = -1
+
+        const val COLOR_DIM_BLACK = 0
+        const val COLOR_DIM_RED = 1
+        const val COLOR_DIM_GREEN = 2
+        const val COLOR_DIM_YELLOW = 3
+        const val COLOR_DIM_BLUE = 4
+        const val COLOR_DIM_MAGENTA = 5
+        const val COLOR_DIM_CYAN = 6
+        const val COLOR_DIM_WHITE = 7
+
+        const val COLOR_BRIGHT_BLACK = 8
+        const val COLOR_BRIGHT_RED = 9
+        const val COLOR_BRIGHT_GREEN = 10
+        const val COLOR_BRIGHT_YELLOW = 11
+        const val COLOR_BRIGHT_BLUE = 12
+        const val COLOR_BRIGHT_MAGENTA = 13
+        const val COLOR_BRIGHT_CYAN = 14
+        const val COLOR_BRIGHT_WHITE = 15
     }
 
     lateinit var colorName: String
@@ -53,7 +60,41 @@ open class NeoColorScheme {
     var color: MutableMap<Int, String> = mutableMapOf()
 
     fun setColor(type: Int, color: String) {
+        if (type < 0) {
+            when (type) {
+                COLOR_BACKGROUND -> backgroundColor = color
+                COLOR_FOREGROUND -> foregroundColor = color
+                COLOR_CURSOR -> cursorColor = color
+            }
+            return
+        }
         this.color[type] = color
+    }
+
+    fun getColor(type: Int): String? {
+        validateColors()
+        return when (type) {
+            COLOR_BACKGROUND -> backgroundColor
+            COLOR_FOREGROUND -> foregroundColor
+            COLOR_CURSOR -> cursorColor
+            else -> {
+                if (type in (0..color.size - 1)) {
+                    color[type]
+                } else {
+                    ""
+                }
+            }
+        }
+    }
+
+    fun copy(): NeoColorScheme {
+        val copy = NeoColorScheme()
+        copy.colorName = colorName
+        copy.backgroundColor = backgroundColor
+        copy.foregroundColor = foregroundColor
+        copy.cursorColor = cursorColor
+        this.color.forEach { copy.color.put(it.key, it.value) }
+        return copy
     }
 
     fun loadConfigure(file: File): Boolean {

@@ -13,8 +13,8 @@ import android.widget.Toast
 import io.neoterm.R
 import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.component.font.FontComponent
-import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.utils.FileUtils
 import io.neoterm.utils.MediaUtils
 import java.io.File
@@ -40,16 +40,17 @@ class CustomizeActivity : BaseCustomizeActivity() {
 
         findViewById<View>(R.id.custom_install_color_button).setOnClickListener {
             AlertDialog.Builder(this)
-                    .setMessage(R.string.pref_customization_font)
+                    .setMessage(R.string.pref_customization_color_scheme)
                     .setNeutralButton(android.R.string.no, null)
-                    .setPositiveButton(R.string.install_font, { _, _ ->
+                    .setPositiveButton(R.string.install_color, { _, _ ->
                         val intent = Intent()
                         intent.action = Intent.ACTION_GET_CONTENT
                         intent.type = "*/*"
                         startActivityForResult(Intent.createChooser(intent, getString(R.string.install_color)), REQUEST_SELECT_COLOR)
                     })
                     .setNegativeButton(R.string.new_color_scheme, { _, _ ->
-                        startActivity(Intent(this, ColorSchemeActivity::class.java))
+                        val intent = Intent(this, ColorSchemeActivity::class.java)
+                        startActivity(intent)
                     })
                     .show()
         }

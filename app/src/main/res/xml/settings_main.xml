@@ -48,13 +48,13 @@
     </Preference>
     -->
 
-    <Preference
-        android:icon="@drawable/ic_info_white_36dp"
-        android:title="@string/faq" >
-        <intent
-            android:targetClass="io.neoterm.ui.support.HelpActivity"
-            android:targetPackage="io.neoterm" />
-    </Preference>
+    <!--<Preference-->
+        <!--android:icon="@drawable/ic_info_white_36dp"-->
+        <!--android:title="@string/faq" >-->
+        <!--<intent-->
+            <!--android:targetClass="io.neoterm.ui.support.HelpActivity"-->
+            <!--android:targetPackage="io.neoterm" />-->
+    <!--</Preference>-->
 
     <Preference
         android:icon="@drawable/ic_info_white_36dp"

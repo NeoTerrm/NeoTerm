@@ -40,7 +40,7 @@ import io.neoterm.utils.PackageUtils
 class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListener, SortedListAdapter.Callback {
     private val COMPARATOR = SortedListAdapter.ComparatorBuilder<PackageModel>()
             .setOrderForModel<PackageModel>(PackageModel::class.java) { a, b ->
-                a!!.packageInfo.packageName!!.compareTo(b!!.packageInfo.packageName!!)
+                a.packageInfo.packageName!!.compareTo(b.packageInfo.packageName!!)
             }
             .build()
 
@@ -73,8 +73,6 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
                         .show()
             }
 
-        }, FastScrollRecyclerView.SectionedAdapter {
-            models[it].packageInfo.packageName?.substring(0, 1) ?: "#"
         })
         adapter.addCallback(this)
 

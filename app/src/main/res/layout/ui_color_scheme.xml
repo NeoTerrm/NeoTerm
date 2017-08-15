@@ -15,31 +15,57 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/preview_layout_margin"
-        android:background="@color/terminal_background">
+        android:orientation="vertical">
 
-        <io.neoterm.frontend.terminal.eks.ExtraKeysView
-            android:id="@+id/custom_extra_keys"
-            style="?android:buttonBarStyle"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/eks_height_two_line"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:visibility="gone" />
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/preview_layout_margin"
+            android:layout_weight="1.0"
+            android:background="@color/terminal_background">
 
-        <io.neoterm.frontend.terminal.TerminalView
-            android:id="@+id/terminal_view"
+            <io.neoterm.frontend.terminal.eks.ExtraKeysView
+                android:id="@+id/custom_extra_keys"
+                style="?android:buttonBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/eks_height_two_line"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:visibility="gone" />
+
+            <io.neoterm.frontend.terminal.TerminalView
+                android:id="@+id/terminal_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/custom_extra_keys"
+                android:fadeScrollbars="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:scrollbars="vertical" />
+
+        </RelativeLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/custom_extra_keys"
-            android:fadeScrollbars="true"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:scrollbars="vertical" />
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+                android:id="@+id/custom_color_color_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fastScrollAutoHide="true"
+                app:fastScrollAutoHideDelay="1000"
+                app:fastScrollPopupBgColor="@color/colorAccent"
+                app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+                app:fastScrollThumbColor="@color/colorAccent" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

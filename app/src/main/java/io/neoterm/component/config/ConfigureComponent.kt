@@ -1,5 +1,6 @@
 package io.neoterm.component.config
 
+import io.neoterm.component.color.NeoColorScheme
 import io.neoterm.component.config.loader.NeoLangConfigureLoader
 import io.neoterm.component.config.loader.OldConfigureLoader
 import io.neoterm.frontend.component.NeoComponent
@@ -23,5 +24,9 @@ class ConfigureComponent : NeoComponent {
             "nl" -> NeoLangConfigureLoader(configFile)
             else -> OldConfigureLoader(configFile)
         }
+    }
+
+    fun export(colorScheme: NeoColorScheme): String {
+        return ""
     }
 }

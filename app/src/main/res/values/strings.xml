@@ -125,6 +125,12 @@
     <string name="process_exit_signal">signal %d</string>
     <string name="process_exit_prompt">press Enter</string>
     <string name="process_exit_prompt_press_back">Press Back</string>
+    <string name="save_color_info">Enter new color scheme name</string>
+    <string name="save_color_scheme_name_template">NewColorScheme</string>
+    <string name="save_color">Save color scheme</string>
+    <string name="discard_changes">Discard all changes?</string>
+    <string name="save">Save</string>
+    <string name="input_new_value">Enter new color</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>
@@ -155,6 +161,28 @@
     <string-array name="pref_package_source_values" translatable="false">
         <item>https://mirrors.geekpie.org/neoterm</item>
         <item>http://neoterm.studio</item>
+    </string-array>
+
+    <string-array name="color_item_names">
+        <item>Background color</item>
+        <item>Foreground color</item>
+        <item>Cursor color</item>
+        <item>Dim black</item>
+        <item>Dim red</item>
+        <item>Dim green</item>
+        <item>Dim yellow</item>
+        <item>Dim blue</item>
+        <item>Dim magenta</item>
+        <item>Dim cyan</item>
+        <item>Dim white</item>
+        <item>Bright black</item>
+        <item>Bright red</item>
+        <item>Bright green</item>
+        <item>Bright yellow</item>
+        <item>Bright blue</item>
+        <item>Bright magenta</item>
+        <item>Bright cyan</item>
+        <item>Bright white</item>
     </string-array>
 
 </resources>

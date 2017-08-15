@@ -3,28 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:padding="@dimen/package_item_padding"
     android:clickable="true"
     android:focusable="true"
-    android:orientation="vertical"
-    android:padding="@dimen/package_item_padding">
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/package_item_name"
-        style="@style/TextAppearance.AppCompat.Large"
+        android:id="@+id/color_item_name"
+        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:textColor="@color/textColor"
-        tools:text="Package Name" />
+        tools:text="Color Item Name" />
 
     <TextView
-        android:id="@+id/package_item_desc"
+        android:id="@+id/color_item_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/text_margin"
         android:maxLines="3"
         android:textColor="@color/textColorSecondary"
-        tools:text="Package Description" />
+        tools:text="Color Item Description" />
 
 </LinearLayout>

@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import io.neoterm.R
-import io.neoterm.ui.pm.adapter.viewholder.PackageViewHolder
+import io.neoterm.ui.pm.adapter.holder.PackageViewHolder
 import io.neoterm.ui.pm.model.PackageModel
 import java.util.*
 
-class PackageAdapter(context: Context, comparator: Comparator<PackageModel>, private val listener: PackageAdapter.Listener, private val sectionedAdapter: FastScrollRecyclerView.SectionedAdapter?) : SortedListAdapter<PackageModel>(context, PackageModel::class.java, comparator), FastScrollRecyclerView.SectionedAdapter {
+class PackageAdapter(context: Context, comparator: Comparator<PackageModel>, private val listener: PackageAdapter.Listener) : SortedListAdapter<PackageModel>(context, PackageModel::class.java, comparator), FastScrollRecyclerView.SectionedAdapter {
 
     override fun getSectionName(position: Int): String {
-        return sectionedAdapter?.getSectionName(position) ?: "#"
+        return getItem(position).packageInfo.packageName?.substring(0, 1) ?: "#"
     }
 
     interface Listener {

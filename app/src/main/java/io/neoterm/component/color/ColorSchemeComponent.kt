@@ -3,6 +3,8 @@ package io.neoterm.component.color
 import android.content.Context
 import io.neoterm.App
 import io.neoterm.R
+import io.neoterm.component.config.ConfigureComponent
+import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.component.NeoComponent
@@ -10,6 +12,7 @@ import io.neoterm.frontend.logging.NLog
 import io.neoterm.utils.AssetsUtils
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.utils.FileUtils
 import java.io.File
 
 /**
@@ -75,6 +78,10 @@ class ColorSchemeComponent : NeoComponent {
         NeoPreference.store(R.string.key_customization_color_scheme, colorName)
     }
 
+    fun setCurrentColorScheme(color: NeoColorScheme) {
+        setCurrentColorScheme(color.colorName)
+    }
+
     override fun onServiceObtained() {
         checkForFiles()
     }
@@ -112,6 +119,19 @@ class ColorSchemeComponent : NeoComponent {
         if (!reloadColorSchemes()) {
             DEFAULT_COLOR = DefaultColorScheme
             colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
+        }
+    }
+
+    fun saveColorScheme(colorScheme: NeoColorScheme) {
+        val colorFile = colorFile(colorScheme.colorName)
+        if (colorFile.exists()) {
+            throw RuntimeException("ColorScheme ${colorScheme.colorName} exists!")
+        }
+
+        val component = ComponentManager.getComponent<ConfigureComponent>()
+        val content = component.export(colorScheme)
+        if (!FileUtils.writeFile(colorFile, content.toByteArray())) {
+            throw RuntimeException("Failed to save file ${colorFile.absolutePath}")
         }
     }
 }

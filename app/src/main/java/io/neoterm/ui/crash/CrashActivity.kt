@@ -43,6 +43,18 @@ class CrashActivity : AppCompatActivity() {
     }
 
     private fun collectModelInfo(): String {
-        return "${Build.MODEL} (Android ${Build.VERSION.RELEASE})"
+        return "${Build.MODEL} (Android ${Build.VERSION.RELEASE} ${determineArchName()})"
+    }
+
+    private fun determineArchName(): String {
+        for (androidArch in Build.SUPPORTED_ABIS) {
+            when (androidArch) {
+                "arm64-v8a" -> return "aarch64"
+                "armeabi-v7a" -> return "arm"
+                "x86_64" -> return "x86_64"
+                "x86" -> return "i686"
+            }
+        }
+        return "Unknown Arch"
     }
 }

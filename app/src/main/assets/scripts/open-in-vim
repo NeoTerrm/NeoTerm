@@ -1,0 +1,12 @@
+#!/data/data/io.neoterm/files/usr/bin/bash
+
+set -e
+
+VIM="$(which vim)"
+
+if [[ "$VIM"x == ""x ]]; then
+    echo "Vim is not installed, now installing..."
+    apt update && apt install -y vim
+fi
+
+$VIM "$@"

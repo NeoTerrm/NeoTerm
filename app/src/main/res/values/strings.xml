@@ -87,7 +87,7 @@
     <string name="term_here">Term Here</string>
     <string name="user_script">User Script</string>
     <string name="command_shortcut">Command Shortcut</string>
-    <string name="no_user_script_found">No user script found</string>
+    <string name="no_user_script_found">No user script found (Did you forget to set executable permissions?)</string>
     <string name="no_files_selected">No files selected</string>
     <string name="files_to_handle">Files to Handle</string>
     <string name="available_user_scripts">Available User Scripts</string>

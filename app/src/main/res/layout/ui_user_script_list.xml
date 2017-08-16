@@ -3,13 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/text_margin"
-    android:orientation="horizontal"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/text_margin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1.0"
         android:orientation="vertical">
 
@@ -26,9 +25,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/text_margin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/text_margin"
         android:layout_weight="1.0"
         android:orientation="vertical">
 
@@ -41,7 +40,6 @@
             android:id="@+id/user_script_script_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
 
     </LinearLayout>
 

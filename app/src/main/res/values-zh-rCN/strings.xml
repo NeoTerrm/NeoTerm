@@ -84,7 +84,7 @@
     <string name="exit">退出</string>
     <string name="term_here">在此处打开终端</string>
     <string name="user_script">用户脚本</string>
-    <string name="no_user_script_found">没有找到可用的用户脚本</string>
+    <string name="no_user_script_found">没有找到可用的用户脚本 (是否忘记设置可执行权限?)</string>
     <string name="no_files_selected">没有文件被选择</string>
     <string name="files_to_handle">处理的文件</string>
     <string name="available_user_scripts">可用的用户脚本</string>

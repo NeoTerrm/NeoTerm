@@ -1,0 +1,57 @@
+#!/data/data/io.neoterm/files/usr/bin/bash
+
+function file_suffix() {
+    echo "${1##*.}"
+}
+
+function detect_program() {
+    case "$1" in
+        *.tar.* | *.tar ) echo "tar xvf %s" ;;
+        *.7z )    echo "7za x %s" ;;
+        *.rar )   echo "unrar x %s" ;;
+        *.zip )   echo "unzip %s" ;;
+        * )       echo "" ;;
+    esac
+}
+
+function do_extract() {
+    local file="$1"
+    local dir="$(dirname $file)"
+
+    if [[ ! -f "$file" ]]; then
+        echo "$file: no such file or directory"
+        return 1
+    fi
+
+    local program="$(detect_program $file)"
+
+    if [[ "$program" == "" ]]; then
+        echo "Unsupported format: $(file_suffix $file)"
+        return 1
+    fi
+
+    local command="$(printf "$program" "$file")"
+
+    if [[ ! -w "$dir" || ! -r "$file" ]]; then
+        command="sudo $command"
+    fi
+
+    cd "$dir" || {
+        echo "Failed to cd: $dir"
+        return 1
+    }
+
+    eval "$command"
+}
+
+if [[ "$#" == 0 ]]; then
+    echo "You must specific at least a file to extract."
+    exit 1
+fi
+
+clear
+while [[ "$#" != 0 ]]; do
+    file="$1"; shift
+    echo "[Extracting] $(basename $file)"
+    do_extract "$file"
+done

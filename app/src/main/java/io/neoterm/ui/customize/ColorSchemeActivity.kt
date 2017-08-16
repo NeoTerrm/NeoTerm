@@ -154,6 +154,7 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
         } else {
             try {
                 colorSchemeComponent.saveColorScheme(colorScheme)
+                colorSchemeComponent.reloadColorSchemes()
                 colorSchemeComponent.setCurrentColorScheme(colorScheme)
                 changed = false
 

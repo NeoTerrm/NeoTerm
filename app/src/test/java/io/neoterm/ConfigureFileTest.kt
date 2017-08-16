@@ -1,11 +1,7 @@
 package io.neoterm
 
-import io.neolang.visitor.ConfigVisitor
 import io.neoterm.component.color.NeoColorScheme
-import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.component.eks.NeoExtraKey
-import io.neoterm.frontend.config.NeoConfigureFile
-import io.neoterm.frontend.component.ComponentManager
 import org.junit.Test
 import java.io.File
 
@@ -13,19 +9,10 @@ import java.io.File
  * @author kiva
  */
 class ConfigureFileTest {
-    private fun parseConfigure(filePath: String): ConfigVisitor? {
-        val config = NeoConfigureFile(File(filePath))
-        if (config.parseConfigure()) {
-            val visitor = config.getVisitor()
-            return visitor
-        }
-        return null
-    }
-
     @Test
     fun colorConfigureTest() {
         try {
-            ComponentManager.registerComponent(ConfigureComponent::class.java)
+            TestInitializer.init()
         } catch (ignore: Throwable) {
         }
 
@@ -43,7 +30,7 @@ class ConfigureFileTest {
     @Test
     fun extraKeyConfigureTest() {
         try {
-            ComponentManager.registerComponent(ConfigureComponent::class.java)
+            TestInitializer.init()
         } catch (ignore: Throwable) {
         }
 

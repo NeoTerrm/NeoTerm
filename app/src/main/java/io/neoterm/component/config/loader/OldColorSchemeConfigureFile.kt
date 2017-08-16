@@ -19,13 +19,13 @@ class OldColorSchemeConfigureFile(configureFile: File) : NeoConfigureFile(config
         try {
             val visitor = ConfigVisitor()
             visitor.onStart()
-            visitor.onEnterContext(NeoColorScheme.COLOR_META_CONTEXT_NAME)
+            visitor.onEnterContext(NeoColorScheme.CONTEXT_META_NAME)
 
             visitor.getCurrentContext()
                     .defineAttribute(NeoColorScheme.COLOR_META_NAME, NeoLangValue(configureFile.nameWithoutExtension))
                     .defineAttribute(NeoColorScheme.COLOR_META_VERSION, NeoLangValue("1.0"))
 
-            visitor.onEnterContext(NeoColorScheme.COLOR_CONTEXT_NAME)
+            visitor.onEnterContext(NeoColorScheme.CONTEXT_COLOR_NAME)
 
             return FileInputStream(configureFile).use {
                 val prop = Properties()

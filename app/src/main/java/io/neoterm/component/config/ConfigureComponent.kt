@@ -1,7 +1,5 @@
 package io.neoterm.component.config
 
-import io.neoterm.component.color.NeoColorScheme
-import io.neoterm.component.config.export.ColorSchemeExporter
 import io.neoterm.component.config.loader.NeoLangConfigureLoader
 import io.neoterm.component.config.loader.OldConfigureLoader
 import io.neoterm.frontend.component.NeoComponent
@@ -11,6 +9,8 @@ import java.io.File
  * @author kiva
  */
 class ConfigureComponent : NeoComponent {
+    val CONFIG_LOADER_VERSION = 19
+
     override fun onServiceInit() {
     }
 
@@ -20,14 +20,14 @@ class ConfigureComponent : NeoComponent {
     override fun onServiceObtained() {
     }
 
+    fun getLoaderVersion(): Int {
+        return CONFIG_LOADER_VERSION
+    }
+
     fun newLoader(configFile: File): IConfigureFileLoader {
         return when (configFile.extension) {
             "nl" -> NeoLangConfigureLoader(configFile)
             else -> OldConfigureLoader(configFile)
         }
-    }
-
-    fun export(colorScheme: NeoColorScheme): String {
-        return ColorSchemeExporter(colorScheme).getContent()
     }
 }

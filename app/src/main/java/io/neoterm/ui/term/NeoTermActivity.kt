@@ -188,7 +188,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             override fun onSwitcherHidden(tabSwitcher: TabSwitcher) {
                 toolbar.navigationIcon = null
                 toolbar.setNavigationOnClickListener(null)
-                toolbar.setBackgroundResource(R.color.colorPrimaryDark)
+                toolbar.setBackgroundResource(R.color.colorPrimary)
             }
 
             override fun onSelectionChanged(tabSwitcher: TabSwitcher, selectedTabIndex: Int, selectedTab: Tab?) {
@@ -538,7 +538,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     private fun closeTab(tab: TermTab) {
         SessionRemover.removeSession(termService, tab)
-        Snackbar.make(tabSwitcher, R.string.session_closed, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun toggleSwitcher(showSwitcher: Boolean, easterEgg: Boolean) {
@@ -556,7 +555,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
             if (happyCount == trigger / 2) {
                 @SuppressLint("ShowToast")
-                val toast = Toast.makeText(this, "Emm...", Toast.LENGTH_LONG)
+                val toast = Toast.makeText(this, "Stop! You don't know what you are doing!", Toast.LENGTH_LONG)
                 toast.setGravity(Gravity.CENTER, 0, 0)
                 toast.show()
             } else if (happyCount > trigger) {

@@ -3,6 +3,10 @@ package io.neoterm.component.color
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.backend.TerminalColorScheme
 import io.neoterm.backend.TerminalColors
+import io.neoterm.component.codegen.CodeGenParameter
+import io.neoterm.component.codegen.generator.ICodeGenerator
+import io.neoterm.component.codegen.model.CodeGenObject
+import io.neoterm.component.color.codegen.NeoColorGenerator
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoConfigureFile
@@ -14,17 +18,20 @@ import java.io.File
 /**
  * @author kiva
  */
-open class NeoColorScheme {
+open class NeoColorScheme : CodeGenObject {
     companion object {
-        private const val COLOR_PREFIX = "color"
-        const val COLOR_CONTEXT_NAME = "colors"
-        const val COLOR_META_CONTEXT_NAME = "color-scheme"
+        const val COLOR_PREFIX = "color"
+        const val CONTEXT_COLOR_NAME = "colors"
+        const val CONTEXT_META_NAME = "color-scheme"
 
         const val COLOR_META_NAME = "name"
         const val COLOR_META_VERSION = "version"
+        const val COLOR_DEF_BACKGROUND = "background"
+        const val COLOR_DEF_FOREGROUND = "foreground"
+        const val COLOR_DEF_CURSOR = "cursor"
 
-        val COLOR_META_PATH = arrayOf(COLOR_META_CONTEXT_NAME)
-        val COLOR_PATH = arrayOf(COLOR_META_CONTEXT_NAME, COLOR_CONTEXT_NAME)
+        val COLOR_META_PATH = arrayOf(CONTEXT_META_NAME)
+        val COLOR_PATH = arrayOf(CONTEXT_META_NAME, CONTEXT_COLOR_NAME)
 
         const val COLOR_TYPE_BEGIN = -3
         const val COLOR_TYPE_END = 15
@@ -54,6 +61,7 @@ open class NeoColorScheme {
 
     lateinit var colorName: String
     var colorVersion: String? = null
+
     var foregroundColor: String? = null
     var backgroundColor: String? = null
     var cursorColor: String? = null
@@ -162,6 +170,10 @@ open class NeoColorScheme {
             extraKeysView.setBackgroundColor(TerminalColors.parse(backgroundColor))
             extraKeysView.setTextColor(TerminalColors.parse(foregroundColor))
         }
+    }
+
+    override fun getCodeGenerator(parameter: CodeGenParameter): ICodeGenerator {
+        return NeoColorGenerator(parameter)
     }
 
     private fun validateColors() {

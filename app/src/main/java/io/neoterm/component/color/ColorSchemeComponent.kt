@@ -3,6 +3,7 @@ package io.neoterm.component.color
 import android.content.Context
 import io.neoterm.App
 import io.neoterm.R
+import io.neoterm.component.codegen.CodeGenComponent
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.preference.NeoPreference
@@ -128,8 +129,9 @@ class ColorSchemeComponent : NeoComponent {
             throw RuntimeException("ColorScheme ${colorScheme.colorName} exists!")
         }
 
-        val component = ComponentManager.getComponent<ConfigureComponent>()
-        val content = component.export(colorScheme)
+        val component = ComponentManager.getComponent<CodeGenComponent>()
+        val content = component.newGenerator(colorScheme).generateCode(colorScheme)
+
         if (!FileUtils.writeFile(colorFile, content.toByteArray())) {
             throw RuntimeException("Failed to save file ${colorFile.absolutePath}")
         }

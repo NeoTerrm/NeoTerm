@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:textColor="#999999"
+        android:layout_width="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:layout_height="wrap_content"
+        android:text="我爱你！" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="动态加载成功！！"
+        android:textColor="@color/colorAccent" />
+
+</LinearLayout>

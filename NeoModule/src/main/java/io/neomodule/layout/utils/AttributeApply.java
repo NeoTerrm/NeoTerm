@@ -59,6 +59,10 @@ public class AttributeApply {
     public void apply(Configuration config) {
         Status status = new Status(config);
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if (layoutParams == null) {
+            layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT);
+        }
 
         for (Map.Entry<String, String> entry : attrs.entrySet()) {
             String attr = entry.getKey();

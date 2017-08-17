@@ -1,1 +1,1 @@
-include ':app', ':chrome-tabs', ':NeoLang'
+include ':app', ':chrome-tabs', ':NeoLang', ':NeoModule'

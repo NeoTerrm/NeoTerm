@@ -173,7 +173,7 @@ public final class BaseFileInstaller {
 
     private static HttpURLConnection openBaseFileConnection() throws IOException {
         String arch = determineArchName();
-        String baseUrl = NeoTermPath.RELEASE_SOURCE;
+        String baseUrl = NeoTermPath.INSTANCE.getSERVER_BASE_URL();
 
         // Use the same source
         NeoPreference.INSTANCE.store(R.string.key_package_source, baseUrl);

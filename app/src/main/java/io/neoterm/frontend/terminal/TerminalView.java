@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.BaseInputConnection;
+import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.Scroller;
@@ -51,6 +52,7 @@ public final class TerminalView extends View {
      * The currently displayed terminal session, whose emulator is {@link #mEmulator}.
      */
     TerminalSession mTermSession;
+
     /**
      * Our terminal emulator whose session is {@link #mTermSession}.
      */
@@ -114,6 +116,7 @@ public final class TerminalView extends View {
             @Override
             public boolean onUp(MotionEvent e) {
                 mScrollRemainder = 0.0f;
+                // 只有在没有选中文字的时候可以发送鼠标事件： !isSelectingText
                 if (mEmulator != null && mEmulator.isMouseTrackingActive() && !mIsSelectingText && !scrolledWithFinger) {
                     // Quick event processing when mouse tracking is active - do not wait for check of double tapping
                     // for zooming.
@@ -144,7 +147,9 @@ public final class TerminalView extends View {
 
             @Override
             public boolean onScroll(MotionEvent e, float distanceX, float distanceY) {
+                // 如果在选择文字时，不允许滑动屏幕，因为文字选择器需要滑动
                 if (mEmulator == null || mIsSelectingText) return true;
+
                 if (mEmulator.isMouseTrackingActive() && e.isFromSource(InputDevice.SOURCE_MOUSE)) {
                     // If moving with mouse pointer while pressing button, report that instead of scroll.
                     // This means that we never report moving with button press-events for touch input,
@@ -155,6 +160,8 @@ public final class TerminalView extends View {
                     scrolledWithFinger = true;
                     distanceY += mScrollRemainder;
                     int deltaRows = (int) (distanceY / mRenderer.mFontLineSpacing);
+
+                    // 记住当前滑动到的位置
                     mScrollRemainder = distanceY - deltaRows * mRenderer.mFontLineSpacing;
                     doScroll(e, deltaRows);
                 }
@@ -165,13 +172,16 @@ public final class TerminalView extends View {
             public boolean onScale(float focusX, float focusY, float scale) {
                 if (mEmulator == null || mIsSelectingText) return true;
                 mScaleFactor *= scale;
+                // 这里一般是改变文字大小
                 mScaleFactor = mClient.onScale(mScaleFactor);
                 return true;
             }
 
             @Override
             public boolean onFling(final MotionEvent e2, float velocityX, float velocityY) {
+                // 选择文字时，文字选择器会用到触摸操作，这里不管
                 if (mEmulator == null || mIsSelectingText) return true;
+
                 // Do not start scrolling until last fling has been taken care of:
                 if (!mScroller.isFinished()) return true;
 
@@ -391,9 +401,17 @@ public final class TerminalView extends View {
 
     public void onScreenUpdated() {
         if (mEmulator == null) return;
-
         boolean skipScrolling = false;
-        if (mIsSelectingText) {
+
+        // currentScroll 记录了当前滚动到的位置
+        // expectedScroll 记录了假设一直跟随输出滚动在最底部时的滚动位置
+        // 如果二者不一样，即 mTop != 0，则说明用户在脚本输出的时候滚动了屏幕
+        // 很有可能时用户需要观察上面脚本的输出结果
+        // 那么这个时候我们就不跟随输出滚动屏幕
+//        int currentScroll = computeVerticalScrollOffset();
+//        int expectedScroll = mEmulator.getScreen().getActiveRows() - mEmulator.mRows;
+
+        if (mIsSelectingText || /*currentScroll != expectedScroll*/ mTopRow != 0) {
             // Do not scroll when selecting text.
             int rowsInHistory = mEmulator.getScreen().getActiveTranscriptRows();
             int rowShift = mEmulator.getScrollCounter();
@@ -406,6 +424,11 @@ public final class TerminalView extends View {
                 mTopRow -= rowShift;
                 mSelY1 -= rowShift;
                 mSelY2 -= rowShift;
+            }
+
+            // 不滚动屏幕，但要让滚动条显示来告诉用户脚本在输出
+            if (/*currentScroll != expectedScroll*/ mTopRow != 0) {
+                awakenScrollBars();
             }
         }
 

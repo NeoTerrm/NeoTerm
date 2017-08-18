@@ -10,8 +10,8 @@ import io.neoterm.R
 import io.neoterm.backend.KeyHandler
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.eks.ExtraKeysComponent
-import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.terminal.TerminalViewClient
 
 
@@ -76,21 +76,37 @@ class TermViewClient(val context: Context) : TerminalViewClient {
                 return false
             }
         }
-        if (e != null && e.isCtrlPressed && e.isAltPressed) {
+
+        // TODO 自定义快捷键
+        if (e != null && e.isCtrlPressed && e.isShiftPressed) {
             // Get the unmodified code point:
             val unicodeChar = e.getUnicodeChar(0).toChar()
 
-            if (unicodeChar == 'f'/* full screen */) {
-                termUI?.requireToggleFullScreen()
-            } else if (unicodeChar == 'v') {
-                termUI?.requirePaste()
-            } else if (unicodeChar == '+' || e.getUnicodeChar(KeyEvent.META_SHIFT_ON).toChar() == '+') {
-                // We also check for the shifted char here since shift may be required to produce '+',
-                // see https://github.com/termux/termux-api/issues/2
-                changeFontSize(true)
-            } else if (unicodeChar == '-') {
-                changeFontSize(false)
+            when (unicodeChar) {
+                'v' -> termUI?.requirePaste()
+                'n' -> termUI?.requireCreateNew()
+                'z' -> termUI?.requireSwitchToPrevious()
+                'x' -> termUI?.requireSwitchToNext()
+                'f' -> termUI?.requireToggleFullScreen()
+                '-' -> changeFontSize(false)
+                '+' -> changeFontSize(true)
             }
+
+            // 当要触发 NeoTerm 快捷键时，屏蔽所有终端处理key
+            return true
+        } else if (e != null && e.isAltPressed) {
+            // Get the unmodified code point:
+            val unicodeChar = e.getUnicodeChar(0).toChar()
+            if (unicodeChar !in ('1'..'9')) {
+                return false
+            }
+
+            // Use Alt + num to switch sessions
+            val sessionIndex = unicodeChar.toInt() - '0'.toInt()
+            termUI?.requireSwitchTo(sessionIndex)
+
+            // 当要触发 NeoTerm 快捷键时，屏蔽所有终端处理key
+            return true
         }
         return false
     }

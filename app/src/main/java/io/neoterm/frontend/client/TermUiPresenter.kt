@@ -11,4 +11,8 @@ interface TermUiPresenter {
     fun requireOnSessionFinished()
     fun requireHideIme()
     fun requireFinishAutoCompletion(): Boolean
+    fun requireCreateNew()
+    fun requireSwitchToPrevious()
+    fun requireSwitchToNext()
+    fun requireSwitchTo(index: Int)
 }

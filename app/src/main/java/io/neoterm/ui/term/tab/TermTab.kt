@@ -7,10 +7,8 @@ import de.mrapp.android.tabswitcher.Tab
 import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.frontend.client.TermDataHolder
 import io.neoterm.frontend.client.TermUiPresenter
+import io.neoterm.frontend.client.event.*
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.ui.term.event.TabCloseEvent
-import io.neoterm.ui.term.event.TitleChangedEvent
-import io.neoterm.ui.term.event.ToggleFullScreenEvent
 import org.greenrobot.eventbus.EventBus
 
 /**
@@ -74,6 +72,22 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
 
     override fun requireOnSessionFinished() {
         termData.viewClient?.sessionFinished = true
+    }
+
+    override fun requireCreateNew() {
+        EventBus.getDefault().post(CreateNewSessionEvent())
+    }
+
+    override fun requireSwitchToPrevious() {
+        EventBus.getDefault().post(SwitchSessionEvent(toNext = false))
+    }
+
+    override fun requireSwitchToNext() {
+        EventBus.getDefault().post(SwitchSessionEvent(toNext = true))
+    }
+
+    override fun requireSwitchTo(index: Int) {
+        EventBus.getDefault().post(SwitchIndexedSessionEvent(index))
     }
 
     fun resetAutoCompleteStatus() {

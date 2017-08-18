@@ -1,4 +1,4 @@
-package io.neoterm.ui.term.event
+package io.neoterm.frontend.client.event
 
 import io.neoterm.ui.term.tab.TermTab
 

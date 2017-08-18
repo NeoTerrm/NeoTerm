@@ -10,7 +10,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
-import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
@@ -27,6 +26,7 @@ import io.neoterm.backend.TerminalSession
 import io.neoterm.component.setup.BaseFileInstaller
 import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.frontend.client.TermViewClient
+import io.neoterm.frontend.client.event.*
 import io.neoterm.frontend.preference.NeoPermission
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.shell.ShellParameter
@@ -35,13 +35,10 @@ import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.ui.setup.SetupActivity
-import io.neoterm.ui.term.event.TabCloseEvent
-import io.neoterm.ui.term.event.TitleChangedEvent
-import io.neoterm.ui.term.event.ToggleFullScreenEvent
-import io.neoterm.ui.term.event.ToggleImeEvent
 import io.neoterm.ui.term.tab.TermTab
 import io.neoterm.ui.term.tab.TermTabDecorator
 import io.neoterm.utils.FullScreenHelper
+import io.neoterm.utils.RangedInt
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -54,10 +51,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     lateinit var tabSwitcher: TabSwitcher
-    lateinit var fullScreenHelper: FullScreenHelper
+    private lateinit var fullScreenHelper: FullScreenHelper
     lateinit var toolbar: Toolbar
     var addSessionListener = createAddSessionListener()
-    var termService: NeoTermService? = null
+    private var termService: NeoTermService? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +69,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         setContentView(R.layout.ui_main)
 
-        toolbar = findViewById<Toolbar>(R.id.terminal_toolbar)
+        toolbar = findViewById(R.id.terminal_toolbar)
         setSupportActionBar(toolbar)
 
         fullScreenHelper = FullScreenHelper.injectActivity(this, fullscreen, peekRecreating())
@@ -86,7 +83,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
         })
 
-        tabSwitcher = findViewById<TabSwitcher>(R.id.tab_switcher)
+        tabSwitcher = findViewById(R.id.tab_switcher)
         tabSwitcher.decorator = TermTabDecorator(this)
         ViewCompat.setOnApplyWindowInsetsListener(tabSwitcher, createWindowInsetsListener())
         tabSwitcher.showToolbars(false)
@@ -126,7 +123,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
 
-        TabSwitcher.setupWithMenu(tabSwitcher, toolbar.menu, View.OnClickListener {
+        TabSwitcher.setupWithMenu(tabSwitcher, toolbar.menu, {
             if (!tabSwitcher.isSwitcherShown) {
                 val imm = this@NeoTermActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 if (imm.isActive && tabSwitcher.selectedTab is TermTab) {
@@ -159,11 +156,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 //                true
 //            }
             R.id.menu_item_new_session -> {
-                if (!tabSwitcher.isSwitcherShown) {
-                    toggleSwitcher(showSwitcher = true, easterEgg = false)
-                }
-                val index = tabSwitcher.count
-                addNewSession("NeoTerm #" + index, getSystemShellMode(), createRevealAnimation())
+                addNewSession()
                 true
             }
             R.id.menu_item_new_system_session -> {
@@ -334,7 +327,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         // When rotate the screen, extra keys may get updated.
         forEachTab { it.resetStatus() }
-//        tabSwitcher
     }
 
     private fun floatTabUp(tab: TermTab) {
@@ -385,8 +377,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun peekRecreating(): Boolean {
-        val result = NeoPreference.loadBoolean(KEY_NO_RESTORE, false)
-        return result
+        return NeoPreference.loadBoolean(KEY_NO_RESTORE, false)
     }
 
     private fun setFullScreenMode(fullScreen: Boolean) {
@@ -398,6 +389,14 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
         NeoPreference.store(R.string.key_ui_fullscreen, fullScreen)
         this@NeoTermActivity.recreate()
+    }
+
+    private fun addNewSession() {
+        if (!tabSwitcher.isSwitcherShown) {
+            toggleSwitcher(showSwitcher = true, easterEgg = false)
+        }
+        val index = tabSwitcher.count
+        addNewSession("NeoTerm #" + index, getSystemShellMode(), createRevealAnimation())
     }
 
     private fun addNewSession(session: TerminalSession?) {
@@ -448,7 +447,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             return
         }
 
-        for (i in 0..tabSwitcher.count - 1) {
+        for (i in 0 until tabSwitcher.count) {
             val tab = tabSwitcher.getTab(i)
             if (tab is TermTab && tab.termData.termSession == session) {
                 switchToSession(tab)
@@ -476,10 +475,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         return termService!!.sessions[numberOfSessions - 1]
     }
 
-    fun createAddSessionListener(): View.OnClickListener {
+    private fun createAddSessionListener(): View.OnClickListener {
         return View.OnClickListener {
-            val index = tabSwitcher.count
-            addNewSession("NeoTerm #" + index, getSystemShellMode(), createRevealAnimation())
+            addNewSession()
         }
     }
 
@@ -518,7 +516,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             val toolbar = if (toolbars.size > 1) toolbars[1] else toolbars[0]
             val size = toolbar.childCount
 
-            (0..size - 1)
+            (0 until size)
                     .map { toolbar.getChildAt(it) }
                     .filterIsInstance(ImageButton::class.java)
                     .forEach { return it }
@@ -580,7 +578,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun forEachTab(callback: (TermTab) -> Unit) {
-        (0..tabSwitcher.count - 1)
+        (0 until tabSwitcher.count)
                 .map { tabSwitcher.getTab(it) }
                 .filterIsInstance(TermTab::class.java)
                 .forEach(callback)
@@ -622,12 +620,44 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
     }
 
-
     @Suppress("unused", "UNUSED_PARAMETER")
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onTitleChangedEvent(titleChangedEvent: TitleChangedEvent) {
         if (!tabSwitcher.isSwitcherShown) {
             toolbar.title = titleChangedEvent.title
+        }
+    }
+
+    @Suppress("unused", "UNUSED_PARAMETER")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onCreateNewSessionEvent(createNewSessionEvent: CreateNewSessionEvent) {
+        addNewSession()
+    }
+
+    @Suppress("unused", "UNUSED_PARAMETER")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onSwitchSessionEvent(switchSessionEvent: SwitchSessionEvent) {
+        if (tabSwitcher.count < 2) {
+            return
+        }
+
+        val rangedInt = RangedInt(tabSwitcher.selectedTabIndex, (0 until tabSwitcher.count))
+        val nextIndex = if (switchSessionEvent.toNext)
+            rangedInt.increaseOne()
+        else rangedInt.decreaseOne()
+        if (!tabSwitcher.isSwitcherShown) {
+            tabSwitcher.showSwitcher()
+        }
+        switchToSession(tabSwitcher.getTab(nextIndex))
+    }
+
+    @Suppress("unused", "UNUSED_PARAMETER")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onSwitchIndexedSessionEvent(switchIndexedSessionEvent: SwitchIndexedSessionEvent) {
+        val nextIndex = switchIndexedSessionEvent.index - 1
+        if (nextIndex in (0 until tabSwitcher.count) && nextIndex != tabSwitcher.selectedTabIndex) {
+            // Do not show animation here, users may get tired
+            switchToSession(tabSwitcher.getTab(nextIndex))
         }
     }
 }

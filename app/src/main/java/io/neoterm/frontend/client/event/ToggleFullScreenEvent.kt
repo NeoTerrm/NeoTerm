@@ -1,4 +1,4 @@
-package io.neoterm.ui.term.event
+package io.neoterm.frontend.client.event
 
 /**
  * @author kiva

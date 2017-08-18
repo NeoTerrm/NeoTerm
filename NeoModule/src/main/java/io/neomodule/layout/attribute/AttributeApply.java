@@ -1,18 +1,32 @@
-package io.neomodule.layout.utils;
+package io.neomodule.layout.attribute;
 
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import io.neomodule.layout.Configuration;
 import io.neomodule.layout.LayoutInfo;
+import io.neomodule.layout.abs.ImageLoader;
+import io.neomodule.layout.abs.ViewAttributeRunnable;
+import io.neomodule.layout.utils.DimensionConverter;
+import io.neomodule.layout.utils.UniqueId;
 
 /**
  * @author kiva
@@ -273,8 +287,9 @@ public class AttributeApply {
 
     /**
      * 处理 pressedColor 或者 Button 的背景色
-     * @param config LayoutInflater 配置
-     * @param status 出炉状态
+     *
+     * @param config     LayoutInflater 配置
+     * @param status     出炉状态
      * @param colorValue 颜色值
      */
     private void applyPressedColor(Configuration config, Status status, int colorValue) {
@@ -304,7 +319,8 @@ public class AttributeApply {
 
     /**
      * 处理 borderColor
-     * @param gd 背景
+     *
+     * @param gd        背景
      * @param pressedGd 按下时的背景，如果没有，设置为 gd 即可
      */
     private void applyBorderColor(GradientDrawable gd, GradientDrawable pressedGd) {
@@ -321,9 +337,10 @@ public class AttributeApply {
 
     /**
      * 处理 cornerRadius 或者 cornerRadiusXXX
-     * @param config LayoutInflater 配置
-     * @param status 出炉状态
-     * @param gd 背景
+     *
+     * @param config    LayoutInflater 配置
+     * @param status    出炉状态
+     * @param gd        背景
      * @param pressedGd 按下背景，如果没有，设置为 gd 即可
      */
     private void applyCorners(Configuration config, Status status, GradientDrawable gd, GradientDrawable pressedGd) {
@@ -504,5 +521,29 @@ public class AttributeApply {
             parent.setTag(info);
         }
         return info;
+    }
+
+    public static Map<String, ViewAttributeRunnable> declareDefaultApply(final ImageLoader imageLoader) {
+        Map<String, ViewAttributeRunnable> viewRunnables = new HashMap<>(30);
+
+        viewRunnables.put("scaleType", new ScaleTypeApply());
+        viewRunnables.put("orientation", new OrientationApply());
+        viewRunnables.put("text", new TextApply());
+        viewRunnables.put("textSize", new TextSizeApply());
+        viewRunnables.put("textColor", new TextColorApply());
+        viewRunnables.put("textStyle", new TextStyleApply());
+        viewRunnables.put("textAlignment", new TextAlignmentApply());
+        viewRunnables.put("ellipsize", new EllipsizeApply());
+        viewRunnables.put("singleLine", new SingleLineApply());
+        viewRunnables.put("hint", new HintApply());
+        viewRunnables.put("inputType", new InputTypeApply());
+        viewRunnables.put("gravity", new GravityApply());
+        viewRunnables.put("src", new ImageApply(imageLoader));
+        viewRunnables.put("visibility", new VisibilityApply());
+        viewRunnables.put("clickable", new ClickableApply());
+        viewRunnables.put("tag", new TagApply());
+        viewRunnables.put("onClick", new ClickableApply());
+
+        return viewRunnables;
     }
 }

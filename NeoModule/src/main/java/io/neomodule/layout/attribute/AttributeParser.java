@@ -1,4 +1,4 @@
-package io.neomodule.layout.utils;
+package io.neomodule.layout.attribute;
 
 import android.content.res.Resources;
 import android.graphics.Color;

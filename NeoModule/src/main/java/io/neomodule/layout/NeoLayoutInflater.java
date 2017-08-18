@@ -28,7 +28,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import io.neomodule.layout.abs.ImageLoader;
-import io.neomodule.layout.utils.AttributeApply;
+import io.neomodule.layout.attribute.AttributeApply;
 import io.neomodule.layout.utils.UniqueId;
 
 public class NeoLayoutInflater {

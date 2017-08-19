@@ -9,14 +9,12 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
-import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.*
-import android.view.animation.AccelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.Toast
@@ -53,6 +51,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     lateinit var tabSwitcher: TabSwitcher
     private lateinit var fullScreenHelper: FullScreenHelper
     lateinit var toolbar: Toolbar
+
     var addSessionListener = createAddSessionListener()
     private var termService: NeoTermService? = null
 

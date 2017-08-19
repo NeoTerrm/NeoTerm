@@ -25,7 +25,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.BaseInputConnection;
-import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.Scroller;
@@ -111,7 +110,12 @@ public final class TerminalView extends View {
     private void commonInit(Context context) {
         mGestureRecognizer = new GestureAndScaleRecognizer(context, new GestureAndScaleRecognizer.Listener() {
 
-            boolean scrolledWithFinger;
+            private boolean scrolledWithFinger;
+
+            // For treating double tap as MOUSE_LEFT_BUTTON_MOVED event
+            // e.g in vim, we can change window size with fingers moving.
+            private float doubleTapX, doubleTapY;
+            private boolean draggedAfterDoubleTap;
 
             @Override
             public boolean onUp(MotionEvent e) {
@@ -222,8 +226,45 @@ public final class TerminalView extends View {
 
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-                // Do not treat is as a single confirmed tap - it may be followed by zoom.
-                return false;
+                // Old behavior: Do not treat is as a single confirmed tap - it may be followed by zoom.
+
+                // For treating double tap as MOUSE_LEFT_BUTTON_MOVED event
+                // e.g in vim, we can change window size with fingers moving.
+                // Now double tap and drag has been treated as a MOUSE_LEFT_BUTTON_MOVED event.
+                return true;
+            }
+
+            // For treating double tap as MOUSE_LEFT_BUTTON_MOVED event
+            // e.g in vim, we can change window size with fingers moving.
+            @Override
+            public boolean onDoubleTapEvent(MotionEvent e) {
+                if (mEmulator.isMouseTrackingActive() && !e.isFromSource(InputDevice.SOURCE_MOUSE)) {
+                    switch (e.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            doubleTapX = e.getX();
+                            doubleTapY = e.getY();
+                            draggedAfterDoubleTap = false;
+                            sendMouseEventCode(e, TerminalEmulator.MOUSE_LEFT_BUTTON, true);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            if (!draggedAfterDoubleTap) {
+                                sendMouseEventCode(e, TerminalEmulator.MOUSE_LEFT_BUTTON, false);
+                                sendMouseEventCode(e, TerminalEmulator.MOUSE_LEFT_BUTTON, true);
+                            }
+                            sendMouseEventCode(e, TerminalEmulator.MOUSE_LEFT_BUTTON, false);
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            if (Math.abs(e.getX() - doubleTapX) >= mRenderer.mFontWidth
+                                    || Math.abs(e.getY() - doubleTapY) >= mRenderer.mFontLineSpacing) {
+                                doubleTapX = e.getX();
+                                doubleTapY = e.getY();
+                                draggedAfterDoubleTap = true;
+                                sendMouseEventCode(e, TerminalEmulator.MOUSE_LEFT_BUTTON_MOVED, true);
+                            }
+                            break;
+                    }
+                }
+                return true;
             }
 
             @Override

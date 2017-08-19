@@ -30,7 +30,7 @@ class ExtraKeysComponent : NeoComponent {
         checkForFiles()
     }
 
-    val extraKeys: MutableMap<String, NeoExtraKey> = mutableMapOf()
+    private val extraKeys: MutableMap<String, NeoExtraKey> = mutableMapOf()
 
     fun showShortcutKeys(program: String, extraKeysView: ExtraKeysView?) {
         if (extraKeysView == null) {

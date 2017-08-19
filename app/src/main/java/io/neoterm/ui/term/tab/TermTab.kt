@@ -66,7 +66,7 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
         if (title != null && title.isNotEmpty()) {
             this.title = title
             EventBus.getDefault().post(TitleChangedEvent(title))
-            termData.viewClient?.updateSuggestions(title)
+            termData.viewClient?.updateExtraKeys(title)
         }
     }
 

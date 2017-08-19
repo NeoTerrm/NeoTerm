@@ -210,7 +210,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         return false
     }
 
-    fun updateSuggestions(title: String?, force: Boolean = false) {
+    fun updateExtraKeys(title: String?, force: Boolean = false) {
         val extraKeysView = termData?.extraKeysView
 
         if (extraKeysView == null || title == null || title.isEmpty()) {
@@ -218,14 +218,14 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         }
 
         if (lastTitle != title || force) {
-            removeSuggestions()
+            removeExtraKeys()
             ComponentManager.getComponent<ExtraKeysComponent>().showShortcutKeys(title, extraKeysView)
             extraKeysView.updateButtons()
             lastTitle = title
         }
     }
 
-    fun removeSuggestions() {
+    private fun removeExtraKeys() {
         val extraKeysView = termData?.extraKeysView
         extraKeysView?.clearUserKeys()
     }

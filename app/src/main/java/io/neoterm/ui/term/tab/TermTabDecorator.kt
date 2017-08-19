@@ -64,7 +64,7 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
             termData.initializeViewWith(termTab, view, extraKeysView)
 
             if (termData.termSession != null) {
-                termData.viewClient?.updateSuggestions(termData.termSession?.title, true)
+                termData.viewClient?.updateExtraKeys(termData.termSession?.title, true)
             }
 
             view.setTerminalViewClient(termData.viewClient)

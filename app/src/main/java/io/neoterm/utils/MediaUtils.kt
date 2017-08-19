@@ -89,7 +89,7 @@ object MediaUtils {
      * *
      * @return The value of the _data column, which is typically a file path.
      */
-    fun getDataColumn(context: Context, uri: Uri, selection: String?,
+    private fun getDataColumn(context: Context, uri: Uri, selection: String?,
                       selectionArgs: Array<String>?): String? {
 
         var cursor: Cursor? = null
@@ -115,7 +115,7 @@ object MediaUtils {
      * *
      * @return Whether the Uri authority is ExternalStorageProvider.
      */
-    fun isExternalStorageDocument(uri: Uri): Boolean {
+    private fun isExternalStorageDocument(uri: Uri): Boolean {
         return "com.android.externalstorage.documents" == uri.authority
     }
 
@@ -124,7 +124,7 @@ object MediaUtils {
      * *
      * @return Whether the Uri authority is DownloadsProvider.
      */
-    fun isDownloadsDocument(uri: Uri): Boolean {
+    private fun isDownloadsDocument(uri: Uri): Boolean {
         return "com.android.providers.downloads.documents" == uri.authority
     }
 
@@ -133,7 +133,7 @@ object MediaUtils {
      * *
      * @return Whether the Uri authority is MediaProvider.
      */
-    fun isMediaDocument(uri: Uri): Boolean {
+    private fun isMediaDocument(uri: Uri): Boolean {
         return "com.android.providers.media.documents" == uri.authority
     }
 }

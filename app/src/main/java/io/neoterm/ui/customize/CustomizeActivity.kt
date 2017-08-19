@@ -24,8 +24,8 @@ import java.io.FileInputStream
  * @author kiva
  */
 class CustomizeActivity : BaseCustomizeActivity() {
-    val REQUEST_SELECT_FONT = 22222
-    val REQUEST_SELECT_COLOR = 22223
+    private val REQUEST_SELECT_FONT = 22222
+    private val REQUEST_SELECT_COLOR = 22223
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,20 +39,10 @@ class CustomizeActivity : BaseCustomizeActivity() {
         }
 
         findViewById<View>(R.id.custom_install_color_button).setOnClickListener {
-            AlertDialog.Builder(this)
-                    .setMessage(R.string.pref_customization_color_scheme)
-                    .setNeutralButton(android.R.string.no, null)
-                    .setPositiveButton(R.string.install_color, { _, _ ->
-                        val intent = Intent()
-                        intent.action = Intent.ACTION_GET_CONTENT
-                        intent.type = "*/*"
-                        startActivityForResult(Intent.createChooser(intent, getString(R.string.install_color)), REQUEST_SELECT_COLOR)
-                    })
-                    .setNegativeButton(R.string.new_color_scheme, { _, _ ->
-                        val intent = Intent(this, ColorSchemeActivity::class.java)
-                        startActivity(intent)
-                    })
-                    .show()
+            val intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.type = "*/*"
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.install_color)), REQUEST_SELECT_COLOR)
         }
     }
 
@@ -73,12 +63,19 @@ class CustomizeActivity : BaseCustomizeActivity() {
             }
         })
 
-        setupSpinner(R.id.custom_color_spinner, colorSchemeComponent.getColorSchemeNames(),
+        val colorData = listOf(getString(R.string.new_color_scheme),
+                *colorSchemeComponent.getColorSchemeNames().toTypedArray())
+        setupSpinner(R.id.custom_color_spinner, colorData,
                 colorSchemeComponent.getCurrentColorSchemeName(), object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position == 0) {
+                    val intent = Intent(this@CustomizeActivity, ColorSchemeActivity::class.java)
+                    startActivity(intent)
+                    return
+                }
                 val colorName = parent!!.adapter!!.getItem(position) as String
                 val color = colorSchemeComponent.getColorScheme(colorName)
                 colorSchemeComponent.applyColorScheme(terminalView, extraKeysView, color)
@@ -87,13 +84,14 @@ class CustomizeActivity : BaseCustomizeActivity() {
         })
     }
 
-    private fun setupSpinner(id: Int, data: List<String>, selected: String, listener: AdapterView.OnItemSelectedListener) {
+    private fun setupSpinner(id: Int, data: List<String>, selected: String, listener: AdapterView.OnItemSelectedListener) : Spinner {
         val spinner = findViewById<Spinner>(id)
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
         spinner.onItemSelectedListener = listener
         spinner.setSelection(if (data.contains(selected)) data.indexOf(selected) else 0)
+        return spinner
     }
 
     override fun onResume() {

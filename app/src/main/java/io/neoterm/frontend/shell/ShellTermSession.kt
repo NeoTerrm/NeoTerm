@@ -166,9 +166,9 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
             // PY Trace: Some programs support NeoTerm in a special way.
             val neotermIdEnv = "__NEOTERM=1"
 
-            if (systemShell) {
+            return if (systemShell) {
                 val pathEnv = "PATH=" + System.getenv("PATH")
-                return arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv, externalStorageEnv, pathEnv, neotermIdEnv)
+                arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv, externalStorageEnv, pathEnv, neotermIdEnv)
 
             } else {
                 val ps1Env = "PS1=$ "
@@ -178,7 +178,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
                 val pwdEnv = "PWD=" + cwd
                 val tmpdirEnv = "TMPDIR=${NeoTermPath.USR_PATH}/tmp"
 
-                return arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv, neotermIdEnv)
+                arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv, neotermIdEnv)
             }
         }
 

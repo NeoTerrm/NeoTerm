@@ -487,6 +487,11 @@ public final class TerminalView extends View {
         mEmulator.clearScrollCounter();
 
         invalidate();
+
+        // Basic accessibility service
+        String contentText = mEmulator.getScreen()
+                .getSelectedText(0, mTopRow, mEmulator.mColumns, mTopRow +mEmulator.mRows);
+        setContentDescription(contentText);
     }
 
     public int getTextSize() {

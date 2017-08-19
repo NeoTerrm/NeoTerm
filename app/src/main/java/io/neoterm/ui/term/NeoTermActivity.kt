@@ -1,6 +1,5 @@
 package io.neoterm.ui.term
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -16,7 +15,6 @@ import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.*
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.Toast
@@ -175,13 +173,18 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             override fun onSwitcherShown(tabSwitcher: TabSwitcher) {
                 toolbar.setNavigationIcon(R.drawable.ic_add_box_white_24dp)
                 toolbar.setNavigationOnClickListener(addSessionListener)
-                toolbar.setBackgroundResource(android.R.color.transparent)
+                toolbar.animate().alpha(0f).setDuration(300).withEndAction {
+                    toolbar.setBackgroundResource(android.R.color.transparent)
+                    toolbar.alpha = 1f
+                }.start()
             }
 
             override fun onSwitcherHidden(tabSwitcher: TabSwitcher) {
                 toolbar.navigationIcon = null
                 toolbar.setNavigationOnClickListener(null)
+                toolbar.alpha = 0f
                 toolbar.setBackgroundResource(R.color.colorPrimary)
+                toolbar.animate().alpha(1f).setDuration(300).start()
             }
 
             override fun onSelectionChanged(tabSwitcher: TabSwitcher, selectedTabIndex: Int, selectedTab: Tab?) {
@@ -540,11 +543,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     private fun toggleSwitcher(showSwitcher: Boolean, easterEgg: Boolean) {
         if (tabSwitcher.count > 0) {
-            if (showSwitcher) {
-                val transparentAnimator = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1.0f, 0.0f, 1.0f)
-                transparentAnimator.interpolator = AccelerateDecelerateInterpolator()
-                transparentAnimator.start()
-            }
+//            if (showSwitcher) {
+//                val transparentAnimator = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1.0f, 0.0f, 1.0f)
+//                transparentAnimator.interpolator = AccelerateDecelerateInterpolator()
+//                transparentAnimator.start()
+//            }
         } else if (easterEgg) {
             val happyCount = NeoPreference.loadInt(NeoPreference.KEY_HAPPY_EGG, 0) + 1
             NeoPreference.store(NeoPreference.KEY_HAPPY_EGG, happyCount)

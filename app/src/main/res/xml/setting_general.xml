@@ -43,12 +43,4 @@
         android:summary="@string/pref_general_auto_completion_desc"
         android:title="@string/pref_general_auto_completion" />
 
-    <ListPreference
-        android:defaultValue="NeoTermOnly"
-        android:entries="@array/pref_general_program_selection_entries"
-        android:entryValues="@array/pref_general_program_selection_values"
-        android:key="@string/key_general_program_selection"
-        android:summary="@string/pref_general_program_selection_desc"
-        android:title="@string/pref_general_program_selection" />
-
 </PreferenceScreen>

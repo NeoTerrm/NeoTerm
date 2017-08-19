@@ -163,12 +163,13 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
             val androidDataEnv = "ANDROID_DATA=" + System.getenv("ANDROID_DATA")
             val externalStorageEnv = "EXTERNAL_STORAGE=" + System.getenv("EXTERNAL_STORAGE")
 
-            // PY Trace: Some programs support NeoTerm in a special way.
+            // PY Trade: Some programs support NeoTerm in a special way.
             val neotermIdEnv = "__NEOTERM=1"
 
             return if (systemShell) {
                 val pathEnv = "PATH=" + System.getenv("PATH")
-                arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv, externalStorageEnv, pathEnv, neotermIdEnv)
+                arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv,
+                        externalStorageEnv, pathEnv, neotermIdEnv)
 
             } else {
                 val ps1Env = "PS1=$ "
@@ -177,42 +178,21 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
                 val ldEnv = "LD_LIBRARY_PATH=" + buildLdLibraryEnv()
                 val pwdEnv = "PWD=" + cwd
                 val tmpdirEnv = "TMPDIR=${NeoTermPath.USR_PATH}/tmp"
+                val originPathEnv = "__NEOTERM_ORIGIN_PATH=" + System.getenv("PATH")
+                val originLdEnv = "__NEOTERM_ORIGIN_LD_LIBRARY_PATH=" + System.getenv("LD_LIBRARY_PATH")
 
-                arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv, androidRootEnv, androidDataEnv, externalStorageEnv, tmpdirEnv, neotermIdEnv)
+                arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv,
+                        androidRootEnv, androidDataEnv, externalStorageEnv,
+                        tmpdirEnv, neotermIdEnv, originPathEnv, originLdEnv)
             }
         }
 
         private fun buildLdLibraryEnv(): String {
-            val builder = StringBuilder("${NeoTermPath.USR_PATH}/lib")
-
-            val programSelection = NeoPreference.loadString(R.string.key_general_program_selection, NeoPreference.VALUE_NEOTERM_ONLY)
-            val systemPath = System.getenv("LD_LIBRARY_PATH")
-
-            if (programSelection != NeoPreference.VALUE_NEOTERM_ONLY) {
-                builder.append(":$systemPath")
-            }
-
-            return builder.toString()
+            return "${NeoTermPath.USR_PATH}/lib"
         }
 
         private fun buildPathEnv(): String {
-            val builder = StringBuilder()
-            val programSelection = NeoPreference.loadString(R.string.key_general_program_selection, NeoPreference.VALUE_NEOTERM_ONLY)
-            val basePath = "${NeoTermPath.USR_PATH}/bin:${NeoTermPath.USR_PATH}/bin/applets"
-            val systemPath = System.getenv("PATH")
-
-            when (programSelection) {
-                NeoPreference.VALUE_NEOTERM_ONLY -> {
-                    builder.append(basePath)
-                }
-                NeoPreference.VALUE_NEOTERM_FIRST -> {
-                    builder.append("$basePath:$systemPath")
-                }
-                NeoPreference.VALUE_SYSTEM_FIRST -> {
-                    builder.append("$systemPath:$basePath")
-                }
-            }
-            return builder.toString()
+            return "${NeoTermPath.USR_PATH}/bin:${NeoTermPath.USR_PATH}/bin/applets"
         }
     }
 }

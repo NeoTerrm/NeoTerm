@@ -16,8 +16,6 @@
     <string name="pref_general_shell_desc">登录时使用指定的程序</string>
     <string name="pref_general_vibrate">振动</string>
     <string name="pref_general_vibrate_desc">收到 \'\\a\' 时振动</string>
-    <string name="pref_general_program_selection">程序选择模式</string>
-    <string name="pref_general_program_selection_desc">当 NeoTerm 和 系统 中都含有同一个程序时，选择将要被执行的程序的模式</string>
     <string name="pref_general_initial_command">初始命令</string>
     <string name="pref_general_initial_command_desc">在新的会话创建时执行命令</string>
     <string name="pref_general_volume_as_control">将音量键作为特殊键</string>
@@ -54,11 +52,6 @@
     <string name="menu_update">更新并刷新</string>
     <string name="float_up">浮动窗口</string>
 
-    <string-array name="pref_general_program_selection_entries">
-        <item>只使用 NeoTerm</item>
-        <item>优先使用 NeoTerm</item>
-        <item>优先使用 System</item>
-    </string-array>
     <string name="done">完成</string>
     <string name="install">安装</string>
 
@@ -152,5 +145,25 @@
         <item>亮洋红色</item>
         <item>亮青色</item>
         <item>亮白色</item>
+    </string-array>
+
+    <string-array name="custom_preview_script_colors">
+        <item>你好 NeoTerm\\n</item>
+        <item>"\\e[30m    黑色   \\e[0m\\n"</item>
+        <item>"\\e[31m    红色   \\e[0m\\n"</item>
+        <item>"\\e[32m    绿色   \\e[0m\\n"</item>
+        <item>"\\e[33m    黄色   \\e[0m\\n"</item>
+        <item>"\\e[34m    蓝色   \\e[0m\\n"</item>
+        <item>"\\e[35m    洋红色 \\e[0m\\n"</item>
+        <item>"\\e[36m    青色   \\e[0m\\n"</item>
+        <item>"\\e[37m    白色   \\e[0m\\n"</item>
+        <item>"\\e[1;30m    亮黑色  \\e[0m\\n"</item>
+        <item>"\\e[1;31m    亮红色  \\e[0m\\n"</item>
+        <item>"\\e[1;32m    亮绿色  \\e[0m\\n"</item>
+        <item>"\\e[1;33m    亮黄色  \\e[0m\\n"</item>
+        <item>"\\e[1;34m    亮蓝色  \\e[0m\\n"</item>
+        <item>"\\e[1;35m    亮洋红色\\e[0m\\n"</item>
+        <item>"\\e[1;36m    亮青色  \\e[0m\\n"</item>
+        <item>"\\e[1;37m    亮白色  \\e[0m\\n"</item>
     </string-array>
 </resources>

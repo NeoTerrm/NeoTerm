@@ -32,16 +32,17 @@ open class BaseCustomizeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        terminalView = findViewById<TerminalView>(R.id.terminal_view)
-        extraKeysView = findViewById<ExtraKeysView>(R.id.custom_extra_keys)
+        terminalView = findViewById(R.id.terminal_view)
+        extraKeysView = findViewById(R.id.custom_extra_keys)
         viewClient = BasicViewClient(terminalView)
         sessionCallback = BasicSessionCallback(terminalView)
         TerminalUtils.setupTerminalView(terminalView, viewClient)
         TerminalUtils.setupExtraKeysView(extraKeysView)
 
+        val script = resources.getStringArray(R.array.custom_preview_script_colors)
         val parameter = ShellParameter()
                 .executablePath("${NeoTermPath.USR_PATH}/bin/applets/echo")
-                .arguments(arrayOf("echo", "Hello NeoTerm."))
+                .arguments(arrayOf("echo", "-e", *script))
                 .callback(sessionCallback)
                 .systemShell(false)
 

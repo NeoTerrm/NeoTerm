@@ -16,8 +16,6 @@
     <string name="pref_general_shell_desc">登入時使用指定的程式</string>
     <string name="pref_general_vibrate">震動</string>
     <string name="pref_general_vibrate_desc">收到 \'\\a\' 時震動</string>
-    <string name="pref_general_program_selection">程式選擇模式</string>
-    <string name="pref_general_program_selection_desc">當 NeoTerm 和 系統 都有同一個程式時，選擇要被執行的程式模式</string>
     <string name="pref_general_initial_command">初始化指令</string>
     <string name="pref_general_initial_command_desc">在新的創建新的會話時執行指令</string>
     <string name="pref_general_volume_as_control">將音量鍵作為特殊鍵</string>
@@ -54,11 +52,6 @@
     <string name="menu_update">更新並重新整理</string>
     <string name="float_up">懸浮視窗</string>
 
-    <string-array name="pref_general_program_selection_entries">
-        <item>只使用 NeoTerm</item>
-        <item>優先使用 NeoTerm</item>
-        <item>優先使用 System</item>
-    </string-array>
     <string name="done">完成</string>
     <string name="install">安裝</string>
 

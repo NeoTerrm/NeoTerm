@@ -9,12 +9,14 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
+import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.*
+import android.view.animation.AccelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.Toast
@@ -98,23 +100,21 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         if (NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
                 || NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
-//            val statusBarHeight = FullScreenHelper.getStatusBarHeight(this)
-//            if (statusBarHeight < 0) {
-            toolbar.visibility = if (visible) View.VISIBLE else View.GONE
-//                return
-//            }
-//            val toolbarHeight = toolbar.height
-//
-//            val translationY = if (visible) toolbarHeight.toFloat() else -toolbarHeight.toFloat()
-//            val visibility = if (visible) View.VISIBLE else View.GONE
-//
-//            toolbar.animate()
-//                    .translationYBy(translationY)
-//                    .setDuration(50L)
-//                    .withEndAction {
-//                        toolbar.visibility = visibility
-//                    }
-//                    .start()
+            val toolbarHeight = toolbar.height.toFloat()
+            val translationY = if (visible) 0.toFloat() else -toolbarHeight
+            if (visible) {
+                toolbar.visibility = View.VISIBLE
+                toolbar.animate()
+                        .translationY(translationY)
+                        .start()
+            } else {
+                toolbar.animate()
+                        .translationY(translationY)
+                        .withEndAction {
+                            toolbar.visibility = View.GONE
+                        }
+                        .start()
+            }
         }
     }
 

@@ -31,7 +31,8 @@
 
     <string name="toggle_ime">Toggle Keyboard</string>
     <string name="float_up">Float Up</string>
-    <string name="shell_not_found">Shell %s not found, please install it first.</string>
+    <string name="shell_not_found">Shell %s not found</string>
+    <string name="shell_not_found_message">Would you like you install it?</string>
     <string name="fullscreen_mode_changed">FullScreen mode changed, please restart NeoTerm.</string>
     <string name="permission_denied">NeoTerm cannot get essential permissions, exiting.</string>
     <string name="error">Oops!</string>

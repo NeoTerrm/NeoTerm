@@ -167,7 +167,7 @@ object NeoPreference {
         }
     }
 
-    private fun findLoginProgram(loginProgramName: String): String? {
+    fun findLoginProgram(loginProgramName: String): String? {
         val file = File("${NeoTermPath.USR_PATH}/bin", loginProgramName)
         return if (file.canExecute()) file.absolutePath else null
     }

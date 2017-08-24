@@ -27,7 +27,7 @@ import java.io.File
  * @author kiva
  */
 class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
-    var termService: NeoTermService? = null
+    private var termService: NeoTermService? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,7 +118,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
             when (extra) {
                 is ArrayList<*> -> {
-                    (0..extra.size - 1)
+                    (0 until extra.size)
                             .map { extra[it] }
                             .takeWhile { it is Uri }
                             .mapTo(filesToHandle, { File((it as Uri).path).absolutePath })

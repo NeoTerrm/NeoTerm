@@ -14,7 +14,7 @@ import io.neoterm.utils.PackageUtils
  * @author kiva
  */
 class SetupActivity : AppCompatActivity() {
-    var aptUpdated = false
+    private var aptUpdated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

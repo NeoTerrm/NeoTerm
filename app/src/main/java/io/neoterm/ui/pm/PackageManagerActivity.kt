@@ -58,8 +58,8 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        progressBar = findViewById<ProgressBar>(R.id.package_loading_progress_bar)
-        recyclerView = findViewById<RecyclerView>(R.id.package_list)
+        progressBar = findViewById(R.id.package_loading_progress_bar)
+        recyclerView = findViewById(R.id.package_list)
         recyclerView.setHasFixedSize(true)
         adapter = PackageAdapter(this, COMPARATOR, object : PackageAdapter.Listener {
             override fun onModelClicked(model: PackageModel) {

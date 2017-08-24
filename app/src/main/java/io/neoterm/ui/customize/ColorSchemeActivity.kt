@@ -35,10 +35,10 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
             .build()
 
     var changed = false
-    lateinit var editingColorScheme: NeoColorScheme
+    private lateinit var editingColorScheme: NeoColorScheme
     lateinit var adapter: ColorItemAdapter
 
-    val colorSchemeComponent = ComponentManager.getComponent<ColorSchemeComponent>()
+    private val colorSchemeComponent = ComponentManager.getComponent<ColorSchemeComponent>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

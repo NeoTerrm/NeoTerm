@@ -55,13 +55,12 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         colorSchemeManager.applyColorScheme(view, extraKeysView, colorSchemeManager.getCurrentColorScheme())
 
         if (tab is TermTab) {
-            val termTab = tab
             val termData = tab.termData
 
             TerminalUtils.setupTerminalSession(termData.termSession)
 
             // 复用前一次的 TermSessionCallback 和 TermViewClient
-            termData.initializeViewWith(termTab, view, extraKeysView)
+            termData.initializeViewWith(tab, view, extraKeysView)
 
             if (termData.termSession != null) {
                 termData.viewClient?.updateExtraKeys(termData.termSession?.title, true)

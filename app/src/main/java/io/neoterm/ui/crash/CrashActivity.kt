@@ -16,7 +16,7 @@ class CrashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_crash)
-        setSupportActionBar(findViewById<Toolbar>(R.id.crash_toolbar))
+        setSupportActionBar(findViewById(R.id.crash_toolbar))
 
         (findViewById<TextView>(R.id.crash_model)).text = getString(R.string.crash_model, collectModelInfo())
         (findViewById<TextView>(R.id.crash_app_version)).text = getString(R.string.crash_app, collectAppInfo())
@@ -36,7 +36,7 @@ class CrashActivity : AppCompatActivity() {
         return "are.you.kidding.me.NoExceptionFoundException: This is a bug, please contact developers!"
     }
 
-    fun collectAppInfo(): String {
+    private fun collectAppInfo(): String {
         val pm = packageManager
         val info = pm.getPackageInfo(packageName, 0)
         return "${info.versionName} (${info.versionCode})"

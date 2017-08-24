@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -26,7 +25,7 @@ class AboutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_about)
-        setSupportActionBar(findViewById<Toolbar>(R.id.about_toolbar))
+        setSupportActionBar(findViewById(R.id.about_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         try {
@@ -76,10 +75,10 @@ class AboutActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                     .setTitle(R.string.support_donate_label)
                     .setMessage(R.string.support_donate_dialog_text)
-                    .setPositiveButton(R.string.support_donate_alipay, {_, _ ->
+                    .setPositiveButton(R.string.support_donate_alipay, { _, _ ->
                         Donation.donateByAlipay(this, "FKX025062MBLAG6E90RYBC")
                     })
-                    .setNegativeButton(R.string.support_donate_qq, {_, _ ->
+                    .setNegativeButton(R.string.support_donate_qq, { _, _ ->
                         Donation.donateByQQ(this)
                     })
                     .setNeutralButton(android.R.string.no, null)

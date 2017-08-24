@@ -331,9 +331,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         forEachTab { it.resetStatus() }
     }
 
-    private fun floatTabUp(tab: TermTab) {
-        Toast.makeText(this, "In Progress", Toast.LENGTH_SHORT).show()
-    }
+//    private fun floatTabUp(tab: TermTab) {
+//        Toast.makeText(this, "In Progress", Toast.LENGTH_SHORT).show()
+//    }
 
     private fun forceAddSystemSession() {
         if (!tabSwitcher.isSwitcherShown) {
@@ -507,9 +507,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         return RevealAnimation.Builder().setX(x).setY(y).create()
     }
 
-    private fun createPeekAnimation(): Animation {
-        return PeekAnimation.Builder().setX(tabSwitcher.width / 2f).create()
-    }
+//    private fun createPeekAnimation(): Animation {
+//        return PeekAnimation.Builder().setX(tabSwitcher.width / 2f).create()
+//    }
 
     private fun getNavigationMenuItem(): View? {
         val toolbars = tabSwitcher.toolbars

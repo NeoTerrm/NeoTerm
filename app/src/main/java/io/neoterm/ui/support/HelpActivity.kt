@@ -13,7 +13,7 @@ class HelpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_faq)
-        setSupportActionBar(findViewById<Toolbar>(R.id.faq_toolbar))
+        setSupportActionBar(findViewById(R.id.faq_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 

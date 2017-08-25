@@ -30,7 +30,7 @@ open class StatedControlButton @JvmOverloads constructor(text: String, var initS
         return outerButton
     }
 
-    fun setStatus(status: Boolean?) {
+    private fun setStatus(status: Boolean?) {
         val button = toggleButton
         if (button != null && status != null) {
             button.isChecked = status

@@ -1,6 +1,6 @@
 package io.neoterm
 
-import io.neoterm.component.eks.combine.CombinedSequence
+import io.neoterm.frontend.terminal.eks.combine.CombinedSequence
 import org.junit.Test
 
 /**

@@ -8,6 +8,7 @@ import android.widget.Button
 
 import io.neoterm.R
 import io.neoterm.frontend.terminal.TerminalView
+import io.neoterm.frontend.terminal.eks.combine.CombinedSequence
 
 /**
  * @author kiva
@@ -15,11 +16,11 @@ import io.neoterm.frontend.terminal.TerminalView
 
 abstract class IExtraButton : View.OnClickListener {
 
-    var buttonText: String? = null
+    var buttonKeys: CombinedSequence? = null
     var displayText: String? = null
 
     override fun toString(): String {
-        return "${this.javaClass.simpleName} { display: $displayText, code: $buttonText }"
+        return "${this.javaClass.simpleName} { display: $displayText, code: ${buttonKeys?.keys} }"
     }
 
     abstract override fun onClick(view: View)
@@ -35,12 +36,17 @@ abstract class IExtraButton : View.OnClickListener {
         val KEY_PAGE_DOWN = "PgDn"
         val KEY_HOME = "Home"
         val KEY_END = "End"
+        val KEY_ARROW_UP_TEXT = "Up"
+        val KEY_ARROW_DOWN_TEXT = "Down"
+        val KEY_ARROW_LEFT_TEXT = "Left"
+        val KEY_ARROW_RIGHT_TEXT = "Right"
+        val KEY_SHOW_ALL_BUTTONS = "···"
+        val KEY_TOGGLE_IME = "Im"
+
         val KEY_ARROW_UP = "▲"
         val KEY_ARROW_DOWN = "▼"
         val KEY_ARROW_LEFT = "◀"
         val KEY_ARROW_RIGHT = "▶"
-        val KEY_SHOW_ALL_BUTTONS = "···"
-        val KEY_TOGGLE_IME = "Im"
 
         var NORMAL_TEXT_COLOR = 0xFFFFFFFF.toInt()
         var SELECTED_TEXT_COLOR = 0xFF80DEEA.toInt()
@@ -55,6 +61,10 @@ abstract class IExtraButton : View.OnClickListener {
                 KEY_ARROW_LEFT -> keyCode = KeyEvent.KEYCODE_DPAD_LEFT
                 KEY_ARROW_RIGHT -> keyCode = KeyEvent.KEYCODE_DPAD_RIGHT
                 KEY_ARROW_DOWN -> keyCode = KeyEvent.KEYCODE_DPAD_DOWN
+                KEY_ARROW_UP_TEXT -> keyCode = KeyEvent.KEYCODE_DPAD_UP
+                KEY_ARROW_LEFT_TEXT -> keyCode = KeyEvent.KEYCODE_DPAD_LEFT
+                KEY_ARROW_RIGHT_TEXT -> keyCode = KeyEvent.KEYCODE_DPAD_RIGHT
+                KEY_ARROW_DOWN_TEXT -> keyCode = KeyEvent.KEYCODE_DPAD_DOWN
                 KEY_PAGE_UP -> keyCode = KeyEvent.KEYCODE_PAGE_UP
                 KEY_PAGE_DOWN -> keyCode = KeyEvent.KEYCODE_PAGE_DOWN
                 KEY_HOME -> keyCode = KeyEvent.KEYCODE_MOVE_HOME

@@ -1,4 +1,4 @@
-package io.neoterm.component.eks.combine
+package io.neoterm.frontend.terminal.eks.combine
 
 /**
  * <Ctrl> <Alt> <Delete>
@@ -16,7 +16,7 @@ class CombinedSequence private constructor() {
             keyString.split(' ').forEach {
                 val key = if (it.startsWith('<') && it.endsWith('>')) {
                     // is a sequence
-                    it.substring(1, it.length - 1).toUpperCase()
+                    it.substring(1, it.length - 1)
                 } else {
                     // is a normal string
                     it

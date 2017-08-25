@@ -49,8 +49,8 @@ class OldExtraKeysConfigureFile(configureFile: File) : NeoConfigureFile(configur
                 visitor.onEnterContext(index.toString())
                 visitor.getCurrentContext()
                         .defineAttribute(NeoExtraKey.EKS_META_WITH_ENTER, NeoLangValue(button.withEnter))
-                        .defineAttribute(NeoExtraKey.EKS_META_DISPLAY, NeoLangValue(button.buttonText!!))
-                        .defineAttribute(NeoExtraKey.EKS_META_CODE, NeoLangValue(button.buttonText!!))
+                        .defineAttribute(NeoExtraKey.EKS_META_DISPLAY, NeoLangValue(button.buttonKeys!!))
+                        .defineAttribute(NeoExtraKey.EKS_META_CODE, NeoLangValue(button.buttonKeys!!))
                 visitor.onExitContext()
             }
         }

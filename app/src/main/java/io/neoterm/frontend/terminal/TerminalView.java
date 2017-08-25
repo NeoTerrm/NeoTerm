@@ -459,7 +459,11 @@ public final class TerminalView extends View {
             if (-mTopRow + rowShift > rowsInHistory) {
                 // .. unless we're hitting the end of history transcript, in which
                 // case we abort text selection and scroll to end.
-                toggleSelectingText(null);
+
+                // 只当是因为选择文字而停止滚动时才取消选择文字
+                if (mIsSelectingText) {
+                    toggleSelectingText(null);
+                }
             } else {
                 skipScrolling = true;
                 mTopRow -= rowShift;

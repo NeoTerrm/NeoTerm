@@ -443,6 +443,7 @@ public final class TerminalView extends View {
     public void onScreenUpdated() {
         if (mEmulator == null) return;
         boolean skipScrolling = false;
+        boolean isScreenHeld = false;
 
         // currentScroll 记录了当前滚动到的位置
         // expectedScroll 记录了假设一直跟随输出滚动在最底部时的滚动位置
@@ -452,7 +453,11 @@ public final class TerminalView extends View {
 //        int currentScroll = computeVerticalScrollOffset();
 //        int expectedScroll = mEmulator.getScreen().getActiveRows() - mEmulator.mRows;
 
-        if (mIsSelectingText || /*currentScroll != expectedScroll*/ mTopRow != 0) {
+        if (mTopRow != 0) {
+            isScreenHeld = true;
+        }
+
+        if (mIsSelectingText || isScreenHeld) {
             // Do not scroll when selecting text.
             int rowsInHistory = mEmulator.getScreen().getActiveTranscriptRows();
             int rowShift = mEmulator.getScrollCounter();
@@ -472,7 +477,7 @@ public final class TerminalView extends View {
             }
 
             // 不滚动屏幕，但要让滚动条显示来告诉用户脚本在输出
-            if (/*currentScroll != expectedScroll*/ mTopRow != 0) {
+            if (isScreenHeld) {
                 awakenScrollBars();
             }
         }
@@ -489,7 +494,6 @@ public final class TerminalView extends View {
         }
 
         mEmulator.clearScrollCounter();
-
         invalidate();
 
         // Basic accessibility service
@@ -777,6 +781,13 @@ public final class TerminalView extends View {
         if (LOG_KEY_EVENTS) {
             Log.i(EmulatorDebug.LOG_TAG, "inputCodePoint(codePoint=" + codePoint + ", controlDownFromEvent=" + controlDownFromEvent + ", leftAltDownFromEvent="
                     + leftAltDownFromEvent + ")");
+        }
+
+        // 当输入时自动滚动到最底部
+        if (mTopRow != 0) {
+            mTopRow = 0;
+            mEmulator.clearScrollCounter();
+            invalidate();
         }
 
         final boolean controlDown = controlDownFromEvent || mClient.readControlKey();

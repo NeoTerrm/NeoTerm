@@ -9,7 +9,7 @@ import java.io.File
  * @author kiva
  */
 class ConfigureComponent : NeoComponent {
-    val CONFIG_LOADER_VERSION = 19
+    val CONFIG_LOADER_VERSION = 20
 
     override fun onServiceInit() {
     }

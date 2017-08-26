@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
-
 import io.neoterm.R
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.eks.combine.CombinedSequence
@@ -53,7 +52,7 @@ abstract class IExtraButton : View.OnClickListener {
 
         fun sendKey(view: View, keyName: String) {
             var keyCode = 0
-            var chars: String? = null
+            var chars = ""
             when (keyName) {
                 KEY_ESC -> keyCode = KeyEvent.KEYCODE_ESCAPE
                 KEY_TAB -> keyCode = KeyEvent.KEYCODE_TAB
@@ -76,7 +75,7 @@ abstract class IExtraButton : View.OnClickListener {
             if (keyCode > 0) {
                 view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, keyCode))
                 view.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, keyCode))
-            } else {
+            } else if (chars.isNotEmpty()) {
                 val terminalView = view.findViewById<TerminalView>(R.id.terminal_view)
                 val session = terminalView.currentSession
                 session?.write(chars)

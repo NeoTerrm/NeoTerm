@@ -46,7 +46,7 @@ class ExtraKeysComponent : NeoComponent {
         extraKeysView.loadDefaultUserKeys()
     }
 
-    fun registerShortcutKeys(extraKey: NeoExtraKey) {
+    private fun registerShortcutKeys(extraKey: NeoExtraKey) {
         extraKey.programNames.forEach {
             extraKeys[it] = extraKey
         }

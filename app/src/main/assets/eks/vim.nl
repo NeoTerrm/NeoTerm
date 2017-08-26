@@ -1,23 +1,27 @@
 extra-key: {
-    version: 19
+    version: 20
     with-default: true
-    program: [ vim, vi, neovim ]
+    program: [ vim, vi, nvim ]
 
     key: [
         {
-            code: "dd"
+            code: "<Esc> dd"
+            display: "dd"
             with-enter: true
         },
         {
-            code: ":x"
+            code: "<Esc> :x"
+            display: ":x"
             with-enter: true
         },
         {
-            code: ":w"
+            code: "<Esc> :w"
+            display: ":w"
             with-enter: true
         },
         {
-            code: ":q"
+            code: "<Esc> :q"
+            display: ":q"
             with-enter: true
         }
     ]

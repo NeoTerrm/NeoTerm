@@ -19,8 +19,7 @@ class CodeGenComponent : NeoComponent {
 
     fun newGenerator(codeObject: CodeGenObject): ICodeGenerator {
         val parameter = CodeGenParameter()
-        val generator = codeObject.getCodeGenerator(parameter)
-        return generator
+        return codeObject.getCodeGenerator(parameter)
     }
 }
 

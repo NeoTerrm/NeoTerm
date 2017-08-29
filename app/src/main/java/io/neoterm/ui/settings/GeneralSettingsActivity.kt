@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.MenuItem
 import io.neoterm.R
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.utils.PackageUtils
 
@@ -36,7 +37,6 @@ class GeneralSettingsActivity : BasePreferenceActivity() {
     }
 
     private fun requestInstallShell(shellName: String, currentShell: String) {
-        var selectedShell = currentShell
         AlertDialog.Builder(this)
                 .setTitle(getString(R.string.shell_not_found, shellName))
                 .setMessage(R.string.shell_not_found_message)
@@ -44,7 +44,7 @@ class GeneralSettingsActivity : BasePreferenceActivity() {
                     PackageUtils.executeApt(this, "install", arrayOf("-y", shellName), { exitStatus, dialog ->
                         if (exitStatus == 0) {
                             dialog.dismiss()
-                            selectedShell = shellName
+                            postChangeShell(shellName)
                         } else {
                             dialog.setTitle(getString(R.string.error))
                         }
@@ -52,7 +52,7 @@ class GeneralSettingsActivity : BasePreferenceActivity() {
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .setOnDismissListener {
-                    postChangeShell(selectedShell)
+                    postChangeShell(currentShell)
                 }
                 .show()
     }

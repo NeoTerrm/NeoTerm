@@ -67,7 +67,7 @@ object NeoPreference {
         preference!!.edit().putStringSet(key, value).apply()
     }
 
-    fun loadStrings(key: String) : Set<String> {
+    fun loadStrings(key: String): Set<String> {
         return preference!!.getStringSet(key, setOf())
     }
 
@@ -142,22 +142,28 @@ object NeoPreference {
 
         // Some programs like ssh needs it
         val shell = File(NeoTermPath.NEOTERM_SHELL_PATH)
+        val loginProgramPath = findLoginProgram(loginProgramName) ?: {
+            setLoginShell("sh")
+            "${NeoTermPath.USR_PATH}/bin/sh"
+        }()
+
         if (!shell.exists()) {
-            symlinkLoginShell(loginProgramName)
+            symlinkLoginShell(loginProgramPath)
         }
 
-        return "${NeoTermPath.USR_PATH}/bin/$loginProgramName"
+        return loginProgramPath
     }
 
-    fun validateFontSize(fontSize: Int) : Int {
+    fun validateFontSize(fontSize: Int): Int {
         return Math.max(MIN_FONT_SIZE, Math.min(fontSize, MAX_FONT_SIZE))
     }
 
     private fun symlinkLoginShell(loginProgramPath: String) {
         File(NeoTermPath.CUSTOM_PATH).mkdirs()
         try {
-            if (File(NeoTermPath.NEOTERM_SHELL_PATH).exists()) {
-                Os.remove(NeoTermPath.NEOTERM_SHELL_PATH)
+            val shellSymlink = File(NeoTermPath.NEOTERM_SHELL_PATH)
+            if (shellSymlink.exists()) {
+                shellSymlink.delete()
             }
             Os.symlink(loginProgramPath, NeoTermPath.NEOTERM_SHELL_PATH)
             Os.chmod(NeoTermPath.NEOTERM_SHELL_PATH, 448 /*Decimal of 0700 */)

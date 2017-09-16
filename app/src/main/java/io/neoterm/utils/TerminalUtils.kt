@@ -17,7 +17,7 @@ import io.neoterm.frontend.terminal.eks.ExtraKeysView
  */
 object TerminalUtils {
     fun setupTerminalView(terminalView: TerminalView?, terminalViewClient: TerminalViewClient? = null) {
-        terminalView?.textSize = NeoPreference.loadInt(NeoPreference.KEY_FONT_SIZE, 30)
+        terminalView?.textSize = NeoPreference.getFontSize();
 
         val fontComponent = ComponentManager.getComponent<FontComponent>()
         fontComponent.applyFont(terminalView, null, fontComponent.getCurrentFont())

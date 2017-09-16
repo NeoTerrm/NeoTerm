@@ -178,6 +178,10 @@ object NeoPreference {
         return if (file.canExecute()) file.absolutePath else null
     }
 
+    fun getFontSize(): Int {
+        return loadInt(NeoPreference.KEY_FONT_SIZE, 30)
+    }
+
 
 //    fun storeWindowSize(context: Context, width: Int, height: Int) {
 //        store(KEY_FLOATING_WIDTH, width)

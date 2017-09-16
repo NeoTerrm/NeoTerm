@@ -18,3 +18,7 @@ before_install:
 
 script:
   - ./gradlew :app:assembleDebug
+  
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+  

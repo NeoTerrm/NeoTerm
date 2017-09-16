@@ -71,7 +71,7 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
     }
 
     override fun requireOnSessionFinished() {
-        termData.viewClient?.sessionFinished = true
+        // do nothing
     }
 
     override fun requireCreateNew() {

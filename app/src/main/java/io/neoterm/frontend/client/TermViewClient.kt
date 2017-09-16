@@ -23,8 +23,6 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     private var mVirtualFnKeyDown: Boolean = false
     private var lastTitle: String = ""
 
-    var sessionFinished: Boolean = false
-
     var termData: TermDataHolder? = null
 
     override fun onScale(scale: Float): Float {
@@ -63,7 +61,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
 
         when (keyCode) {
             KeyEvent.KEYCODE_ENTER -> {
-                if (e?.action == KeyEvent.ACTION_DOWN && sessionFinished) {
+                if (e?.action == KeyEvent.ACTION_DOWN && session?.isRunning == false) {
                     termUI?.requireClose()
                     return true
                 }

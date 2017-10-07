@@ -12,7 +12,7 @@ static const char *rewrite_executable(const char *filename, char *buffer, int bu
     if (bin_match == filename || bin_match == (filename + 4)) {
         // We have either found "/bin/" at the start of the string or at
         // "/xxx/bin/". Take the path after that.
-        strncpy(buffer + 36, bin_match + 5, buffer_len - 37);
+        strncpy(buffer + 36, bin_match + 5, (size_t) (buffer_len - 37));
         filename = buffer;
     }
     return filename;

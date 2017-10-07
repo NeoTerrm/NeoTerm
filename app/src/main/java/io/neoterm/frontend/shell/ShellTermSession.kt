@@ -181,9 +181,13 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
                 val originPathEnv = "__NEOTERM_ORIGIN_PATH=" + System.getenv("PATH")
                 val originLdEnv = "__NEOTERM_ORIGIN_LD_LIBRARY_PATH=" + System.getenv("LD_LIBRARY_PATH")
 
+                // execve(2) wrapper to avoid incorrect shebang
+                val ldPreloadEnv= "LD_PRELOAD=${App.get().applicationInfo.nativeLibraryDir}/libnexec.so"
+
                 arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv,
                         androidRootEnv, androidDataEnv, externalStorageEnv,
-                        tmpdirEnv, neotermIdEnv, originPathEnv, originLdEnv)
+                        tmpdirEnv, neotermIdEnv, originPathEnv, originLdEnv,
+                        ldPreloadEnv)
             }
         }
 

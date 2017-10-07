@@ -40,8 +40,8 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="@string/key_general_use_execve_wrapper"
-        android:summary="@string/pref_general_use_execve_wrapper"
-        android:title="@string/pref_general_use_execve_wrapper_desc" />
+        android:summary="@string/pref_general_use_execve_wrapper_desc"
+        android:title="@string/pref_general_use_execve_wrapper" />
 
     <CheckBoxPreference
         android:defaultValue="false"

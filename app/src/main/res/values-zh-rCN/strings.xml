@@ -20,6 +20,8 @@
     <string name="pref_general_initial_command_desc">在新的会话创建时执行命令</string>
     <string name="pref_general_volume_as_control">将音量键作为特殊键</string>
     <string name="pref_general_volume_as_control_desc">音量下为 Ctrl\n音量上为 FN</string>
+    <string name="pref_general_use_execve_wrapper">使用自定义的 execve()</string>
+    <string name="pref_general_use_execve_wrapper_desc">接管 execve() 来兼容 linux 风格的 shebang</string>
     <string name="pref_package_source">软件源</string>
     <string name="pref_ui_close_tab_anim_next_tab">向下切换窗口</string>
     <string name="pref_ui_close_tab_anim_next_tab_desc">关闭当前窗口时切换到下一个窗口而不是上一个</string>

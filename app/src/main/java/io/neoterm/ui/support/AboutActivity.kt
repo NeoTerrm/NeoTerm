@@ -78,9 +78,6 @@ class AboutActivity : AppCompatActivity() {
                     .setPositiveButton(R.string.support_donate_alipay, { _, _ ->
                         Donation.donateByAlipay(this, "FKX025062MBLAG6E90RYBC")
                     })
-                    .setNegativeButton(R.string.support_donate_qq, { _, _ ->
-                        Donation.donateByQQ(this)
-                    })
                     .setNeutralButton(android.R.string.no, null)
                     .show()
         }

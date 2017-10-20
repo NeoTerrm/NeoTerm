@@ -339,10 +339,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         if (!tabSwitcher.isSwitcherShown) {
             toggleSwitcher(showSwitcher = true, easterEgg = false)
         }
-        val index = tabSwitcher.count
 
         // Fore system shell mode to be enabled.
-        addNewSession("NeoTerm #" + index, true, createRevealAnimation())
+        addNewSession(null, true, createRevealAnimation())
     }
 
     private fun enterMain() {
@@ -352,11 +351,19 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             for (session in termService!!.sessions) {
                 addNewSession(session)
             }
-            switchToSession(getStoredCurrentSessionOrLast())
+
+            if (intent?.action == Intent.ACTION_RUN) {
+                // app shortcuts
+                addNewSession(null,
+                        false, createRevealAnimation())
+            } else {
+                switchToSession(getStoredCurrentSessionOrLast());
+            }
+
         } else {
             toggleSwitcher(showSwitcher = true, easterEgg = false)
             // Fore system shell mode to be disabled.
-            addNewSession("NeoTerm #0", false, createRevealAnimation())
+            addNewSession(null, false, createRevealAnimation())
         }
     }
 
@@ -397,8 +404,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         if (!tabSwitcher.isSwitcherShown) {
             toggleSwitcher(showSwitcher = true, easterEgg = false)
         }
-        val index = tabSwitcher.count
-        addNewSession("NeoTerm #" + index, getSystemShellMode(), createRevealAnimation())
+        addNewSession(null, getSystemShellMode(), createRevealAnimation())
     }
 
     private fun addNewSession(session: TerminalSession?) {
@@ -433,9 +439,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 .systemShell(systemShell)
         val session = termService!!.createTermSession(parameter)
 
-        if (sessionName != null) {
-            session.mSessionName = sessionName
-        }
+        session.mSessionName = sessionName ?: "NeoTerm #${termService!!.sessions.size}"
 
         val tab = createTab(sessionName) as TermTab
         tab.termData.initializeSessionWith(session, sessionCallback, viewClient)

@@ -20,15 +20,6 @@ object Donation {
         return startIntentUrl(activity, INTENT_URL_FORMAT.replace("{payCode}", payCode))
     }
 
-    fun donateByQQ(context: Context) {
-        val qrImage = ImageView(context)
-        qrImage.setImageResource(R.drawable.donation_qq)
-        AlertDialog.Builder(context)
-                .setView(qrImage)
-                .setPositiveButton(android.R.string.yes, null)
-                .show()
-    }
-
     private fun startIntentUrl(activity: Activity, intentFullUrl: String): Boolean {
         return try {
             val intent = Intent.parseUri(

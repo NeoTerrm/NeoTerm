@@ -8,8 +8,8 @@ android {
         applicationId "io.neoterm"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 29
-        versionName "1.2.7"
+        versionCode 30
+        versionName "1.2.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resConfigs "zh-rCN", "zh-rTW"
         externalNativeBuild {

@@ -15,8 +15,8 @@ import io.neoterm.R
 import io.neoterm.component.script.UserScript
 import io.neoterm.component.script.UserScriptComponent
 import io.neoterm.frontend.client.TermSessionCallback
-import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.TerminalUtils
@@ -99,8 +99,12 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
                 val dirPath = if (file.isDirectory) path else file.parent
                 openTerm("cd " + TerminalUtils.escapeString(dirPath))
             }
+            finish()
+        } else {
+            App.get().errorDialog(this,
+                    getString(R.string.unsupported_term_here, intent?.toString()),
+                    { finish() })
         }
-        finish()
     }
 
     private fun handleUserScript() {
@@ -135,7 +139,9 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
         if (filesToHandle.isNotEmpty()) {
             setupUserScriptView(filesToHandle, userScripts)
         } else {
-            App.get().errorDialog(this, R.string.no_files_selected, { finish() })
+            App.get().errorDialog(this,
+                    getString(R.string.no_files_selected, intent?.toString()),
+                    { finish() })
         }
     }
 

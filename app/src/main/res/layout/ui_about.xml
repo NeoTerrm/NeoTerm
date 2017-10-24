@@ -50,7 +50,8 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_gravity="center_vertical"
-                            android:src="@mipmap/ic_launcher" />
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/about_logo" />
 
                         <TextView
                             android:layout_width="wrap_content"

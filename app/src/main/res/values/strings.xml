@@ -89,7 +89,8 @@
     <string name="user_script">User Script</string>
     <string name="command_shortcut">Command Shortcut</string>
     <string name="no_user_script_found">No user script found (Did you forget to set executable permissions?)</string>
-    <string name="no_files_selected">No files selected</string>
+    <string name="no_files_selected">No files selected\n\n(raw Intent: %s)</string>
+    <string name="unsupported_term_here">Unsupported term here\n\n(raw Intent: %s)</string>
     <string name="files_to_handle">Files to Handle</string>
     <string name="available_user_scripts">Available User Scripts</string>
     <string name="confirm_remove_file_from_list">Remove file from list?</string>

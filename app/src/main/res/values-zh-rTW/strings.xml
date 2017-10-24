@@ -78,7 +78,8 @@
     <string name="term_here">在此處打開終端</string>
     <string name="user_script">使用者腳本</string>
     <string name="no_user_script_found">没有找到可用的使用者腳本</string>
-    <string name="no_files_selected">沒有檔案被選擇</string>
+    <string name="no_files_selected">沒有檔案被選擇\n\n(Intent: %s)</string>
+    <string name="unsupported_term_here">不支持在此处打开终端\n\n(Intent: %s)</string>
     <string name="files_to_handle">處理的檔案</string>
     <string name="available_user_scripts">可用的使用者腳本</string>
     <string name="confirm_remove_file_from_list">從操作列表中中移除檔案？</string>

@@ -672,6 +672,9 @@ public final class TerminalView extends View {
 
     public void pasteFromClipboard() {
         ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboard == null) {
+            return;
+        }
         ClipData clipData = clipboard.getPrimaryClip();
         if (clipData != null) {
             CharSequence paste = clipData.getItemAt(0).coerceToText(getContext());
@@ -783,13 +786,6 @@ public final class TerminalView extends View {
                     + leftAltDownFromEvent + ")");
         }
 
-        // 当输入时自动滚动到最底部
-        if (mTopRow != 0) {
-            mTopRow = 0;
-            mEmulator.clearScrollCounter();
-            invalidate();
-        }
-
         final boolean controlDown = controlDownFromEvent || mClient.readControlKey();
         final boolean altDown = leftAltDownFromEvent || mClient.readAltKey();
 
@@ -837,6 +833,7 @@ public final class TerminalView extends View {
 
             // If left alt, send escape before the code point to make e.g. Alt+B and Alt+F work in readline:
             mTermSession.writeCodePoint(altDown, codePoint);
+            scrollToBottomIfNeeded();
         }
     }
 
@@ -848,6 +845,7 @@ public final class TerminalView extends View {
         String code = KeyHandler.getCode(keyCode, keyMod, term.isCursorKeysApplicationMode(), term.isKeypadApplicationMode());
         if (code == null) return false;
         mTermSession.write(code);
+        scrollToBottomIfNeeded();
         if (onAutoCompleteListener != null) {
             onAutoCompleteListener.onKeyCode(keyCode, keyMod);
         }
@@ -876,6 +874,18 @@ public final class TerminalView extends View {
         }
 
         return true;
+    }
+
+    /**
+     * 每次处理用户按下对终端输出有影响的键时被调用
+     * 如果当前屏幕不处于最底部，则自动滚动到最底部
+     */
+    void scrollToBottomIfNeeded() {
+        if (mTopRow != 0) {
+            mTopRow = 0;
+            mEmulator.clearScrollCounter();
+            invalidate();
+        }
     }
 
     /**

@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 30
-        versionName "1.2.9-snapshot"
+        versionName "1.2.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resConfigs "zh-rCN", "zh-rTW"
         externalNativeBuild {
@@ -31,6 +31,10 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFile 'app/proguard-rules.pro'
+            versionNameSuffix "-${getGitHeadRefsSuffix()}"
+        }
+        debug {
+            versionNameSuffix "-snatshot-${getGitHeadRefsSuffix()}"
         }
     }
     externalNativeBuild {

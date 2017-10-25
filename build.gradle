@@ -1,7 +1,28 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.1.4'
+    ext.kotlin_version = '1.1.51'
+    ext.getGitHeadRefsSuffix = {
+        try {
+            def headFile = new File('.git/HEAD')
+            if (headFile.exists()) {
+                String[] strings = headFile.getText('UTF-8').split(" ");
+                if (strings.size() > 1) {
+                    String refFilePath = '.git/' + strings[1];
+
+                    def refFile = new File(refFilePath.replace("\n", ""));
+
+                    return refFile.getText('UTF-8').substring(0, 7)
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
+        return ""
+    }
+
+
     repositories {
         maven { url 'https://dl.google.com/dl/android/maven2/' }
         jcenter()

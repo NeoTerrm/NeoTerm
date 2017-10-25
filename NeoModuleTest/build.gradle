@@ -19,7 +19,11 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            versionNameSuffix "-${getGitHeadRefsSuffix()}"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            versionNameSuffix "-snatshot-${getGitHeadRefsSuffix()}"
         }
     }
 }

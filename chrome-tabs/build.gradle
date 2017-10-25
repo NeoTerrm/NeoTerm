@@ -13,6 +13,10 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            versionNameSuffix "-${getGitHeadRefsSuffix()}"
+        }
+        debug {
+            versionNameSuffix "-snatshot-${getGitHeadRefsSuffix()}"
         }
     }
 }

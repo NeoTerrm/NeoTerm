@@ -34,7 +34,7 @@ android {
             versionNameSuffix "-${getGitHeadRefsSuffix()}"
         }
         debug {
-            versionNameSuffix "-snatshot-${getGitHeadRefsSuffix()}"
+            versionNameSuffix "-snapshot-${getGitHeadRefsSuffix()}"
         }
     }
     externalNativeBuild {

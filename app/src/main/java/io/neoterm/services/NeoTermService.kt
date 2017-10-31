@@ -162,9 +162,9 @@ class NeoTermService : Service() {
     }
 
     companion object {
-        val ACTION_SERVICE_STOP = "neoterm.action.termService.stop"
-        val ACTION_ACQUIRE_LOCK = "neoterm.action.termService.lock.acquire"
-        val ACTION_RELEASE_LOCK = "neoterm.action.termService.lock.release"
+        val ACTION_SERVICE_STOP = "neoterm.action.service.stop"
+        val ACTION_ACQUIRE_LOCK = "neoterm.action.service.lock.acquire"
+        val ACTION_RELEASE_LOCK = "neoterm.action.service.lock.release"
         private val NOTIFICATION_ID = 52019
 
         // Copy from NotificationChannel.java

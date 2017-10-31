@@ -222,7 +222,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
     }
 
     companion object {
-        const val ACTION_EXECUTE = "neoterm.remote.execute.action"
-        const val EXTRA_COMMAND = "neoterm.remote.execute.extra.command"
+        const val ACTION_EXECUTE = "neoterm.action.remote.execute"
+        const val EXTRA_COMMAND = "neoterm.extra.remote.execute.command"
     }
 }

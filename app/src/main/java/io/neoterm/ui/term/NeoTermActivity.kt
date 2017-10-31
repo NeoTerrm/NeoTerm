@@ -348,6 +348,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         setSystemShellMode(false)
 
         if (!termService!!.sessions.isEmpty()) {
+            val lastSession = getStoredCurrentSessionOrLast();
+
             for (session in termService!!.sessions) {
                 addNewSession(session)
             }
@@ -357,7 +359,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 addNewSession(null,
                         false, createRevealAnimation())
             } else {
-                switchToSession(getStoredCurrentSessionOrLast());
+                switchToSession(lastSession);
             }
 
         } else {
@@ -545,13 +547,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun toggleSwitcher(showSwitcher: Boolean, easterEgg: Boolean) {
-        if (tabSwitcher.count > 0) {
-//            if (showSwitcher) {
-//                val transparentAnimator = ObjectAnimator.ofFloat(toolbar, View.ALPHA, 1.0f, 0.0f, 1.0f)
-//                transparentAnimator.interpolator = AccelerateDecelerateInterpolator()
-//                transparentAnimator.start()
-//            }
-        } else if (easterEgg) {
+        if (tabSwitcher.count == 0 && easterEgg) {
             val happyCount = NeoPreference.loadInt(NeoPreference.KEY_HAPPY_EGG, 0) + 1
             NeoPreference.store(NeoPreference.KEY_HAPPY_EGG, happyCount)
 
@@ -568,6 +564,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
             return
         }
+
         if (showSwitcher) {
             tabSwitcher.showSwitcher()
         } else {

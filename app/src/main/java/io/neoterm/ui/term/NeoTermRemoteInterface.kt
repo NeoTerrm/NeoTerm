@@ -19,6 +19,7 @@ import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.services.NeoTermService
+import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.TerminalUtils
 import java.io.File
 
@@ -94,7 +95,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
         if (intent.hasExtra(Intent.EXTRA_STREAM)) {
             val extra = intent.extras.get(Intent.EXTRA_STREAM)
             if (extra is Uri) {
-                val path = extra.path
+                val path = MediaUtils.getPath(this, extra)
                 val file = File(path)
                 val dirPath = if (file.isDirectory) path else file.parent
                 openTerm("cd " + TerminalUtils.escapeString(dirPath))
@@ -122,13 +123,14 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
             when (extra) {
                 is ArrayList<*> -> {
-                    (0 until extra.size)
-                            .map { extra[it] }
-                            .takeWhile { it is Uri }
-                            .mapTo(filesToHandle, { File((it as Uri).path).absolutePath })
+                    extra.takeWhile { it is Uri }
+                            .mapTo(filesToHandle, {
+                                val uri = it as Uri
+                                File(MediaUtils.getPath(this, uri)).absolutePath
+                            })
                 }
                 is Uri -> {
-                    filesToHandle.add(File(extra.path).absolutePath)
+                    filesToHandle.add(File(MediaUtils.getPath(this, extra)).absolutePath)
                 }
             }
         } else if (intent.data != null) {

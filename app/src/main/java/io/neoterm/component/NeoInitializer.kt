@@ -16,7 +16,7 @@ import io.neoterm.frontend.component.ComponentManager
  * @author kiva
  */
 object NeoInitializer {
-    fun initialize(context: Context) {
+    fun init(context: Context) {
         NLog.init(context)
         ComponentManager.registerComponent(ConfigureComponent::class.java)
         ComponentManager.registerComponent(CodeGenComponent::class.java)

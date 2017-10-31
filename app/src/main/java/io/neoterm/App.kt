@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import io.neoterm.component.NeoInitializer
-import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.utils.CrashHandler
 
@@ -19,7 +18,7 @@ class App : Application() {
         app = this
         NeoPreference.init(this)
         CrashHandler.init()
-        NeoInitializer.initialize(this)
+        NeoInitializer.init(this)
     }
 
     fun errorDialog(context: Context, message: Int, dismissCallback: (() -> Unit)?) {

@@ -132,6 +132,7 @@
     <string name="discard_changes">Discard all changes?</string>
     <string name="save">Save</string>
     <string name="input_new_value">Enter new color</string>
+    <string name="toggle_eks">Toggle extra keys</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

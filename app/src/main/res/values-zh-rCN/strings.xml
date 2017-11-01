@@ -127,6 +127,7 @@
     <string name="discard_changes">丢弃所有改动？</string>
     <string name="save">保存</string>
     <string name="input_new_value">输入新颜色</string>
+    <string name="toggle_eks">切换拓展键</string>
 
     <string-array name="color_item_names">
         <item>背景色</item>

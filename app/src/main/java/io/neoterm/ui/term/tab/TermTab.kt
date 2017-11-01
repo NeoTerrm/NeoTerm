@@ -101,4 +101,13 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
         termData.termView?.updateSize()
         termData.termView?.onScreenUpdated()
     }
+
+    fun setExtraKeyEnabled(enabled: Boolean) {
+        termData.showExtraKeysView = enabled
+        termData.viewClient?.updateExtraKeysVisibility()
+    }
+
+    fun getExtraKeyEnabled(): Boolean {
+        return termData.showExtraKeysView
+    }
 }

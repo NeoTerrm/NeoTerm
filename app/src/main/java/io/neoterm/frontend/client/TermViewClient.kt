@@ -5,6 +5,7 @@ import android.media.AudioManager
 import android.view.InputDevice
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import io.neoterm.R
 import io.neoterm.backend.KeyHandler
@@ -211,7 +212,8 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     fun updateExtraKeys(title: String?, force: Boolean = false) {
         val extraKeysView = termData?.extraKeysView
 
-        if (extraKeysView == null || title == null || title.isEmpty()) {
+        if (extraKeysView == null || title == null || title.isEmpty()
+                || !updateExtraKeysVisibility()) {
             return
         }
 
@@ -220,6 +222,18 @@ class TermViewClient(val context: Context) : TerminalViewClient {
             ComponentManager.getComponent<ExtraKeysComponent>().showShortcutKeys(title, extraKeysView)
             extraKeysView.updateButtons()
             lastTitle = title
+        }
+    }
+
+    fun updateExtraKeysVisibility() : Boolean {
+        val extraKeysView = termData?.extraKeysView ?: return false
+
+        if (termData?.showExtraKeysView != true) {
+            extraKeysView.visibility = View.GONE
+            return false
+        } else {
+            extraKeysView.visibility = View.VISIBLE
+            return true
         }
     }
 

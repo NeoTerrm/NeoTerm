@@ -145,13 +145,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 startActivity(Intent(this, PackageManagerActivity::class.java))
                 true
             }
-//            R.id.menu_item_float_up -> {
-//                val tab = tabSwitcher.selectedTab
-//                if (tab != null && tab is TermTab) {
-//                    floatTabUp(tab)
-//                }
-//                true
-//            }
+            R.id.menu_item_toggle_eks -> {
+                forEachTab<TermTab> { it.setExtraKeyEnabled(!it.getExtraKeyEnabled()) }
+                true
+            }
             R.id.menu_item_new_session -> {
                 addNewSession()
                 true

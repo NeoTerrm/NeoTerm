@@ -62,7 +62,7 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_color_edit, menu)
+        menuInflater.inflate(R.menu.menu_color_editor, menu)
         return true
     }
 

@@ -215,7 +215,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         super.onStop()
         // After stopped, window locations may changed
         // Rebind it at next time.
-        forEachTab { it.resetAutoCompleteStatus() }
+        forEachTerminalTab { it.resetAutoCompleteStatus() }
         EventBus.getDefault().unregister(this)
     }
 
@@ -328,7 +328,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
 
         // When rotate the screen, extra keys may get updated.
-        forEachTab { it.resetStatus() }
+        forEachTerminalTab { it.resetStatus() }
     }
 
 //    private fun floatTabUp(tab: TermTab) {
@@ -443,7 +443,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         session.mSessionName = sessionName ?: "NeoTerm #${termService!!.sessions.size}"
 
-        val tab = createTab(sessionName) as TermTab
+        val tab = createTab(session.mSessionName) as TermTab
         tab.termData.initializeSessionWith(session, sessionCallback, viewClient)
 
         addNewTab(tab, animation)
@@ -580,7 +580,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         return NeoPreference.loadBoolean(NeoPreference.KEY_SYSTEM_SHELL, true)
     }
 
-    private fun forEachTab(callback: (TermTab) -> Unit) {
+    private fun forEachTerminalTab(callback: (TermTab) -> Unit) {
         (0 until tabSwitcher.count)
                 .map { tabSwitcher.getTab(it) }
                 .filterIsInstance(TermTab::class.java)

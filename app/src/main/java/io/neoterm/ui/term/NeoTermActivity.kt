@@ -215,7 +215,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         super.onStop()
         // After stopped, window locations may changed
         // Rebind it at next time.
-        forEachTerminalTab { it.resetAutoCompleteStatus() }
+        forEachTab<TermTab> { it.resetAutoCompleteStatus() }
         EventBus.getDefault().unregister(this)
     }
 
@@ -328,7 +328,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
 
         // When rotate the screen, extra keys may get updated.
-        forEachTerminalTab { it.resetStatus() }
+        forEachTab<TermTab> { it.resetStatus() }
     }
 
 //    private fun floatTabUp(tab: TermTab) {
@@ -348,7 +348,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         setSystemShellMode(false)
 
         if (!termService!!.sessions.isEmpty()) {
-            val lastSession = getStoredCurrentSessionOrLast();
+            val lastSession = getStoredCurrentSessionOrLast()
 
             for (session in termService!!.sessions) {
                 addNewSession(session)
@@ -359,7 +359,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 addNewSession(null,
                         false, createRevealAnimation())
             } else {
-                switchToSession(lastSession);
+                switchToSession(lastSession)
             }
 
         } else {
@@ -580,10 +580,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         return NeoPreference.loadBoolean(NeoPreference.KEY_SYSTEM_SHELL, true)
     }
 
-    private fun forEachTerminalTab(callback: (TermTab) -> Unit) {
+    private inline fun <reified T> forEachTab(callback: (T) -> Unit) {
         (0 until tabSwitcher.count)
                 .map { tabSwitcher.getTab(it) }
-                .filterIsInstance(TermTab::class.java)
+                .filterIsInstance(T::class.java)
                 .forEach(callback)
     }
 

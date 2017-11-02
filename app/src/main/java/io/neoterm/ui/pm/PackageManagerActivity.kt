@@ -19,7 +19,6 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.pm.NeoPackageComponent
@@ -46,19 +45,15 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
 
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: PackageAdapter
-    lateinit var progressBar: ProgressBar
     lateinit var models: ArrayList<PackageModel>
-
-    var mAnimator: Animator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ui_package_manager)
+        setContentView(R.layout.ui_pm)
         val toolbar = findViewById<Toolbar>(R.id.pm_toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        progressBar = findViewById(R.id.package_loading_progress_bar)
         recyclerView = findViewById(R.id.package_list)
         recyclerView.setHasFixedSize(true)
         adapter = PackageAdapter(this, COMPARATOR, object : PackageAdapter.Listener {
@@ -200,8 +195,6 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
 
     private fun refreshPackageList() {
         models.clear()
-        progressBar.visibility = View.VISIBLE
-        progressBar.alpha = 0.0f
         Thread {
             val pm = ComponentManager.getComponent<NeoPackageComponent>()
             val sourceFiles = SourceUtils.detectSourceFiles()
@@ -217,7 +210,6 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
             }
 
             this@PackageManagerActivity.runOnUiThread {
-                progressBar.visibility = View.GONE
                 adapter.edit()
                         .replaceAll(models)
                         .commit()
@@ -257,48 +249,11 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     }
 
     override fun onEditStarted() {
-        if (progressBar.visibility != View.VISIBLE) {
-            progressBar.visibility = View.VISIBLE
-            progressBar.alpha = 0.0f
-        }
-
-        if (mAnimator != null) {
-            mAnimator?.cancel()
-        }
-
-        mAnimator = ObjectAnimator.ofFloat(progressBar, View.ALPHA, 1.0f)
-        mAnimator?.interpolator = AccelerateDecelerateInterpolator()
-        mAnimator?.start()
-
         recyclerView.animate().alpha(0.5f)
     }
 
     override fun onEditFinished() {
         recyclerView.scrollToPosition(0)
         recyclerView.animate().alpha(1.0f)
-
-        if (mAnimator != null) {
-            mAnimator?.cancel()
-        }
-
-        mAnimator = ObjectAnimator.ofFloat(progressBar, View.ALPHA, 0.0f)
-        mAnimator?.interpolator = AccelerateDecelerateInterpolator()
-        mAnimator?.addListener(object : AnimatorListenerAdapter() {
-
-            private var mCanceled = false
-
-            override fun onAnimationCancel(animation: Animator) {
-                super.onAnimationCancel(animation)
-                mCanceled = true
-            }
-
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-                if (!mCanceled) {
-                    progressBar.visibility = View.GONE
-                }
-            }
-        })
-        mAnimator?.start()
     }
 }

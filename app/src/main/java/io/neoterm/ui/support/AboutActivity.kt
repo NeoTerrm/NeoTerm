@@ -57,6 +57,7 @@ class AboutActivity : AppCompatActivity() {
             notices.addNotice(Notice("ChromeLikeTabSwitcher", "https://github.com/michael-rapp/ChromeLikeTabSwitcher", "Copyright 2016 - 2017 Michael Rapp", ApacheSoftwareLicense20()))
             notices.addNotice(Notice("EventBus", "http://greenrobot.org", "Copyright (C) 2012-2016 Markus Junginger, greenrobot (http://greenrobot.org)", ApacheSoftwareLicense20()))
             notices.addNotice(Notice("ModularAdapter", "https://wrdlbrnft.github.io/ModularAdapter", "Copyright 2017 Wrdlbrnft", MITLicense()))
+            notices.addNotice(Notice("RecyclerTabLayout", "https://github.com/nshmura/RecyclerTabLayout", "Copyright (C) 2017 nshmura", ApacheSoftwareLicense20()))
             notices.addNotice(Notice("RecyclerView-FastScroll", "Copyright (c) 2016, Tim Malseed", "Copyright (c) 2016, Tim Malseed", ApacheSoftwareLicense20()))
             notices.addNotice(Notice("SortedListAdapter", "https://wrdlbrnft.github.io/SortedListAdapter/", "Copyright 2017 Wrdlbrnft", MITLicense()))
             notices.addNotice(Notice("Termux", "https://termux.com", "Copyright 2016-2017 Fredrik Fornwall", GnuGeneralPublicLicense30()))

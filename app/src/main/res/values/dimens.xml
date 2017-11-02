@@ -13,6 +13,7 @@
     <dimen name="min_popup_height">24dp</dimen>
     <dimen name="popup_padding">4dp</dimen>
     <dimen name="md_list_item_height">48dp</dimen>
+    <dimen name="recycler_tab_height">48dp</dimen>
 
     <dimen name="package_item_padding">16dp</dimen>
     <dimen name="color_item_padding">4dp</dimen>

@@ -130,6 +130,7 @@ public final class BaseFileInstaller {
                     if (symlinks.isEmpty())
                         throw new RuntimeException("No SYMLINKS.txt encountered");
                     for (Pair<String, String> symlink : symlinks) {
+                        NLog.INSTANCE.e("Setup", "Linking " + symlink.first + " to " + symlink.second);
                         Os.symlink(symlink.first, symlink.second);
                     }
 

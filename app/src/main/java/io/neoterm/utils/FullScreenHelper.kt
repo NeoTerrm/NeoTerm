@@ -116,13 +116,5 @@ class FullScreenHelper private constructor(activity: Activity, var fullScreen: B
             return FullScreenHelper(activity, fullScreen, recreate)
         }
 
-        fun getStatusBarHeight(context: Context): Int {
-            val resourceId = context.resources.getIdentifier("status_bar_height",
-                    "dimen", "android")
-            if (resourceId > 0) {
-                return context.resources.getDimensionPixelSize(resourceId)
-            }
-            return -1
-        }
     }
 }

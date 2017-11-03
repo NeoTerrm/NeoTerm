@@ -1,12 +1,16 @@
 package io.neoterm
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.view.Gravity
+import android.widget.Toast
 import io.neoterm.component.NeoInitializer
 import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.utils.CrashHandler
 
 /**
@@ -45,9 +49,26 @@ class App : Application() {
         startActivity(intent)
     }
 
-    companion object {
+    fun easterEgg(context: Context, message: String) {
+        val happyCount = NeoPreference.loadInt(NeoPreference.KEY_HAPPY_EGG, 0) + 1
+        NeoPreference.store(NeoPreference.KEY_HAPPY_EGG, happyCount)
 
+        val trigger = NeoPreference.VALUE_HAPPY_EGG_TRIGGER
+
+        if (happyCount == trigger / 2) {
+            @SuppressLint("ShowToast")
+            val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
+            toast.setGravity(Gravity.CENTER, 0, 0)
+            toast.show()
+        } else if (happyCount > trigger) {
+            NeoPreference.store(NeoPreference.KEY_HAPPY_EGG, 0)
+            context.startActivity(Intent(context, BonusActivity::class.java))
+        }
+    }
+
+    companion object {
         private var app: App? = null
+
         fun get(): App {
             return app!!
         }

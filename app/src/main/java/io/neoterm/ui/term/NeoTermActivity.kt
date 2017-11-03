@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.Toast
 import de.mrapp.android.tabswitcher.*
+import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.setup.BaseFileInstaller
@@ -544,20 +545,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     private fun toggleSwitcher(showSwitcher: Boolean, easterEgg: Boolean) {
         if (tabSwitcher.count == 0 && easterEgg) {
-            val happyCount = NeoPreference.loadInt(NeoPreference.KEY_HAPPY_EGG, 0) + 1
-            NeoPreference.store(NeoPreference.KEY_HAPPY_EGG, happyCount)
-
-            val trigger = NeoPreference.VALUE_HAPPY_EGG_TRIGGER
-
-            if (happyCount == trigger / 2) {
-                @SuppressLint("ShowToast")
-                val toast = Toast.makeText(this, "Stop! You don't know what you are doing!", Toast.LENGTH_LONG)
-                toast.setGravity(Gravity.CENTER, 0, 0)
-                toast.show()
-            } else if (happyCount > trigger) {
-                NeoPreference.store(NeoPreference.KEY_HAPPY_EGG, 0)
-                startActivity(Intent(this, BonusActivity::class.java))
-            }
+            App.get().easterEgg(this, "Stop! You don't know what you are doing!")
             return
         }
 

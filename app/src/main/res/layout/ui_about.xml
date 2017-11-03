@@ -64,6 +64,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/about_version_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackground"
@@ -105,7 +106,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/developersView"
+                        android:id="@+id/about_developers_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackground"
@@ -142,7 +143,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/creditsView"
+                        android:id="@+id/about_credits_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackground"
@@ -179,7 +180,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/licensesView"
+                        android:id="@+id/about_licenses_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackground"
@@ -209,7 +210,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/sourceCodeView"
+                        android:id="@+id/about_source_code_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackground"
@@ -246,7 +247,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/donateView"
+                        android:id="@+id/about_donate_view"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:background="?android:attr/selectableItemBackground"

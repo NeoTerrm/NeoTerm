@@ -11,11 +11,11 @@ import android.view.View
 import android.widget.TextView
 import de.psdev.licensesdialog.LicensesDialog
 import de.psdev.licensesdialog.licenses.ApacheSoftwareLicense20
-import de.psdev.licensesdialog.licenses.GnuGeneralPublicLicense20
 import de.psdev.licensesdialog.licenses.GnuGeneralPublicLicense30
 import de.psdev.licensesdialog.licenses.MITLicense
 import de.psdev.licensesdialog.model.Notice
 import de.psdev.licensesdialog.model.Notices
+import io.neoterm.App
 import io.neoterm.R
 
 
@@ -35,7 +35,7 @@ class AboutActivity : AppCompatActivity() {
         } catch (ignored: PackageManager.NameNotFoundException) {
         }
 
-        findViewById<View>(R.id.developersView).setOnClickListener {
+        findViewById<View>(R.id.about_developers_view).setOnClickListener {
             AlertDialog.Builder(this)
                     .setTitle(R.string.about_developers_label)
                     .setMessage(R.string.about_developers)
@@ -43,7 +43,7 @@ class AboutActivity : AppCompatActivity() {
                     .show()
         }
 
-        findViewById<View>(R.id.creditsView).setOnClickListener {
+        findViewById<View>(R.id.about_credits_view).setOnClickListener {
             AlertDialog.Builder(this)
                     .setTitle(R.string.about_credits_label)
                     .setMessage(R.string.about_credits)
@@ -51,7 +51,7 @@ class AboutActivity : AppCompatActivity() {
                     .show()
         }
 
-        findViewById<View>(R.id.licensesView).setOnClickListener {
+        findViewById<View>(R.id.about_licenses_view).setOnClickListener {
             val notices = Notices()
             notices.addNotice(Notice("ADBToolkitInstaller", "https://github.com/Crixec/ADBToolKitsInstaller", "Copyright (c) 2017 Crixec", GnuGeneralPublicLicense30()))
             notices.addNotice(Notice("Android-Terminal-Emulator", "https://github.com/jackpal/Android-Terminal-Emulator", "Copyright (c) 2011-2016 Steven Luo", ApacheSoftwareLicense20()))
@@ -70,11 +70,15 @@ class AboutActivity : AppCompatActivity() {
                     .show()
         }
 
-        findViewById<View>(R.id.sourceCodeView).setOnClickListener {
+        findViewById<View>(R.id.about_version_view).setOnClickListener {
+            App.get().easterEgg(this, "Emmmmmm...")
+        }
+
+        findViewById<View>(R.id.about_source_code_view).setOnClickListener {
             openUrl("https://github.com/NeoTerm/NeoTerm")
         }
 
-        findViewById<View>(R.id.donateView).setOnClickListener {
+        findViewById<View>(R.id.about_donate_view).setOnClickListener {
             AlertDialog.Builder(this)
                     .setTitle(R.string.support_donate_label)
                     .setMessage(R.string.support_donate_dialog_text)

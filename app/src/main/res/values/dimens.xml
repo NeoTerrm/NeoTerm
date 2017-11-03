@@ -2,7 +2,10 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="preview_layout_margin_small">8dp</dimen>
     <dimen name="preview_layout_margin">32dp</dimen>
+    <dimen name="preview_layout_height">32dp</dimen>
+    <dimen name="preview_layout_width">32dp</dimen>
     <dimen name="eks_height">32dp</dimen>
     <dimen name="eks_height_two_line">72dp</dimen>
     <dimen name="eks_height_one_line">36dp</dimen>

@@ -212,12 +212,12 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     fun updateExtraKeys(title: String?, force: Boolean = false) {
         val extraKeysView = termData?.extraKeysView
 
-        if (extraKeysView == null || title == null || title.isEmpty()
-                || !updateExtraKeysVisibility()) {
+        if (extraKeysView == null || title == null || title.isEmpty()) {
             return
         }
 
-        if (lastTitle != title || force) {
+        if ((lastTitle != title || force)
+                && updateExtraKeysVisibility()) {
             removeExtraKeys()
             ComponentManager.getComponent<ExtraKeysComponent>().showShortcutKeys(title, extraKeysView)
             extraKeysView.updateButtons()
@@ -225,15 +225,15 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         }
     }
 
-    fun updateExtraKeysVisibility() : Boolean {
+    private fun updateExtraKeysVisibility() : Boolean {
         val extraKeysView = termData?.extraKeysView ?: return false
 
-        if (termData?.showExtraKeysView != true) {
-            extraKeysView.visibility = View.GONE
-            return false
-        } else {
+        return if (NeoPreference.loadBoolean(R.string.key_ui_eks_enabled, true)) {
             extraKeysView.visibility = View.VISIBLE
-            return true
+            true
+        } else {
+            extraKeysView.visibility = View.GONE
+            false
         }
     }
 

@@ -16,6 +16,10 @@ import org.greenrobot.eventbus.EventBus
  */
 
 class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
+    companion object {
+        val PARAMETER_SHOW_EKS = "show_eks"
+    }
+
     var termData = TermDataHolder()
     var toolbar: Toolbar? = null
 
@@ -100,14 +104,5 @@ class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
         termData.extraKeysView?.updateButtons()
         termData.termView?.updateSize()
         termData.termView?.onScreenUpdated()
-    }
-
-    fun setExtraKeyEnabled(enabled: Boolean) {
-        termData.showExtraKeysView = enabled
-        termData.viewClient?.updateExtraKeysVisibility()
-    }
-
-    fun getExtraKeyEnabled(): Boolean {
-        return termData.showExtraKeysView
     }
 }

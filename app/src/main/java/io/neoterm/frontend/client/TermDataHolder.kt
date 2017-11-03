@@ -17,7 +17,6 @@ class TermDataHolder {
     var termUI: TermUiPresenter? = null
     var termView: TerminalView? = null
     var extraKeysView: ExtraKeysView? = null
-    var showExtraKeysView: Boolean = true
 
     fun cleanup() {
         onAutoCompleteListener?.onCleanUp()
@@ -30,8 +29,6 @@ class TermDataHolder {
         termView = null
         extraKeysView = null
         termSession = null
-
-        showExtraKeysView = true
     }
 
     fun initializeSessionWith(session: TerminalSession, sessionCallback: TermSessionCallback?, viewClient: TermViewClient?) {
@@ -40,13 +37,11 @@ class TermDataHolder {
         this.viewClient = viewClient
         this.sessionCallback?.termData = this
         this.viewClient?.termData = this
-        this.showExtraKeysView = true
     }
 
     fun initializeViewWith(termUI: TermUiPresenter?, termView: TerminalView?, eks: ExtraKeysView?) {
         this.termUI = termUI
         this.termView = termView
         this.extraKeysView = eks
-        this.showExtraKeysView = true
     }
 }

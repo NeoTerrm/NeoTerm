@@ -79,6 +79,8 @@
     <string name="pref_ui_close_tab_anim_next_tab_desc">Switch to the next tab instead of the previous tab when closing tab</string>
     <string name="pref_ui_eks_weight_explicit">Use explicit weight for ExtraKeysView</string>
     <string name="pref_ui_eks_weight_explicit_desc">If ExtraKeysView shows incorrectly, please enable this</string>
+    <string name="pref_ui_eks_enabled">Show extra keys</string>
+    <string name="pref_ui_eks_enabled_desc">Some useful keys like arrow, esc, tab, etc.</string>
     <string name="pref_customization_font">Font</string>
     <string name="pref_customization_color_scheme">Color Scheme</string>
     <string name="pref_customization_eks">Extra Keys</string>

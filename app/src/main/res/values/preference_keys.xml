@@ -13,6 +13,7 @@
     <string name="key_ui_hide_toolbar" translatable="false">neoterm_ui_hide_toolbar</string>
     <string name="key_ui_next_tab_anim" translatable="false">neoterm_ui_next_tab_anim</string>
     <string name="key_ui_eks_weight_explicit" translatable="false">neoterm_ui_eks_weight_explicit</string>
+    <string name="key_ui_eks_enabled" translatable="false">neoterm_ui_eks_enabled</string>
 
     <string name="key_package_source" translatable="false">neoterm_package_source</string>
 

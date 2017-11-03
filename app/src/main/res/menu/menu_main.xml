@@ -17,12 +17,6 @@
         android:id="@+id/menu_item_new_system_session"
         android:title="@string/new_system_session"
         app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_item_toggle_eks"
-        android:title="@string/toggle_eks"
-        app:showAsAction="never" />
-
     <item
         android:id="@+id/menu_item_package_settings"
         android:title="@string/package_settings"

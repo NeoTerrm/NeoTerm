@@ -32,6 +32,8 @@
     <string name="pref_ui_hide_toolbar_desc">键盘显示时隐藏标题栏</string>
     <string name="pref_ui_eks_weight_explicit">为快捷键盘强制设置权重</string>
     <string name="pref_ui_eks_weight_explicit_desc">如果快捷键盘显示不正确，请勾选本项</string>
+    <string name="pref_ui_eks_enabled">显示拓展键</string>
+    <string name="pref_ui_eks_enabled_desc">屏幕下方出现一行有方向键，esc 键之类的按键</string>
     <string name="pref_customization_color_scheme">配色方案</string>
     <string name="pref_customization_font">字体</string>
     <string name="settings">设置</string>

@@ -18,7 +18,14 @@
         android:title="@string/pref_ui_close_tab_anim_next_tab" />
 
     <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/key_ui_eks_enabled"
+        android:title="@string/pref_ui_eks_enabled"
+        android:summary="@string/pref_ui_eks_enabled_desc" />
+
+    <CheckBoxPreference
         android:defaultValue="false"
+        android:dependency="@string/key_ui_eks_enabled"
         android:key="@string/key_ui_eks_weight_explicit"
         android:summary="@string/pref_ui_eks_weight_explicit_desc"
         android:title="@string/pref_ui_eks_weight_explicit" />

@@ -145,10 +145,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 startActivity(Intent(this, PackageManagerActivity::class.java))
                 true
             }
-            R.id.menu_item_toggle_eks -> {
-                forEachTab<TermTab> { it.setExtraKeyEnabled(!it.getExtraKeyEnabled()) }
-                true
-            }
             R.id.menu_item_new_session -> {
                 addNewSession()
                 true
@@ -488,7 +484,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     private fun createTab(tabTitle: String?): Tab {
         val tab = TermTab(tabTitle ?: "NeoTerm")
         tab.isCloseable = true
+
+        // We must create a Bundle for each tab
+        // tabs can use them to store status.
         tab.parameters = Bundle()
+
         tab.setBackgroundColor(ContextCompat.getColor(this, R.color.tab_background_color))
         tab.setTitleTextColor(ContextCompat.getColor(this, R.color.tab_title_text_color))
         return tab

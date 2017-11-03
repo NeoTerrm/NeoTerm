@@ -295,7 +295,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         if (!isRecreating()) {
             if (BaseFileInstaller.needSetup()) {
                 val intent = Intent(this, SetupActivity::class.java)
-                intent.putExtra("setup", true)
                 startActivityForResult(intent, REQUEST_SETUP)
                 return
             }

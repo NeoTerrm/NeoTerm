@@ -72,32 +72,4 @@ class SetupActivity : AppCompatActivity() {
             }
         })
     }
-
-//    private fun randomPackageList(): Array<String> {
-//        val list = mutableListOf<String>()
-//        val pm = NeoPackageManager.get()
-//
-//        val sourceFiles = NeoPackageManagerUtils.detectSourceFiles()
-//        pm.clearPackages()
-//        for (index in sourceFiles.indices) {
-//            pm.refreshPackageList(sourceFiles[index], false)
-//        }
-//
-//        val limit = 20
-//        val packageNames = pm.packages.keys
-//        val packageCount = packageNames.size
-//        val random = Random()
-//
-//        var i = 0
-//        while (i < limit) {
-//            val randomIndex = Math.abs(random.nextInt()) % packageCount
-//            val packageName = packageNames.elementAt(randomIndex)
-//            if (packageName.startsWith("lib") || packageName.endsWith("-dev")) {
-//                continue
-//            }
-//            list.add(packageName)
-//            ++i
-//        }
-//        return list.toTypedArray()
-//    }
 }

@@ -48,7 +48,8 @@ public final class TerminalColors {
                 skipInitial = 4;
                 skipBetween = 1;
             } else {
-                return 0;
+                // assume that c is an int
+                return Integer.parseInt(c);
             }
             int charsForColors = c.length() - skipInitial - 2 * skipBetween;
             if (charsForColors % 3 != 0) return 0; // Unequal lengths.

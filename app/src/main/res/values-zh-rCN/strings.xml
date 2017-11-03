@@ -128,6 +128,7 @@
     <string name="save_color">保存配色方案</string>
     <string name="discard_changes">丢弃所有改动？</string>
     <string name="save">保存</string>
+    <string name="select_new_value">选择</string>
     <string name="input_new_value">输入新颜色</string>
     <string name="toggle_eks">切换拓展键</string>
 

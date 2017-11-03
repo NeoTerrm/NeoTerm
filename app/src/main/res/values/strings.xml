@@ -133,6 +133,7 @@
     <string name="save_color">Save color scheme</string>
     <string name="discard_changes">Discard all changes?</string>
     <string name="save">Save</string>
+    <string name="select_new_value">Select</string>
     <string name="input_new_value">Enter new color</string>
     <string name="toggle_eks">Toggle extra keys</string>
 

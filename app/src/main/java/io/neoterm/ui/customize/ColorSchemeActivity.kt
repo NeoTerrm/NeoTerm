@@ -14,6 +14,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
+import es.dmoral.coloromatic.ColorOMaticDialog
+import es.dmoral.coloromatic.IndicatorMode
+import es.dmoral.coloromatic.colormode.ColorMode
 import io.neoterm.R
 import io.neoterm.backend.TerminalColors
 import io.neoterm.component.color.ColorSchemeComponent
@@ -23,6 +26,7 @@ import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.ui.customize.adapter.ColorItemAdapter
 import io.neoterm.ui.customize.model.ColorItem
 import io.neoterm.utils.TerminalUtils
+
 
 /**
  * @author kiva
@@ -92,10 +96,10 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
     }
 
     private fun showItemEditor(model: ColorItem) {
-        val view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_text, null, false)
-        view.findViewById<TextView>(R.id.dialog_edit_text_info).text = getString(R.string.input_new_value)
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_color, null, false)
+        view.findViewById<TextView>(R.id.dialog_edit_color_info).text = getString(R.string.input_new_value)
 
-        val edit = view.findViewById<EditText>(R.id.dialog_edit_text_editor)
+        val edit = view.findViewById<EditText>(R.id.dialog_edit_color_editor)
         edit.setText(model.colorValue)
         if (model.colorValue.isNotEmpty()) {
             edit.setTextColor(TerminalColors.parse(model.colorValue))
@@ -119,17 +123,33 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
             }
         })
 
+        val applyColor: (newColor: String) -> Unit = { newColor ->
+            model.colorValue = newColor
+            adapter.notifyItemChanged(adapter.colorList.indexOf(model))
+
+            editingColorScheme.setColor(model.colorType, model.colorValue)
+            colorSchemeComponent.applyColorScheme(terminalView, null, editingColorScheme)
+            changed = true
+        }
+
         AlertDialog.Builder(this)
                 .setTitle(model.colorName)
                 .setView(view)
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, { _, _ ->
-                    model.colorValue = edit.text.toString()
-                    adapter.notifyItemChanged(adapter.colorList.indexOf(model))
-
-                    editingColorScheme.setColor(model.colorType, model.colorValue)
-                    colorSchemeComponent.applyColorScheme(terminalView, null, editingColorScheme)
-                    changed = true
+                    applyColor(edit.text.toString());
+                })
+                .setNeutralButton(R.string.select_new_value, { _, _ ->
+                    ColorOMaticDialog.Builder()
+                            .initialColor(TerminalColors.parse(model.colorValue))
+                            .colorMode(ColorMode.RGB)
+                            .indicatorMode(IndicatorMode.HEX)
+                            .onColorSelected { newColor ->
+                                applyColor("#${Integer.toHexString(newColor).substring(2)}")
+                            }
+                            .showColorIndicator(true)
+                            .create()
+                            .show(supportFragmentManager, "ColorOMaticDialog")
                 })
                 .show()
     }

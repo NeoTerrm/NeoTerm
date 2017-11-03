@@ -43,14 +43,6 @@ class AboutActivity : AppCompatActivity() {
                     .show()
         }
 
-        findViewById<View>(R.id.about_credits_view).setOnClickListener {
-            AlertDialog.Builder(this)
-                    .setTitle(R.string.about_credits_label)
-                    .setMessage(R.string.about_credits)
-                    .setPositiveButton(android.R.string.yes, null)
-                    .show()
-        }
-
         findViewById<View>(R.id.about_licenses_view).setOnClickListener {
             val notices = Notices()
             notices.addNotice(Notice("ADBToolkitInstaller", "https://github.com/Crixec/ADBToolKitsInstaller", "Copyright (c) 2017 Crixec", GnuGeneralPublicLicense30()))
@@ -87,6 +79,14 @@ class AboutActivity : AppCompatActivity() {
                     })
                     .setNeutralButton(android.R.string.no, null)
                     .show()
+        }
+
+        findViewById<View>(R.id.about_show_help_view).setOnClickListener {
+            App.get().openHelpLink();
+        }
+
+        findViewById<View>(R.id.about_reset_app_view).setOnClickListener {
+            App.get().errorDialog(this, "WIP", null);
         }
     }
 

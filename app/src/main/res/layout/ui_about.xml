@@ -298,6 +298,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/list_download_item_color_dark"
                 app:cardUseCompatPadding="true">
 

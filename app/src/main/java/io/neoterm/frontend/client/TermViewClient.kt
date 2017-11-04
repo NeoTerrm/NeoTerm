@@ -52,9 +52,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun onKeyDown(keyCode: Int, e: KeyEvent?, session: TerminalSession?): Boolean {
-        // Volume keys as special keys
-        if (NeoPreference.loadBoolean(R.string.key_general_volume_as_control, false)
-                && handleVirtualKeys(keyCode, e, true)) {
+        if (handleVirtualKeys(keyCode, e, true)) {
             return true
         }
 
@@ -196,14 +194,18 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         if (event == null) {
             return false
         }
+        // Volume keys as special keys
+        val volumeAsSpecialKeys = NeoPreference.loadBoolean(R.string.key_general_volume_as_control,
+                false)
+
         val inputDevice = event.device
         if (inputDevice != null && inputDevice.keyboardType == InputDevice.KEYBOARD_TYPE_ALPHABETIC) {
             return false
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            mVirtualControlKeyDown = down
+            mVirtualControlKeyDown = down && volumeAsSpecialKeys
             return true
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            mVirtualFnKeyDown = down
+            mVirtualFnKeyDown = down && volumeAsSpecialKeys
             return true
         }
         return false
@@ -225,7 +227,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         }
     }
 
-    private fun updateExtraKeysVisibility() : Boolean {
+    private fun updateExtraKeysVisibility(): Boolean {
         val extraKeysView = termData?.extraKeysView ?: return false
 
         return if (NeoPreference.loadBoolean(R.string.key_ui_eks_enabled, true)) {

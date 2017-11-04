@@ -62,7 +62,7 @@
         <activity
             android:name=".ui.term.NeoTermRemoteInterface"
             android:configChanges="orientation|keyboardHidden"
-            android:excludeFromRecents="true"
+            android:excludeFromRecents="false"
             android:exported="true"
             android:theme="@style/AppTheme.Dark"
             android:windowSoftInputMode="adjustResize|stateHidden">

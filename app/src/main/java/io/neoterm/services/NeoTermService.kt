@@ -17,6 +17,11 @@ import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import java.util.*
+import android.app.NotificationManager
+import android.app.NotificationChannel
+import android.os.Build
+
+
 
 
 /**
@@ -28,18 +33,19 @@ class NeoTermService : Service() {
         var service = this@NeoTermService
     }
 
-    private val neoTermBinder = NeoTermBinder()
+    private val serviceBinder = NeoTermBinder()
     private val mTerminalSessions = ArrayList<TerminalSession>()
     private var mWakeLock: PowerManager.WakeLock? = null
     private var mWifiLock: WifiManager.WifiLock? = null
 
     override fun onCreate() {
         super.onCreate()
+        createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification())
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        return neoTermBinder
+        return serviceBinder
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -134,6 +140,15 @@ class NeoTermService : Service() {
         return builder.build()
     }
 
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+
+        val channel = NotificationChannel(DEFAULT_CHANNEL_ID, "NeoTerm", NotificationManager.IMPORTANCE_LOW)
+        channel.description = "NeoTerm notifications"
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(channel)
+    }
+
     @SuppressLint("WakelockTimeout")
     private fun acquireLock() {
         if (mWakeLock == null) {
@@ -167,7 +182,6 @@ class NeoTermService : Service() {
         val ACTION_RELEASE_LOCK = "neoterm.action.service.lock.release"
         private val NOTIFICATION_ID = 52019
 
-        // Copy from NotificationChannel.java
-        val DEFAULT_CHANNEL_ID = "miscellaneous"
+        val DEFAULT_CHANNEL_ID = "neoterm_notification_channel"
     }
 }

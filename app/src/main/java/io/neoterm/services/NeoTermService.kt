@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.support.v4.app.NotificationCompat
@@ -17,11 +18,6 @@ import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 import java.util.*
-import android.app.NotificationManager
-import android.app.NotificationChannel
-import android.os.Build
-
-
 
 
 /**

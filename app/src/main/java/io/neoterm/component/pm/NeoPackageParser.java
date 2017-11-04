@@ -56,8 +56,9 @@ public class NeoPackageParser {
 
         String line;
         String[] splits = new String[2];
-        String key;
-        String value;
+        String key = null;
+        String value = null;
+        boolean appendMode = false;
 
         NeoPackageInfo packageInfo = null;
 
@@ -67,9 +68,19 @@ public class NeoPackageParser {
                 continue;
             }
 
-            splitKeyAndValue(line, splits);
-            key = splits[0];
-            value = splits[1];
+            if (splitKeyAndValue(line, splits)) {
+                key = splits[0];
+                value = splits[1];
+                appendMode = false;
+            } else {
+                if (key == null) {
+                    // no key provided, we don't know where the value should be appended to
+                    continue;
+                }
+                // the rest value to previous key
+                value = line.trim();
+                appendMode = true;
+            }
 
             if (key.equals(KEY_PACKAGE_NAME)) {
                 if (packageInfo != null) {
@@ -82,6 +93,10 @@ public class NeoPackageParser {
 
             if (packageInfo == null) {
                 continue;
+            }
+
+            if (appendMode) {
+                value = appendToLastValue(packageInfo, key, value);
             }
 
             switch (key) {
@@ -132,9 +147,24 @@ public class NeoPackageParser {
         stateListener.onEndState();
     }
 
-    private void splitKeyAndValue(String line, String[] splits) {
-        splits[0] = line.substring(0, line.indexOf(':')).trim();
+    private String appendToLastValue(NeoPackageInfo packageInfo, String key, String value) {
+        // Currently, only descriptions can be multiline
+        switch (key) {
+            case KEY_DESC:
+                return packageInfo.getDescription() + " " + value;
+            default:
+                return value;
+        }
+    }
+
+    private boolean splitKeyAndValue(String line, String[] splits) {
         int valueIndex = line.indexOf(':');
+        if (valueIndex < 0) {
+            return false;
+        }
+
+        splits[0] = line.substring(0, valueIndex).trim();
         splits[1] = line.substring(valueIndex == line.length() ? valueIndex : valueIndex + 1).trim();
+        return true;
     }
 }

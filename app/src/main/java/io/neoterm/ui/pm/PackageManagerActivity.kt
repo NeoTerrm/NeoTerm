@@ -1,8 +1,5 @@
 package io.neoterm.ui.pm
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
@@ -13,15 +10,12 @@ import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.component.pm.NeoPackageComponent
+import io.neoterm.component.pm.PackageComponent
 import io.neoterm.component.pm.SourceManager
 import io.neoterm.component.pm.SourceUtils
 import io.neoterm.frontend.component.ComponentManager
@@ -114,7 +108,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     }
 
     private fun changeSource() {
-        val sourceManager = ComponentManager.getComponent<NeoPackageComponent>().sourceManager
+        val sourceManager = ComponentManager.getComponent<PackageComponent>().sourceManager
         val sourceList = sourceManager.sources
 
         val currentSource = NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE)
@@ -196,7 +190,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     private fun refreshPackageList() {
         models.clear()
         Thread {
-            val pm = ComponentManager.getComponent<NeoPackageComponent>()
+            val pm = ComponentManager.getComponent<PackageComponent>()
             val sourceFiles = SourceUtils.detectSourceFiles()
 
             pm.clearPackages()

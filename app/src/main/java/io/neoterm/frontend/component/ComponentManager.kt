@@ -6,32 +6,37 @@ import java.util.concurrent.ConcurrentHashMap
  * @author kiva
  */
 object ComponentManager {
-    val COMPONENTS = ConcurrentHashMap<Class<out NeoComponent>, NeoComponent>()
+    private val COMPONENTS = ConcurrentHashMap<Class<out NeoComponent>, NeoComponent>()
 
-    fun registerComponent(serviceClass: Class<out NeoComponent>) {
-        if (COMPONENTS.containsKey(serviceClass)) {
-            throw ComponentDuplicateException(serviceClass.simpleName)
+    fun registerComponent(componentClass: Class<out NeoComponent>) {
+        if (COMPONENTS.containsKey(componentClass)) {
+            throw ComponentDuplicateException(componentClass.simpleName)
         }
-        val service = createServiceInstance(serviceClass)
-        COMPONENTS.put(serviceClass, service)
+        val service = createServiceInstance(componentClass)
+        COMPONENTS.put(componentClass, service)
         service.onServiceInit()
     }
 
-    fun unregisterComponent(serviceInterface: Class<out NeoComponent>) {
-        val service = COMPONENTS[serviceInterface]
+    fun unregisterComponent(componentInterface: Class<out NeoComponent>) {
+        val service = COMPONENTS[componentInterface]
         if (service != null) {
             service.onServiceDestroy()
-            COMPONENTS.remove(serviceInterface)
+            COMPONENTS.remove(componentInterface)
         }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T : NeoComponent> getComponent(componentInterface: Class<T>) : T {
+        val service: NeoComponent = COMPONENTS[componentInterface] ?:
+                throw ComponentNotFoundException(componentInterface.simpleName)
+
+        service.onServiceObtained()
+        return service as T
     }
 
     inline fun <reified T : NeoComponent> getComponent(): T {
         val serviceInterface = T::class.java
-        val service: NeoComponent = COMPONENTS[serviceInterface] ?:
-                throw ComponentNotFoundException(serviceInterface.simpleName)
-
-        service.onServiceObtained()
-        return service as T
+        return getComponent(serviceInterface);
     }
 
     private fun createServiceInstance(serviceInterface: Class<out NeoComponent>): NeoComponent {

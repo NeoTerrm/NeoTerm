@@ -11,7 +11,7 @@ import io.neoterm.frontend.component.NeoComponent;
  * @author kiva
  */
 
-public class NeoPackageComponent implements NeoComponent {
+public class PackageComponent implements NeoComponent {
     private final Object lock = new Object();
     private boolean isRefreshing = false;
     private boolean queryEnabled = true;

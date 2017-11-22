@@ -1,16 +1,16 @@
-package io.neoterm.component.script
+package com.termux.component.script
 
 import android.content.Context
 import android.system.Os
-import io.neoterm.App
-import io.neoterm.frontend.component.NeoComponent
-import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.preference.NeoTermPath
-import io.neoterm.utils.AssetsUtils
+import com.termux.App
+import com.termux.frontend.component.NeoComponent
+import com.termux.frontend.logging.NLog
+import com.termux.frontend.preference.NeoTermPath
+import com.termux.utils.AssetsUtils
 import java.io.File
 
 /**
- * @author kiva
+ * @author Sam
  */
 class UserScriptComponent : NeoComponent {
     lateinit var userScripts: MutableList<UserScript>

@@ -1,10 +1,10 @@
-package io.neoterm.component.codegen.generator
+package com.termux.component.codegen.generator
 
-import io.neoterm.component.codegen.CodeGenParameter
-import io.neoterm.component.codegen.model.CodeGenObject
+import com.termux.component.codegen.CodeGenParameter
+import com.termux.component.codegen.model.CodeGenObject
 
 /**
- * @author kiva
+ * @author Sam
  */
 abstract class ICodeGenerator(parameter: CodeGenParameter) {
     abstract fun getGeneratorName(): String

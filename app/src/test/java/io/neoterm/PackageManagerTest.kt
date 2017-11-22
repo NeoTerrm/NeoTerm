@@ -1,8 +1,8 @@
-package io.neoterm
+package com.termux
 
-import io.neoterm.component.pm.PackageComponent
-import io.neoterm.component.pm.SourceUtils
-import io.neoterm.frontend.component.ComponentManager
+import com.termux.component.pm.PackageComponent
+import com.termux.component.pm.SourceUtils
+import com.termux.frontend.component.ComponentManager
 import org.junit.Test
 import java.io.File
 

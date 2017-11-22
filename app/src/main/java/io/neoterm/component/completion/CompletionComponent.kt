@@ -1,12 +1,12 @@
-package io.neoterm.component.completion
+package com.termux.component.completion
 
-import io.neoterm.component.completion.provider.FileCompletionProvider
-import io.neoterm.component.completion.provider.ProgramCompletionProvider
-import io.neoterm.frontend.completion.CompletionManager
-import io.neoterm.frontend.component.NeoComponent
+import com.termux.component.completion.provider.FileCompletionProvider
+import com.termux.component.completion.provider.ProgramCompletionProvider
+import com.termux.frontend.completion.CompletionManager
+import com.termux.frontend.component.NeoComponent
 
 /**
- * @author kiva
+ * @author Sam
  */
 class CompletionComponent : NeoComponent {
     override fun onServiceInit() {

@@ -1,22 +1,22 @@
-package io.neoterm.component.color
+package com.termux.component.color
 
 import io.neolang.visitor.ConfigVisitor
-import io.neoterm.backend.TerminalColorScheme
-import io.neoterm.backend.TerminalColors
-import io.neoterm.component.codegen.CodeGenParameter
-import io.neoterm.component.codegen.generator.ICodeGenerator
-import io.neoterm.component.codegen.model.CodeGenObject
-import io.neoterm.component.color.codegen.NeoColorGenerator
-import io.neoterm.component.config.ConfigureComponent
-import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.config.NeoConfigureFile
-import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import com.termux.backend.TerminalColorScheme
+import com.termux.backend.TerminalColors
+import com.termux.component.codegen.CodeGenParameter
+import com.termux.component.codegen.generator.ICodeGenerator
+import com.termux.component.codegen.model.CodeGenObject
+import com.termux.component.color.codegen.NeoColorGenerator
+import com.termux.component.config.ConfigureComponent
+import com.termux.frontend.component.ComponentManager
+import com.termux.frontend.config.NeoConfigureFile
+import com.termux.frontend.logging.NLog
+import com.termux.frontend.terminal.TerminalView
+import com.termux.frontend.terminal.eks.ExtraKeysView
 import java.io.File
 
 /**
- * @author kiva
+ * @author Sam
  */
 open class NeoColorScheme : CodeGenObject {
     companion object {

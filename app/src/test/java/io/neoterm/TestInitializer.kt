@@ -1,17 +1,17 @@
-package io.neoterm
+package com.termux
 
-import io.neoterm.component.codegen.CodeGenComponent
-import io.neoterm.component.color.ColorSchemeComponent
-import io.neoterm.component.completion.CompletionComponent
-import io.neoterm.component.config.ConfigureComponent
-import io.neoterm.component.eks.ExtraKeysComponent
-import io.neoterm.component.font.FontComponent
-import io.neoterm.component.pm.PackageComponent
-import io.neoterm.component.script.UserScriptComponent
-import io.neoterm.frontend.component.ComponentManager
+import com.termux.component.codegen.CodeGenComponent
+import com.termux.component.color.ColorSchemeComponent
+import com.termux.component.completion.CompletionComponent
+import com.termux.component.config.ConfigureComponent
+import com.termux.component.eks.ExtraKeysComponent
+import com.termux.component.font.FontComponent
+import com.termux.component.pm.PackageComponent
+import com.termux.component.script.UserScriptComponent
+import com.termux.frontend.component.ComponentManager
 
 /**
- * @author kiva
+ * @author Sam
  */
 object TestInitializer {
     fun init() {

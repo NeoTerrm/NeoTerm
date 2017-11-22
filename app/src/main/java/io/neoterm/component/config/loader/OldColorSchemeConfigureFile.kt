@@ -1,16 +1,16 @@
-package io.neoterm.component.config.loader
+package com.termux.component.config.loader
 
 import io.neolang.runtime.type.NeoLangValue
-import io.neoterm.component.color.NeoColorScheme
+import com.termux.component.color.NeoColorScheme
 import io.neolang.visitor.ConfigVisitor
-import io.neoterm.frontend.config.NeoConfigureFile
-import io.neoterm.frontend.logging.NLog
+import com.termux.frontend.config.NeoConfigureFile
+import com.termux.frontend.logging.NLog
 import java.io.File
 import java.io.FileInputStream
 import java.util.*
 
 /**
- * @author kiva
+ * @author Sam
  */
 class OldColorSchemeConfigureFile(configureFile: File) : NeoConfigureFile(configureFile) {
     override var configVisitor: ConfigVisitor? = null

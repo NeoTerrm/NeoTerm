@@ -1,4 +1,4 @@
-package io.neoterm.backend;
+package com.termux.backend;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;

@@ -1,4 +1,4 @@
-package io.neoterm.backend;
+package com.termux.backend;
 
 /**
  * A circular buffer of {@link TerminalRow}:s which keeps notes about what is visible on a logical screen and the scroll

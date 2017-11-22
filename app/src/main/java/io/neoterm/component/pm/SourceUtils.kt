@@ -1,14 +1,14 @@
-package io.neoterm.component.pm
+package com.termux.component.pm
 
-import io.neoterm.R
-import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.frontend.preference.NeoTermPath
+import com.termux.R
+import com.termux.frontend.logging.NLog
+import com.termux.frontend.preference.NeoPreference
+import com.termux.frontend.preference.NeoTermPath
 import java.io.File
 import java.net.URL
 
 /**
- * @author kiva
+ * @author Sam
  */
 object SourceUtils {
 

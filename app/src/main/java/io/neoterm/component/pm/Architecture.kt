@@ -1,7 +1,7 @@
-package io.neoterm.component.pm
+package com.termux.component.pm
 
 /**
- * @author kiva
+ * @author Sam
  */
 
 enum class Architecture {

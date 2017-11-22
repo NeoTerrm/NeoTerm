@@ -1,23 +1,23 @@
-package io.neoterm.component.color
+package com.termux.component.color
 
 import android.content.Context
-import io.neoterm.App
-import io.neoterm.R
-import io.neoterm.component.codegen.CodeGenComponent
-import io.neoterm.component.config.ConfigureComponent
-import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.frontend.preference.NeoTermPath
-import io.neoterm.frontend.component.NeoComponent
-import io.neoterm.frontend.logging.NLog
-import io.neoterm.utils.AssetsUtils
-import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
-import io.neoterm.utils.FileUtils
+import com.termux.App
+import com.termux.R
+import com.termux.component.codegen.CodeGenComponent
+import com.termux.component.config.ConfigureComponent
+import com.termux.frontend.component.ComponentManager
+import com.termux.frontend.preference.NeoPreference
+import com.termux.frontend.preference.NeoTermPath
+import com.termux.frontend.component.NeoComponent
+import com.termux.frontend.logging.NLog
+import com.termux.utils.AssetsUtils
+import com.termux.frontend.terminal.TerminalView
+import com.termux.frontend.terminal.eks.ExtraKeysView
+import com.termux.utils.FileUtils
 import java.io.File
 
 /**
- * @author kiva
+ * @author San
  */
 class ColorSchemeComponent : NeoComponent {
     companion object {

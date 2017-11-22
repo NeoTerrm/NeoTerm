@@ -1,11 +1,11 @@
-package io.neoterm.component.pm
+package com.termux.component.pm
 
-import io.neoterm.App
-import io.neoterm.R
-import io.neoterm.frontend.preference.NeoPreference
+import com.termux.App
+import com.termux.R
+import com.termux.frontend.preference.NeoPreference
 
 /**
- * @author kiva
+ * @author Sam
  */
 class SourceManager internal constructor() {
     val sources = mutableSetOf<String>()

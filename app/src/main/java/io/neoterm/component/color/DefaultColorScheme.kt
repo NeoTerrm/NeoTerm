@@ -1,7 +1,7 @@
-package io.neoterm.component.color
+package com.termux.component.color
 
 /**
- * @author kiva
+ * @author Sam
  */
 object DefaultColorScheme : NeoColorScheme() {
     init {

@@ -1,7 +1,7 @@
-package io.neoterm.component.completion.provider
+package com.termux.component.completion.provider
 
-import io.neoterm.frontend.completion.model.CompletionCandidate
-import io.neoterm.frontend.completion.provider.ICandidateProvider
+import com.termux.frontend.completion.model.CompletionCandidate
+import com.termux.frontend.completion.provider.ICandidateProvider
 import java.io.File
 
 /**

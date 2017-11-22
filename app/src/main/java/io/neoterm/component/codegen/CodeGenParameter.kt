@@ -1,6 +1,6 @@
-package io.neoterm.component.codegen
+package com.termux.component.codegen
 
 /**
- * @author kiva
+ * @author Sam
  */
 class CodeGenParameter

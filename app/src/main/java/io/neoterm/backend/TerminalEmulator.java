@@ -1,4 +1,4 @@
-package io.neoterm.backend;
+package com.termux.backend;
 
 import android.util.Base64;
 import android.util.Log;

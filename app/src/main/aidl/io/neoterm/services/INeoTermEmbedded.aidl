@@ -1,11 +1,11 @@
-// INeoTermEmbedded.aidl
-package io.neoterm.services;
+// ITermuxEmbedded.aidl
+package com.termux.services;
 
 import android.os.ResultReceiver;
 
 // Declare any non-default types here with import statements
 
-interface INeoTermEmbedded {
+interface ITermuxEmbedded {
     // write command text to terminal
     void writeToTerminal(String sessionName, String command);
 

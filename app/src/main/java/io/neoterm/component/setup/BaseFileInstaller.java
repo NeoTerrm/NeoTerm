@@ -1,4 +1,4 @@
-package io.neoterm.component.setup;
+package com.termux.component.setup;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

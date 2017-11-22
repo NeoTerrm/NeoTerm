@@ -1,14 +1,14 @@
-package io.neoterm.component.pm;
+package com.termux.component.pm;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-import io.neoterm.frontend.component.NeoComponent;
+import com.termux.frontend.component.NeoComponent;
 
 /**
- * @author kiva
+ * @author Sam
  */
 
 public class PackageComponent implements NeoComponent {

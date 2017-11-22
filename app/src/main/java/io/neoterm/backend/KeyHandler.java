@@ -1,4 +1,4 @@
-package io.neoterm.backend;
+package com.termux.backend;
 
 import java.util.HashMap;
 import java.util.Map;

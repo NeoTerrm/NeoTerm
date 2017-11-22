@@ -1,20 +1,20 @@
-package io.neoterm.component.font
+package com.termux.component.font
 
-import android.content.Context
+import com.termux.content.Context
 import android.graphics.Typeface
 import android.view.View
-import io.neoterm.App
-import io.neoterm.R
-import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.frontend.preference.NeoTermPath
-import io.neoterm.frontend.component.NeoComponent
-import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
-import io.neoterm.utils.AssetsUtils
+import com.termux.App
+import com.termux.R
+import com.termux.frontend.preference.NeoPreference
+import com.termux.frontend.preference.NeoTermPath
+import com.termux.frontend.component.NeoComponent
+import com.termux.frontend.terminal.TerminalView
+import com.termux.frontend.terminal.eks.ExtraKeysView
+import com.termux.utils.AssetsUtils
 import java.io.File
 
 /**
- * @author kiva
+ * @author Sam
  */
 class FontComponent : NeoComponent {
     private val DEFAULT_FONT_NAME = "SourceCodePro"

@@ -1,12 +1,12 @@
-package io.neoterm
+package com.termux
 
-import io.neoterm.component.color.NeoColorScheme
-import io.neoterm.component.eks.NeoExtraKey
+import com.termux.component.color.NeoColorScheme
+import com.termux.component.eks.NeoExtraKey
 import org.junit.Test
 import java.io.File
 
 /**
- * @author kiva
+ * @author Sam
  */
 class ConfigureFileTest {
     @Test

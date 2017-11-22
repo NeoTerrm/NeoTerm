@@ -1,12 +1,12 @@
-package io.neoterm.component.config
+package com.termux.component.config
 
-import io.neoterm.component.config.loader.NeoLangConfigureLoader
-import io.neoterm.component.config.loader.OldConfigureLoader
-import io.neoterm.frontend.component.NeoComponent
+import com.termux.component.config.loader.NeoLangConfigureLoader
+import com.termux.component.config.loader.OldConfigureLoader
+import com.termux.frontend.component.NeoComponent
 import java.io.File
 
 /**
- * @author kiva
+ * @author Sam
  */
 class ConfigureComponent : NeoComponent {
     val CONFIG_LOADER_VERSION = 20

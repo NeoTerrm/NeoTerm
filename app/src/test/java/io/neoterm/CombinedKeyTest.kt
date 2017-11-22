@@ -1,11 +1,11 @@
-package io.neoterm
+package com.termux
 
-import io.neoterm.frontend.terminal.eks.button.IExtraButton
-import io.neoterm.frontend.terminal.eks.combine.CombinedSequence
+import com.termux.frontend.terminal.eks.button.IExtraButton
+import com.termux.frontend.terminal.eks.combine.CombinedSequence
 import org.junit.Test
 
 /**
- * @author kiva
+ * @author Sam
  */
 class CombinedKeyTest {
     @Test

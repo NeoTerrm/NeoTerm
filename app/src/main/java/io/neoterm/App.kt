@@ -1,4 +1,4 @@
-package io.neoterm
+package com.termux
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -8,13 +8,13 @@ import android.content.Intent
 import android.net.Uri
 import android.view.Gravity
 import android.widget.Toast
-import io.neoterm.component.NeoInitializer
-import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.ui.bonus.BonusActivity
-import io.neoterm.utils.CrashHandler
+import com.termux.component.NeoInitializer
+import com.termux.frontend.preference.NeoPreference
+import com.termux.ui.bonus.BonusActivity
+import com.termux.utils.CrashHandler
 
 /**
- * @author kiva
+ * @author Sam
  */
 class App : Application() {
     override fun onCreate() {

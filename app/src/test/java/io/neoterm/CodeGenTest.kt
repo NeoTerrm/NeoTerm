@@ -1,12 +1,12 @@
-package io.neoterm
+package com.termux
 
-import io.neoterm.component.codegen.CodeGenComponent
-import io.neoterm.component.color.DefaultColorScheme
-import io.neoterm.frontend.component.ComponentManager
+import com.termux.component.codegen.CodeGenComponent
+import com.termux.component.color.DefaultColorScheme
+import com.termux.frontend.component.ComponentManager
 import org.junit.Test
 
 /**
- * @author kiva
+ * @author Sam
  */
 class CodeGenTest {
     @Test

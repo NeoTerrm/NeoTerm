@@ -1,17 +1,17 @@
-package io.neoterm.component.config.loader
+package com.termux.component.config.loader
 
 import io.neolang.runtime.type.NeoLangValue
 import io.neolang.visitor.ConfigVisitor
-import io.neoterm.component.eks.NeoExtraKey
-import io.neoterm.frontend.config.NeoConfigureFile
-import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.terminal.eks.button.TextButton
+import com.termux.component.eks.NeoExtraKey
+import com.termux.frontend.config.NeoConfigureFile
+import com.termux.frontend.logging.NLog
+import com.termux.frontend.terminal.eks.button.TextButton
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
 
 /**
- * @author kiva
+ * @author Sam
  */
 class OldExtraKeysConfigureFile(configureFile: File) : NeoConfigureFile(configureFile) {
     override var configVisitor: ConfigVisitor? = null

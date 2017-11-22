@@ -1,8 +1,8 @@
-package io.neoterm.component.font
+package com.termux.component.font
 
 import android.graphics.Typeface
-import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import com.termux.frontend.terminal.TerminalView
+import com.termux.frontend.terminal.eks.ExtraKeysView
 import java.io.File
 
 /**

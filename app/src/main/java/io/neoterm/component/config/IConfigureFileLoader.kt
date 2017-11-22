@@ -1,9 +1,9 @@
-package io.neoterm.component.config
+package com.termux.component.config
 
-import io.neoterm.frontend.config.NeoConfigureFile
+import com.termux.frontend.config.NeoConfigureFile
 
 /**
- * @author kiva
+ * @author Sam
  */
 interface IConfigureFileLoader {
     fun loadConfigure() : NeoConfigureFile?

@@ -1,11 +1,11 @@
-package io.neoterm.component.codegen
+package com.termux.component.codegen
 
-import io.neoterm.component.codegen.generator.ICodeGenerator
-import io.neoterm.component.codegen.model.CodeGenObject
-import io.neoterm.frontend.component.NeoComponent
+import com.termux.component.codegen.generator.ICodeGenerator
+import com.termux.component.codegen.model.CodeGenObject
+import com.termux.frontend.component.NeoComponent
 
 /**
- * @author kiva
+ * @author Sam
  */
 class CodeGenComponent : NeoComponent {
     override fun onServiceInit() {

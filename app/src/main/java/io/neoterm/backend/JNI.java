@@ -1,4 +1,4 @@
-package io.neoterm.backend;
+package com.termux.backend;
 
 /**
  * Native methods for creating and managing pseudoterminal subprocesses. C code is in jni/termux.c.

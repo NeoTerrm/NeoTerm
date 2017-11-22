@@ -1,14 +1,14 @@
-package io.neoterm.component.color.codegen
+package com.termux.component.color.codegen
 
-import io.neoterm.component.codegen.CodeGenParameter
-import io.neoterm.component.codegen.generator.ICodeGenerator
-import io.neoterm.component.codegen.model.CodeGenObject
-import io.neoterm.component.color.NeoColorScheme
-import io.neoterm.component.config.ConfigureComponent
-import io.neoterm.frontend.component.ComponentManager
+import com.termux.component.codegen.CodeGenParameter
+import com.termux.component.codegen.generator.ICodeGenerator
+import com.termux.component.codegen.model.CodeGenObject
+import com.termux.component.color.NeoColorScheme
+import com.termux.component.config.ConfigureComponent
+import com.termux.frontend.component.ComponentManager
 
 /**
- * @author kiva
+ * @author Sam
  */
 class NeoColorGenerator(parameter: CodeGenParameter) : ICodeGenerator(parameter) {
     override fun getGeneratorName(): String {

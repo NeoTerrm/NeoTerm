@@ -1,9 +1,9 @@
-package io.neoterm.component.completion.provider
+package com.termux.component.completion.provider
 
 import java.io.File
 
 /**
- * @author kiva
+ * @author Sam
  */
 class ProgramCompletionProvider : FileCompletionProvider() {
     override val providerName: String

@@ -5,4 +5,6 @@ import de.mrapp.android.tabswitcher.Tab
 /**
  * @author kiva
  */
-class XSessionTab(title: CharSequence) : Tab(title) {}
+class XSessionTab(title: CharSequence) : Tab(title) {
+
+}

@@ -1,7 +1,6 @@
 package io.neoterm.frontend.preference
 
 import android.annotation.SuppressLint
-import io.neoterm.BuildConfig
 
 /**
  * @author kiva
@@ -24,15 +23,14 @@ object NeoTermPath {
     const val SOURCE_FILE = "$USR_PATH/etc/apt/sources.list"
     const val PACKAGE_LIST_DIR = "$USR_PATH/var/lib/apt/lists"
 
-    const val RELEASE_SOURCE = "https://mirrors.geekpie.org/neoterm"
-    const val DEBUG_SOURCE = "http://neoterm.studio"
+    const val SOURCE = "http://neoterm.studio"
 
     val DEFAULT_SOURCE: String
     val SERVER_BASE_URL: String
     val SERVER_BOOT_URL: String
 
     init {
-        DEFAULT_SOURCE = DEBUG_SOURCE
+        DEFAULT_SOURCE = SOURCE
         SERVER_BASE_URL = DEFAULT_SOURCE
         SERVER_BOOT_URL = "$SERVER_BASE_URL/boot"
     }

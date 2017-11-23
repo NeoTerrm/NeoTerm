@@ -1,6 +1,5 @@
 package io.neoterm.ui.term
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
@@ -17,7 +16,6 @@ import android.support.v7.widget.Toolbar
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
-import android.widget.Toast
 import de.mrapp.android.tabswitcher.*
 import io.neoterm.App
 import io.neoterm.R
@@ -30,12 +28,12 @@ import io.neoterm.frontend.preference.NeoPermission
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.shell.ShellParameter
 import io.neoterm.services.NeoTermService
-import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.ui.setup.SetupActivity
 import io.neoterm.ui.term.tab.TermTab
 import io.neoterm.ui.term.tab.TermTabDecorator
+import io.neoterm.ui.term.tab.XSessionTab
 import io.neoterm.utils.FullScreenHelper
 import io.neoterm.utils.RangedInt
 import org.greenrobot.eventbus.EventBus
@@ -152,6 +150,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
             R.id.menu_item_new_system_session -> {
                 forceAddSystemSession()
+                true
+            }
+            R.id.menu_item_new_x_session -> {
+                addXSession();
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -434,13 +436,21 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 .systemShell(systemShell)
         val session = termService!!.createTermSession(parameter)
 
-        session.mSessionName = sessionName ?: "NeoTerm #${termService!!.sessions.size}"
+        session.mSessionName = sessionName ?: generateSessionName("NeoTerm")
 
         val tab = createTab(session.mSessionName) as TermTab
         tab.termData.initializeSessionWith(session, sessionCallback, viewClient)
 
         addNewTab(tab, animation)
         switchToSession(tab)
+    }
+
+    private fun addXSession() {
+
+    }
+
+    private fun generateSessionName(prefix: String): String {
+        return "$prefix #${termService!!.sessions.size}"
     }
 
     private fun switchToSession(session: TerminalSession?) {
@@ -483,9 +493,14 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun createTab(tabTitle: String?): Tab {
-        val tab = TermTab(tabTitle ?: "NeoTerm")
-        tab.isCloseable = true
+        return postTabCreated(TermTab(tabTitle ?: "NeoTerm"))
+    }
 
+    private fun createXTab(tabTitle: String?): Tab {
+        return postTabCreated(XSessionTab(tabTitle ?: "NeoTerm"))
+    }
+
+    private fun <T : Tab> postTabCreated(tab: T) : T {
         // We must create a Bundle for each tab
         // tabs can use them to store status.
         tab.parameters = Bundle()

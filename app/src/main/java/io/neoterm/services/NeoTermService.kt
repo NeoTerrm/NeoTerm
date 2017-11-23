@@ -10,14 +10,14 @@ import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.support.v4.app.NotificationCompat
-import android.support.v4.content.WakefulBroadcastReceiver
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.shell.ShellParameter
+import io.neoterm.frontend.xorg.XParameter
+import io.neoterm.frontend.xorg.XSession
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
-import java.util.*
 
 
 /**
@@ -31,6 +31,7 @@ class NeoTermService : Service() {
 
     private val serviceBinder = NeoTermBinder()
     private val mTerminalSessions = ArrayList<TerminalSession>()
+    private val mXSessions = ArrayList<XSession>()
     private var mWakeLock: PowerManager.WakeLock? = null
     private var mWifiLock: WifiManager.WifiLock? = null
 
@@ -58,11 +59,6 @@ class NeoTermService : Service() {
             ACTION_RELEASE_LOCK -> releaseLock()
         }
 
-        if (flags and Service.START_FLAG_REDELIVERY == 0) {
-            // Service is started by WBR, not restarted by system, so release the WakeLock from WBR.
-            WakefulBroadcastReceiver.completeWakefulIntent(intent)
-        }
-
         return Service.START_NOT_STICKY
     }
 
@@ -76,6 +72,9 @@ class NeoTermService : Service() {
 
     val sessions: List<TerminalSession>
         get() = mTerminalSessions
+
+    val xSessions: List<XSession>
+        get() = mXSessions
 
     fun createTermSession(parameter: ShellParameter): TerminalSession {
         val session = TerminalUtils.createShellSession(this, parameter)
@@ -93,6 +92,22 @@ class NeoTermService : Service() {
         return indexOfRemoved
     }
 
+    fun createXSession(parameter: XParameter): XSession {
+        val session = XSession.createSession(this, parameter)
+        mXSessions.add(session)
+        updateNotification()
+        return session
+    }
+
+    fun removeXSession(sessionToRemove: XSession): Int {
+        val indexOfRemoved = mXSessions.indexOf(sessionToRemove)
+        if (indexOfRemoved >= 0) {
+            mXSessions.removeAt(indexOfRemoved)
+            updateNotification()
+        }
+        return indexOfRemoved
+    }
+
     private fun updateNotification() {
         val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         service.notify(NOTIFICATION_ID, createNotification())
@@ -104,7 +119,8 @@ class NeoTermService : Service() {
         val pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, 0)
 
         val sessionCount = mTerminalSessions.size
-        var contentText = getString(R.string.service_status_text, sessionCount)
+        val xSessionCount = mXSessions.size
+        var contentText = getString(R.string.service_status_text, sessionCount, xSessionCount)
 
         val lockAcquired = mWakeLock != null
         if (lockAcquired) contentText += getString(R.string.service_lock_acquired)

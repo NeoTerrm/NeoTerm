@@ -70,7 +70,7 @@
     <string name="crash_app">程式: %s</string>
     <string name="crash_stack_trace">錯誤訊息</string>
     <string name="crash_tips">我們正在努力讓這個 Activity 永不見天日…</string>
-    <string name="service_status_text">%d 個會話</string>
+    <string name="service_status_text">%d 個會話, %d 個图形會話</string>
     <string name="service_lock_acquired"> (永不休眠)</string>
     <string name="service_acquire_lock">開啟休眠鎖</string>
     <string name="service_release_lock">關閉休眠鎖</string>

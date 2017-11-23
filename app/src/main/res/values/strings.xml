@@ -7,7 +7,7 @@
     <string name="toggle_tab_switcher_menu_item">Toggle Tabs</string>
     <string name="new_session">New Session</string>
     <string name="new_system_session">New System Shell</string>
-    <string name="service_status_text">%d session(s)</string>
+    <string name="service_status_text">%d session(s), %d X session(s)</string>
     <string name="service_lock_acquired"> (Wake Locked)</string>
     <string name="service_acquire_lock">Acquire Lock</string>
     <string name="service_release_lock">Release Lock</string>

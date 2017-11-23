@@ -22,25 +22,51 @@ import io.neoterm.utils.TerminalUtils
 /**
  * @author kiva
  */
-class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
+class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
+    companion object {
+        private val VIEW_TYPE_TERM = 1
+        private val VIEW_TYPE_X = 2
+    }
+
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
-        val view = inflater.inflate(R.layout.ui_term, parent, false)
-        return view
+        return when (viewType) {
+            VIEW_TYPE_TERM -> {
+                inflater.inflate(R.layout.ui_term, parent, false)
+            }
+
+            VIEW_TYPE_X -> {
+                inflater.inflate(R.layout.ui_xorg, parent, false)
+            }
+
+            else -> {
+                throw RuntimeException("Unknown view type")
+            }
+        }
     }
 
     override fun onShowTab(context: Context, tabSwitcher: TabSwitcher,
                            view: View, tab: Tab, index: Int, viewType: Int, savedInstanceState: Bundle?) {
-        val toolbar = this@TermTabDecorator.context.toolbar
+        val toolbar = this@NeoTabDecorator.context.toolbar
         toolbar.title = if (tabSwitcher.isSwitcherShown) null else tab.title
 
-        if (tab is TermTab) {
-            tab.toolbar = toolbar
-        }
+        when (viewType) {
+            VIEW_TYPE_TERM -> {
+                val termTab = tab as TermTab
+                termTab.toolbar = toolbar
+                val terminalView = findViewById<TerminalView>(R.id.terminal_view)
+                val extraKeysView = findViewById<ExtraKeysView>(R.id.extra_keys)
+                bindTerminalView(termTab, terminalView, extraKeysView)
+                terminalView.requestFocus()
+            }
 
-        val terminalView = findViewById<TerminalView>(R.id.terminal_view)
-        val extraKeysView = findViewById<ExtraKeysView>(R.id.extra_keys)
-        bindTerminalView(tab, terminalView, extraKeysView)
-        terminalView.requestFocus()
+            VIEW_TYPE_X -> {
+                val xtab = tab as XSessionTab
+                bindXSessionView(tab)
+            }
+        }
+    }
+
+    private fun bindXSessionView(tab: XSessionTab) {
     }
 
     private fun bindTerminalView(tab: Tab, view: TerminalView?, extraKeysView: ExtraKeysView?) {
@@ -84,10 +110,15 @@ class TermTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     }
 
     override fun getViewTypeCount(): Int {
-        return 1
+        return 2
     }
 
     override fun getViewType(tab: Tab, index: Int): Int {
+        if (tab is TermTab) {
+            return VIEW_TYPE_TERM
+        } else if (tab is XSessionTab) {
+            return VIEW_TYPE_X
+        }
         return 0
     }
 }

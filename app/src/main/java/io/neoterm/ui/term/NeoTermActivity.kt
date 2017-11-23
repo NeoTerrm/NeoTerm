@@ -24,15 +24,18 @@ import io.neoterm.component.setup.BaseFileInstaller
 import io.neoterm.frontend.client.TermSessionCallback
 import io.neoterm.frontend.client.TermViewClient
 import io.neoterm.frontend.client.event.*
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.preference.NeoPermission
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.shell.ShellParameter
+import io.neoterm.frontend.xorg.XParameter
+import io.neoterm.frontend.xorg.XSession
 import io.neoterm.services.NeoTermService
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.ui.setup.SetupActivity
+import io.neoterm.ui.term.tab.NeoTabDecorator
 import io.neoterm.ui.term.tab.TermTab
-import io.neoterm.ui.term.tab.TermTabDecorator
 import io.neoterm.ui.term.tab.XSessionTab
 import io.neoterm.utils.FullScreenHelper
 import io.neoterm.utils.RangedInt
@@ -82,7 +85,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         })
 
         tabSwitcher = findViewById(R.id.tab_switcher)
-        tabSwitcher.decorator = TermTabDecorator(this)
+        tabSwitcher.decorator = NeoTabDecorator(this)
         ViewCompat.setOnApplyWindowInsetsListener(tabSwitcher, createWindowInsetsListener())
         tabSwitcher.showToolbars(false)
 
@@ -193,7 +196,9 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
                 if (tab is TermTab) {
-                    closeTab(tab)
+                    SessionRemover.removeSession(termService, tab)
+                } else if (tab is XSessionTab) {
+                    SessionRemover.removeXSession(termService, tab)
                 }
             }
 
@@ -349,6 +354,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 addNewSession(session)
             }
 
+            for (session in termService!!.xSessions) {
+                addXSession(session)
+            }
+
             if (intent?.action == Intent.ACTION_RUN) {
                 // app shortcuts
                 addNewSession(null,
@@ -446,11 +455,47 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun addXSession() {
+        if (!tabSwitcher.isSwitcherShown) {
+            toggleSwitcher(showSwitcher = true, easterEgg = false)
+        }
 
+        // TODO: Start X server
+        val parameter = XParameter()
+        val session = termService!!.createXSession(parameter)
+
+        session.mSessionName = generateXSessionName("X")
+        val tab = createXTab(session.mSessionName) as XSessionTab
+        tab.session = session
+
+        addNewTab(tab, createRevealAnimation())
+        switchToSession(tab)
+    }
+
+    private fun addXSession(session: XSession?) {
+        if (session == null) {
+            return
+        }
+
+        // Do not add the same session again
+        // Or app will crash when rotate
+        val tabCount = tabSwitcher.count
+        (0..(tabCount - 1))
+                .map { tabSwitcher.getTab(it) }
+                .filter { it is XSessionTab && it.session == session }
+                .forEach { return }
+
+        val tab = createXTab(session.mSessionName) as XSessionTab
+
+        addNewTab(tab, createRevealAnimation())
+        switchToSession(tab)
     }
 
     private fun generateSessionName(prefix: String): String {
         return "$prefix #${termService!!.sessions.size}"
+    }
+
+    private fun generateXSessionName(prefix: String): String {
+        return "$prefix #${termService!!.xSessions.size}"
     }
 
     private fun switchToSession(session: TerminalSession?) {
@@ -500,7 +545,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         return postTabCreated(XSessionTab(tabTitle ?: "NeoTerm"))
     }
 
-    private fun <T : Tab> postTabCreated(tab: T) : T {
+    private fun <T : Tab> postTabCreated(tab: T): T {
         // We must create a Bundle for each tab
         // tabs can use them to store status.
         tab.parameters = Bundle()
@@ -552,10 +597,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                     insets.systemWindowInsetBottom)
             insets
         }
-    }
-
-    private fun closeTab(tab: TermTab) {
-        SessionRemover.removeSession(termService, tab)
     }
 
     private fun toggleSwitcher(showSwitcher: Boolean, easterEgg: Boolean) {

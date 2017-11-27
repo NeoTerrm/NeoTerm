@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!-- When creating new keyboard layout, add it to TextInputKeyboardList array in project/java/MainActivity.java -->
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+	android:keyWidth="10%p"
+	android:horizontalGap="0px"
+	android:verticalGap="0px"
+	android:keyHeight="10%p">
+
+	<Row>
+		<Key android:codes="100008" android:keyLabel="!" android:keyEdgeFlags="left"/>
+		<Key android:codes="100009" android:keyLabel="\@"/>
+		<Key android:codes="100010" android:keyLabel="#"/>
+		<Key android:codes="100011" android:keyLabel="$"/>
+		<Key android:codes="100012" android:keyLabel="%"/>
+		<Key android:codes="100013" android:keyLabel="^"/>
+		<Key android:codes="100014" android:keyLabel="&amp;"/>
+		<Key android:codes="100015" android:keyLabel="*"/>
+		<Key android:codes="100016" android:keyLabel="("/>
+		<Key android:codes="100007" android:keyLabel=")" android:keyEdgeFlags="right"/>
+	</Row>
+	<Row>
+		<Key android:codes="111"  android:keyLabel="Esc" android:keyEdgeFlags="left"/>
+		<Key android:codes="124"  android:keyLabel="Help"/>
+		<Key android:codes="100069"  android:keyLabel="_"/>
+		<Key android:codes="100070"  android:keyLabel="+"/>
+		<Key android:codes="100073"  android:keyLabel="|"/>
+		<Key android:codes="100068"  android:keyLabel="~"/>
+		<Key android:codes="131" android:keyLabel="F1"/>
+		<Key android:codes="132" android:keyLabel="F2"/>
+		<Key android:codes="133" android:keyLabel="F3"/>
+		<Key android:codes="134" android:keyLabel="F4" android:keyEdgeFlags="right" />
+	</Row>
+	<Row>
+		<Key android:codes="-1"  android:keyLabel="123…" android:keyEdgeFlags="left"/>
+		<Key android:codes="143" android:keyLabel="NumLk" android:isSticky="true"/>
+		<Key android:codes="120" android:keyLabel="Print"/>
+		<Key android:codes="116" android:keyLabel="ScrollLk"/>
+		<Key android:codes="121" android:keyLabel="Pause"/>
+		<Key android:codes="158" android:keyLabel="Kp ."/>
+		<Key android:codes="135" android:keyLabel="F5"/>
+		<Key android:codes="136" android:keyLabel="F6"/>
+		<Key android:codes="137" android:keyLabel="F7"/>
+		<Key android:codes="138" android:keyLabel="F8" android:keyEdgeFlags="right"/>
+	</Row>
+	<Row android:rowEdgeFlags="bottom">
+		<Key android:codes="-6"  android:keyLabel="abc…" android:keyEdgeFlags="left"/>
+		<Key android:codes="154" android:keyLabel="Kp /"/>
+		<Key android:codes="155" android:keyLabel="Kp *"/>
+		<Key android:codes="156" android:keyLabel="Kp -"/>
+		<Key android:codes="157" android:keyLabel="Kp +"/>
+		<Key android:codes="160" android:keyLabel="Kp ↵"/>
+		<Key android:codes="139" android:keyLabel="F9" />
+		<Key android:codes="140" android:keyLabel="F10"/>
+		<Key android:codes="141" android:keyLabel="F11"/>
+		<Key android:codes="142" android:keyLabel="F12" android:keyEdgeFlags="right"/>
+	</Row>
+</Keyboard>

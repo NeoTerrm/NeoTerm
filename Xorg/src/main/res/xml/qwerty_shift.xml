@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!-- When creating new keyboard layout, add it to TextInputKeyboardList array in project/java/MainActivity.java -->
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+	android:keyWidth="10%p"
+	android:horizontalGap="0px"
+	android:verticalGap="0px"
+	android:keyHeight="10%p">
+	<Row>
+		<Key android:codes="45" android:keyLabel="Q" android:keyEdgeFlags="left" android:isRepeatable="true"/>
+		<Key android:codes="51" android:keyLabel="W" android:isRepeatable="true"/>
+		<Key android:codes="33" android:keyLabel="E" android:isRepeatable="true"/>
+		<Key android:codes="46" android:keyLabel="R" android:isRepeatable="true"/>
+		<Key android:codes="48" android:keyLabel="T" android:isRepeatable="true"/>
+		<Key android:codes="53" android:keyLabel="Y" android:isRepeatable="true"/>
+		<Key android:codes="49" android:keyLabel="U" android:isRepeatable="true"/>
+		<Key android:codes="37" android:keyLabel="I" android:isRepeatable="true"/>
+		<Key android:codes="43" android:keyLabel="O" android:isRepeatable="true"/>
+		<Key android:codes="44" android:keyLabel="P" android:keyEdgeFlags="right" android:isRepeatable="true"/>
+	</Row>
+	<Row>
+		<Key android:codes="29" android:keyLabel="A" android:keyEdgeFlags="left" android:isRepeatable="true"/>
+		<Key android:codes="47" android:keyLabel="S" android:isRepeatable="true"/>
+		<Key android:codes="32" android:keyLabel="D" android:isRepeatable="true"/>
+		<Key android:codes="34" android:keyLabel="F" android:isRepeatable="true"/>
+		<Key android:codes="35" android:keyLabel="G" android:isRepeatable="true"/>
+		<Key android:codes="36" android:keyLabel="H" android:isRepeatable="true"/>
+		<Key android:codes="38" android:keyLabel="J" android:isRepeatable="true"/>
+		<Key android:codes="39" android:keyLabel="K" android:isRepeatable="true"/>
+		<Key android:codes="40" android:keyLabel="L" android:isRepeatable="true"/>
+		<Key android:codes="74" android:keyLabel=":" android:keyEdgeFlags="right" android:isRepeatable="true"/>
+	</Row>
+	<Row>
+		<Key android:codes="-1" android:keyLabel="⇫" android:keyEdgeFlags="left"/>
+		<Key android:codes="54" android:keyLabel="Z" android:isRepeatable="true"/>
+		<Key android:codes="52" android:keyLabel="X" android:isRepeatable="true"/>
+		<Key android:codes="31" android:keyLabel="C" android:isRepeatable="true"/>
+		<Key android:codes="50" android:keyLabel="V" android:isRepeatable="true"/>
+		<Key android:codes="30" android:keyLabel="B" android:isRepeatable="true"/>
+		<Key android:codes="42" android:keyLabel="N" android:isRepeatable="true"/>
+		<Key android:codes="41" android:keyLabel="M" android:isRepeatable="true"/>
+		<Key android:codes="67" android:keyLabel="≪ ×" android:keyWidth="20%p" android:keyEdgeFlags="right" android:isRepeatable="true"/>
+	</Row>
+	<Row android:rowEdgeFlags="bottom">
+		<Key android:codes="-6" android:keyLabel="!@#…" android:keyEdgeFlags="left"/>
+		<Key android:codes="71" android:keyLabel="{" android:isRepeatable="true"/>
+		<Key android:codes="72" android:keyLabel="}" android:isRepeatable="true"/>
+		<Key android:codes="76" android:keyLabel="\?" android:isRepeatable="true"/>
+		<Key android:codes="62" android:keyLabel="Space" android:keyWidth="20%p" android:isRepeatable="true"/>
+		<Key android:codes="55" android:keyLabel="&lt;" android:isRepeatable="true"/>
+		<Key android:codes="56" android:keyLabel="&gt;" android:isRepeatable="true"/>
+		<Key android:codes="66" android:keyLabel="Enter" android:keyWidth="20%p" android:keyEdgeFlags="right" android:isRepeatable="true"/>
+	</Row>
+</Keyboard>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:paddingLeft="10dp"
+	android:paddingRight="10dp"
+	android:paddingTop="10dp"
+	android:paddingBottom="10dp"
+	android:id="@+id/notificationView"
+	android:clickable="true"
+	>
+
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+		android:id="@+id/notificationIcon"
+		android:gravity="center_vertical"
+		android:src="@drawable/icon"
+		android:layout_alignParentLeft="true"
+		android:clickable="true"
+		android:scaleType="centerInside"
+		android:adjustViewBounds="true"
+	/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+		android:layout_toRightOf="@id/notificationIcon"
+		android:id="@+id/notificationText"
+		android:text="App is running"
+		android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
+		android:gravity="center_vertical"
+		android:clickable="true"
+		android:paddingLeft="10dp"
+	/>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="fill_parent"
+		android:id="@+id/notificationStop"
+		android:text="@string/notification_stop"
+		android:gravity="center_vertical"
+		android:singleLine="true"
+		android:layout_alignParentRight="true"
+		android:textAlignment="center"
+	/>
+
+</RelativeLayout>

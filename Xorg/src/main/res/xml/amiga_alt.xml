@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!-- When creating new keyboard layout, add it to TextInputKeyboardList array in project/java/MainActivity.java -->
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+	android:keyWidth="10%p"
+	android:horizontalGap="0px"
+	android:verticalGap="0px"
+	android:keyHeight="10%p">
+
+	<Row>
+		<Key android:codes="8"  android:keyLabel="1" android:keyEdgeFlags="left"/>
+		<Key android:codes="9"  android:keyLabel="2"/>
+		<Key android:codes="10" android:keyLabel="3"/>
+		<Key android:codes="11" android:keyLabel="4"/>
+		<Key android:codes="12" android:keyLabel="5"/>
+		<Key android:codes="13" android:keyLabel="6"/>
+		<Key android:codes="14" android:keyLabel="7"/>
+		<Key android:codes="15" android:keyLabel="8"/>
+		<Key android:codes="16" android:keyLabel="9"/>
+		<Key android:codes="7"  android:keyLabel="0" android:keyEdgeFlags="right"/>
+	</Row>
+	<Row>
+		<Key android:codes="111"  android:keyLabel="Esc" android:keyEdgeFlags="left"/>
+		<Key android:codes="68"  android:keyLabel="`"/>
+		<Key android:codes="69"  android:keyLabel="-"/>
+		<Key android:codes="70"  android:keyLabel="="/>
+		<Key android:codes="73"  android:keyLabel="\\"/>
+		<Key android:codes="124" android:keyLabel="Ins"/>
+		<Key android:codes="92"  android:keyLabel="PgUp"/>
+		<Key android:codes="122" android:keyLabel="Home"/>
+		<Key android:codes="19"  android:keyLabel="↑"/>
+		<Key android:codes="123" android:keyLabel="End" android:keyEdgeFlags="right" />
+	</Row>
+	<Row>
+		<Key android:codes="-1"  android:keyLabel="!@#…" android:keyEdgeFlags="left"/>
+		<Key android:codes="75"  android:keyLabel="'"/>
+		<Key android:codes="100075"  android:keyLabel="&quot;"/>
+		<Key android:codes="61"  android:keyLabel="Tab"/>
+		<Key android:codes="115" android:keyLabel="CapsLk"/>
+		<Key android:codes="112" android:keyLabel="Del"/>
+		<Key android:codes="93"  android:keyLabel="PgDn"/>
+		<Key android:codes="21"  android:keyLabel="←"/>
+		<Key android:codes="20"  android:keyLabel="↓"/>
+		<Key android:codes="22"  android:keyLabel="→" android:keyEdgeFlags="right"/>
+	</Row>
+	<Row android:rowEdgeFlags="bottom">
+		<Key android:codes="-6"  android:keyLabel="abc…"  android:keyEdgeFlags="left"/>
+		<Key android:codes="59"  android:keyLabel="Shift" android:isSticky="true"/>
+		<Key android:codes="113" android:keyLabel="Ctrl" android:isSticky="true"/>
+		<Key android:codes="117" android:keyLabel="Meta" android:isSticky="true"/>
+		<Key android:codes="57"  android:keyLabel="Alt" android:isSticky="true"/>
+		<Key android:codes="58"  android:keyLabel="Alt" android:isSticky="true"/>
+		<Key android:codes="118" android:keyLabel="Meta" android:isSticky="true"/>
+		<Key android:codes="226" android:keyLabel="Menu" android:isSticky="true"/>
+		<Key android:codes="114" android:keyLabel="Ctrl" android:isSticky="true"/>
+		<Key android:codes="60"  android:keyLabel="Shift" android:isSticky="true"/>
+	</Row>
+</Keyboard>

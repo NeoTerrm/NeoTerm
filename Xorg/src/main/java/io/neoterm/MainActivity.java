@@ -23,6 +23,7 @@ freely, subject to the following restrictions:
 package io.neoterm;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
@@ -739,7 +740,7 @@ public class MainActivity extends Activity {
                     _parent.hideScreenKeyboard();
                     return true;
                 }
-				/*
+                /*
 				if (keyCode == KeyEvent.KEYCODE_DEL || keyCode == KeyEvent.KEYCODE_CLEAR)
 				{
 					// EditText deletes two characters at a time, here's a hacky fix
@@ -974,6 +975,7 @@ public class MainActivity extends Activity {
         setIntent(i);
     }
 
+    @SuppressLint("UnsafeDynamicallyLoadedCode")
     public void LoadLibraries() {
         try {
             if (Globals.NeedGles3) {
@@ -989,27 +991,17 @@ public class MainActivity extends Activity {
 
         // Load all libraries
         try {
-            for (String l_unmapped : Globals.AppLibraries) {
-                String l = GetMappedLibraryName(l_unmapped);
+            for (String libname : Globals.XLIBS) {
+                String soPath = Globals.XLIB_DIR + libname;
+                Log.i("SDL", "libSDL: loading lib " + soPath);
                 try {
-                    String libname = System.mapLibraryName(l);
-                    File libpath = new File(getFilesDir().getAbsolutePath() + "/../lib/" + libname);
-                    Log.i("SDL", "libSDL: loading lib " + libpath.getAbsolutePath());
-                    System.load(libpath.getPath());
-                } catch (UnsatisfiedLinkError e) {
-                    Log.i("SDL", "libSDL: error loading lib " + l + ": " + e.toString());
-                    try {
-                        String libname = System.mapLibraryName(l);
-                        File libpath = new File(getFilesDir().getAbsolutePath() + "/" + libname);
-                        Log.i("SDL", "libSDL: loading lib " + libpath.getAbsolutePath());
-                        System.load(libpath.getPath());
-                    } catch (UnsatisfiedLinkError ee) {
-                        Log.i("SDL", "libSDL: error loading lib " + l + ": " + ee.toString());
-                        System.loadLibrary(l);
-                    }
+                    System.load(soPath);
+                } catch (UnsatisfiedLinkError error) {
+                    Log.i("SDL", "libSDL: error loading lib " + soPath
+                            + ", reason: " + error.getLocalizedMessage());
                 }
             }
-        } catch (UnsatisfiedLinkError e) {
+        } catch (UnsatisfiedLinkError ignore) {
         }
 
         String[] binaryZipNames = new String[]{"binaries-" + android.os.Build.CPU_ABI + "-pie.zip", "binaries-" + android.os.Build.CPU_ABI2 + "-pie.zip", "binaries-" + android.os.Build.CPU_ABI + ".zip", "binaries-" + android.os.Build.CPU_ABI2 + ".zip", "binaries.zip"};

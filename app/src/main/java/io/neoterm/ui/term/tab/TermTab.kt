@@ -15,7 +15,7 @@ import org.greenrobot.eventbus.EventBus
  * @author kiva
  */
 
-class TermTab(title: CharSequence) : Tab(title), TermUiPresenter {
+class TermTab(title: CharSequence) : NeoTab(title), TermUiPresenter {
     companion object {
         val PARAMETER_SHOW_EKS = "show_eks"
     }

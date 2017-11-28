@@ -77,6 +77,8 @@ import android.hardware.Sensor;
 import android.widget.Toast;
 import android.text.InputType;
 
+import io.neoterm.xorg.R;
+
 
 class SettingsMenuMisc extends SettingsMenu
 {

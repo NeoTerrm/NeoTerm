@@ -1,11 +1,10 @@
 package io.neoterm.ui.term.tab
 
-import de.mrapp.android.tabswitcher.Tab
 import io.neoterm.frontend.xorg.XSession
 
 /**
  * @author kiva
  */
-class XSessionTab(title: CharSequence) : Tab(title) {
+class XSessionTab(title: CharSequence) : NeoTab(title) {
     var session: XSession? = null
 }

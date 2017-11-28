@@ -34,6 +34,7 @@ import io.neoterm.services.NeoTermService
 import io.neoterm.ui.pm.PackageManagerActivity
 import io.neoterm.ui.settings.SettingActivity
 import io.neoterm.ui.setup.SetupActivity
+import io.neoterm.ui.term.tab.NeoTab
 import io.neoterm.ui.term.tab.NeoTabDecorator
 import io.neoterm.ui.term.tab.TermTab
 import io.neoterm.ui.term.tab.XSessionTab
@@ -163,6 +164,12 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        val tab = tabSwitcher.selectedTab as NeoTab?
+        tab?.onPause()
+    }
+
     override fun onResume() {
         super.onResume()
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -205,11 +212,15 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             override fun onAllTabsRemoved(tabSwitcher: TabSwitcher, tabs: Array<out Tab>, animation: Animation) {
             }
         })
+        val tab = tabSwitcher.selectedTab as NeoTab?
+        tab?.onResume()
     }
 
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
+        val tab = tabSwitcher.selectedTab as NeoTab?
+        tab?.onStart()
     }
 
     override fun onStop() {
@@ -217,11 +228,15 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         // After stopped, window locations may changed
         // Rebind it at next time.
         forEachTab<TermTab> { it.resetAutoCompleteStatus() }
+        val tab = tabSwitcher.selectedTab as NeoTab?
+        tab?.onStop()
         EventBus.getDefault().unregister(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        val tab = tabSwitcher.selectedTab as NeoTab?
+        tab?.onDestroy()
         PreferenceManager.getDefaultSharedPreferences(this)
                 .unregisterOnSharedPreferenceChangeListener(this)
 
@@ -232,6 +247,12 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             termService = null
         }
         unbindService(this)
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        val tab = tabSwitcher.selectedTab as NeoTab?
+        tab?.onWindowFocusChanged(hasFocus)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -545,7 +566,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         return postTabCreated(XSessionTab(tabTitle ?: "NeoTerm"))
     }
 
-    private fun <T : Tab> postTabCreated(tab: T): T {
+    private fun <T : NeoTab> postTabCreated(tab: T): T {
         // We must create a Bundle for each tab
         // tabs can use them to store status.
         tab.parameters = Bundle()

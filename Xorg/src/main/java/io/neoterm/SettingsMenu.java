@@ -74,6 +74,8 @@ import android.hardware.SensorEvent;
 import android.hardware.Sensor;
 import android.widget.Toast;
 
+import io.neoterm.xorg.R;
+
 
 class SettingsMenu
 {
@@ -190,7 +192,6 @@ class SettingsMenu
 		if(menuStack.isEmpty())
 		{
 			Settings.Save(p);
-			p.startDownloader();
 		}
 		else
 		{

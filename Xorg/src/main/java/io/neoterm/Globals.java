@@ -30,16 +30,15 @@ class Globals {
 	        "x11_sdl_native_helpers",
             "x11_sdl-1.2",
             "x11_sdl_ttf",
-            "x11_sdl_main",
             "x11_crypto",
+    };
+	public static String XAPP_LIBS[] = {
+            "x11_sdl_main",
             "x11_application",
     };
 
     // These config options are modified by ChangeAppsettings.sh script - see the detailed descriptions there
-    public static String ApplicationName = "XServerXSDL-NeoTerm";
     public static String AppLibraries[] = {"sdl_native_helpers", "sdl-1.2", "sdl_ttf", "crypto"};
-    public static String AppMainLibraries[] = {"application", "sdl_main"};
-    public static String LibraryNamesMap[][] = {{"crypto", "crypto.so.sdl.1"}, {"ssl", "ssl.so.sdl.1"}, {"curl", "curl-sdl"}}; // Because some libraries are named differently to not clash with system libs
     public static final boolean Using_SDL_1_3 = false;
     public static final boolean Using_SDL_2_0 = false;
     public static String[] DataDownloadUrl = {"!!Data files|:data.tar.gz:data-1.tgz", "!!Data files|:DroidSansMono.ttf:DroidSansMono.ttf", "Additional fonts (90Mb)|:xfonts.tar.gz:http://sourceforge.net/projects/libsdl-android/files/apk/XServer-XSDL/xfonts.tgz/download",};

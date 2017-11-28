@@ -77,8 +77,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.content.Intent;
 
+import io.neoterm.xorg.R;
+
 
 // TODO: too much code here, split into multiple files, possibly auto-generated menus?
+@SuppressWarnings("JniMissingFunction")
 public class Settings
 {
 	static String SettingsFileName = "libsdl-settings.cfg";
@@ -436,39 +439,9 @@ public class Settings
 				Log.i("SDL", "libSDL: SD card or external storage is not mounted (state " + Environment.getExternalStorageState() + "), switching to the internal storage.");
 				Globals.DownloadToSdcard = false;
 			}
-			if( p.getPackageManager().checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, p.getPackageName()) != PackageManager.PERMISSION_GRANTED &&
-				Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT )
-			{
-				Log.i("SDL", "libSDL: We don't have permission to write to SD card, switching to the internal storage.");
-				Globals.DownloadToSdcard = false;
-			}
 			Globals.DataDir = Globals.DownloadToSdcard ?
 								SdcardAppPath.get().bestPath(p) :
 								p.getFilesDir().getAbsolutePath();
-			if( Globals.DownloadToSdcard )
-			{
-				// Check if data already installed into deprecated location at /sdcard/app-data/<package-name>
-				String[] fileList = new File(SdcardAppPath.deprecatedPath(p)).list();
-				if( fileList != null )
-					for( String s: fileList )
-						if( s.toUpperCase().startsWith(DataDownloader.DOWNLOAD_FLAG_FILENAME.toUpperCase()) )
-							Globals.DataDir = SdcardAppPath.deprecatedPath(p);
-				// Also check for pre-Kitkat files location
-				fileList = new File(SdcardAppPath.get().path(p)).list();
-				if( fileList != null )
-					for( String s: fileList )
-						if( s.toUpperCase().startsWith(DataDownloader.DOWNLOAD_FLAG_FILENAME.toUpperCase()) )
-							Globals.DataDir = SdcardAppPath.get().path(p);
-
-				try {
-					new File(Globals.DataDir).mkdirs();
-					new FileOutputStream( new File(Globals.DataDir, ".nomedia") ).close();
-				} catch (Exception e) {
-					Log.i("SDL", "libSDL: cannot create .nomedia file at " + Globals.DataDir + " - switching to internal storage");
-					Globals.DownloadToSdcard = false; // SD card not writable
-					Globals.DataDir = p.getFilesDir().getAbsolutePath();
-				}
-			}
 		}
 
 		Log.i("SDL", "libSDL: Settings.Load(): loading settings failed, running config dialog");
@@ -532,10 +505,6 @@ public class Settings
 		} catch( FileNotFoundException e ) {
 		} catch ( IOException e ) { }
 		new File( p.getFilesDir() + "/" + SettingsFileName ).delete();
-
-		Intent intent = new Intent(p, RestartMainActivity.class);
-		p.startActivity(intent);
-		System.exit(0);
 	}
 
 	// ===============================================================================================
@@ -675,8 +644,8 @@ public class Settings
 			nativeSetEnv( "VR", "1" );
 			nativeSetEnv( "CARDBOARD_VR", "1" );
 		}
-		if (p.getIntent().getStringExtra(RestartMainActivity.SDL_RESTART_PARAMS) != null)
-			nativeSetEnv( RestartMainActivity.SDL_RESTART_PARAMS, p.getIntent().getStringExtra(RestartMainActivity.SDL_RESTART_PARAMS) );
+//		if (p.getIntent().getStringExtra(RestartMainActivity.SDL_RESTART_PARAMS) != null)
+//			nativeSetEnv( RestartMainActivity.SDL_RESTART_PARAMS, p.getIntent().getStringExtra(RestartMainActivity.SDL_RESTART_PARAMS) );
 		try {
 			DisplayMetrics dm = new DisplayMetrics();
 			p.getWindowManager().getDefaultDisplay().getMetrics(dm);

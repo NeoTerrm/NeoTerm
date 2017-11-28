@@ -917,61 +917,12 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 
 	public boolean cloudSave(final String filename, final String saveId, final String dialogTitle, final String description, final String imageFile, final long playedTimeMs)
 	{
-		if (context.cloudSave.isSignedIn() && saveId.length() > 0)
-		{
-			// Do not show progress dialog, run in a parallel thread, so main thread will not be blocked
-			new Thread(new Runnable()
-			{
-				public void run()
-				{
-					context.cloudSave.save(filename, saveId, dialogTitle, description, imageFile, playedTimeMs);
-				}
-			}).start();
-			return true;
-		}
-
-		context.runOnUiThread(new Runnable()
-		{
-			public void run()
-			{
-				context.loadingDialog.show();
-			}
-		});
-
-		boolean ret = context.cloudSave.save(filename, saveId, dialogTitle, description, imageFile, playedTimeMs);
-
-		context.runOnUiThread(new Runnable()
-		{
-			public void run()
-			{
-				context.loadingDialog.dismiss();
-			}
-		});
-
-		return ret;
+		return false;
 	}
 
 	public boolean cloudLoad(String filename, String saveId, String dialogTitle)
 	{
-		context.runOnUiThread(new Runnable()
-		{
-			public void run()
-			{
-				context.loadingDialog.show();
-			}
-		});
-
-		boolean ret = context.cloudSave.load(filename, saveId, dialogTitle);
-
-		context.runOnUiThread(new Runnable()
-		{
-			public void run()
-			{
-				context.loadingDialog.dismiss();
-			}
-		});
-
-		return ret;
+		return false;
 	}
 	
 	public void openExternalApp(String pkgName, String activity, String url)
@@ -1000,10 +951,6 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 
 	public void restartMyself(String restartParams)
 	{
-		Intent intent = new Intent(context, RestartMainActivity.class);
-		intent.putExtra(RestartMainActivity.SDL_RESTART_PARAMS, restartParams);
-		context.startActivity(intent);
-		System.exit(0);
 	}
 
 	public void setConfigOptionFromSDL(int option, int value)

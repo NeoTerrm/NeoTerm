@@ -64,21 +64,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.SequenceInputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
-import java.util.zip.CRC32;
-import java.util.zip.CheckedInputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+
+import io.neoterm.xorg.R;
 
 
 public class MainActivity extends Activity {
@@ -208,19 +199,11 @@ public class MainActivity extends Activity {
                     }
                     if (Settings.settingsChanged)
                         return;
-                    Log.i("SDL", "libSDL: Timeout reached in startup screen, process with downloader");
-                    p.startDownloader();
                 }
             }
         }
         ;
         (new Thread(new Callback(this))).start();
-        if (Globals.CreateService) {
-            Log.v("SDL", "Starting dummy service - displaying notification");
-            Intent intent = new Intent(this, DummyService.class);
-            startService(intent);
-        }
-        cloudSave = new CloudSave(this);
         // Request SD card permission right during start, because game devs don't care about runtime permissions and stuff
         try {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -257,23 +240,6 @@ public class MainActivity extends Activity {
             Parent._tv.setPadding((int) (width * 0.1), (int) (height * 0.1), (int) (width * 0.1), 0);
             Parent._layout2.addView(Parent._tv);
         }
-    }
-
-    public void startDownloader() {
-        Log.i("SDL", "libSDL: Starting data downloader");
-        class Callback implements Runnable {
-            public MainActivity Parent;
-
-            public void run() {
-                setUpStatusLabel();
-                Log.i("SDL", "libSDL: Starting downloader");
-                if (Parent.downloader == null)
-                    Parent.downloader = new DataDownloader(Parent, Parent._tv);
-            }
-        }
-        Callback cb = new Callback();
-        cb.Parent = this;
-        this.runOnUiThread(cb);
     }
 
     public void initSDL() {
@@ -440,11 +406,6 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onPause() {
-        if (downloader != null) {
-            synchronized (downloader) {
-                downloader.setStatusField(null);
-            }
-        }
         _isPaused = true;
         if (mGLView != null)
             mGLView.onPause();
@@ -460,13 +421,6 @@ public class MainActivity extends Activity {
             DimSystemStatusBar.get().dim(_videoLayout);
             //DimSystemStatusBar.get().dim(mGLView);
             mGLView.onResume();
-        } else if (downloader != null) {
-            synchronized (downloader) {
-                downloader.setStatusField(_tv);
-                if (downloader.DownloadComplete) {
-                    initSDL();
-                }
-            }
         }
         //if( _ad.getView() != null )
         //	_ad.getView().onResume();
@@ -493,11 +447,6 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        if (downloader != null) {
-            synchronized (downloader) {
-                downloader.setStatusField(null);
-            }
-        }
         if (mGLView != null)
             mGLView.exitApp();
         super.onDestroy();
@@ -511,19 +460,16 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        cloudSave.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        cloudSave.onStop();
     }
 
     @Override
     public void onActivityResult(int request, int response, Intent data) {
         super.onActivityResult(request, response, data);
-        cloudSave.onActivityResult(request, response, data);
     }
 
     private int TextInputKeyboardList[][] =
@@ -741,7 +687,7 @@ public class MainActivity extends Activity {
                     return true;
                 }
                 /*
-				if (keyCode == KeyEvent.KEYCODE_DEL || keyCode == KeyEvent.KEYCODE_CLEAR)
+                if (keyCode == KeyEvent.KEYCODE_DEL || keyCode == KeyEvent.KEYCODE_CLEAR)
 				{
 					// EditText deletes two characters at a time, here's a hacky fix
 					if (event.getAction() == KeyEvent.ACTION_DOWN && (event.getFlags() | KeyEvent.FLAG_SOFT_KEYBOARD) != 0)
@@ -1005,34 +951,21 @@ public class MainActivity extends Activity {
         }
     }
 
-    public static String GetMappedLibraryName(final String s) {
-        for (int i = 0; i < Globals.LibraryNamesMap.length; i++) {
-            if (Globals.LibraryNamesMap[i][0].equals(s))
-                return Globals.LibraryNamesMap[i][1];
-        }
-        return s;
-    }
-
+    @SuppressLint("UnsafeDynamicallyLoadedCode")
     public static void LoadApplicationLibrary(final Context context) {
         Settings.nativeChdir(Globals.DataDir);
-        for (String l : Globals.AppMainLibraries) {
-            try {
-                String libname = System.mapLibraryName(l);
-                File libpath = new File(context.getFilesDir().getAbsolutePath() + "/../lib/" + libname);
-                Log.i("SDL", "libSDL: loading lib " + libpath.getAbsolutePath());
-                System.load(libpath.getPath());
-            } catch (UnsatisfiedLinkError e) {
-                Log.i("SDL", "libSDL: error loading lib " + l + ": " + e.toString());
+        try {
+            for (String libname : Globals.XAPP_LIBS) {
+                String soPath = Globals.XLIB_DIR + libname;
+                Log.i("SDL", "libSDL: loading lib " + soPath);
                 try {
-                    String libname = System.mapLibraryName(l);
-                    File libpath = new File(context.getFilesDir().getAbsolutePath() + "/" + libname);
-                    Log.i("SDL", "libSDL: loading lib " + libpath.getAbsolutePath());
-                    System.load(libpath.getPath());
-                } catch (UnsatisfiedLinkError ee) {
-                    Log.i("SDL", "libSDL: error loading lib " + l + ": " + ee.toString());
-                    System.loadLibrary(l);
+                    System.load(soPath);
+                } catch (UnsatisfiedLinkError error) {
+                    Log.i("SDL", "libSDL: error loading lib " + soPath
+                            + ", reason: " + error.getLocalizedMessage());
                 }
             }
+        } catch (UnsatisfiedLinkError ignore) {
         }
         Log.v("SDL", "libSDL: loaded all libraries");
         ApplicationLibraryLoaded = true;
@@ -1072,19 +1005,12 @@ public class MainActivity extends Activity {
     }
 
     void setScreenOrientation() {
-        if (!Globals.AutoDetectOrientation && getIntent().getBooleanExtra(RestartMainActivity.ACTIVITY_AUTODETECT_SCREEN_ORIENTATION, false))
-            Globals.AutoDetectOrientation = true;
+        Globals.AutoDetectOrientation = true;
         if (Globals.AutoDetectOrientation) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2)
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_USER);
-            else
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_USER);
             return;
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD)
-            setRequestedOrientation(Globals.HorizontalOrientation ? ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        else
-            setRequestedOrientation(Globals.HorizontalOrientation ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(Globals.HorizontalOrientation ? ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
     }
 
     @Override
@@ -1114,13 +1040,11 @@ public class MainActivity extends Activity {
 
     DemoGLSurfaceView mGLView = null;
     private static AudioThread mAudioThread = null;
-    private static DataDownloader downloader = null;
 
     private TextView _tv = null;
     private Button _btn = null;
     private LinearLayout _layout = null;
     private LinearLayout _layout2 = null;
-    public CloudSave cloudSave = null;
     public ProgressDialog loadingDialog = null;
 
     FrameLayout _videoLayout = null;

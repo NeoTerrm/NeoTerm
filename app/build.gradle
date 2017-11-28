@@ -67,4 +67,5 @@ dependencies {
     implementation project(':chrome-tabs')
     implementation project(path: ':NeoLang')
     androidTestImplementation project(path: ':NeoLang')
+    implementation project(':Xorg')
 }

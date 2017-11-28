@@ -74,6 +74,8 @@ import android.hardware.SensorEvent;
 import android.hardware.Sensor;
 import android.widget.Toast;
 
+import io.neoterm.xorg.R;
+
 
 class SettingsMenuMouse extends SettingsMenu
 {

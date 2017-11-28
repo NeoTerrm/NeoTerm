@@ -1065,10 +1065,7 @@ public class MainActivity extends Activity {
 // *** HONEYCOMB / ICS FIX FOR FULLSCREEN MODE, by lmak ***
 abstract class DimSystemStatusBar {
     public static DimSystemStatusBar get() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-            return DimSystemStatusBarHoneycomb.Holder.sInstance;
-        else
-            return DimSystemStatusBarDummy.Holder.sInstance;
+        return DimSystemStatusBarHoneycomb.Holder.sInstance;
     }
 
     public abstract void dim(final View view);
@@ -1079,30 +1076,18 @@ abstract class DimSystemStatusBar {
         }
 
         public void dim(final View view) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT && Globals.ImmersiveMode)
+            if (Globals.ImmersiveMode)
                 // Immersive mode, I already hear curses when system bar reappears mid-game from the slightest swipe at the bottom of the screen
                 view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
             else
                 view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         }
     }
-
-    private static class DimSystemStatusBarDummy extends DimSystemStatusBar {
-        private static class Holder {
-            private static final DimSystemStatusBarDummy sInstance = new DimSystemStatusBarDummy();
-        }
-
-        public void dim(final View view) {
-        }
-    }
 }
 
 abstract class SetLayerType {
     public static SetLayerType get() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-            return SetLayerTypeHoneycomb.Holder.sInstance;
-        else
-            return SetLayerTypeDummy.Holder.sInstance;
+        return SetLayerTypeHoneycomb.Holder.sInstance;
     }
 
     public abstract void setLayerType(final View view);
@@ -1115,15 +1100,6 @@ abstract class SetLayerType {
         public void setLayerType(final View view) {
             view.setLayerType(View.LAYER_TYPE_NONE, null);
             //view.setLayerType(android.view.View.LAYER_TYPE_HARDWARE, null);
-        }
-    }
-
-    private static class SetLayerTypeDummy extends SetLayerType {
-        private static class Holder {
-            private static final SetLayerTypeDummy sInstance = new SetLayerTypeDummy();
-        }
-
-        public void setLayerType(final View view) {
         }
     }
 }

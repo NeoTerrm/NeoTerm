@@ -69,10 +69,11 @@ import java.util.LinkedList;
 import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
 
+import io.neoterm.xorg.NeoGLViewClient;
 import io.neoterm.xorg.R;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements NeoGLViewClient {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -300,7 +301,7 @@ public class MainActivity extends Activity {
         _videoLayout = new FrameLayout(this);
         SetLayerType.get().setLayerType(_videoLayout);
         setContentView(_videoLayout);
-        mGLView = new DemoGLSurfaceView(this);
+        mGLView = new NeoGLView(this);
         SetLayerType.get().setLayerType(mGLView);
         // Add TV screen borders, if needed
         if (isRunningOnOUYA() && Globals.TvBorders) {
@@ -480,8 +481,18 @@ public class MainActivity extends Activity {
                     {0, R.xml.qwerty_alt_shift, R.xml.c64, R.xml.amiga_alt_shift, R.xml.atari800}
             };
 
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public boolean isKeyboardWithoutTextInputShown() {
+        return keyboardWithoutTextInputShown;
+    }
+
     public void showScreenKeyboardWithoutTextInputField(final int keyboard) {
-        if (!keyboardWithoutTextInputShown) {
+        if (!isKeyboardWithoutTextInputShown()) {
             keyboardWithoutTextInputShown = true;
             runOnUiThread(new Runnable() {
                 public void run() {
@@ -897,6 +908,11 @@ public class MainActivity extends Activity {
         //Log.d("SDL", "updateScreenOrientation(): screen orientation: " + rotation + " inverted " + AccelerometerReader.gyro.invertedOrientation);
     }
 
+    @Override
+    public void initScreenOrientation() {
+        setScreenOrientation();
+    }
+
     public void setText(final String t) {
         class Callback implements Runnable {
             MainActivity Parent;
@@ -991,6 +1007,11 @@ public class MainActivity extends Activity {
         return (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) || Globals.OuyaEmulation;
     }
 
+    @Override
+    public NeoGLView getGLView() {
+        return mGLView;
+    }
+
     public boolean isCurrentOrientationHorizontal() {
         if (Globals.AutoDetectOrientation) {
             // Less reliable way to detect orientation, but works with multiwindow
@@ -1038,7 +1059,7 @@ public class MainActivity extends Activity {
         return _videoLayout;
     }
 
-    DemoGLSurfaceView mGLView = null;
+    NeoGLView mGLView = null;
     private static AudioThread mAudioThread = null;
 
     private TextView _tv = null;

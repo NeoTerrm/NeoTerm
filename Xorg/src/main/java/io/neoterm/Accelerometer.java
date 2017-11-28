@@ -40,6 +40,7 @@ import android.os.Build;
 import java.util.Arrays;
 
 
+@SuppressWarnings("JniMissingFunction")
 class AccelerometerReader implements SensorEventListener
 {
 
@@ -48,7 +49,7 @@ class AccelerometerReader implements SensorEventListener
 	public static final GyroscopeListener gyro = new GyroscopeListener();
 	public static final OrientationListener orientation = new OrientationListener();
 
-	public AccelerometerReader(Activity context)
+	public AccelerometerReader(Context context)
 	{
 		_manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 	}
@@ -79,11 +80,11 @@ class AccelerometerReader implements SensorEventListener
 			_manager.registerListener(gyro, _manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_GAME);
 		}
 		if( (Globals.AppUsesOrientationSensor) && _manager != null &&
-			_manager.getDefaultSensor(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 ? Sensor.TYPE_GAME_ROTATION_VECTOR : Sensor.TYPE_ROTATION_VECTOR) != null )
+			_manager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR) != null )
 		{
 			Log.i("SDL", "libSDL: starting orientation sensor");
 			_manager.registerListener(orientation, _manager.getDefaultSensor(
-				Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 ? Sensor.TYPE_GAME_ROTATION_VECTOR : Sensor.TYPE_ROTATION_VECTOR),
+					Sensor.TYPE_GAME_ROTATION_VECTOR),
 				SensorManager.SENSOR_DELAY_GAME);
 		}
 	}
@@ -304,8 +305,7 @@ class AccelerometerReader implements SensorEventListener
 			if ( manager == null && manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) == null )
 				return;
 			manager.registerListener(gyro, manager.getDefaultSensor(
-				Globals.AppUsesOrientationSensor ? Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 ?
-				Sensor.TYPE_GAME_ROTATION_VECTOR : Sensor.TYPE_ROTATION_VECTOR : Sensor.TYPE_GYROSCOPE),
+					Globals.AppUsesOrientationSensor ? Sensor.TYPE_GAME_ROTATION_VECTOR : Sensor.TYPE_GYROSCOPE),
 				SensorManager.SENSOR_DELAY_GAME);
 		}
 		public void unregisterListener(Activity context,SensorEventListener l)

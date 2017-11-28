@@ -77,6 +77,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.content.Intent;
 
+import io.neoterm.xorg.NeoGLViewClient;
 import io.neoterm.xorg.R;
 
 
@@ -537,7 +538,7 @@ public class Settings
 								Globals.ScreenFollowsMouse ? 1 : 0 );
 	}
 
-	static void Apply(MainActivity p)
+	static void Apply(NeoGLViewClient p)
 	{
 		setEnvVars(p);
 		nativeSetVideoDepth(Globals.VideoDepthBpp, Globals.NeedGles2 ? 1 : 0, Globals.NeedGles3 ? 1 : 0);
@@ -577,7 +578,7 @@ public class Settings
 											Globals.TouchscreenKeyboardTransparency,
 											Globals.FloatingScreenJoystick ? 1 : 0,
 											Globals.AppTouchscreenKeyboardKeysAmount );
-				SetupTouchscreenKeyboardGraphics(p);
+				SetupTouchscreenKeyboardGraphics(p.getContext());
 				for( int i = 0; i < Globals.RemapScreenKbKeycode.length; i++ )
 					nativeSetKeymapKeyScreenKb(i, SDL_Keys.values[Globals.RemapScreenKbKeycode[i]]);
 				if( Globals.TouchscreenKeyboardSize == Globals.TOUCHSCREEN_KEYBOARD_CUSTOM )
@@ -604,7 +605,7 @@ public class Settings
 				Globals.TouchscreenCalibration[2], Globals.TouchscreenCalibration[3]);
 	}
 
-	static void setEnvVars(MainActivity p)
+	static void setEnvVars(NeoGLViewClient p)
 	{
 		String lang = new String(Locale.getDefault().getLanguage());
 		if( Locale.getDefault().getCountry().length() > 0 )
@@ -613,11 +614,11 @@ public class Settings
 		nativeSetEnv( "LANG", lang );
 		nativeSetEnv( "LANGUAGE", lang );
 		// TODO: get current user name and set envvar USER, the API is not availalbe on Android 1.6 so I don't bother with this
-		nativeSetEnv( "APPDIR", p.getFilesDir().getAbsolutePath() );
-		nativeSetEnv( "SECURE_STORAGE_DIR", p.getFilesDir().getAbsolutePath() );
+		nativeSetEnv( "APPDIR", p.getContext().getFilesDir().getAbsolutePath() );
+		nativeSetEnv( "SECURE_STORAGE_DIR", p.getContext().getFilesDir().getAbsolutePath() );
 		nativeSetEnv( "DATADIR", Globals.DataDir );
 		nativeSetEnv( "UNSECURE_STORAGE_DIR", Globals.DataDir );
-		SdcardAppPath.get().setEnv(p);
+		SdcardAppPath.get().setEnv(p.getContext());
 		nativeSetEnv( "HOME", Globals.DataDir );
 		nativeSetEnv( "SDCARD", Environment.getExternalStorageDirectory().getAbsolutePath() );
 		nativeSetEnv( "SDCARD_DOWNLOADS", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() );
@@ -626,11 +627,11 @@ public class Settings
 		nativeSetEnv( "SDCARD_DCIM", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() );
 		nativeSetEnv( "SDCARD_MUSIC", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getAbsolutePath() );
 		nativeSetEnv( "ANDROID_VERSION", String.valueOf(Build.VERSION.SDK_INT) );
-		nativeSetEnv( "ANDROID_PACKAGE_NAME", p.getPackageName() );
-		nativeSetEnv( "ANDROID_PACKAGE_PATH", p.getPackageCodePath() );
-		nativeSetEnv( "ANDROID_MY_OWN_APP_FILE", p.getPackageResourcePath() ); // This may be different from p.getPackageCodePath() on multi-user systems, but should still be the same .apk file
+		nativeSetEnv( "ANDROID_PACKAGE_NAME", p.getContext().getPackageName() );
+		nativeSetEnv( "ANDROID_PACKAGE_PATH", p.getContext().getPackageCodePath() );
+		nativeSetEnv( "ANDROID_MY_OWN_APP_FILE", p.getContext().getPackageResourcePath() ); // This may be different from p.getPackageCodePath() on multi-user systems, but should still be the same .apk file
 		try {
-			nativeSetEnv( "ANDROID_APP_NAME", p.getString(p.getApplicationInfo().labelRes) );
+			nativeSetEnv( "ANDROID_APP_NAME", p.getContext().getString(p.getContext().getApplicationInfo().labelRes) );
 		} catch (Exception eeeeee) {}
 		Log.d("SDL", "libSDL: Is running on OUYA: " + p.isRunningOnOUYA());
 		if( p.isRunningOnOUYA() )
@@ -639,11 +640,12 @@ public class Settings
 			nativeSetEnv( "TV", "1" );
 			nativeSetEnv( "ANDROID_TV", "1" );
 		}
-		if (p.getIntent().getCategories() != null && p.getIntent().getCategories().contains("com.google.intent.category.CARDBOARD")) {
-			nativeSetEnv( "CARDBOARD", "1" );
-			nativeSetEnv( "VR", "1" );
-			nativeSetEnv( "CARDBOARD_VR", "1" );
-		}
+		// TODO: Implement this
+//		if (p.getIntent().getCategories() != null && p.getIntent().getCategories().contains("com.google.intent.category.CARDBOARD")) {
+//			nativeSetEnv( "CARDBOARD", "1" );
+//			nativeSetEnv( "VR", "1" );
+//			nativeSetEnv( "CARDBOARD_VR", "1" );
+//		}
 //		if (p.getIntent().getStringExtra(RestartMainActivity.SDL_RESTART_PARAMS) != null)
 //			nativeSetEnv( RestartMainActivity.SDL_RESTART_PARAMS, p.getIntent().getStringExtra(RestartMainActivity.SDL_RESTART_PARAMS) );
 		try {
@@ -665,7 +667,7 @@ public class Settings
 		} catch (Exception eeeee) {}
 	}
 
-	static byte [] loadRaw(Activity p, int res)
+	static byte [] loadRaw(Context p, int res)
 	{
 		byte [] buf = new byte[65536 * 2];
 		byte [] a = new byte[1048576 * 5]; // We need 5Mb buffer for Keen theme, and this Java code is inefficient
@@ -690,7 +692,7 @@ public class Settings
 		return b;
 	}
 	
-	static void SetupTouchscreenKeyboardGraphics(Activity p)
+	static void SetupTouchscreenKeyboardGraphics(Context p)
 	{
 		if( Globals.UseTouchscreenKeyboard )
 		{
@@ -726,10 +728,7 @@ public class Settings
 	{
 		public static SdcardAppPath get()
 		{
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-				return Kitkat.Holder.sInstance;
-			else
-				return Froyo.Holder.sInstance;
+			return Kitkat.Holder.sInstance;
 		}
 		public String path(final Context p)
 		{

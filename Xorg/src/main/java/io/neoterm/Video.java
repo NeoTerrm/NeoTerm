@@ -23,50 +23,30 @@ freely, subject to the following restrictions:
 package io.neoterm;
 
 import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
-import javax.microedition.khronos.opengles.GL11Ext;
 
 import javax.microedition.khronos.egl.EGL10;
-import javax.microedition.khronos.egl.EGL11;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 
-import java.io.File;
-import java.util.concurrent.locks.ReentrantLock;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
-import android.os.Bundle;
 import android.os.Build;
-import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.AssetManager;
-import android.app.Activity;
 import android.view.MotionEvent;
 import android.view.KeyEvent;
 import android.view.InputDevice;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.app.PendingIntent;
-import android.app.AlarmManager;
 import android.content.Intent;
 import android.view.View;
 import android.view.Display;
 import android.net.Uri;
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.hardware.input.InputManager;
+
+import io.neoterm.xorg.NeoGLViewClient;
 
 
 class Mouse
@@ -630,10 +610,10 @@ abstract class DifferentTouchInput
 @SuppressWarnings("JniMissingFunction")
 class DemoRenderer extends GLSurfaceView_SDL.Renderer
 {
-	public DemoRenderer(MainActivity _context)
+	public DemoRenderer(NeoGLViewClient client)
 	{
-		context = _context;
-		Clipboard.get().setListener(context, new Runnable()
+		mClient = client;
+		Clipboard.get().setListener(mClient.getContext(), new Runnable()
 		{
 			public void run()
 			{
@@ -671,12 +651,12 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 	int mLastPendingResize = 0;
 	public void onWindowResize(final int w, final int h)
 	{
-		if (context.isRunningOnOUYA())
+		if (mClient.isRunningOnOUYA())
 			return; // TV screen is never resized, and this event will mess up TV borders
 		Log.d("SDL", "libSDL: DemoRenderer.onWindowResize(): " + w + "x" + h);
 		mLastPendingResize ++;
 		final int resizeThreadIndex = mLastPendingResize;
-		context.mGLView.postDelayed(new Runnable()
+		mClient.getGLView().postDelayed(new Runnable()
 		{
 			public void run()
 			{
@@ -685,14 +665,14 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 					return; // Avoid running this function multiple times in a row
 				int ww = w - w % 2;
 				int hh = h - h % 2;
-				View topView = context.getWindow().peekDecorView();
+				View topView = mClient.getWindow().peekDecorView();
 				if (topView != null && Globals.ImmersiveMode)
 				{
 					ww = topView.getWidth() - topView.getWidth() % 2;
 					hh = topView.getHeight() - topView.getHeight() % 2;
 				}
 
-				Display display = context.getWindowManager().getDefaultDisplay();
+				Display display = mClient.getWindowManager().getDefaultDisplay();
 
 				if (mWidth != 0 && mHeight != 0 && (mWidth != ww || mHeight != hh))
 				{
@@ -703,7 +683,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 					{
 						Log.i("SDL", "Multiwindow detected - enabling screen orientation autodetection");
 						Globals.AutoDetectOrientation = true;
-						context.setScreenOrientation();
+						mClient.initScreenOrientation();
 						DemoRenderer.super.ResetVideoSurface();
 						DemoRenderer.super.onWindowResize(ww, hh);
 					}
@@ -748,16 +728,11 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 		
 		mGlContextLost = false;
 
-		if( Globals.CompatibilityHacksStaticInit )
-			MainActivity.LoadApplicationLibrary(context);
-		while( !MainActivity.ApplicationLibraryLoaded )
-			try { Thread.sleep(200); } catch (InterruptedException eeee) {}
-
-		Settings.Apply(context);
+		Settings.Apply(mClient);
 		Settings.nativeSetEnv( "DISPLAY_RESOLUTION_WIDTH", String.valueOf(Math.max(mWidth, mHeight)) );
 		Settings.nativeSetEnv( "DISPLAY_RESOLUTION_HEIGHT", String.valueOf(Math.min(mWidth, mHeight)) ); // In Kitkat with immersive mode, getWindowManager().getDefaultDisplay().getMetrics() return inaccurate height
 
-		accelerometer = new AccelerometerReader(context);
+		accelerometer = new AccelerometerReader(mClient.getContext());
 		if( Globals.MoveMouseWithGyroscope )
 			startAccelerometerGyroscope(1);
 		// Tweak video thread priority, if user selected big audio buffer
@@ -765,12 +740,12 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 			Thread.currentThread().setPriority( (Thread.NORM_PRIORITY + Thread.MIN_PRIORITY) / 2 ); // Lower than normal
 		// Calls main() and never returns, hehe - we'll call eglSwapBuffers() from native code
 		String commandline = Globals.CommandLine;
-		if( context.getIntent() != null && context.getIntent().getScheme() != null &&
-			context.getIntent().getScheme().compareTo(android.content.ContentResolver.SCHEME_FILE) == 0 &&
-			context.getIntent().getData() != null && context.getIntent().getData().getPath() != null )
-		{
-			commandline += " " + context.getIntent().getData().getPath();
-		}
+//		if( mClient.getIntent() != null && mClient.getIntent().getScheme() != null &&
+//			mClient.getIntent().getScheme().compareTo(android.content.ContentResolver.SCHEME_FILE) == 0 &&
+//			mClient.getIntent().getData() != null && mClient.getIntent().getData().getPath() != null )
+//		{
+//			commandline += " " + mClient.getIntent().getData().getPath();
+//		}
 		nativeInit( Globals.DataDir,
 					commandline,
 					( (Globals.SwVideoMode && Globals.MultiThreadedVideo) || Globals.CompatibilityHacksVideo ) ? 1 : 0,
@@ -794,7 +769,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 
 		if(mGlContextLost) {
 			mGlContextLost = false;
-			Settings.SetupTouchscreenKeyboardGraphics(context); // Reload on-screen buttons graphics
+			Settings.SetupTouchscreenKeyboardGraphics(mClient.getContext()); // Reload on-screen buttons graphics
 			super.SwapBuffers();
 		}
 
@@ -806,7 +781,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 				this.notify();
 			}
 		}
-		if( context.isScreenKeyboardShown() && !context.keyboardWithoutTextInputShown )
+		if( mClient.isScreenKeyboardShown() && !mClient.isKeyboardWithoutTextInputShown() )
 		{
 			try {
 				Thread.sleep(50); // Give some time to the keyboard input thread
@@ -819,7 +794,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 		if( mOrientationFrameHackyCounter > 100 )
 		{
 			mOrientationFrameHackyCounter = 0;
-			context.updateScreenOrientation();
+			mClient.updateScreenOrientation();
 		}
 
 		return 1;
@@ -827,54 +802,54 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 
 	public void showScreenKeyboardWithoutTextInputField() // Called from native code
 	{
-		context.showScreenKeyboardWithoutTextInputField(Globals.TextInputKeyboard);
+		mClient.showScreenKeyboardWithoutTextInputField(Globals.TextInputKeyboard);
 	}
 
 	public void showInternalScreenKeyboard(int keyboard) // Called from native code
 	{
-		context.showScreenKeyboardWithoutTextInputField(keyboard);
+		mClient.showScreenKeyboardWithoutTextInputField(keyboard);
 	}
 
 	public void showScreenKeyboard(final String oldText, int unused) // Called from native code
 	{
 		class Callback implements Runnable
 		{
-			public MainActivity parent;
+			public NeoGLViewClient client;
 			public String oldText;
 			public void run()
 			{
-				parent.showScreenKeyboard(oldText);
+				client.showScreenKeyboard(oldText);
 			}
 		}
 		Callback cb = new Callback();
-		cb.parent = context;
+		cb.client = mClient;
 		cb.oldText = oldText;
-		context.runOnUiThread(cb);
+		mClient.runOnUiThread(cb);
 	}
 
 	public void hideScreenKeyboard() // Called from native code
 	{
 		class Callback implements Runnable
 		{
-			public MainActivity parent;
+			public NeoGLViewClient client;
 			public void run()
 			{
-				parent.hideScreenKeyboard();
+				client.hideScreenKeyboard();
 			}
 		}
 		Callback cb = new Callback();
-		cb.parent = context;
-		context.runOnUiThread(cb);
+		cb.client = mClient;
+		mClient.runOnUiThread(cb);
 	}
 
 	public int isScreenKeyboardShown() // Called from native code
 	{
-		return context.isScreenKeyboardShown() ? 1 : 0;
+		return mClient.isScreenKeyboardShown() ? 1 : 0;
 	}
 
 	public void setScreenKeyboardHintMessage(String s) // Called from native code
 	{
-		context.setScreenKeyboardHintMessage(s);
+		mClient.setScreenKeyboardHintMessage(s);
 	}
 
 	public void startAccelerometerGyroscope(int started) // Called from native code
@@ -888,12 +863,12 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 
 	public String getClipboardText() // Called from native code
 	{
-		return Clipboard.get().get(context);
+		return Clipboard.get().get(mClient.getContext());
 	}
 
 	public void setClipboardText(final String s) // Called from native code
 	{
-		Clipboard.get().set(context, s);
+		Clipboard.get().set(mClient.getContext(), s);
 	}
 
 	public void exitApp()
@@ -938,7 +913,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 			{
 				i.setClassName(pkgName, activity);
 			}
-			context.startActivity(i);
+			mClient.getContext().startActivity(i);
 		} catch (Exception e) {
 			Log.i("SDL", "libSDL: cannot start external app: " + e.toString());
 		}
@@ -946,7 +921,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 
 	public void setSystemMousePointerVisible(int visible)
 	{
-		context.setSystemMousePointerVisible(visible);
+		mClient.setSystemMousePointerVisible(visible);
 	}
 
 	public void restartMyself(String restartParams)
@@ -977,7 +952,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 	public static native void nativeTextInputFinished();
 	public static native void nativeClipboardChanged();
 
-	private MainActivity context = null;
+	private NeoGLViewClient mClient = null;
 	public AccelerometerReader accelerometer = null;
 	
 	private GL10 mGl = null;
@@ -999,13 +974,13 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 @SuppressWarnings("JniMissingFunction")
 class DemoGLSurfaceView extends GLSurfaceView_SDL {
 
-	public DemoGLSurfaceView(MainActivity context) {
-		super(context);
-		mParent = context;
+	public DemoGLSurfaceView(NeoGLViewClient client) {
+		super(client.getContext());
+		mClient = client;
 		setEGLConfigChooser(Globals.VideoDepthBpp, Globals.NeedDepthBuffer, Globals.NeedStencilBuffer, Globals.NeedGles2, Globals.NeedGles3);
-		mRenderer = new DemoRenderer(context);
+		mRenderer = new DemoRenderer(client);
 		setRenderer(mRenderer);
-		DifferentTouchInput.registerInputManagerCallbacks(context);
+		DifferentTouchInput.registerInputManagerCallbacks(client.getContext());
 	}
 
 	@Override
@@ -1019,7 +994,7 @@ class DemoGLSurfaceView extends GLSurfaceView_SDL {
 				nativeMouseButtonsPressed(2, 1);
 				return true;
 			}
-			else if( mParent.keyboardWithoutTextInputShown )
+			else if( mClient.isKeyboardWithoutTextInputShown() )
 			{
 				return true;
 			}
@@ -1042,9 +1017,9 @@ class DemoGLSurfaceView extends GLSurfaceView_SDL {
 				nativeMouseButtonsPressed(2, 0);
 				return true;
 			}
-			else if( mParent.keyboardWithoutTextInputShown )
+			else if( mClient.isKeyboardWithoutTextInputShown() )
 			{
-				mParent.showScreenKeyboardWithoutTextInputField(0); // Hide keyboard
+				mClient.showScreenKeyboardWithoutTextInputField(0); // Hide keyboard
 				return true;
 			}
 		}
@@ -1053,7 +1028,7 @@ class DemoGLSurfaceView extends GLSurfaceView_SDL {
 			return super.onKeyUp(keyCode, event);
 
 		//if( keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU )
-		//	DimSystemStatusBar.get().dim(mParent._videoLayout);
+		//	DimSystemStatusBar.get().dim(mClient._videoLayout);
 
 		return true;
 	}
@@ -1076,11 +1051,8 @@ class DemoGLSurfaceView extends GLSurfaceView_SDL {
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) 
 	{
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-		{
-			if (getX() != 0)
-				event.offsetLocation(-getX(), -getY());
-		}
+		if (getX() != 0)
+            event.offsetLocation(-getX(), -getY());
 		DifferentTouchInput.touchInput.process(event);
 		if( DemoRenderer.mRatelimitTouchEvents )
 		{
@@ -1156,7 +1128,7 @@ class DemoGLSurfaceView extends GLSurfaceView_SDL {
 	};
 
 	DemoRenderer mRenderer;
-	MainActivity mParent;
+	NeoGLViewClient mClient;
 
 	public static native void nativeMotionEvent( int x, int y, int action, int pointerId, int pressure, int radius );
 	public static native int  nativeKey( int keyCode, int down, int unicode, int gamepadId );

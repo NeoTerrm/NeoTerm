@@ -151,6 +151,7 @@ import android.app.KeyguardManager;
  * </pre>
  *
  */
+@SuppressWarnings("ALL")
 public class GLSurfaceView_SDL extends SurfaceView implements SurfaceHolder.Callback {
 	/**
 	 * The renderer only renders

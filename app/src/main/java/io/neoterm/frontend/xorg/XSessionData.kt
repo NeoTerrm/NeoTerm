@@ -11,4 +11,7 @@ class XSessionData {
     var audioThread: NeoAudioThread? = null
     var glView: NeoGLView? = null
     var client: NeoXorgViewClient? = null
+
+    var keyboardWithoutTextInputShown = false
+    var isPaused = false
 }

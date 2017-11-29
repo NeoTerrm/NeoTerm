@@ -25,7 +25,6 @@ class XSession private constructor(val mActivity: Activity, val sessionData: XSe
     }
 
     var mSessionName = "";
-    var keyboardWithoutTextInputShown = false;
 
     init {
         if (Globals.InhibitSuspend) {
@@ -40,7 +39,17 @@ class XSession private constructor(val mActivity: Activity, val sessionData: XSe
 
     override fun getContext() = mActivity
 
-    override fun isKeyboardWithoutTextInputShown() = keyboardWithoutTextInputShown
+    override fun isKeyboardWithoutTextInputShown() = sessionData.keyboardWithoutTextInputShown
+
+    override fun isPaused() = sessionData.isPaused
+
+    override fun runOnUiThread(runnable: Runnable?) = mActivity.runOnUiThread(runnable)
+
+    override fun getGLView() = sessionData.glView
+
+    override fun getWindow() = mActivity.window!!
+
+    override fun getWindowManager() = mActivity.windowManager!!
 
     override fun showScreenKeyboardWithoutTextInputField(flags: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -61,8 +70,6 @@ class XSession private constructor(val mActivity: Activity, val sessionData: XSe
     override fun hideScreenKeyboard() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
-    override fun runOnUiThread(runnable: Runnable?) = mActivity.runOnUiThread(runnable)
 
     override fun updateScreenOrientation() {
         var rotation: Int = windowManager.defaultDisplay.rotation
@@ -92,21 +99,11 @@ class XSession private constructor(val mActivity: Activity, val sessionData: XSe
         return uiModeManager?.currentModeType == Configuration.UI_MODE_TYPE_TELEVISION || Globals.OuyaEmulation
     }
 
-    override fun getGLView() = sessionData.glView
-
-    override fun getWindow() = mActivity.window!!
-
-    override fun getWindowManager() = mActivity.windowManager!!
-
     override fun setSystemMousePointerVisible(visible: Int) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             glView?.pointerIcon = android.view.PointerIcon.getSystemIcon(mActivity,
                     if (visible == 0) android.view.PointerIcon.TYPE_NULL
                     else android.view.PointerIcon.TYPE_DEFAULT)
         }
-    }
-
-    override fun isPaused(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

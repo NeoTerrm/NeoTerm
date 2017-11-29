@@ -18,7 +18,7 @@ class FullScreenHelper private constructor(activity: Activity, var fullScreen: B
 
          * @param isShow         true is show else hidden
          * *
-         * @param keyboardHeight keyboard height
+         * @param keyboardHeight screenKeyboard height
          */
         fun onKeyboardChange(isShow: Boolean, keyboardHeight: Int)
     }
@@ -93,10 +93,10 @@ class FullScreenHelper private constructor(activity: Activity, var fullScreen: B
             val usableHeightSansKeyboard = mChildOfContent.rootView.height
             val heightDifference = usableHeightSansKeyboard - usableHeightNow
             if (heightDifference > usableHeightSansKeyboard / 4) {
-                // keyboard probably just became visible
+                // screenKeyboard probably just became visible
                 currentHeightLayoutHeight = usableHeightSansKeyboard - heightDifference
             } else {
-                // keyboard probably just became hidden
+                // screenKeyboard probably just became hidden
                 currentHeightLayoutHeight = usableHeightSansKeyboard
             }
             frameLayoutParams.height = currentHeightLayoutHeight

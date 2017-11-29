@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- When creating new keyboard layout, add it to TextInputKeyboardList array in project/java/MainActivity.java -->
+<!-- When creating screenKeyboardoard layout, add it to TextInputKeyboardList array in project/java/MainActivity.java -->
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
 	android:keyWidth="10%p"
 	android:horizontalGap="0px"

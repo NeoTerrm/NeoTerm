@@ -349,7 +349,12 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
 
         // When rotate the screen, extra keys may get updated.
-        forEachTab<TermTab> { it.resetStatus() }
+        forEachTab<NeoTab> {
+            it.onConfigurationChanged(newConfig)
+            if (it is TermTab) {
+                it.resetStatus()
+            }
+        }
     }
 
 //    private fun floatTabUp(tab: TermTab) {

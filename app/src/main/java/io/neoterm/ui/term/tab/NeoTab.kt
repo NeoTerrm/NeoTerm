@@ -1,5 +1,6 @@
 package io.neoterm.ui.term.tab
 
+import android.content.res.Configuration
 import android.util.Log
 import de.mrapp.android.tabswitcher.Tab
 
@@ -18,4 +19,6 @@ open class NeoTab(title: CharSequence) : Tab(title) {
     fun onWindowFocusChanged(hasFocus: Boolean) {}
 
     fun onDestroy() {}
+
+    fun onConfigurationChanged(newConfig: Configuration) {}
 }

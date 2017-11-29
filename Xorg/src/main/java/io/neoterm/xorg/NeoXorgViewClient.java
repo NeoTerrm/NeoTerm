@@ -10,7 +10,7 @@ import io.neoterm.NeoGLView;
  * @author kiva
  */
 
-public interface NeoGLViewClient {
+public interface NeoXorgViewClient {
     Context getContext();
 
     boolean isKeyboardWithoutTextInputShown();
@@ -40,4 +40,6 @@ public interface NeoGLViewClient {
     WindowManager getWindowManager();
 
     void setSystemMousePointerVisible(int visible);
+
+    boolean isPaused();
 }

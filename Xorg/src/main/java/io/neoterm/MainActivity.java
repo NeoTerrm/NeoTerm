@@ -64,16 +64,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
 
-import io.neoterm.xorg.NeoGLViewClient;
+import io.neoterm.xorg.NeoXorgViewClient;
 import io.neoterm.xorg.R;
 
 
-public class MainActivity extends Activity implements NeoGLViewClient {
+public class MainActivity extends Activity implements NeoXorgViewClient {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -206,20 +205,6 @@ public class MainActivity extends Activity implements NeoGLViewClient {
         ;
         (new Thread(new Callback(this))).start();
         // Request SD card permission right during start, because game devs don't care about runtime permissions and stuff
-        try {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_PERMISSIONS | PackageManager.GET_META_DATA);
-                Log.v("SDL", "SD card permission 1: " + getPackageName() + " perms " + info.requestedPermissions + " name " + info.packageName + " ver " + info.versionName);
-                if (info.requestedPermissions != null && Arrays.asList(info.requestedPermissions).contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    Log.v("SDL", "SD card permission 4: REQUEST");
-                    int permissionCheck = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    if (permissionCheck != PackageManager.PERMISSION_GRANTED && !writeExternalStoragePermissionDialogAnswered) {
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                    }
-                }
-            }
-        } catch (Exception e) {
-        }
     }
 
     public void setUpStatusLabel() {
@@ -902,8 +887,7 @@ public class MainActivity extends Activity implements NeoGLViewClient {
 
     public void updateScreenOrientation() {
         int rotation = Surface.ROTATION_0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.FROYO)
-            rotation = getWindowManager().getDefaultDisplay().getRotation();
+        rotation = getWindowManager().getDefaultDisplay().getRotation();
         AccelerometerReader.gyro.invertedOrientation = (rotation == Surface.ROTATION_180 || rotation == Surface.ROTATION_270);
         //Log.d("SDL", "updateScreenOrientation(): screen orientation: " + rotation + " inverted " + AccelerometerReader.gyro.invertedOrientation);
     }

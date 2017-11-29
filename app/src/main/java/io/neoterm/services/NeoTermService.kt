@@ -92,8 +92,8 @@ class NeoTermService : Service() {
         return indexOfRemoved
     }
 
-    fun createXSession(parameter: XParameter): XSession {
-        val session = XSession.createSession(this, parameter)
+    fun createXSession(activity: Activity, parameter: XParameter): XSession {
+        val session = XSession.createSession(activity, parameter)
         mXSessions.add(session)
         updateNotification()
         return session

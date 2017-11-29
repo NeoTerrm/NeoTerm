@@ -6,8 +6,8 @@ import io.neoterm.xorg.NeoXorgViewClient;
  * @author kiva
  */
 
-public class NeoGLView extends DemoGLSurfaceView {
-    public NeoGLView(NeoXorgViewClient client) {
+public class NeoAudioThread extends AudioThread {
+    public NeoAudioThread(NeoXorgViewClient client) {
         super(client);
     }
 }

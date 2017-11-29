@@ -46,7 +46,7 @@ import android.view.Display;
 import android.net.Uri;
 import android.hardware.input.InputManager;
 
-import io.neoterm.xorg.NeoGLViewClient;
+import io.neoterm.xorg.NeoXorgViewClient;
 
 
 class Mouse
@@ -610,7 +610,7 @@ abstract class DifferentTouchInput
 @SuppressWarnings("JniMissingFunction")
 class DemoRenderer extends GLSurfaceView_SDL.Renderer
 {
-	public DemoRenderer(NeoGLViewClient client)
+	public DemoRenderer(NeoXorgViewClient client)
 	{
 		mClient = client;
 		Clipboard.get().setListener(mClient.getContext(), new Runnable()
@@ -732,7 +732,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 		Settings.nativeSetEnv( "DISPLAY_RESOLUTION_WIDTH", String.valueOf(Math.max(mWidth, mHeight)) );
 		Settings.nativeSetEnv( "DISPLAY_RESOLUTION_HEIGHT", String.valueOf(Math.min(mWidth, mHeight)) ); // In Kitkat with immersive mode, getWindowManager().getDefaultDisplay().getMetrics() return inaccurate height
 
-		accelerometer = new AccelerometerReader(mClient.getContext());
+		accelerometer = new NeoAccelerometerReader(mClient.getContext());
 		if( Globals.MoveMouseWithGyroscope )
 			startAccelerometerGyroscope(1);
 		// Tweak video thread priority, if user selected big audio buffer
@@ -814,7 +814,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 	{
 		class Callback implements Runnable
 		{
-			public NeoGLViewClient client;
+			public NeoXorgViewClient client;
 			public String oldText;
 			public void run()
 			{
@@ -831,7 +831,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 	{
 		class Callback implements Runnable
 		{
-			public NeoGLViewClient client;
+			public NeoXorgViewClient client;
 			public void run()
 			{
 				client.hideScreenKeyboard();
@@ -952,7 +952,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 	public static native void nativeTextInputFinished();
 	public static native void nativeClipboardChanged();
 
-	private NeoGLViewClient mClient = null;
+	private NeoXorgViewClient mClient = null;
 	public AccelerometerReader accelerometer = null;
 	
 	private GL10 mGl = null;
@@ -974,7 +974,7 @@ class DemoRenderer extends GLSurfaceView_SDL.Renderer
 @SuppressWarnings("JniMissingFunction")
 class DemoGLSurfaceView extends GLSurfaceView_SDL {
 
-	public DemoGLSurfaceView(NeoGLViewClient client) {
+	public DemoGLSurfaceView(NeoXorgViewClient client) {
 		super(client.getContext());
 		mClient = client;
 		setEGLConfigChooser(Globals.VideoDepthBpp, Globals.NeedDepthBuffer, Globals.NeedStencilBuffer, Globals.NeedGles2, Globals.NeedGles3);
@@ -1128,7 +1128,7 @@ class DemoGLSurfaceView extends GLSurfaceView_SDL {
 	};
 
 	DemoRenderer mRenderer;
-	NeoGLViewClient mClient;
+	NeoXorgViewClient mClient;
 
 	public static native void nativeMotionEvent( int x, int y, int action, int pointerId, int pressure, int radius );
 	public static native int  nativeKey( int keyCode, int down, int unicode, int gamepadId );

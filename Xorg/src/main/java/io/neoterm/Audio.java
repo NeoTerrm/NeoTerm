@@ -41,18 +41,19 @@ import java.util.concurrent.Semaphore;
 import android.Manifest;
 import android.content.pm.PackageManager;
 
+import io.neoterm.xorg.NeoXorgViewClient;
 
+@SuppressWarnings("JniMissingFunction")
 class AudioThread
 {
-
-	private MainActivity mParent;
+	private NeoXorgViewClient mClient;
 	private AudioTrack mAudio;
 	private byte[] mAudioBuffer;
 	private int mVirtualBufSize;
 
-	public AudioThread(MainActivity parent)
+	public AudioThread(NeoXorgViewClient client)
 	{
-		mParent = parent;
+	    this.mClient = client;
 		mAudio = null;
 		mAudioBuffer = null;
 		nativeAudioInitJavaCallbacks();
@@ -60,7 +61,7 @@ class AudioThread
 	
 	public int fillBuffer()
 	{
-		if( mParent.isPaused() )
+		if( mClient.isPaused() )
 		{
 			try{
 				Thread.sleep(500);
@@ -168,16 +169,6 @@ class AudioThread
 
 	private byte[] startRecording(int rate, int channels, int encoding, int bufsize)
 	{
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M)
-		{
-			int permissionCheck = mParent.checkSelfPermission(Manifest.permission.RECORD_AUDIO);
-			if (permissionCheck != PackageManager.PERMISSION_GRANTED)
-			{
-				mParent.requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 0);
-				return null;
-			}
-		}
-
 		if( mRecordThread == null )
 		{
 			mRecordThread = new RecordingThread();

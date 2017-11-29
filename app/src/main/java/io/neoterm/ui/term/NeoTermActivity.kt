@@ -482,7 +482,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         // TODO: Start X server
         val parameter = XParameter()
-        val session = termService!!.createXSession(parameter)
+        val session = termService!!.createXSession(this, parameter)
 
         session.mSessionName = generateXSessionName("X")
         val tab = createXTab(session.mSessionName) as XSessionTab

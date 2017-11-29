@@ -24,7 +24,7 @@ package io.neoterm;
 
 import android.view.KeyEvent;
 
-class Globals {
+public class Globals {
     public static String XLIB_DIR = "/data/data/io.neoterm/files/usr/lib/";
 	public static String XLIBS[] = {
 	        "x11_sdl_native_helpers",
@@ -81,10 +81,6 @@ class Globals {
     public static int AppMinimumRAM = 0;
     public static SettingsMenu.Menu HiddenMenuOptions[] = {}; // If you see error here - update HiddenMenuOptions in your AndroidAppSettings.cfg: change OptionalDownloadConfig to SettingsMenuMisc.OptionalDownloadConfig etc.
     public static SettingsMenu.Menu FirstStartMenuOptions[] = {new SettingsMenuMisc.GyroscopeCalibration(), new SettingsMenuMisc.OptionalDownloadConfig(),};
-    public static String AdmobPublisherId = "";
-    public static String AdmobTestDeviceId = "";
-    public static String AdmobBannerSize = "";
-    public static String GooglePlayGameServicesId = "";
 
     // Phone-specific config, modified by user in "Change phone config" startup dialog
     public static int VideoDepthBpp = 16;

@@ -22,14 +22,7 @@ freely, subject to the following restrictions:
 
 package io.neoterm;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.KeyEvent;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
 import android.util.Log;
 import java.io.*;
 import android.app.AlertDialog;
@@ -38,46 +31,15 @@ import android.os.Environment;
 import android.os.StatFs;
 import java.util.Locale;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.zip.GZIPInputStream;
-import java.util.Collections;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import java.lang.String;
-import android.graphics.Matrix;
-import android.graphics.RectF;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.FrameLayout;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap;
-import android.widget.TextView;
-import android.widget.EditText;
-import android.widget.ScrollView;
-import android.widget.Button;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.text.Editable;
-import android.text.SpannedString;
+
 import android.content.Intent;
-import android.app.PendingIntent;
-import android.app.AlarmManager;
 import android.util.DisplayMetrics;
 import android.net.Uri;
-import java.util.concurrent.Semaphore;
-import java.util.Arrays;
-import android.graphics.Color;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorEvent;
-import android.hardware.Sensor;
-import android.widget.Toast;
-import android.content.pm.PackageManager;
 import android.os.Build;
-import android.content.Intent;
 
-import io.neoterm.xorg.NeoGLViewClient;
+import io.neoterm.xorg.NeoXorgViewClient;
 import io.neoterm.xorg.R;
 
 
@@ -538,7 +500,7 @@ public class Settings
 								Globals.ScreenFollowsMouse ? 1 : 0 );
 	}
 
-	static void Apply(NeoGLViewClient p)
+	static void Apply(NeoXorgViewClient p)
 	{
 		setEnvVars(p);
 		nativeSetVideoDepth(Globals.VideoDepthBpp, Globals.NeedGles2 ? 1 : 0, Globals.NeedGles3 ? 1 : 0);
@@ -605,7 +567,7 @@ public class Settings
 				Globals.TouchscreenCalibration[2], Globals.TouchscreenCalibration[3]);
 	}
 
-	static void setEnvVars(NeoGLViewClient p)
+	static void setEnvVars(NeoXorgViewClient p)
 	{
 		String lang = new String(Locale.getDefault().getLanguage());
 		if( Locale.getDefault().getCountry().length() > 0 )

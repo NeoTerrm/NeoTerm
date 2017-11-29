@@ -5,14 +5,12 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
 import android.os.RemoteException
 import android.os.ResultReceiver
 import android.text.TextUtils
 import android.util.ArrayMap
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -23,7 +21,7 @@ import android.widget.FrameLayout
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.frontend.shell.ShellParameter
+import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.terminal.TerminalView
 
 class NeoTermEmbeddedService : Service() {

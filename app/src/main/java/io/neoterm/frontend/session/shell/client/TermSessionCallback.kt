@@ -1,4 +1,4 @@
-package io.neoterm.frontend.client
+package io.neoterm.frontend.session.shell.client
 
 import android.content.ClipData
 import android.content.ClipboardManager

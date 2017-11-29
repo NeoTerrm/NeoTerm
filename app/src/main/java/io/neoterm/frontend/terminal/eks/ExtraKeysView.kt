@@ -10,7 +10,7 @@ import io.neoterm.R
 import io.neoterm.component.eks.NeoExtraKey
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
-import io.neoterm.frontend.client.event.ToggleImeEvent
+import io.neoterm.frontend.session.shell.client.event.ToggleImeEvent
 import io.neoterm.frontend.terminal.eks.button.ControlButton
 import io.neoterm.frontend.terminal.eks.button.IExtraButton
 import io.neoterm.frontend.terminal.eks.button.RepeatableButton

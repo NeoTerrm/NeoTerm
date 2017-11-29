@@ -10,7 +10,7 @@ import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
 import io.neoterm.R
 import io.neoterm.component.color.ColorSchemeComponent
-import io.neoterm.frontend.client.TermCompleteListener
+import io.neoterm.frontend.session.shell.client.TermCompleteListener
 import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.preference.NeoPreference

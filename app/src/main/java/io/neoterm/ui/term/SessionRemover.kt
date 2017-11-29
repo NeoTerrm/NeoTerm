@@ -1,8 +1,7 @@
 package io.neoterm.ui.term
 
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.xorg.XSession
+import io.neoterm.frontend.session.xorg.XSession
 import io.neoterm.services.NeoTermService
 import io.neoterm.ui.term.tab.TermTab
 import io.neoterm.ui.term.tab.XSessionTab

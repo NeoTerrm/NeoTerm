@@ -1,4 +1,4 @@
-package io.neoterm.frontend.xorg;
+package io.neoterm.frontend.session.xorg;
 
 /**
  * @author kiva

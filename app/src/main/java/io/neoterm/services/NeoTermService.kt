@@ -13,9 +13,9 @@ import android.support.v4.app.NotificationCompat
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.shell.ShellParameter
-import io.neoterm.frontend.xorg.XParameter
-import io.neoterm.frontend.xorg.XSession
+import io.neoterm.frontend.session.shell.ShellParameter
+import io.neoterm.frontend.session.xorg.XParameter
+import io.neoterm.frontend.session.xorg.XSession
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 

@@ -6,8 +6,8 @@ import io.neoterm.backend.TerminalSession
 import io.neoterm.component.font.FontComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.frontend.shell.ShellParameter
-import io.neoterm.frontend.shell.ShellTermSession
+import io.neoterm.frontend.session.shell.ShellParameter
+import io.neoterm.frontend.session.shell.ShellTermSession
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.TerminalViewClient
 import io.neoterm.frontend.terminal.eks.ExtraKeysView

@@ -1,4 +1,4 @@
-package io.neoterm.frontend.xorg
+package io.neoterm.frontend.session.xorg
 
 import android.app.Activity
 import android.app.UiModeManager
@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import io.neoterm.*
+import io.neoterm.frontend.session.xorg.client.XSessionData
 import io.neoterm.xorg.NeoXorgViewClient
 import io.neoterm.xorg.R
 import java.util.*

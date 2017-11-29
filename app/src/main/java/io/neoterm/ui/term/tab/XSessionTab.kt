@@ -1,6 +1,6 @@
 package io.neoterm.ui.term.tab
 
-import io.neoterm.frontend.xorg.XSession
+import io.neoterm.frontend.session.xorg.XSession
 
 /**
  * @author kiva

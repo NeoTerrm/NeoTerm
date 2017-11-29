@@ -3,11 +3,10 @@ package io.neoterm.ui.term.tab
 import android.content.Context
 import android.support.v7.widget.Toolbar
 import android.view.inputmethod.InputMethodManager
-import de.mrapp.android.tabswitcher.Tab
 import io.neoterm.component.color.ColorSchemeComponent
-import io.neoterm.frontend.client.TermDataHolder
-import io.neoterm.frontend.client.TermUiPresenter
-import io.neoterm.frontend.client.event.*
+import io.neoterm.frontend.session.shell.client.TermDataHolder
+import io.neoterm.frontend.session.shell.client.TermUiPresenter
+import io.neoterm.frontend.session.shell.client.event.*
 import io.neoterm.frontend.component.ComponentManager
 import org.greenrobot.eventbus.EventBus
 

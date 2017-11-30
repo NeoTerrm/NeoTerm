@@ -33,8 +33,8 @@ public class Globals {
             "x11_crypto",
     };
 	public static String XAPP_LIBS[] = {
-            "x11_sdl_main",
             "x11_application",
+            "x11_sdl_main",
     };
 
     // These config options are modified by ChangeAppsettings.sh script - see the detailed descriptions there

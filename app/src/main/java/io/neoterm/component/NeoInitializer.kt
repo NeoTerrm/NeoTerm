@@ -9,6 +9,7 @@ import io.neoterm.component.eks.ExtraKeysComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.component.pm.PackageComponent
 import io.neoterm.component.script.UserScriptComponent
+import io.neoterm.component.session.SessionComponent
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.component.ComponentManager
 
@@ -26,5 +27,6 @@ object NeoInitializer {
         ComponentManager.registerComponent(ExtraKeysComponent::class.java)
         ComponentManager.registerComponent(CompletionComponent::class.java)
         ComponentManager.registerComponent(PackageComponent::class.java)
+        ComponentManager.registerComponent(SessionComponent::class.java)
     }
 }

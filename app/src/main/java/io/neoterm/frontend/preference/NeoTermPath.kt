@@ -11,6 +11,7 @@ object NeoTermPath {
     const val USR_PATH = "$ROOT_PATH/usr"
     const val HOME_PATH = "$ROOT_PATH/home"
     const val APT_BIN_PATH = "$USR_PATH/bin/apt"
+    const val LIB_PATH = "$USR_PATH/lib"
 
     const val CUSTOM_PATH = "$HOME_PATH/.neoterm"
     const val NEOTERM_SHELL_PATH = "$CUSTOM_PATH/shell"

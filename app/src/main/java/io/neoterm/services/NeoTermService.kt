@@ -77,7 +77,7 @@ class NeoTermService : Service() {
         get() = mXSessions
 
     fun createTermSession(parameter: ShellParameter): TerminalSession {
-        val session = TerminalUtils.createShellSession(this, parameter)
+        val session = TerminalUtils.createSession(this, parameter)
         mTerminalSessions.add(session)
         updateNotification()
         return session
@@ -93,7 +93,7 @@ class NeoTermService : Service() {
     }
 
     fun createXSession(activity: Activity, parameter: XParameter): XSession {
-        val session = XSession.createSession(activity, parameter)
+        val session = TerminalUtils.createSession(activity, parameter)
         mXSessions.add(session)
         updateNotification()
         return session

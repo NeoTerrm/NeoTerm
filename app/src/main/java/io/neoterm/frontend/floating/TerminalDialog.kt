@@ -56,7 +56,7 @@ class TerminalDialog(val context: Context) {
                 .arguments(arguments)
                 .callback(terminalSessionCallback)
                 .systemShell(false)
-        terminalSession = TerminalUtils.createShellSession(context, parameter)
+        terminalSession = TerminalUtils.createSession(context, parameter)
         if (terminalSession is ShellTermSession) {
             (terminalSession as ShellTermSession).exitPrompt = context.getString(R.string.process_exit_prompt_press_back)
         }

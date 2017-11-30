@@ -24,13 +24,7 @@ import java.util.*
  * @author kiva
  */
 
-class XSession private constructor(private val mActivity: Activity, private val sessionData: XSessionData) : NeoXorgViewClient {
-    companion object {
-        fun createSession(activity: Activity, parameter: XParameter): XSession {
-            return XSession(activity, XSessionData())
-        }
-    }
-
+class XSession constructor(private val mActivity: Activity, private val sessionData: XSessionData) : NeoXorgViewClient {
     var mSessionName = "";
 
     init {

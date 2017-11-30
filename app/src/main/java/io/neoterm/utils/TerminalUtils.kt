@@ -1,13 +1,17 @@
 package io.neoterm.utils
 
+import android.app.Activity
 import android.content.Context
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.font.FontComponent
+import io.neoterm.component.session.SessionComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.ShellTermSession
+import io.neoterm.frontend.session.xorg.XParameter
+import io.neoterm.frontend.session.xorg.XSession
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.TerminalViewClient
 import io.neoterm.frontend.terminal.eks.ExtraKeysView
@@ -36,21 +40,14 @@ object TerminalUtils {
     fun setupTerminalSession(session: TerminalSession?) {
     }
 
-    fun createShellSession(context: Context, parameter: ShellParameter): TerminalSession {
-        val initCommand = parameter.initialCommand ?:
-                NeoPreference.loadString(R.string.key_general_initial_command, "")
+    fun createSession(context: Context, parameter: ShellParameter): TerminalSession {
+        val sessionComponent = ComponentManager.getComponent<SessionComponent>()
+        return sessionComponent.createSession(context, parameter)
+    }
 
-        val session = ShellTermSession.Builder()
-                .executablePath(parameter.executablePath)
-                .currentWorkingDirectory(parameter.cwd)
-                .callback(parameter.sessionCallback)
-                .systemShell(parameter.systemShell)
-                .envArray(parameter.env)
-                .argArray(parameter.arguments)
-                .create(context)
-        setupTerminalSession(session)
-        session.initialCommand = initCommand
-        return session
+    fun createSession(activity: Activity, parameter: XParameter) : XSession {
+        val sessionComponent = ComponentManager.getComponent<SessionComponent>()
+        return sessionComponent.createSession(activity, parameter)
     }
 
     fun escapeString(s: String?): String {

@@ -46,7 +46,7 @@ open class BaseCustomizeActivity : AppCompatActivity() {
                 .callback(sessionCallback)
                 .systemShell(false)
 
-        session = TerminalUtils.createShellSession(this, parameter)
+        session = TerminalUtils.createSession(this, parameter)
         terminalView.attachSession(session)
     }
 

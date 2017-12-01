@@ -46,7 +46,7 @@ class SessionComponent : NeoComponent {
                 Globals.XLIBS
                         .plus(Globals.XAPP_LIBS)
                         .forEach {
-                            val soPath = "${NeoTermPath.LIB_PATH}/${wrapLibraryName(it)}"
+                            val soPath = "${NeoTermPath.LIB_PATH}/xorg-neoterm/${wrapLibraryName(it)}"
                             NLog.e("SessionComponent", "Loading lib " + soPath)
                             try {
                                 System.load(soPath)

@@ -25,7 +25,7 @@ package io.neoterm;
 import android.view.KeyEvent;
 
 public class Globals {
-    public static String XLIB_DIR = "/data/data/io.neoterm/files/usr/lib/";
+    public static String XLIB_DIR = "/data/data/io.neoterm/files/usr/lib/xorg-neoterm";
 	public static String XLIBS[] = {
 	        "x11_sdl_native_helpers",
             "x11_sdl-1.2",

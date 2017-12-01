@@ -96,12 +96,12 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
             view.attachSession(termData.termSession)
 
             // Still in progress with lots of bugs to deal with.
-            if (NeoPreference.loadBoolean(R.string.key_general_auto_completion, false)) {
-                if (termData.onAutoCompleteListener == null) {
-                    termData.onAutoCompleteListener = createAutoCompleteListener(view)
-                }
-                view.onAutoCompleteListener = termData.onAutoCompleteListener
-            }
+//            if (NeoPreference.loadBoolean(R.string.key_general_auto_completion, false)) {
+//                if (termData.onAutoCompleteListener == null) {
+//                    termData.onAutoCompleteListener = createAutoCompleteListener(view)
+//                }
+//                view.onAutoCompleteListener = termData.onAutoCompleteListener
+//            }
         }
     }
 

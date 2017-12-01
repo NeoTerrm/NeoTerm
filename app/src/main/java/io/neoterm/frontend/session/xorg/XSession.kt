@@ -24,7 +24,7 @@ import java.util.*
  * @author kiva
  */
 
-class XSession constructor(private val mActivity: Activity, private val sessionData: XSessionData) : NeoXorgViewClient {
+class XSession constructor(private val mActivity: Activity, val mSessionData: XSessionData) : NeoXorgViewClient {
     var mSessionName = "";
 
     init {
@@ -33,20 +33,42 @@ class XSession constructor(private val mActivity: Activity, private val sessionD
                     WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        if (sessionData.audioThread == null) {
-            sessionData.audioThread = NeoAudioThread(this)
+        mSessionData.client = this
+        NeoXorgSettings.init(this)
+        if (mSessionData.audioThread == null) {
+            mSessionData.audioThread = NeoAudioThread(this)
         }
+    }
+
+    fun onPause() {
+        mSessionData.isPaused = true
+        if (mSessionData.glView != null) {
+            mSessionData.glView?.onPause()
+        }
+    }
+
+    fun onDestroy() {
+        if (mSessionData.glView != null) {
+        mSessionData.glView?.exitApp()
+        }
+    }
+
+    fun onResume() {
+        if (mSessionData.glView != null) {
+            mSessionData.glView?.onResume()
+        }
+        mSessionData.isPaused = false
     }
 
     override fun getContext() = mActivity
 
-    override fun isKeyboardWithoutTextInputShown() = sessionData.keyboardWithoutTextInputShown
+    override fun isKeyboardWithoutTextInputShown() = mSessionData.keyboardWithoutTextInputShown
 
-    override fun isPaused() = sessionData.isPaused
+    override fun isPaused() = mSessionData.isPaused
 
     override fun runOnUiThread(runnable: Runnable?) = mActivity.runOnUiThread(runnable)
 
-    override fun getGLView() = sessionData.glView
+    override fun getGLView() = mSessionData.glView
 
     override fun getWindow() = mActivity.window!!
 
@@ -56,14 +78,14 @@ class XSession constructor(private val mActivity: Activity, private val sessionD
         val inputManager = mActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         if (!isKeyboardWithoutTextInputShown) {
-            sessionData.keyboardWithoutTextInputShown = true
+            mSessionData.keyboardWithoutTextInputShown = true
             runOnUiThread(Runnable {
                 if (keyboard == 0) {
                     inputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
                     inputManager.showSoftInput(glView, InputMethodManager.SHOW_FORCED)
                     window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
                 } else {
-                    if (sessionData.screenKeyboard != null)
+                    if (mSessionData.screenKeyboard != null)
                         return@Runnable
 
                     val builtinKeyboard = BuiltInKeyboardView(mActivity, null)
@@ -159,17 +181,17 @@ class XSession constructor(private val mActivity: Activity, private val sessionD
 
                         override fun onKey(p1: Int, p2: IntArray) {}
                     })
-                    sessionData.screenKeyboard = builtinKeyboard
+                    mSessionData.screenKeyboard = builtinKeyboard
                     val layout = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM)
-                    sessionData.videoLayout!!.addView(sessionData.screenKeyboard, layout)
+                    mSessionData.videoLayout!!.addView(mSessionData.screenKeyboard, layout)
                 }
             })
         } else {
-            sessionData.keyboardWithoutTextInputShown = false
+            mSessionData.keyboardWithoutTextInputShown = false
             runOnUiThread {
-                if (sessionData.screenKeyboard != null) {
-                    sessionData.videoLayout!!.removeView(sessionData.screenKeyboard)
-                    sessionData.screenKeyboard = null
+                if (mSessionData.screenKeyboard != null) {
+                    mSessionData.videoLayout!!.removeView(mSessionData.screenKeyboard)
+                    mSessionData.screenKeyboard = null
                 }
                 window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
                 inputManager.hideSoftInputFromWindow(glView!!.windowToken, 0)
@@ -179,23 +201,23 @@ class XSession constructor(private val mActivity: Activity, private val sessionD
     }
 
     override fun setScreenKeyboardHintMessage(hideMessage: String?) {
-        sessionData.screenKeyboardHintMessage = hideMessage
-        if (sessionData.screenKeyboard is EditText) {
+        mSessionData.screenKeyboardHintMessage = hideMessage
+        if (mSessionData.screenKeyboard is EditText) {
             runOnUiThread {
-                val editText = sessionData.screenKeyboard as EditText?
+                val editText = mSessionData.screenKeyboard as EditText?
                 editText?.hint = hideMessage ?: mActivity.getString(R.string.text_edit_click_here)
             }
         }
     }
 
-    override fun isScreenKeyboardShown() = sessionData.screenKeyboard != null
+    override fun isScreenKeyboardShown() = mSessionData.screenKeyboard != null
 
     override fun showScreenKeyboard(oldText: String?) {
         if (Globals.CompatibilityHacksTextInputEmulatesHwKeyboard) {
             showScreenKeyboardWithoutTextInputField(Globals.TextInputKeyboard)
             return
         }
-        if (sessionData.screenKeyboard != null)
+        if (mSessionData.screenKeyboard != null)
             return
 
         val screenKeyboard = EditText(mActivity, null,
@@ -203,7 +225,7 @@ class XSession constructor(private val mActivity: Activity, private val sessionD
                     android.R.style.TextAppearance_Material_Widget_EditText
                 else android.R.style.TextAppearance_Widget_EditText)
 
-        val hint = sessionData.screenKeyboardHintMessage
+        val hint = mSessionData.screenKeyboardHintMessage
         screenKeyboard.hint = hint ?: mActivity.getString(R.string.text_edit_click_here)
         screenKeyboard.setText(oldText)
         screenKeyboard.setSelection(screenKeyboard.text.length)
@@ -213,8 +235,8 @@ class XSession constructor(private val mActivity: Activity, private val sessionD
 
         if (isRunningOnOUYA && Globals.TvBorders)
             screenKeyboard.setPadding(100, 100, 100, 100) // Bad bad HDMI TVs all have cropped borders
-        sessionData.screenKeyboard = screenKeyboard
-        sessionData.videoLayout!!.addView(sessionData.screenKeyboard)
+        mSessionData.screenKeyboard = screenKeyboard
+        mSessionData.videoLayout!!.addView(mSessionData.screenKeyboard)
 
         screenKeyboard.inputType = InputType.TYPE_CLASS_TEXT
         screenKeyboard.isFocusableInTouchMode = true
@@ -236,19 +258,19 @@ class XSession constructor(private val mActivity: Activity, private val sessionD
         if (isKeyboardWithoutTextInputShown)
             showScreenKeyboardWithoutTextInputField(Globals.TextInputKeyboard)
 
-        if (sessionData.screenKeyboard == null || sessionData.screenKeyboard !is EditText)
+        if (mSessionData.screenKeyboard == null || mSessionData.screenKeyboard !is EditText)
             return
 
-        synchronized(sessionData.textInput) {
-            val text = (sessionData.screenKeyboard as EditText).text.toString()
+        synchronized(mSessionData.textInput) {
+            val text = (mSessionData.screenKeyboard as EditText).text.toString()
             for (i in 0 until text.length) {
                 NeoRenderer.callNativeTextInput(text[i].toInt(), text.codePointAt(i))
             }
         }
         NeoRenderer.callNativeTextInputFinished()
-        inputManager.hideSoftInputFromWindow(sessionData.screenKeyboard!!.windowToken, 0)
-        sessionData.videoLayout!!.removeView(sessionData.screenKeyboard)
-        sessionData.screenKeyboard = null
+        inputManager.hideSoftInputFromWindow(mSessionData.screenKeyboard!!.windowToken, 0)
+        mSessionData.videoLayout!!.removeView(mSessionData.screenKeyboard)
+        mSessionData.screenKeyboard = null
         glView!!.isFocusableInTouchMode = true
         glView!!.isFocusable = true
         glView!!.requestFocus()

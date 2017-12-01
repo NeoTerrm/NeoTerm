@@ -14,4 +14,8 @@ public class NeoGLView extends DemoGLSurfaceView {
     public void callNativeScreenKeyboardShown(int shown) {
         nativeScreenKeyboardShown(shown);
     }
+
+    public void callNativeScreenVisibleRect(int x, int y, int w, int h) {
+        nativeScreenVisibleRect(x, y, w, h);
+    }
 }

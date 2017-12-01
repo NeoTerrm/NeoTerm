@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import io.neoterm.Globals
+import io.neoterm.NeoXorgSettings
 import io.neoterm.R
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.logging.NLog
@@ -66,7 +67,7 @@ class SessionComponent : NeoComponent {
             return result
         }
 
-        private fun checkLibrariesLoaded() {
+        private fun checkLibrariesLoaded(): Boolean {
             if (!IS_LIBRARIES_LOADED) {
                 synchronized(SessionComponent::class.java) {
                     if (!IS_LIBRARIES_LOADED) {
@@ -74,6 +75,7 @@ class SessionComponent : NeoComponent {
                     }
                 }
             }
+            return IS_LIBRARIES_LOADED
         }
     }
 
@@ -88,7 +90,10 @@ class SessionComponent : NeoComponent {
 
     fun createSession(context: Context, parameter: XParameter): XSession {
         if (context is Activity) {
-            checkLibrariesLoaded()
+            if (!checkLibrariesLoaded()) {
+                throw RuntimeException("Cannot load libraries!")
+            }
+
             return XSession(context, XSessionData())
         }
         throw RuntimeException("Creating X sessions requires Activity, but got Context")

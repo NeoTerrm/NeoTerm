@@ -138,7 +138,9 @@ public class Globals {
     public static boolean MultitouchGesturesUsed[] = new boolean[4];
     public static int MultitouchGestureSensitivity = 1;
     public static int TouchscreenCalibration[] = new int[4];
-    public static String DataDir = new String("");
+    public static String DataDir = "/data/data/io.neoterm/files/usr/share/xorg-neoterm";
+    public static String UnSecureDataDir = "/data/data/io.neoterm/files/usr/share/xorg-neoterm";
+    public static String HomeDir = "/data/data/io.neoterm/files/home";
     public static boolean VideoLinearFilter = true;
     public static boolean MultiThreadedVideo = false;
 

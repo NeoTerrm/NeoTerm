@@ -1,19 +1,22 @@
 package io.neoterm.ui.term.tab
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import de.mrapp.android.tabswitcher.Tab
 import de.mrapp.android.tabswitcher.TabSwitcher
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator
+import io.neoterm.Globals
+import io.neoterm.NeoGLView
 import io.neoterm.R
 import io.neoterm.component.color.ColorSchemeComponent
-import io.neoterm.frontend.session.shell.client.TermCompleteListener
-import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.eks.ExtraKeysView
 import io.neoterm.ui.term.NeoTermActivity
@@ -27,6 +30,8 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         private val VIEW_TYPE_TERM = 1
         private val VIEW_TYPE_X = 2
     }
+
+    private fun setViewLayerType(view: View?) = view?.setLayerType(View.LAYER_TYPE_NONE, null)
 
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
         return when (viewType) {
@@ -60,13 +65,63 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
             }
 
             VIEW_TYPE_X -> {
-                val xtab = tab as XSessionTab
-                bindXSessionView(tab)
+                toolbar.visibility = View.GONE
+                bindXSessionView(tab as XSessionTab)
             }
         }
     }
 
     private fun bindXSessionView(tab: XSessionTab) {
+        val sessionData = tab.sessionData ?: return
+
+        if (sessionData.videoLayout == null) {
+            val videoLayout = findViewById<FrameLayout>(R.id.xorg_video_layout)
+            sessionData.videoLayout = videoLayout
+            setViewLayerType(videoLayout)
+        }
+
+        val videoLayout = sessionData.videoLayout!!
+
+        if (sessionData.glView == null) {
+            Thread {
+                sessionData.client?.runOnUiThread {
+                    sessionData.glView = NeoGLView(sessionData.client)
+                    sessionData.glView?.isFocusableInTouchMode = true
+                    sessionData.glView?.isFocusable = true
+                    sessionData.glView?.requestFocus()
+
+                    setViewLayerType(sessionData.glView)
+                    videoLayout.addView(sessionData.glView,
+                            FrameLayout.LayoutParams(
+                                    FrameLayout.LayoutParams.MATCH_PARENT,
+                                    FrameLayout.LayoutParams.MATCH_PARENT))
+
+                    if (Globals.HideSystemMousePointer
+                            && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        sessionData.glView?.pointerIcon =
+                                android.view.PointerIcon.getSystemIcon(context,
+                                        android.view.PointerIcon.TYPE_NULL)
+                    }
+
+                    val r = Rect()
+                    videoLayout.getWindowVisibleDisplayFrame(r)
+                    sessionData.glView?.callNativeScreenVisibleRect(r.left, r.top, r.right, r.bottom)
+                    videoLayout.viewTreeObserver.addOnGlobalLayoutListener({
+                        val r = Rect()
+                        videoLayout.getWindowVisibleDisplayFrame(r)
+                        val heightDiff = videoLayout.rootView.height - videoLayout.height // Take system bar into consideration
+                        val widthDiff = videoLayout.rootView.width - videoLayout.width // Nexus 5 has system bar at the right side
+                        Log.v("SDL", "Main window visible region changed: " + r.left + ":" + r.top + ":" + r.width() + ":" + r.height())
+                        videoLayout.postDelayed({
+                            sessionData.glView?.callNativeScreenVisibleRect(r.left + widthDiff, r.top + heightDiff, r.width(), r.height())
+                        }, 300)
+                        videoLayout.postDelayed({
+                            sessionData.glView?.callNativeScreenVisibleRect(r.left + widthDiff, r.top + heightDiff, r.width(), r.height())
+                        }, 600)
+                    })
+                }
+            }.start()
+        }
     }
 
     private fun bindTerminalView(tab: Tab, view: TerminalView?, extraKeysView: ExtraKeysView?) {
@@ -105,9 +160,9 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         }
     }
 
-    private fun createAutoCompleteListener(view: TerminalView): OnAutoCompleteListener? {
-        return TermCompleteListener(view)
-    }
+//    private fun createAutoCompleteListener(view: TerminalView): OnAutoCompleteListener? {
+//        return TermCompleteListener(view)
+//    }
 
     override fun getViewTypeCount(): Int {
         return 2

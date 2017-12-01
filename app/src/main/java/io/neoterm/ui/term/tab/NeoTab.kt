@@ -8,17 +8,17 @@ import de.mrapp.android.tabswitcher.Tab
  * @author kiva
  */
 open class NeoTab(title: CharSequence) : Tab(title) {
-    fun onPause() {}
+    open fun onPause() {}
 
-    fun onResume() {}
+    open fun onResume() {}
 
-    fun onStart() {}
+    open fun onStart() {}
 
-    fun onStop() {}
+    open fun onStop() {}
 
-    fun onWindowFocusChanged(hasFocus: Boolean) {}
+    open fun onWindowFocusChanged(hasFocus: Boolean) {}
 
-    fun onDestroy() {}
+    open fun onDestroy() {}
 
-    fun onConfigurationChanged(newConfig: Configuration) {}
+    open fun onConfigurationChanged(newConfig: Configuration) {}
 }

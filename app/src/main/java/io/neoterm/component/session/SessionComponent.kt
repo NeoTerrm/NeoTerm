@@ -65,16 +65,19 @@ class SessionComponent : NeoComponent {
 
             return result
         }
-    }
 
-    override fun onServiceInit() {
-        if (!IS_LIBRARIES_LOADED) {
-            synchronized(SessionComponent::class.java) {
-                if (!IS_LIBRARIES_LOADED) {
-                    IS_LIBRARIES_LOADED = loadLibraries()
+        private fun checkLibrariesLoaded() {
+            if (!IS_LIBRARIES_LOADED) {
+                synchronized(SessionComponent::class.java) {
+                    if (!IS_LIBRARIES_LOADED) {
+                        IS_LIBRARIES_LOADED = loadLibraries()
+                    }
                 }
             }
         }
+    }
+
+    override fun onServiceInit() {
     }
 
     override fun onServiceDestroy() {
@@ -85,6 +88,7 @@ class SessionComponent : NeoComponent {
 
     fun createSession(context: Context, parameter: XParameter): XSession {
         if (context is Activity) {
+            checkLibrariesLoaded()
             return XSession(context, XSessionData())
         }
         throw RuntimeException("Creating X sessions requires Activity, but got Context")

@@ -15,5 +15,6 @@ object DefaultPreference {
     const val enableExplicitExtraKeysWeight = false
     const val enableSpecialVolumeKeys = false
 
-    const val defaultShell = "bash"
+    const val loginShell = "bash"
+    const val initialCommand = ""
 }

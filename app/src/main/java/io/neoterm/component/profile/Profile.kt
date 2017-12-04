@@ -6,8 +6,8 @@ import io.neoterm.frontend.preference.DefaultPreference
  * @author kiva
  */
 class Profile {
-    var profileShell = DefaultPreference.loginShell
-    var profileInitialCommand = DefaultPreference.initialCommand
+    var loginShell = DefaultPreference.loginShell
+    var initialCommand = DefaultPreference.initialCommand
 
     var enableBell = DefaultPreference.enableBell
     var enableVibrate = DefaultPreference.enableVibrate

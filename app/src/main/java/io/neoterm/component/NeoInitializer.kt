@@ -8,6 +8,7 @@ import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.component.eks.ExtraKeysComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.component.pm.PackageComponent
+import io.neoterm.component.profile.ProfileComponent
 import io.neoterm.component.script.UserScriptComponent
 import io.neoterm.component.session.SessionComponent
 import io.neoterm.frontend.logging.NLog
@@ -28,5 +29,6 @@ object NeoInitializer {
         ComponentManager.registerComponent(CompletionComponent::class.java)
         ComponentManager.registerComponent(PackageComponent::class.java)
         ComponentManager.registerComponent(SessionComponent::class.java)
+        ComponentManager.registerComponent(ProfileComponent::class.java)
     }
 }

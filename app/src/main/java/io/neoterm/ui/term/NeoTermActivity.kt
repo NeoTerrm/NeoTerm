@@ -21,6 +21,7 @@ import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.setup.BaseFileInstaller
+import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.frontend.session.shell.client.TermViewClient
 import io.neoterm.frontend.session.shell.client.event.*
@@ -62,7 +63,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
 
-        val fullscreen = NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
+        val fullscreen = NeoPreference.loadBoolean(R.string.key_ui_fullscreen,
+                DefaultPreference.enableFullScreen)
         if (fullscreen) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -99,8 +101,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             return
         }
 
-        if (NeoPreference.loadBoolean(R.string.key_ui_fullscreen, false)
-                || NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar, false)) {
+        if (NeoPreference.loadBoolean(R.string.key_ui_fullscreen,
+                DefaultPreference.enableFullScreen)
+                || NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar,
+                DefaultPreference.enableAutoHideToolbar)) {
             val toolbarHeight = toolbar.height.toFloat()
             val translationY = if (visible) 0.toFloat() else -toolbarHeight
             if (visible) {
@@ -292,7 +296,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == getString(R.string.key_ui_fullscreen)) {
-            setFullScreenMode(NeoPreference.loadBoolean(key, false))
+            setFullScreenMode(NeoPreference.loadBoolean(key, DefaultPreference.enableFullScreen))
         } else if (key == getString(R.string.key_customization_color_scheme)) {
             if (tabSwitcher.count > 0) {
                 val tab = tabSwitcher.selectedTab
@@ -661,7 +665,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         if (tabSwitcher.count > 1) {
             var index = tabSwitcher.indexOf(tab)
-            if (NeoPreference.loadBoolean(R.string.key_ui_next_tab_anim, false)) {
+            if (NeoPreference.loadBoolean(R.string.key_ui_next_tab_anim,
+                    DefaultPreference.enableSwitchNextTab)) {
                 // 关闭当前窗口后，向下一个窗口切换
                 if (--index < 0) index = tabSwitcher.count - 1
             } else {

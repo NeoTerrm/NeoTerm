@@ -8,6 +8,7 @@ import android.widget.GridLayout
 import android.widget.LinearLayout
 import io.neoterm.R
 import io.neoterm.component.eks.NeoExtraKey
+import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.session.shell.client.event.ToggleImeEvent
@@ -161,7 +162,8 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         val line = LinearLayout(context)
 
         val layoutParams =
-                if (NeoPreference.loadBoolean(R.string.key_ui_eks_weight_explicit, false))
+                if (NeoPreference.loadBoolean(R.string.key_ui_eks_weight_explicit,
+                        DefaultPreference.enableExplicitExtraKeysWeight))
                     LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
                 else
                     LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

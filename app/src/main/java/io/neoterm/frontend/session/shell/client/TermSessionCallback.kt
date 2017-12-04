@@ -7,6 +7,7 @@ import android.media.SoundPool
 import android.os.Vibrator
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.preference.NeoPreference
 
 /**
@@ -43,7 +44,7 @@ class TermSessionCallback : TerminalSession.SessionChangedCallback {
     override fun onBell(session: TerminalSession?) {
         val termView = termData?.termView ?: return
 
-        if (NeoPreference.loadBoolean(R.string.key_general_bell, false)) {
+        if (NeoPreference.loadBoolean(R.string.key_general_bell, DefaultPreference.enableBell)) {
             if (soundPool == null) {
                 soundPool = SoundPool.Builder().setMaxStreams(1).build()
                 bellId = soundPool!!.load(termView.context, R.raw.bell, 1)
@@ -51,7 +52,7 @@ class TermSessionCallback : TerminalSession.SessionChangedCallback {
             soundPool?.play(bellId, 1f, 1f, 0, 0, 1f)
         }
 
-        if (NeoPreference.loadBoolean(R.string.key_general_vibrate, false)) {
+        if (NeoPreference.loadBoolean(R.string.key_general_vibrate, DefaultPreference.enableVibrate)) {
             val vibrator = termView.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             vibrator.vibrate(100)
         }

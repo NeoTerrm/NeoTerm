@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import io.neoterm.R
 import io.neoterm.frontend.logging.NLog
+import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.utils.PackageUtils
 
@@ -19,7 +20,7 @@ class GeneralSettingsActivity : BasePreferenceActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         addPreferencesFromResource(R.xml.setting_general)
 
-        val currentShell = NeoPreference.loadString(R.string.key_general_shell, "sh")
+        val currentShell = NeoPreference.loadString(R.string.key_general_shell, DefaultPreference.loginShell)
         findPreference(getString(R.string.key_general_shell)).setOnPreferenceChangeListener { _, value ->
             val shellName = value.toString()
             val newShell = NeoPreference.findLoginProgram(shellName)

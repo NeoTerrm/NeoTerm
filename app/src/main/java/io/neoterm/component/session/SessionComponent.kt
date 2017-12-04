@@ -8,6 +8,7 @@ import io.neoterm.NeoXorgSettings
 import io.neoterm.R
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.logging.NLog
+import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.session.shell.ShellParameter
@@ -101,7 +102,8 @@ class SessionComponent : NeoComponent {
 
     fun createSession(context: Context, parameter: ShellParameter): ShellTermSession {
         val initCommand = parameter.initialCommand ?:
-                NeoPreference.loadString(R.string.key_general_initial_command, "")
+                NeoPreference.loadString(R.string.key_general_initial_command,
+                        DefaultPreference.initialCommand)
 
         val session = ShellTermSession.Builder()
                 .executablePath(parameter.executablePath)

@@ -138,7 +138,7 @@ object NeoPreference {
     }
 
     fun getLoginShell(): String {
-        val loginProgramName = loadString(R.string.key_general_shell, "sh")
+        val loginProgramName = loadString(R.string.key_general_shell, DefaultPreference.loginShell)
 
         // Some programs like ssh needs it
         val shell = File(NeoTermPath.NEOTERM_SHELL_PATH)
@@ -179,7 +179,7 @@ object NeoPreference {
     }
 
     fun getFontSize(): Int {
-        return loadInt(NeoPreference.KEY_FONT_SIZE, 30)
+        return loadInt(NeoPreference.KEY_FONT_SIZE, DefaultPreference.fontSize)
     }
 
 

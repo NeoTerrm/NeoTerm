@@ -12,6 +12,7 @@ import io.neoterm.backend.KeyHandler
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.eks.ExtraKeysComponent
 import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.terminal.TerminalViewClient
 
@@ -44,7 +45,8 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {
-        return NeoPreference.loadBoolean(R.string.key_generaL_backspace_map_to_esc, false)
+        return NeoPreference.loadBoolean(R.string.key_generaL_backspace_map_to_esc,
+                DefaultPreference.enableBackButtonBeMappedToEscape)
     }
 
     override fun copyModeChanged(copyMode: Boolean) {
@@ -196,7 +198,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         }
         // Volume keys as special keys
         val volumeAsSpecialKeys = NeoPreference.loadBoolean(R.string.key_general_volume_as_control,
-                false)
+                DefaultPreference.enableSpecialVolumeKeys)
 
         val inputDevice = event.device
         if (inputDevice != null && inputDevice.keyboardType == InputDevice.KEYBOARD_TYPE_ALPHABETIC) {
@@ -230,7 +232,8 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     private fun updateExtraKeysVisibility(): Boolean {
         val extraKeysView = termData?.extraKeysView ?: return false
 
-        return if (NeoPreference.loadBoolean(R.string.key_ui_eks_enabled, true)) {
+        return if (NeoPreference.loadBoolean(R.string.key_ui_eks_enabled,
+                DefaultPreference.enableExtraKeys)) {
             extraKeysView.visibility = View.VISIBLE
             true
         } else {

@@ -8,6 +8,7 @@ import io.neoterm.R
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.component.NeoComponent
+import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.eks.ExtraKeysView
 import io.neoterm.utils.AssetsUtils
@@ -17,8 +18,6 @@ import java.io.File
  * @author kiva
  */
 class FontComponent : NeoComponent {
-    private val DEFAULT_FONT_NAME = "SourceCodePro"
-
     private lateinit var DEFAULT_FONT: NeoFont
     private lateinit var fonts: MutableMap<String, NeoFont>
 
@@ -35,10 +34,11 @@ class FontComponent : NeoComponent {
     }
 
     fun getCurrentFontName(): String {
-        var currentFontName = NeoPreference.loadString(R.string.key_customization_font, DEFAULT_FONT_NAME)
+        val defaultFont = DefaultPreference.defaultFont
+        var currentFontName = NeoPreference.loadString(R.string.key_customization_font, defaultFont)
         if (!fonts.containsKey(currentFontName)) {
-            currentFontName = DEFAULT_FONT_NAME
-            NeoPreference.store(R.string.key_customization_font, DEFAULT_FONT_NAME)
+            currentFontName = defaultFont
+            NeoPreference.store(R.string.key_customization_font, defaultFont)
         }
         return currentFontName
     }
@@ -64,8 +64,10 @@ class FontComponent : NeoComponent {
             val font = NeoFont(file)
             fonts.put(fontName, font)
         }
-        if (fonts.containsKey(DEFAULT_FONT_NAME)) {
-            DEFAULT_FONT = fonts[DEFAULT_FONT_NAME]!!
+
+        val defaultFont = DefaultPreference.defaultFont
+        if (fonts.containsKey(defaultFont)) {
+            DEFAULT_FONT = fonts[defaultFont]!!
             return true
         }
         return false
@@ -83,7 +85,8 @@ class FontComponent : NeoComponent {
     }
 
     private fun loadDefaultFontFromAsset(context: Context): NeoFont {
-        return NeoFont(Typeface.createFromAsset(context.assets, "fonts/$DEFAULT_FONT_NAME.ttf"))
+        val defaultFont = DefaultPreference.defaultFont
+        return NeoFont(Typeface.createFromAsset(context.assets, "fonts/$defaultFont.ttf"))
     }
 
     private fun extractDefaultFont(context: Context): Boolean {
@@ -108,18 +111,20 @@ class FontComponent : NeoComponent {
         fonts = mutableMapOf()
 
         val context = App.get()
-        val defaultFontFile = fontFile(DEFAULT_FONT_NAME)
+        val defaultFont = DefaultPreference.defaultFont
+        val defaultFontFile = fontFile(defaultFont)
+
         if (!defaultFontFile.exists()) {
             if (!extractDefaultFont(context)) {
                 DEFAULT_FONT = loadDefaultFontFromAsset(context)
-                fonts.put(DEFAULT_FONT_NAME, DEFAULT_FONT)
+                fonts.put(defaultFont, DEFAULT_FONT)
                 return
             }
         }
 
         if (!reloadFonts()) {
             DEFAULT_FONT = loadDefaultFontFromAsset(context)
-            fonts.put(DEFAULT_FONT_NAME, DEFAULT_FONT)
+            fonts.put(defaultFont, DEFAULT_FONT)
         }
     }
 }

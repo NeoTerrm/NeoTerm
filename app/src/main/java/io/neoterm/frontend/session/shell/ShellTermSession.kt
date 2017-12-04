@@ -4,6 +4,7 @@ import android.content.Context
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
@@ -183,7 +184,8 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
                 var ldPreloadEnv = ""
 
                 // execve(2) wrapper to avoid incorrect shebang
-                if (NeoPreference.loadBoolean(R.string.key_general_use_execve_wrapper, true)) {
+                if (NeoPreference.loadBoolean(R.string.key_general_use_execve_wrapper,
+                        DefaultPreference.enableExecveWrapper)) {
                     ldPreloadEnv = "LD_PRELOAD=${App.get().applicationInfo.nativeLibraryDir}/libnexec.so"
                 }
 

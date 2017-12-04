@@ -55,9 +55,9 @@ class FontComponent : NeoComponent {
 
     fun reloadFonts(): Boolean {
         fonts.clear()
-        fonts.put("Android Monospace", NeoFont(Typeface.MONOSPACE))
-        fonts.put("Android Sans Serif", NeoFont(Typeface.SANS_SERIF))
-        fonts.put("Android Serif", NeoFont(Typeface.SERIF))
+        fonts.put("Monospace", NeoFont(Typeface.MONOSPACE))
+        fonts.put("Sans Serif", NeoFont(Typeface.SANS_SERIF))
+        fonts.put("Serif", NeoFont(Typeface.SERIF))
         val fontDir = File(NeoTermPath.FONT_PATH)
         for (file in fontDir.listFiles({ pathname -> pathname.name.endsWith(".ttf") })) {
             val fontName = fontName(file)

@@ -101,7 +101,6 @@ class NeoExtraKey {
     }
 
     private fun getMetaByVisitor(visitor: ConfigVisitor, metaName: String): String? {
-        val value = visitor.getAttribute(EKS_META_CONTEXT_PATH, metaName)
-        return if (value.isValid()) value.asString() else null
+        return visitor.getStringValue(EKS_META_CONTEXT_PATH, metaName)
     }
 }

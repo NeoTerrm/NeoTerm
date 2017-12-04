@@ -183,12 +183,10 @@ open class NeoColorScheme : CodeGenObject {
     }
 
     private fun getMetaByVisitor(visitor: ConfigVisitor, metaName: String): String? {
-        val value = visitor.getAttribute(COLOR_META_PATH, metaName)
-        return if (value.isValid()) value.asString() else null
+        return visitor.getStringValue(COLOR_META_PATH, metaName)
     }
 
     private fun getColorByVisitor(visitor: ConfigVisitor, colorName: String): String? {
-        val value = visitor.getAttribute(COLOR_PATH, colorName)
-        return if (value.isValid()) value.asString() else null
+        return visitor.getStringValue(COLOR_PATH, colorName)
     }
 }

@@ -1,6 +1,7 @@
 package io.neoterm.frontend.session.shell
 
 import io.neoterm.backend.TerminalSession
+import io.neoterm.component.profile.Profile
 
 /**
  * @author kiva
@@ -13,6 +14,7 @@ class ShellParameter {
     var env: Array<Pair<String, String>>? = null
     var sessionCallback: TerminalSession.SessionChangedCallback? = null
     var systemShell: Boolean = false
+    var profile: Profile? = null
 
     fun executablePath(executablePath: String?): ShellParameter {
         this.executablePath = executablePath
@@ -46,6 +48,11 @@ class ShellParameter {
 
     fun systemShell(systemShell: Boolean): ShellParameter {
         this.systemShell = systemShell
+        return this
+    }
+
+    fun profile(profile: Profile): ShellParameter {
+        this.profile = profile
         return this
     }
 }

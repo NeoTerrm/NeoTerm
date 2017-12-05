@@ -101,10 +101,6 @@ class SessionComponent : NeoComponent {
     }
 
     fun createSession(context: Context, parameter: ShellParameter): ShellTermSession {
-        val initCommand = parameter.initialCommand ?:
-                NeoPreference.loadString(R.string.key_general_initial_command,
-                        DefaultPreference.initialCommand)
-
         val session = ShellTermSession.Builder()
                 .executablePath(parameter.executablePath)
                 .currentWorkingDirectory(parameter.cwd)
@@ -112,9 +108,10 @@ class SessionComponent : NeoComponent {
                 .systemShell(parameter.systemShell)
                 .envArray(parameter.env)
                 .argArray(parameter.arguments)
+                .initialCommand(parameter.initialCommand)
+                .profile(parameter.profile)
                 .create(context)
         TerminalUtils.setupTerminalSession(session)
-        session.initialCommand = initCommand
         return session
     }
 }

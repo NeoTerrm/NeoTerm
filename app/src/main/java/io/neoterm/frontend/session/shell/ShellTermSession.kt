@@ -4,6 +4,7 @@ import android.content.Context
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.component.profile.Profile
 import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.frontend.preference.NeoPreference
@@ -13,7 +14,12 @@ import java.io.File
 /**
  * @author kiva
  */
-open class ShellTermSession private constructor(shellPath: String, cwd: String, args: Array<String>, env: Array<String>, changeCallback: SessionChangedCallback) : TerminalSession(shellPath, cwd, args, env, changeCallback) {
+open class ShellTermSession private constructor(shellPath: String, cwd: String,
+                                                args: Array<String>, env: Array<String>,
+                                                changeCallback: SessionChangedCallback,
+                                                profile: Profile)
+    : TerminalSession(shellPath, cwd, args, env, changeCallback) {
+
     var initialCommand: String? = null
     var exitPrompt = App.get().getString(R.string.process_exit_prompt)
 
@@ -55,6 +61,20 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
         private var env: MutableList<Pair<String, String>>? = null
         private var changeCallback: SessionChangedCallback? = null
         private var systemShell = false
+        private var initialCommand: String? = null
+        private var profile = Profile()
+
+        fun profile(profile: Profile?): Builder {
+            if (profile != null) {
+                this.profile = profile
+            }
+            return this
+        }
+
+        fun initialCommand(command: String?): Builder {
+            this.initialCommand = command
+            return this
+        }
 
         fun executablePath(shell: String?): Builder {
             this.executablePath = shell
@@ -140,7 +160,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String, 
             val args = this.args ?: mutableListOf(shell)
             val env = transformEnvironment(this.env) ?: buildEnvironment(cwd, systemShell)
             val callback = changeCallback ?: TermSessionCallback()
-            return ShellTermSession(shell, cwd, args.toTypedArray(), env, callback)
+            return ShellTermSession(shell, cwd, args.toTypedArray(), env, callback, profile)
         }
 
         private fun transformEnvironment(env: MutableList<Pair<String, String>>?): Array<String>? {

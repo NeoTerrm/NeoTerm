@@ -4,12 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import io.neoterm.Globals
-import io.neoterm.NeoXorgSettings
-import io.neoterm.R
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.preference.DefaultPreference
-import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.ShellTermSession
@@ -109,7 +105,7 @@ class SessionComponent : NeoComponent {
                 .envArray(parameter.env)
                 .argArray(parameter.arguments)
                 .initialCommand(parameter.initialCommand)
-                .profile(parameter.profile)
+                .profile(parameter.shellProfile)
                 .create(context)
         TerminalUtils.setupTerminalSession(session)
         return session

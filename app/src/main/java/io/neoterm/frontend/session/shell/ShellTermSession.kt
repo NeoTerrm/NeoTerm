@@ -4,7 +4,6 @@ import android.content.Context
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.component.profile.Profile
 import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.frontend.preference.NeoPreference
@@ -17,7 +16,7 @@ import java.io.File
 open class ShellTermSession private constructor(shellPath: String, cwd: String,
                                                 args: Array<String>, env: Array<String>,
                                                 changeCallback: SessionChangedCallback,
-                                                profile: Profile)
+                                                shellProfile: ShellProfile)
     : TerminalSession(shellPath, cwd, args, env, changeCallback) {
 
     var initialCommand: String? = null
@@ -62,11 +61,11 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
         private var changeCallback: SessionChangedCallback? = null
         private var systemShell = false
         private var initialCommand: String? = null
-        private var profile = Profile()
+        private var shellProfile = ShellProfile()
 
-        fun profile(profile: Profile?): Builder {
-            if (profile != null) {
-                this.profile = profile
+        fun profile(shellProfile: ShellProfile?): Builder {
+            if (shellProfile != null) {
+                this.shellProfile = shellProfile
             }
             return this
         }
@@ -160,7 +159,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
             val args = this.args ?: mutableListOf(shell)
             val env = transformEnvironment(this.env) ?: buildEnvironment(cwd, systemShell)
             val callback = changeCallback ?: TermSessionCallback()
-            return ShellTermSession(shell, cwd, args.toTypedArray(), env, callback, profile)
+            return ShellTermSession(shell, cwd, args.toTypedArray(), env, callback, shellProfile)
         }
 
         private fun transformEnvironment(env: MutableList<Pair<String, String>>?): Array<String>? {

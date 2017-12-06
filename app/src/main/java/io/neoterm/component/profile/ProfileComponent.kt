@@ -6,6 +6,8 @@ import io.neoterm.frontend.component.NeoComponent
  * @author kiva
  */
 class ProfileComponent : NeoComponent {
+    private val profileList = mutableListOf<Profile>()
+
     override fun onServiceInit() {
     }
 

@@ -114,15 +114,11 @@ object NeoPreference {
     }
 
     fun getCurrentSession(termService: NeoTermService?): TerminalSession? {
-        val sessionHandle = PreferenceManager.getDefaultSharedPreferences(termService!!).getString(KEY_CURRENT_SESSION, "")
-        var i = 0
-        val len = termService.sessions.size
-        while (i < len) {
-            val session = termService.sessions[i]
-            if (session.mHandle == sessionHandle) return session
-            i++
-        }
-        return null
+        val sessionHandle = PreferenceManager.getDefaultSharedPreferences(termService!!)
+                .getString(KEY_CURRENT_SESSION, "")
+
+        return termService.sessions
+                .singleOrNull { it.mHandle == sessionHandle }
     }
 
     fun setLoginShellName(loginProgramName: String?): Boolean {

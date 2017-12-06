@@ -19,7 +19,7 @@ class GeneralSettingsActivity : BasePreferenceActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         addPreferencesFromResource(R.xml.setting_general)
 
-        val currentShell = NeoPreference.loadString(R.string.key_general_shell, DefaultPreference.loginShell)
+        val currentShell = NeoPreference.getLoginShellName()
         findPreference(getString(R.string.key_general_shell)).setOnPreferenceChangeListener { _, value ->
             val shellName = value.toString()
             val newShell = NeoPreference.findLoginProgram(shellName)

@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.MenuItem
 import io.neoterm.R
-import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.utils.PackageUtils
@@ -34,7 +33,7 @@ class GeneralSettingsActivity : BasePreferenceActivity() {
     }
 
     private fun postChangeShell(shellName: String) {
-        NeoPreference.setLoginShell(shellName)
+        NeoPreference.setLoginShellName(shellName)
     }
 
     private fun requestInstallShell(shellName: String, currentShell: String) {

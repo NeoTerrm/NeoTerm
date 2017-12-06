@@ -154,7 +154,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
                     if (systemShell)
                         "/system/bin/sh"
                     else
-                        NeoPreference.getLoginShell()
+                        NeoPreference.getLoginShellPath()
 
             val args = this.args ?: mutableListOf(shell)
             val env = transformEnvironment(this.env) ?: buildEnvironment(cwd, systemShell)

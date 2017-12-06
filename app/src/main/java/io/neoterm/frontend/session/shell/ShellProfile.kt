@@ -4,6 +4,7 @@ import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.preference.DefaultPreference
+import io.neoterm.frontend.preference.NeoPreference
 
 /**
  * @author kiva
@@ -27,5 +28,7 @@ class ShellProfile {
 
         profileFont = fontComp.getCurrentFontName()
         profileColorScheme = colorComp.getCurrentColorSchemeName()
+
+        loginShell = NeoPreference.getLoginShellPath()
     }
 }

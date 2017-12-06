@@ -125,7 +125,7 @@ object NeoPreference {
         return null
     }
 
-    fun setLoginShell(loginProgramName: String?): Boolean {
+    fun setLoginShellName(loginProgramName: String?): Boolean {
         if (loginProgramName == null) {
             return false
         }
@@ -137,14 +137,18 @@ object NeoPreference {
         return true
     }
 
-    fun getLoginShell(): String {
-        val loginProgramName = loadString(R.string.key_general_shell, DefaultPreference.loginShell)
+    fun getLoginShellName(): String {
+        return loadString(R.string.key_general_shell, DefaultPreference.loginShell)
+    }
+
+    fun getLoginShellPath(): String {
+        val loginProgramName = getLoginShellName()
 
         // Some programs like ssh needs it
         val shell = File(NeoTermPath.NEOTERM_SHELL_PATH)
         val loginProgramPath = findLoginProgram(loginProgramName) ?: {
-            setLoginShell("sh")
-            "${NeoTermPath.USR_PATH}/bin/sh"
+            setLoginShellName(DefaultPreference.loginShell)
+            "${NeoTermPath.USR_PATH}/bin/${DefaultPreference.loginShell}"
         }()
 
         if (!shell.exists()) {

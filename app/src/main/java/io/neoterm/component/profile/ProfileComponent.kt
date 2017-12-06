@@ -1,12 +1,13 @@
 package io.neoterm.component.profile
 
 import io.neoterm.frontend.component.NeoComponent
+import io.neoterm.frontend.session.shell.ShellProfile
 
 /**
  * @author kiva
  */
 class ProfileComponent : NeoComponent {
-    private val profileList = mutableListOf<Profile>()
+    private val profileList = mutableListOf<ShellProfile>()
 
     override fun onServiceInit() {
     }
@@ -16,4 +17,6 @@ class ProfileComponent : NeoComponent {
 
     override fun onServiceObtained() {
     }
+
+
 }

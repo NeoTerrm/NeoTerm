@@ -16,7 +16,7 @@ import java.io.File
 open class ShellTermSession private constructor(shellPath: String, cwd: String,
                                                 args: Array<String>, env: Array<String>,
                                                 changeCallback: SessionChangedCallback,
-                                                private val shellProfile: ShellProfile)
+                                                val shellProfile: ShellProfile)
     : TerminalSession(shellPath, cwd, args, env, changeCallback) {
 
     var exitPrompt = App.get().getString(R.string.process_exit_prompt)

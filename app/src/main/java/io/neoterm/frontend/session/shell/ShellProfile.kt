@@ -30,5 +30,7 @@ class ShellProfile {
         profileColorScheme = colorComp.getCurrentColorSchemeName()
 
         loginShell = NeoPreference.getLoginShellPath()
+        initialCommand = NeoPreference.getInitialCommand()
+        enableBell = NeoPreference.isEnableBell()
     }
 }

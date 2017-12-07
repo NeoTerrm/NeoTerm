@@ -16,10 +16,9 @@ import java.io.File
 open class ShellTermSession private constructor(shellPath: String, cwd: String,
                                                 args: Array<String>, env: Array<String>,
                                                 changeCallback: SessionChangedCallback,
-                                                shellProfile: ShellProfile)
+                                                private val shellProfile: ShellProfile)
     : TerminalSession(shellPath, cwd, args, env, changeCallback) {
 
-    var initialCommand: String? = null
     var exitPrompt = App.get().getString(R.string.process_exit_prompt)
 
     override fun initializeEmulator(columns: Int, rows: Int) {
@@ -47,8 +46,8 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
     }
 
     private fun sendInitialCommand() {
-        val initCommand = initialCommand
-        if (initCommand != null && initCommand.isNotEmpty()) {
+        val initCommand = shellProfile.initialCommand
+        if (initCommand.isNotEmpty()) {
             write(initCommand + '\r')
         }
     }
@@ -168,8 +167,8 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
             }
 
             val result = mutableListOf<String>()
-            env.mapTo(result, { "${it.first}=${it.second}" })
-            return result.toTypedArray()
+            return env.mapTo(result, { "${it.first}=${it.second}" })
+                    .toTypedArray()
         }
 
 

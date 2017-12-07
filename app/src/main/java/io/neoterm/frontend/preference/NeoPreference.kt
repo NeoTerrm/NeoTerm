@@ -166,7 +166,7 @@ object NeoPreference {
                 shellSymlink.delete()
             }
             Os.symlink(loginProgramPath, NeoTermPath.NEOTERM_SHELL_PATH)
-            Os.chmod(NeoTermPath.NEOTERM_SHELL_PATH, 448 /*Decimal of 0700 */)
+            Os.chmod(NeoTermPath.NEOTERM_SHELL_PATH, 448 /* Decimal of 0700 */)
         } catch (e: ErrnoException) {
             NLog.e("Preference", "Failed to symlink login shell: ${e.localizedMessage}")
             e.printStackTrace()
@@ -182,6 +182,14 @@ object NeoPreference {
         return loadInt(NeoPreference.KEY_FONT_SIZE, DefaultPreference.fontSize)
     }
 
+    fun getInitialCommand(): String {
+        return loadString(R.string.key_general_initial_command, DefaultPreference.initialCommand)
+    }
+
+    fun isEnableBell(): Boolean {
+        return loadBoolean(R.string.key_general_bell, DefaultPreference.enableBell)
+    }
+
 
 //    fun storeWindowSize(context: Context, width: Int, height: Int) {
 //        store(KEY_FLOATING_WIDTH, width)
@@ -190,7 +198,7 @@ object NeoPreference {
 //
 //    fun storeWindowLocation(context: Context, x: Int, y: Int) {
 //        store(KEY_FLOATING_WINDOW_X, x)
-//        store(KEY_FLOATING_WINDOW_Y, y)
+//        store(KEY_FLOATING_WINDOW_Y, y)Se
 //    }
 //
 //    fun applySavedWindowParameter(context: Context, layout: WindowManager.LayoutParams) {

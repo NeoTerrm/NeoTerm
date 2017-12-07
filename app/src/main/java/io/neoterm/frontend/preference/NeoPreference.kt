@@ -186,8 +186,24 @@ object NeoPreference {
         return loadString(R.string.key_general_initial_command, DefaultPreference.initialCommand)
     }
 
-    fun isEnableBell(): Boolean {
+    fun isBellEnabled(): Boolean {
         return loadBoolean(R.string.key_general_bell, DefaultPreference.enableBell)
+    }
+
+    fun isVibrateEnabled(): Boolean {
+        return loadBoolean(R.string.key_general_vibrate, DefaultPreference.enableVibrate)
+    }
+
+    fun isExecveWrapperEnabled() : Boolean {
+        return loadBoolean(R.string.key_general_use_execve_wrapper, DefaultPreference.enableExecveWrapper)
+    }
+
+    fun isSpecialVolumeKeysEnabled() : Boolean {
+        return loadBoolean(R.string.key_general_volume_as_control, DefaultPreference.enableSpecialVolumeKeys)
+    }
+
+    fun isAutoCompletionEnabled() : Boolean {
+        return loadBoolean(R.string.key_general_auto_completion, DefaultPreference.enableAutoCompletion)
     }
 
 

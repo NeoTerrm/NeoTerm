@@ -17,7 +17,7 @@ class ShellProfile {
     var enableVibrate = DefaultPreference.enableVibrate
     var enableExecveWrapper = DefaultPreference.enableExecveWrapper
     var enableSpecialVolumeKeys = DefaultPreference.enableSpecialVolumeKeys
-    var enableExitMessage = DefaultPreference.enableExitMessage;
+    var enableAutoCompletion = DefaultPreference.enableAutoCompletion
 
     var profileFont: String
     var profileColorScheme: String
@@ -31,6 +31,10 @@ class ShellProfile {
 
         loginShell = NeoPreference.getLoginShellPath()
         initialCommand = NeoPreference.getInitialCommand()
-        enableBell = NeoPreference.isEnableBell()
+        enableBell = NeoPreference.isBellEnabled()
+        enableVibrate = NeoPreference.isVibrateEnabled()
+        enableExecveWrapper = NeoPreference.isExecveWrapperEnabled()
+        enableSpecialVolumeKeys = NeoPreference.isSpecialVolumeKeysEnabled()
+        enableAutoCompletion = NeoPreference.isAutoCompletionEnabled()
     }
 }

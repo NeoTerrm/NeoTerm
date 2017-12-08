@@ -293,7 +293,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == getString(R.string.key_ui_fullscreen)) {
-            setFullScreenMode(NeoPreference.loadBoolean(key, DefaultPreference.enableFullScreen))
+            setFullScreenMode(NeoPreference.isFullScreenEnabled())
         } else if (key == getString(R.string.key_customization_color_scheme)) {
             if (tabSwitcher.count > 0) {
                 val tab = tabSwitcher.selectedTab

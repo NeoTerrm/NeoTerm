@@ -19,7 +19,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
                                                 val shellProfile: ShellProfile)
     : TerminalSession(shellPath, cwd, args, env, changeCallback) {
 
-    var exitPrompt = App.get().getString(R.string.process_exit_prompt)
+    private var exitPrompt = App.get().getString(R.string.process_exit_prompt)
 
     override fun initializeEmulator(columns: Int, rows: Int) {
         super.initializeEmulator(columns, rows)
@@ -202,8 +202,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
                 var ldPreloadEnv = ""
 
                 // execve(2) wrapper to avoid incorrect shebang
-                if (NeoPreference.loadBoolean(R.string.key_general_use_execve_wrapper,
-                        DefaultPreference.enableExecveWrapper)) {
+                if (shellProfile.enableExecveWrapper) {
                     ldPreloadEnv = "LD_PRELOAD=${App.get().applicationInfo.nativeLibraryDir}/libnexec.so"
                 }
 

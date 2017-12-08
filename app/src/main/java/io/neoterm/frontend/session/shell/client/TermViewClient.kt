@@ -14,6 +14,7 @@ import io.neoterm.component.eks.ExtraKeysComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.preference.DefaultPreference
 import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.session.shell.ShellTermSession
 import io.neoterm.frontend.terminal.TerminalViewClient
 
 
@@ -37,16 +38,14 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun onSingleTapUp(e: MotionEvent?) {
-        val termView = termData?.termView
-        if (termView != null) {
-            (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-                    .showSoftInput(termView, InputMethodManager.SHOW_IMPLICIT)
-        }
+        val termView = termData?.termView ?: return
+        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+                .showSoftInput(termView, InputMethodManager.SHOW_IMPLICIT)
     }
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {
-        return NeoPreference.loadBoolean(R.string.key_generaL_backspace_map_to_esc,
-                DefaultPreference.enableBackButtonBeMappedToEscape)
+        val shellSession = termData?.termSession as ShellTermSession? ?: return false
+        return shellSession.shellProfile.enableBackButtonBeMappedToEscape
     }
 
     override fun copyModeChanged(copyMode: Boolean) {
@@ -196,9 +195,11 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         if (event == null) {
             return false
         }
+
+        val shellSession = termData?.termSession as ShellTermSession? ?: return false
+
         // Volume keys as special keys
-        val volumeAsSpecialKeys = NeoPreference.loadBoolean(R.string.key_general_volume_as_control,
-                DefaultPreference.enableSpecialVolumeKeys)
+        val volumeAsSpecialKeys = shellSession.shellProfile.enableSpecialVolumeKeys
 
         val inputDevice = event.device
         if (inputDevice != null && inputDevice.keyboardType == InputDevice.KEYBOARD_TYPE_ALPHABETIC) {
@@ -231,9 +232,9 @@ class TermViewClient(val context: Context) : TerminalViewClient {
 
     private fun updateExtraKeysVisibility(): Boolean {
         val extraKeysView = termData?.extraKeysView ?: return false
+        val shellSession = termData?.termSession as ShellTermSession? ?: return false
 
-        return if (NeoPreference.loadBoolean(R.string.key_ui_eks_enabled,
-                DefaultPreference.enableExtraKeys)) {
+        return if (shellSession.shellProfile.enableExtraKeys) {
             extraKeysView.visibility = View.VISIBLE
             true
         } else {

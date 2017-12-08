@@ -18,6 +18,8 @@ class ShellProfile {
     var enableExecveWrapper = DefaultPreference.enableExecveWrapper
     var enableSpecialVolumeKeys = DefaultPreference.enableSpecialVolumeKeys
     var enableAutoCompletion = DefaultPreference.enableAutoCompletion
+    var enableBackButtonBeMappedToEscape = DefaultPreference.enableBackButtonBeMappedToEscape
+    var enableExtraKeys = DefaultPreference.enableExtraKeys
 
     var profileFont: String
     var profileColorScheme: String
@@ -36,5 +38,7 @@ class ShellProfile {
         enableExecveWrapper = NeoPreference.isExecveWrapperEnabled()
         enableSpecialVolumeKeys = NeoPreference.isSpecialVolumeKeysEnabled()
         enableAutoCompletion = NeoPreference.isAutoCompletionEnabled()
+        enableBackButtonBeMappedToEscape = NeoPreference.isBackButtonBeMappedToEscapeEnabled()
+        enableExtraKeys = NeoPreference.isExtraKeysEnabled()
     }
 }

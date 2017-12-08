@@ -179,33 +179,69 @@ object NeoPreference {
     }
 
     fun getFontSize(): Int {
-        return loadInt(NeoPreference.KEY_FONT_SIZE, DefaultPreference.fontSize)
+        return loadInt(NeoPreference.KEY_FONT_SIZE,
+                DefaultPreference.fontSize)
     }
 
     fun getInitialCommand(): String {
-        return loadString(R.string.key_general_initial_command, DefaultPreference.initialCommand)
+        return loadString(R.string.key_general_initial_command,
+                DefaultPreference.initialCommand)
     }
 
     fun isBellEnabled(): Boolean {
-        return loadBoolean(R.string.key_general_bell, DefaultPreference.enableBell)
+        return loadBoolean(R.string.key_general_bell,
+                DefaultPreference.enableBell)
     }
 
     fun isVibrateEnabled(): Boolean {
-        return loadBoolean(R.string.key_general_vibrate, DefaultPreference.enableVibrate)
+        return loadBoolean(R.string.key_general_vibrate,
+                DefaultPreference.enableVibrate)
     }
 
     fun isExecveWrapperEnabled() : Boolean {
-        return loadBoolean(R.string.key_general_use_execve_wrapper, DefaultPreference.enableExecveWrapper)
+        return loadBoolean(R.string.key_general_use_execve_wrapper,
+                DefaultPreference.enableExecveWrapper)
     }
 
     fun isSpecialVolumeKeysEnabled() : Boolean {
-        return loadBoolean(R.string.key_general_volume_as_control, DefaultPreference.enableSpecialVolumeKeys)
+        return loadBoolean(R.string.key_general_volume_as_control,
+                DefaultPreference.enableSpecialVolumeKeys)
     }
 
     fun isAutoCompletionEnabled() : Boolean {
-        return loadBoolean(R.string.key_general_auto_completion, DefaultPreference.enableAutoCompletion)
+        return loadBoolean(R.string.key_general_auto_completion,
+                DefaultPreference.enableAutoCompletion)
     }
 
+    fun isBackButtonBeMappedToEscapeEnabled(): Boolean {
+        return loadBoolean(R.string.key_generaL_backspace_map_to_esc,
+                DefaultPreference.enableBackButtonBeMappedToEscape)
+    }
+
+    fun isExtraKeysEnabled(): Boolean {
+        return loadBoolean(R.string.key_ui_eks_enabled,
+                DefaultPreference.enableExtraKeys)
+    }
+
+    fun isExplicitExtraKeysWeightEnabled() :Boolean {
+        return NeoPreference.loadBoolean(R.string.key_ui_eks_weight_explicit,
+                DefaultPreference.enableExplicitExtraKeysWeight)
+    }
+
+    fun isFullScreenEnabled() : Boolean {
+        return NeoPreference.loadBoolean(R.string.key_ui_fullscreen,
+                DefaultPreference.enableFullScreen)
+    }
+
+    fun isHideToolbarEnabled() :Boolean {
+        return NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar,
+                DefaultPreference.enableAutoHideToolbar)
+    }
+
+    fun isNextTabEnabled() :Boolean {
+        return NeoPreference.loadBoolean(R.string.key_ui_next_tab_anim,
+                DefaultPreference.enableSwitchNextTab)
+    }
 
 //    fun storeWindowSize(context: Context, width: Int, height: Int) {
 //        store(KEY_FLOATING_WIDTH, width)

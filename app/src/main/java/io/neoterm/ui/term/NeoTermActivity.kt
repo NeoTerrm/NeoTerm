@@ -63,8 +63,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         NeoPermission.initAppPermission(this, NeoPermission.REQUEST_APP_PERMISSION)
 
-        val fullscreen = NeoPreference.loadBoolean(R.string.key_ui_fullscreen,
-                DefaultPreference.enableFullScreen)
+        val fullscreen = NeoPreference.isFullScreenEnabled()
         if (fullscreen) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -101,10 +100,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             return
         }
 
-        if (NeoPreference.loadBoolean(R.string.key_ui_fullscreen,
-                DefaultPreference.enableFullScreen)
-                || NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar,
-                DefaultPreference.enableAutoHideToolbar)) {
+        if (NeoPreference.isFullScreenEnabled()
+                || NeoPreference.isHideToolbarEnabled()) {
             val toolbarHeight = toolbar.height.toFloat()
             val translationY = if (visible) 0.toFloat() else -toolbarHeight
             if (visible) {
@@ -665,8 +662,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         if (tabSwitcher.count > 1) {
             var index = tabSwitcher.indexOf(tab)
-            if (NeoPreference.loadBoolean(R.string.key_ui_next_tab_anim,
-                    DefaultPreference.enableSwitchNextTab)) {
+            if (NeoPreference.isNextTabEnabled()) {
                 // 关闭当前窗口后，向下一个窗口切换
                 if (--index < 0) index = tabSwitcher.count - 1
             } else {

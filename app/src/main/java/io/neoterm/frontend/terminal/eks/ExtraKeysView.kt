@@ -162,8 +162,7 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         val line = LinearLayout(context)
 
         val layoutParams =
-                if (NeoPreference.loadBoolean(R.string.key_ui_eks_weight_explicit,
-                        DefaultPreference.enableExplicitExtraKeysWeight))
+                if (NeoPreference.isExplicitExtraKeysWeightEnabled())
                     LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
                 else
                     LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,

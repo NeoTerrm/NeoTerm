@@ -134,7 +134,7 @@ class NeoTermService : Service() {
         builder.setShowWhen(false)
         builder.color = 0xFF000000.toInt()
 
-        builder.priority = if (lockAcquired) NotificationCompat.PRIORITY_HIGH else NotificationCompat.PRIORITY_MIN
+        builder.priority = if (lockAcquired) Notification.PRIORITY_HIGH else Notification.PRIORITY_LOW
 
         val exitIntent = Intent(this, NeoTermService::class.java).setAction(ACTION_SERVICE_STOP)
         builder.addAction(android.R.drawable.ic_delete, getString(R.string.exit), PendingIntent.getService(this, 0, exitIntent, 0))

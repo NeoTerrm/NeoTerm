@@ -8,6 +8,8 @@
 #include <sys/wait.h>
 #include <termios.h>
 
+#define __neoterm_no_return __attribute__((__noreturn__))
+
 #define TERMUX_UNUSED(x) x __attribute__((__unused__))
 #ifdef __APPLE__
 # define LACKS_PTSNAME_R

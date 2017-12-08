@@ -4,10 +4,9 @@ import android.content.Context
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.preference.DefaultPreference
-import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import java.io.File
 
 /**
@@ -19,7 +18,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
                                                 val shellProfile: ShellProfile)
     : TerminalSession(shellPath, cwd, args, env, changeCallback) {
 
-    private var exitPrompt = App.get().getString(R.string.process_exit_prompt)
+    var exitPrompt = App.get().getString(R.string.process_exit_prompt)
 
     override fun initializeEmulator(columns: Int, rows: Int) {
         super.initializeEmulator(columns, rows)

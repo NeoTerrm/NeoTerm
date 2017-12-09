@@ -12,34 +12,34 @@ object ComponentManager {
         if (COMPONENTS.containsKey(componentClass)) {
             throw ComponentDuplicateException(componentClass.simpleName)
         }
-        val service = createServiceInstance(componentClass)
-        COMPONENTS.put(componentClass, service)
-        service.onServiceInit()
+        val component = createServiceInstance(componentClass)
+        COMPONENTS.put(componentClass, component)
+        component.onServiceInit()
     }
 
     fun unregisterComponent(componentInterface: Class<out NeoComponent>) {
-        val service = COMPONENTS[componentInterface]
-        if (service != null) {
-            service.onServiceDestroy()
+        val component = COMPONENTS[componentInterface]
+        if (component != null) {
+            component.onServiceDestroy()
             COMPONENTS.remove(componentInterface)
         }
     }
 
     @Suppress("UNCHECKED_CAST")
     fun <T : NeoComponent> getComponent(componentInterface: Class<T>) : T {
-        val service: NeoComponent = COMPONENTS[componentInterface] ?:
+        val component: NeoComponent = COMPONENTS[componentInterface] ?:
                 throw ComponentNotFoundException(componentInterface.simpleName)
 
-        service.onServiceObtained()
-        return service as T
+        component.onServiceObtained()
+        return component as T
     }
 
     inline fun <reified T : NeoComponent> getComponent(): T {
-        val serviceInterface = T::class.java
-        return getComponent(serviceInterface);
+        val componentInterface = T::class.java
+        return getComponent(componentInterface);
     }
 
-    private fun createServiceInstance(serviceInterface: Class<out NeoComponent>): NeoComponent {
-        return serviceInterface.newInstance()
+    private fun createServiceInstance(componentInterface: Class<out NeoComponent>): NeoComponent {
+        return componentInterface.newInstance()
     }
 }

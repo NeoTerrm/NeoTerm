@@ -18,7 +18,6 @@ class BellController constructor() {
     private var soundPool: SoundPool? = null
     private var lastBellTime = 0L
 
-
     fun bellOrVibrate(context: Context, session: ShellTermSession) {
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastBellTime < BELL_DELAY_MS) {

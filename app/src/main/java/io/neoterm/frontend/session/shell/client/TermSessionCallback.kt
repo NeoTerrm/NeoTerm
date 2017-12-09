@@ -17,8 +17,7 @@ import io.neoterm.frontend.session.shell.ShellTermSession
 class TermSessionCallback : TerminalSession.SessionChangedCallback {
     var termData: TermDataHolder? = null
 
-    var bellId: Int = 0
-    var soundPool: SoundPool? = null
+    var bellController: BellController? = null
 
     override fun onTextChanged(changedSession: TerminalSession?) {
         termData?.termView?.onScreenUpdated()
@@ -46,18 +45,11 @@ class TermSessionCallback : TerminalSession.SessionChangedCallback {
         val termView = termData?.termView ?: return
         val shellSession = session as ShellTermSession
 
-        if (shellSession.shellProfile.enableBell) {
-            if (soundPool == null) {
-                soundPool = SoundPool.Builder().setMaxStreams(1).build()
-                bellId = soundPool!!.load(termView.context, R.raw.bell, 1)
-            }
-            soundPool?.play(bellId, 1f, 1f, 0, 0, 1f)
+        if (bellController == null) {
+            bellController = BellController()
         }
 
-        if (shellSession.shellProfile.enableVibrate) {
-            val vibrator = termView.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            vibrator.vibrate(100)
-        }
+        bellController?.bellOrVibrate(termView.context, shellSession)
     }
 
     override fun onColorsChanged(session: TerminalSession?) {

@@ -1,4 +1,4 @@
-package io.neoterm.component.color.codegen
+package io.neoterm.component.codegen.impl
 
 import io.neoterm.component.codegen.CodeGenParameter
 import io.neoterm.component.codegen.generator.ICodeGenerator

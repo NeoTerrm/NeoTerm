@@ -3,23 +3,23 @@ package io.neoterm.frontend.session.shell
 import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.config.DefaultPreference
+import io.neoterm.frontend.config.DefaultValues
 import io.neoterm.frontend.config.NeoPreference
 
 /**
  * @author kiva
  */
 class ShellProfile {
-    var loginShell = DefaultPreference.loginShell
-    var initialCommand = DefaultPreference.initialCommand
+    var loginShell = DefaultValues.loginShell
+    var initialCommand = DefaultValues.initialCommand
 
-    var enableBell = DefaultPreference.enableBell
-    var enableVibrate = DefaultPreference.enableVibrate
-    var enableExecveWrapper = DefaultPreference.enableExecveWrapper
-    var enableSpecialVolumeKeys = DefaultPreference.enableSpecialVolumeKeys
-    var enableAutoCompletion = DefaultPreference.enableAutoCompletion
-    var enableBackButtonBeMappedToEscape = DefaultPreference.enableBackButtonBeMappedToEscape
-    var enableExtraKeys = DefaultPreference.enableExtraKeys
+    var enableBell = DefaultValues.enableBell
+    var enableVibrate = DefaultValues.enableVibrate
+    var enableExecveWrapper = DefaultValues.enableExecveWrapper
+    var enableSpecialVolumeKeys = DefaultValues.enableSpecialVolumeKeys
+    var enableAutoCompletion = DefaultValues.enableAutoCompletion
+    var enableBackButtonBeMappedToEscape = DefaultValues.enableBackButtonBeMappedToEscape
+    var enableExtraKeys = DefaultValues.enableExtraKeys
 
     var profileFont: String
     var profileColorScheme: String

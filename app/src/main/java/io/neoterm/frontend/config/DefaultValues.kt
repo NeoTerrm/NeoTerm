@@ -5,7 +5,7 @@ import io.neoterm.component.color.DefaultColorScheme
 /**
  * @author kiva
  */
-object DefaultPreference {
+object DefaultValues {
     const val fontSize = 30
 
     const val enableBell = false

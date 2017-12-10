@@ -134,17 +134,17 @@ object NeoPreference {
     }
 
     fun getLoginShellName(): String {
-        return loadString(R.string.key_general_shell, DefaultPreference.loginShell)
+        return loadString(R.string.key_general_shell, DefaultValues.loginShell)
     }
 
     fun getLoginShellPath(): String {
         val loginProgramName = getLoginShellName()
 
         // Some programs like ssh needs it
-        val shell = File(NeoTermPath.NEOTERM_SHELL_PATH)
+        val shell = File(NeoTermPath.NEOTERM_LOGIN_SHELL_PATH)
         val loginProgramPath = findLoginProgram(loginProgramName) ?: {
-            setLoginShellName(DefaultPreference.loginShell)
-            "${NeoTermPath.USR_PATH}/bin/${DefaultPreference.loginShell}"
+            setLoginShellName(DefaultValues.loginShell)
+            "${NeoTermPath.USR_PATH}/bin/${DefaultValues.loginShell}"
         }()
 
         if (!shell.exists()) {
@@ -161,12 +161,12 @@ object NeoPreference {
     private fun symlinkLoginShell(loginProgramPath: String) {
         File(NeoTermPath.CUSTOM_PATH).mkdirs()
         try {
-            val shellSymlink = File(NeoTermPath.NEOTERM_SHELL_PATH)
+            val shellSymlink = File(NeoTermPath.NEOTERM_LOGIN_SHELL_PATH)
             if (shellSymlink.exists()) {
                 shellSymlink.delete()
             }
-            Os.symlink(loginProgramPath, NeoTermPath.NEOTERM_SHELL_PATH)
-            Os.chmod(NeoTermPath.NEOTERM_SHELL_PATH, 448 /* Decimal of 0700 */)
+            Os.symlink(loginProgramPath, NeoTermPath.NEOTERM_LOGIN_SHELL_PATH)
+            Os.chmod(NeoTermPath.NEOTERM_LOGIN_SHELL_PATH, 448 /* Decimal of 0700 */)
         } catch (e: ErrnoException) {
             NLog.e("Preference", "Failed to symlink login shell: ${e.localizedMessage}")
             e.printStackTrace()
@@ -180,67 +180,67 @@ object NeoPreference {
 
     fun getFontSize(): Int {
         return loadInt(KEY_FONT_SIZE,
-                DefaultPreference.fontSize)
+                DefaultValues.fontSize)
     }
 
     fun getInitialCommand(): String {
         return loadString(R.string.key_general_initial_command,
-                DefaultPreference.initialCommand)
+                DefaultValues.initialCommand)
     }
 
     fun isBellEnabled(): Boolean {
         return loadBoolean(R.string.key_general_bell,
-                DefaultPreference.enableBell)
+                DefaultValues.enableBell)
     }
 
     fun isVibrateEnabled(): Boolean {
         return loadBoolean(R.string.key_general_vibrate,
-                DefaultPreference.enableVibrate)
+                DefaultValues.enableVibrate)
     }
 
     fun isExecveWrapperEnabled() : Boolean {
         return loadBoolean(R.string.key_general_use_execve_wrapper,
-                DefaultPreference.enableExecveWrapper)
+                DefaultValues.enableExecveWrapper)
     }
 
     fun isSpecialVolumeKeysEnabled() : Boolean {
         return loadBoolean(R.string.key_general_volume_as_control,
-                DefaultPreference.enableSpecialVolumeKeys)
+                DefaultValues.enableSpecialVolumeKeys)
     }
 
     fun isAutoCompletionEnabled() : Boolean {
         return loadBoolean(R.string.key_general_auto_completion,
-                DefaultPreference.enableAutoCompletion)
+                DefaultValues.enableAutoCompletion)
     }
 
     fun isBackButtonBeMappedToEscapeEnabled(): Boolean {
         return loadBoolean(R.string.key_generaL_backspace_map_to_esc,
-                DefaultPreference.enableBackButtonBeMappedToEscape)
+                DefaultValues.enableBackButtonBeMappedToEscape)
     }
 
     fun isExtraKeysEnabled(): Boolean {
         return loadBoolean(R.string.key_ui_eks_enabled,
-                DefaultPreference.enableExtraKeys)
+                DefaultValues.enableExtraKeys)
     }
 
     fun isExplicitExtraKeysWeightEnabled() :Boolean {
         return loadBoolean(R.string.key_ui_eks_weight_explicit,
-                DefaultPreference.enableExplicitExtraKeysWeight)
+                DefaultValues.enableExplicitExtraKeysWeight)
     }
 
     fun isFullScreenEnabled() : Boolean {
         return loadBoolean(R.string.key_ui_fullscreen,
-                DefaultPreference.enableFullScreen)
+                DefaultValues.enableFullScreen)
     }
 
     fun isHideToolbarEnabled() :Boolean {
         return loadBoolean(R.string.key_ui_hide_toolbar,
-                DefaultPreference.enableAutoHideToolbar)
+                DefaultValues.enableAutoHideToolbar)
     }
 
     fun isNextTabEnabled() :Boolean {
         return loadBoolean(R.string.key_ui_next_tab_anim,
-                DefaultPreference.enableSwitchNextTab)
+                DefaultValues.enableSwitchNextTab)
     }
 
 //    fun storeWindowSize(context: Context, width: Int, height: Int) {

@@ -125,7 +125,7 @@ class ColorSchemeComponent : NeoComponent {
     fun saveColorScheme(colorScheme: NeoColorScheme) {
         val colorFile = colorFile(colorScheme.colorName)
         if (colorFile.exists()) {
-            throw RuntimeException("ColorScheme ${colorScheme.colorName} exists!")
+            throw RuntimeException("ColorScheme already ${colorScheme.colorName} exists!")
         }
 
         val component = ComponentManager.getComponent<CodeGenComponent>()

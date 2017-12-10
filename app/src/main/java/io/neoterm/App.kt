@@ -9,7 +9,7 @@ import android.net.Uri
 import android.view.Gravity
 import android.widget.Toast
 import io.neoterm.component.NeoInitializer
-import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.ui.bonus.BonusActivity
 import io.neoterm.utils.CrashHandler
 

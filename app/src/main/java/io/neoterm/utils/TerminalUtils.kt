@@ -2,14 +2,12 @@ package io.neoterm.utils
 
 import android.app.Activity
 import android.content.Context
-import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.font.FontComponent
 import io.neoterm.component.session.SessionComponent
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.session.shell.ShellParameter
-import io.neoterm.frontend.session.shell.ShellTermSession
 import io.neoterm.frontend.session.xorg.XParameter
 import io.neoterm.frontend.session.xorg.XSession
 import io.neoterm.frontend.terminal.TerminalView

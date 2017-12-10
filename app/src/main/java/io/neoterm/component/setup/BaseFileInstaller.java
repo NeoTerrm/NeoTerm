@@ -23,8 +23,8 @@ import java.util.zip.ZipInputStream;
 import io.neoterm.R;
 import io.neoterm.backend.EmulatorDebug;
 import io.neoterm.frontend.logging.NLog;
-import io.neoterm.frontend.preference.NeoPreference;
-import io.neoterm.frontend.preference.NeoTermPath;
+import io.neoterm.frontend.config.NeoPreference;
+import io.neoterm.frontend.config.NeoTermPath;
 
 public final class BaseFileInstaller {
     public interface ResultListener {

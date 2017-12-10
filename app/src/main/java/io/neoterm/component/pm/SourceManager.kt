@@ -2,7 +2,7 @@ package io.neoterm.component.pm
 
 import io.neoterm.App
 import io.neoterm.R
-import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.config.NeoPreference
 
 /**
  * @author kiva

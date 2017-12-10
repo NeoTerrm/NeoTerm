@@ -3,8 +3,8 @@ package io.neoterm.frontend.session.shell
 import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.preference.DefaultPreference
-import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.config.DefaultPreference
+import io.neoterm.frontend.config.NeoPreference
 
 /**
  * @author kiva

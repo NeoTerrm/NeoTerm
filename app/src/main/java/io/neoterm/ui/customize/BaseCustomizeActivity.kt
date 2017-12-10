@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.client.BasicSessionCallback
 import io.neoterm.frontend.session.shell.client.BasicViewClient

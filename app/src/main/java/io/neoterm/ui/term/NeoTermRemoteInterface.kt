@@ -16,7 +16,7 @@ import io.neoterm.component.script.UserScript
 import io.neoterm.component.script.UserScriptComponent
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.MediaUtils

@@ -2,13 +2,12 @@ package io.neoterm.component.font
 
 import android.content.Context
 import android.graphics.Typeface
-import android.view.View
 import io.neoterm.App
 import io.neoterm.R
-import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.config.NeoPreference
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.component.NeoComponent
-import io.neoterm.frontend.preference.DefaultPreference
+import io.neoterm.frontend.config.DefaultPreference
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.eks.ExtraKeysView
 import io.neoterm.utils.AssetsUtils

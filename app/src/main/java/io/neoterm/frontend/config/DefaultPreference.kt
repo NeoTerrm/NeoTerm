@@ -1,4 +1,4 @@
-package io.neoterm.frontend.preference
+package io.neoterm.frontend.config
 
 import io.neoterm.component.color.DefaultColorScheme
 

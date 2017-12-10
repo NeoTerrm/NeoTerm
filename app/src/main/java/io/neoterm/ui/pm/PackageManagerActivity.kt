@@ -20,8 +20,8 @@ import io.neoterm.component.pm.SourceManager
 import io.neoterm.component.pm.SourceUtils
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.floating.TerminalDialog
-import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.config.NeoPreference
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 import io.neoterm.utils.PackageUtils

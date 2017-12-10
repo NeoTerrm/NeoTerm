@@ -6,7 +6,7 @@ import android.content.Context
 import io.neoterm.Globals
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.ShellTermSession
 import io.neoterm.frontend.session.xorg.XParameter

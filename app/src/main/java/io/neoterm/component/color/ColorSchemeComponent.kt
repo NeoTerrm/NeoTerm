@@ -4,10 +4,9 @@ import android.content.Context
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.component.codegen.CodeGenComponent
-import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.preference.NeoPreference
-import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.config.NeoPreference
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.utils.AssetsUtils

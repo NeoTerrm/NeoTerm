@@ -1,7 +1,6 @@
 package io.neoterm.ui.customize
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -14,7 +13,7 @@ import io.neoterm.R
 import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.utils.FileUtils
 import io.neoterm.utils.MediaUtils
 import java.io.File

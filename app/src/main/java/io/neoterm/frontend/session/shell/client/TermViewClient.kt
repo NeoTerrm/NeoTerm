@@ -7,13 +7,11 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import io.neoterm.R
 import io.neoterm.backend.KeyHandler
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.eks.ExtraKeysComponent
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.preference.DefaultPreference
-import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.session.shell.ShellTermSession
 import io.neoterm.frontend.terminal.TerminalViewClient
 

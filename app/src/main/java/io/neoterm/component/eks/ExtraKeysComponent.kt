@@ -3,7 +3,7 @@ package io.neoterm.component.eks
 import android.content.Context
 import io.neoterm.App
 import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.utils.AssetsUtils
 import io.neoterm.frontend.terminal.eks.ExtraKeysView

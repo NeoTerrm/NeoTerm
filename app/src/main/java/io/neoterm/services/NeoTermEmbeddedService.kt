@@ -20,7 +20,7 @@ import android.widget.FrameLayout
 
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.preference.NeoPreference
+import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.terminal.TerminalView
 

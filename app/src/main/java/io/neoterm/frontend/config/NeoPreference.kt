@@ -1,4 +1,4 @@
-package io.neoterm.frontend.preference
+package io.neoterm.frontend.config
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -109,7 +109,7 @@ object NeoPreference {
 
     fun storeCurrentSession(session: TerminalSession) {
         preference!!.edit()
-                .putString(NeoPreference.KEY_CURRENT_SESSION, session.mHandle)
+                .putString(KEY_CURRENT_SESSION, session.mHandle)
                 .apply()
     }
 
@@ -179,7 +179,7 @@ object NeoPreference {
     }
 
     fun getFontSize(): Int {
-        return loadInt(NeoPreference.KEY_FONT_SIZE,
+        return loadInt(KEY_FONT_SIZE,
                 DefaultPreference.fontSize)
     }
 
@@ -224,22 +224,22 @@ object NeoPreference {
     }
 
     fun isExplicitExtraKeysWeightEnabled() :Boolean {
-        return NeoPreference.loadBoolean(R.string.key_ui_eks_weight_explicit,
+        return loadBoolean(R.string.key_ui_eks_weight_explicit,
                 DefaultPreference.enableExplicitExtraKeysWeight)
     }
 
     fun isFullScreenEnabled() : Boolean {
-        return NeoPreference.loadBoolean(R.string.key_ui_fullscreen,
+        return loadBoolean(R.string.key_ui_fullscreen,
                 DefaultPreference.enableFullScreen)
     }
 
     fun isHideToolbarEnabled() :Boolean {
-        return NeoPreference.loadBoolean(R.string.key_ui_hide_toolbar,
+        return loadBoolean(R.string.key_ui_hide_toolbar,
                 DefaultPreference.enableAutoHideToolbar)
     }
 
     fun isNextTabEnabled() :Boolean {
-        return NeoPreference.loadBoolean(R.string.key_ui_next_tab_anim,
+        return loadBoolean(R.string.key_ui_next_tab_anim,
                 DefaultPreference.enableSwitchNextTab)
     }
 

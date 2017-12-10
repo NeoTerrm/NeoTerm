@@ -5,7 +5,7 @@ import android.system.Os
 import io.neoterm.App
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.preference.NeoTermPath
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.utils.AssetsUtils
 import java.io.File
 

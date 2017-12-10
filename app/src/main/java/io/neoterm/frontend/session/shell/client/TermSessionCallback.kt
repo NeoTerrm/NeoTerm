@@ -3,12 +3,7 @@ package io.neoterm.frontend.session.shell.client
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.media.SoundPool
-import android.os.Vibrator
-import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.preference.DefaultPreference
-import io.neoterm.frontend.preference.NeoPreference
 import io.neoterm.frontend.session.shell.ShellTermSession
 
 /**

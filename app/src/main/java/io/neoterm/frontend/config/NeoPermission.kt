@@ -1,4 +1,4 @@
-package io.neoterm.frontend.preference
+package io.neoterm.frontend.config
 
 import android.Manifest
 import android.app.Activity

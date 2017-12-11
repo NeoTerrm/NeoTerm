@@ -35,9 +35,6 @@ object TerminalUtils {
         fontComponent.applyFont(null, extraKeysView, font)
     }
 
-    fun setupTerminalSession(session: TerminalSession?) {
-    }
-
     fun createSession(context: Context, parameter: ShellParameter): TerminalSession {
         val sessionComponent = ComponentManager.getComponent<SessionComponent>()
         return sessionComponent.createSession(context, parameter)

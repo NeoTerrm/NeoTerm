@@ -107,7 +107,6 @@ class SessionComponent : NeoComponent {
                 .initialCommand(parameter.initialCommand)
                 .profile(parameter.shellProfile)
                 .create(context)
-        TerminalUtils.setupTerminalSession(session)
         return session
     }
 }

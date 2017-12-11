@@ -36,7 +36,16 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
         return when (viewType) {
             VIEW_TYPE_TERM -> {
-                inflater.inflate(R.layout.ui_term, parent, false)
+                val view = inflater.inflate(R.layout.ui_term, parent, false)
+                val terminalView = view.findViewById<TerminalView>(R.id.terminal_view)
+                val extraKeysView = view.findViewById<ExtraKeysView>(R.id.extra_keys)
+                TerminalUtils.setupTerminalView(terminalView)
+                TerminalUtils.setupExtraKeysView(extraKeysView)
+
+                val colorSchemeManager = ComponentManager.getComponent<ColorSchemeComponent>()
+                colorSchemeManager.applyColorScheme(terminalView, extraKeysView,
+                        colorSchemeManager.getCurrentColorScheme())
+                view
             }
 
             VIEW_TYPE_X -> {
@@ -64,10 +73,10 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
                 termTab.toolbar = toolbar
                 val terminalView = findViewById<TerminalView>(R.id.terminal_view)
                 if (isQuickPreview) {
-                    bindTerminalView(termTab, terminalView, null, isQuickPreview)
+                    bindTerminalView(termTab, terminalView, null)
                 } else {
                     val extraKeysView = findViewById<ExtraKeysView>(R.id.extra_keys)
-                    bindTerminalView(termTab, terminalView, extraKeysView, isQuickPreview)
+                    bindTerminalView(termTab, terminalView, extraKeysView)
                     terminalView.requestFocus()
                 }
             }
@@ -133,32 +142,17 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     }
 
     private fun bindTerminalView(tab: TermTab, view: TerminalView?,
-                                 extraKeysView: ExtraKeysView?, isQuickPreview: Boolean) {
+                                 extraKeysView: ExtraKeysView?) {
         val termView = view ?: return
         val termData = tab.termData
 
-        if (isQuickPreview) {
-            TerminalUtils.setupTerminalView(termView)
-            termView.attachSession(termData.termSession)
-            return
-        }
-
-        TerminalUtils.setupTerminalView(view)
-        TerminalUtils.setupExtraKeysView(extraKeysView)
-
-        val colorSchemeManager = ComponentManager.getComponent<ColorSchemeComponent>()
-        colorSchemeManager.applyColorScheme(view, extraKeysView, colorSchemeManager.getCurrentColorScheme())
-
-        TerminalUtils.setupTerminalSession(termData.termSession)
-
-        // 复用前一次的 TermSessionCallback 和 TermViewClient
         termData.initializeViewWith(tab, termView, extraKeysView)
+        termView.setTerminalViewClient(termData.viewClient)
+        termView.attachSession(termData.termSession)
 
         if (termData.termSession != null) {
             termData.viewClient?.updateExtraKeys(termData.termSession?.title, true)
         }
-
-        termView.attachSession(termData.termSession)
     }
 
     override fun getViewTypeCount(): Int {

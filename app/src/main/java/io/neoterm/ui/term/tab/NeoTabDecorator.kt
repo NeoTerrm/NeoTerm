@@ -31,8 +31,6 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         private val VIEW_TYPE_X = 2
     }
 
-    private var itemCaches = mutableMapOf<Int, Int>()
-
     private fun setViewLayerType(view: View?) = view?.setLayerType(View.LAYER_TYPE_NONE, null)
 
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
@@ -58,22 +56,20 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         val toolbar = this@NeoTabDecorator.context.toolbar
         toolbar.title = if (tabSwitcher.isSwitcherShown) null else tab.title
 
-//        if (itemCaches[index] != tab.hashCode()) {
-//            itemCaches[index] = tab.hashCode()
-//            NLog.e("TabDecorator", "onShowTab() called, rebinging views for new selected tab.")
-//        } else {
-//            NLog.e("TabDecorator", "onShowTab() called, tab not changed.")
-//            return
-//        }
+        val isQuickPreview = tabSwitcher.selectedTabIndex != index
 
         when (viewType) {
             VIEW_TYPE_TERM -> {
                 val termTab = tab as TermTab
                 termTab.toolbar = toolbar
                 val terminalView = findViewById<TerminalView>(R.id.terminal_view)
-                val extraKeysView = findViewById<ExtraKeysView>(R.id.extra_keys)
-                bindTerminalView(termTab, terminalView, extraKeysView)
-                terminalView.requestFocus()
+                if (isQuickPreview) {
+                    bindTerminalView(termTab, terminalView, null, isQuickPreview)
+                } else {
+                    val extraKeysView = findViewById<ExtraKeysView>(R.id.extra_keys)
+                    bindTerminalView(termTab, terminalView, extraKeysView, isQuickPreview)
+                    terminalView.requestFocus()
+                }
             }
 
             VIEW_TYPE_X -> {
@@ -136,8 +132,14 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         }
     }
 
-    private fun bindTerminalView(tab: TermTab, view: TerminalView?, extraKeysView: ExtraKeysView?) {
-        if (view == null) {
+    private fun bindTerminalView(tab: TermTab, view: TerminalView?,
+                                 extraKeysView: ExtraKeysView?, isQuickPreview: Boolean) {
+        val termView = view ?: return
+        val termData = tab.termData
+
+        if (isQuickPreview) {
+            TerminalUtils.setupTerminalView(termView)
+            termView.attachSession(termData.termSession)
             return
         }
 
@@ -147,19 +149,16 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         val colorSchemeManager = ComponentManager.getComponent<ColorSchemeComponent>()
         colorSchemeManager.applyColorScheme(view, extraKeysView, colorSchemeManager.getCurrentColorScheme())
 
-        val termData = tab.termData
-
         TerminalUtils.setupTerminalSession(termData.termSession)
 
         // 复用前一次的 TermSessionCallback 和 TermViewClient
-        termData.initializeViewWith(tab, view, extraKeysView)
+        termData.initializeViewWith(tab, termView, extraKeysView)
 
         if (termData.termSession != null) {
             termData.viewClient?.updateExtraKeys(termData.termSession?.title, true)
         }
 
-        view.setTerminalViewClient(termData.viewClient)
-        view.attachSession(termData.termSession)
+        termView.attachSession(termData.termSession)
     }
 
     override fun getViewTypeCount(): Int {

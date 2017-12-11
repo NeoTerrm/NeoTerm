@@ -177,8 +177,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             override fun onSwitcherShown(tabSwitcher: TabSwitcher) {
                 toolbar.setNavigationIcon(R.drawable.ic_add_box_white_24dp)
                 toolbar.setNavigationOnClickListener(addSessionListener)
+                toolbar.setBackgroundResource(android.R.color.transparent)
                 toolbar.animate().alpha(0f).setDuration(300).withEndAction {
-                    toolbar.setBackgroundResource(android.R.color.transparent)
                     toolbar.alpha = 1f
                 }.start()
             }
@@ -186,9 +186,11 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             override fun onSwitcherHidden(tabSwitcher: TabSwitcher) {
                 toolbar.navigationIcon = null
                 toolbar.setNavigationOnClickListener(null)
-                toolbar.alpha = 0f
                 toolbar.setBackgroundResource(R.color.colorPrimary)
-                toolbar.animate().alpha(1f).setDuration(300).start()
+//                toolbar.alpha = 0f
+//                toolbar.animate().alpha(1f).setDuration(300).withEndAction {
+//                    toolbar.setBackgroundResource(R.color.colorPrimary)
+//                }.start()
             }
 
             override fun onSelectionChanged(tabSwitcher: TabSwitcher, selectedTabIndex: Int, selectedTab: Tab?) {
@@ -356,10 +358,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         }
     }
 
-//    private fun floatTabUp(tab: TermTab) {
-//        Toast.makeText(this, "In Progress", Toast.LENGTH_SHORT).show()
-//    }
-
     private fun forceAddSystemSession() {
         if (!tabSwitcher.isSwitcherShown) {
             toggleSwitcher(showSwitcher = true, easterEgg = false)
@@ -484,7 +482,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             toggleSwitcher(showSwitcher = true, easterEgg = false)
         }
 
-        // TODO: Start X server
         val parameter = XParameter()
         val session = termService!!.createXSession(this, parameter)
 

@@ -31,6 +31,8 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         private val VIEW_TYPE_X = 2
     }
 
+    private var itemCaches = mutableMapOf<Int, Int>()
+
     private fun setViewLayerType(view: View?) = view?.setLayerType(View.LAYER_TYPE_NONE, null)
 
     override fun onInflateView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
@@ -51,8 +53,18 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
 
     override fun onShowTab(context: Context, tabSwitcher: TabSwitcher,
                            view: View, tab: Tab, index: Int, viewType: Int, savedInstanceState: Bundle?) {
+        // TODO: Improve
+
         val toolbar = this@NeoTabDecorator.context.toolbar
         toolbar.title = if (tabSwitcher.isSwitcherShown) null else tab.title
+
+//        if (itemCaches[index] != tab.hashCode()) {
+//            itemCaches[index] = tab.hashCode()
+//            NLog.e("TabDecorator", "onShowTab() called, rebinging views for new selected tab.")
+//        } else {
+//            NLog.e("TabDecorator", "onShowTab() called, tab not changed.")
+//            return
+//        }
 
         when (viewType) {
             VIEW_TYPE_TERM -> {
@@ -124,7 +136,7 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         }
     }
 
-    private fun bindTerminalView(tab: Tab, view: TerminalView?, extraKeysView: ExtraKeysView?) {
+    private fun bindTerminalView(tab: TermTab, view: TerminalView?, extraKeysView: ExtraKeysView?) {
         if (view == null) {
             return
         }
@@ -135,34 +147,20 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         val colorSchemeManager = ComponentManager.getComponent<ColorSchemeComponent>()
         colorSchemeManager.applyColorScheme(view, extraKeysView, colorSchemeManager.getCurrentColorScheme())
 
-        if (tab is TermTab) {
-            val termData = tab.termData
+        val termData = tab.termData
 
-            TerminalUtils.setupTerminalSession(termData.termSession)
+        TerminalUtils.setupTerminalSession(termData.termSession)
 
-            // 复用前一次的 TermSessionCallback 和 TermViewClient
-            termData.initializeViewWith(tab, view, extraKeysView)
+        // 复用前一次的 TermSessionCallback 和 TermViewClient
+        termData.initializeViewWith(tab, view, extraKeysView)
 
-            if (termData.termSession != null) {
-                termData.viewClient?.updateExtraKeys(termData.termSession?.title, true)
-            }
-
-            view.setTerminalViewClient(termData.viewClient)
-            view.attachSession(termData.termSession)
-
-            // Still in progress with lots of bugs to deal with.
-//            if (NeoPreference.loadBoolean(R.string.key_general_auto_completion, false)) {
-//                if (termData.onAutoCompleteListener == null) {
-//                    termData.onAutoCompleteListener = createAutoCompleteListener(view)
-//                }
-//                view.onAutoCompleteListener = termData.onAutoCompleteListener
-//            }
+        if (termData.termSession != null) {
+            termData.viewClient?.updateExtraKeys(termData.termSession?.title, true)
         }
-    }
 
-//    private fun createAutoCompleteListener(view: TerminalView): OnAutoCompleteListener? {
-//        return TermCompleteListener(view)
-//    }
+        view.setTerminalViewClient(termData.viewClient)
+        view.attachSession(termData.termSession)
+    }
 
     override fun getViewTypeCount(): Int {
         return 2

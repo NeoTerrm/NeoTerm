@@ -1,13 +1,13 @@
-package io.neoterm.component.config.loader
+package io.neoterm.component.config.loaders
 
-import io.neoterm.component.config.IConfigureFileLoader
+import io.neoterm.component.config.IConfigureLoader
 import io.neoterm.frontend.config.NeoConfigureFile
 import java.io.File
 
 /**
  * @author kiva
  */
-class OldConfigureLoader(val configFile: File) : IConfigureFileLoader {
+class OldConfigureLoader(private val configFile: File) : IConfigureLoader {
     override fun loadConfigure(): NeoConfigureFile? {
         return when (configFile.extension) {
             "eks" -> returnConfigure(OldExtraKeysConfigureFile(configFile))

@@ -5,6 +5,6 @@ import io.neoterm.frontend.config.NeoConfigureFile
 /**
  * @author kiva
  */
-interface IConfigureFileLoader {
+interface IConfigureLoader {
     fun loadConfigure() : NeoConfigureFile?
 }

@@ -1,7 +1,7 @@
 package io.neoterm.component.config
 
-import io.neoterm.component.config.loader.NeoLangConfigureLoader
-import io.neoterm.component.config.loader.OldConfigureLoader
+import io.neoterm.component.config.loaders.NeoLangConfigureLoader
+import io.neoterm.component.config.loaders.OldConfigureLoader
 import io.neoterm.frontend.component.NeoComponent
 import java.io.File
 
@@ -24,7 +24,7 @@ class ConfigureComponent : NeoComponent {
         return CONFIG_LOADER_VERSION
     }
 
-    fun newLoader(configFile: File): IConfigureFileLoader {
+    fun newLoader(configFile: File): IConfigureLoader {
         return when (configFile.extension) {
             "nl" -> NeoLangConfigureLoader(configFile)
             else -> OldConfigureLoader(configFile)

@@ -1,4 +1,4 @@
-package io.neoterm.component.config.loader
+package io.neoterm.component.config.loaders
 
 import io.neolang.runtime.type.NeoLangValue
 import io.neolang.visitor.ConfigVisitor

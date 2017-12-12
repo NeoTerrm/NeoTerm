@@ -2,6 +2,7 @@ package io.neoterm.frontend.session.shell
 
 import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.component.font.FontComponent
+import io.neoterm.component.profile.NeoProfile
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.DefaultValues
 import io.neoterm.frontend.config.NeoPreference
@@ -9,7 +10,7 @@ import io.neoterm.frontend.config.NeoPreference
 /**
  * @author kiva
  */
-class ShellProfile {
+class ShellProfile : NeoProfile() {
     var loginShell = DefaultValues.loginShell
     var initialCommand = DefaultValues.initialCommand
 

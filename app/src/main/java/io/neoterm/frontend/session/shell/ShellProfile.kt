@@ -11,6 +11,12 @@ import io.neoterm.frontend.config.NeoPreference
  * @author kiva
  */
 class ShellProfile : NeoProfile() {
+    companion object {
+        const val PROFILE_META_NAME = "profile-shell"
+    }
+
+    override val profileMetaName = PROFILE_META_NAME
+
     var loginShell = DefaultValues.loginShell
     var initialCommand = DefaultValues.initialCommand
 

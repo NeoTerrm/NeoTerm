@@ -1,4 +1,4 @@
-package io.neoterm.frontend.terminal.eks.button
+package io.neoterm.frontend.terminal.extrakey.button
 
 /**
  * @author kiva

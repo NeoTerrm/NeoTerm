@@ -1,10 +1,10 @@
-package io.neoterm.frontend.terminal.eks.button
+package io.neoterm.frontend.terminal.extrakey.button
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
-import io.neoterm.frontend.terminal.eks.combine.CombinedSequence
+import io.neoterm.frontend.terminal.extrakey.combine.CombinedSequence
 
 /**
  * @author kiva

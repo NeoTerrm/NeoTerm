@@ -1,7 +1,7 @@
 package io.neoterm
 
-import io.neoterm.frontend.terminal.eks.button.IExtraButton
-import io.neoterm.frontend.terminal.eks.combine.CombinedSequence
+import io.neoterm.frontend.terminal.extrakey.button.IExtraButton
+import io.neoterm.frontend.terminal.extrakey.combine.CombinedSequence
 import org.junit.Test
 
 /**

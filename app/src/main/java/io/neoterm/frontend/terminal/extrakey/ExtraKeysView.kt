@@ -1,4 +1,4 @@
-package io.neoterm.frontend.terminal.eks
+package io.neoterm.frontend.terminal.extrakey
 
 import android.content.Context
 import android.graphics.Typeface
@@ -7,15 +7,15 @@ import android.view.*
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import io.neoterm.R
-import io.neoterm.component.eks.NeoExtraKey
+import io.neoterm.component.extrakey.NeoExtraKey
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.session.shell.client.event.ToggleImeEvent
-import io.neoterm.frontend.terminal.eks.button.ControlButton
-import io.neoterm.frontend.terminal.eks.button.IExtraButton
-import io.neoterm.frontend.terminal.eks.button.RepeatableButton
-import io.neoterm.frontend.terminal.eks.button.StatedControlButton
-import io.neoterm.frontend.terminal.eks.impl.ArrowButton
+import io.neoterm.frontend.terminal.extrakey.button.ControlButton
+import io.neoterm.frontend.terminal.extrakey.button.IExtraButton
+import io.neoterm.frontend.terminal.extrakey.button.RepeatableButton
+import io.neoterm.frontend.terminal.extrakey.button.StatedControlButton
+import io.neoterm.frontend.terminal.extrakey.impl.ArrowButton
 import org.greenrobot.eventbus.EventBus
 import java.io.File
 

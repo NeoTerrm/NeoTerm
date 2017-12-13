@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <io.neoterm.frontend.terminal.eks.ExtraKeysView
+    <io.neoterm.frontend.terminal.extrakey.ExtraKeysView
         android:id="@+id/extra_keys"
         style="?android:buttonBarStyle"
         android:layout_width="match_parent"

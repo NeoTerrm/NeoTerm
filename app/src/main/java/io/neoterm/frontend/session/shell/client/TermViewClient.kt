@@ -9,7 +9,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import io.neoterm.backend.KeyHandler
 import io.neoterm.backend.TerminalSession
-import io.neoterm.component.eks.ExtraKeysComponent
+import io.neoterm.component.extrakey.ExtraKeysComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.session.shell.ShellTermSession

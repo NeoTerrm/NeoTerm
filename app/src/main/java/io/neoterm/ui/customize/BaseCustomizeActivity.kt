@@ -12,7 +12,7 @@ import io.neoterm.frontend.session.shell.client.BasicSessionCallback
 import io.neoterm.frontend.session.shell.client.BasicViewClient
 import io.neoterm.utils.TerminalUtils
 import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 
 /**
  * @author kiva

@@ -1,7 +1,7 @@
 package io.neoterm
 
 import io.neoterm.component.color.NeoColorScheme
-import io.neoterm.component.eks.NeoExtraKey
+import io.neoterm.component.extrakey.NeoExtraKey
 import org.junit.Test
 import java.io.File
 

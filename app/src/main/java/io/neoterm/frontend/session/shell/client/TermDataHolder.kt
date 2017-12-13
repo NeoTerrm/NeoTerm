@@ -3,7 +3,7 @@ package io.neoterm.frontend.session.shell.client
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
 import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 
 /**
  * @author kiva

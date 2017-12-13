@@ -1,4 +1,4 @@
-package io.neoterm.frontend.terminal.eks.combine
+package io.neoterm.frontend.terminal.extrakey.combine
 
 /**
  * <Ctrl> <Alt> <Delete>

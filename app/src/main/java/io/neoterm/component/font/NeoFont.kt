@@ -2,7 +2,7 @@ package io.neoterm.component.font
 
 import android.graphics.Typeface
 import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import java.io.File
 
 /**

@@ -11,7 +11,7 @@ import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.utils.AssetsUtils
 import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import io.neoterm.utils.FileUtils
 import java.io.File
 

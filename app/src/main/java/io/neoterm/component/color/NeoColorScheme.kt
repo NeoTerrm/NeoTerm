@@ -12,7 +12,7 @@ import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import java.io.File
 
 /**

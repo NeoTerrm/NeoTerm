@@ -1,13 +1,13 @@
-package io.neoterm.component.eks
+package io.neoterm.component.extrakey
 
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
-import io.neoterm.frontend.terminal.eks.button.IExtraButton
-import io.neoterm.frontend.terminal.eks.button.TextButton
+import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
+import io.neoterm.frontend.terminal.extrakey.button.IExtraButton
+import io.neoterm.frontend.terminal.extrakey.button.TextButton
 import java.io.File
 
 /**

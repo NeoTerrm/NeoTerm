@@ -12,7 +12,7 @@ import io.neoterm.frontend.session.xorg.XParameter
 import io.neoterm.frontend.session.xorg.XSession
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.TerminalViewClient
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 
 /**
  * @author kiva

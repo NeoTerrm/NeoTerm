@@ -16,9 +16,8 @@ import io.neoterm.NeoGLView
 import io.neoterm.R
 import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.eks.ExtraKeysView
+import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import io.neoterm.ui.term.NeoTermActivity
 import io.neoterm.utils.TerminalUtils
 

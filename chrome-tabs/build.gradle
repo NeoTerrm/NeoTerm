@@ -23,7 +23,7 @@ android {
 
 dependencies {
     compile 'com.github.michael-rapp:android-util:1.15.0'
-    compile rootProject.ext.deps["annotations"]
-    compile rootProject.ext.deps["appcompat-v7"]
-    testCompile rootProject.ext.deps["junit"]
+    implementation rootProject.ext.deps["annotations"]
+    implementation rootProject.ext.deps["appcompat-v7"]
+    testImplementation rootProject.ext.deps["junit"]
 }

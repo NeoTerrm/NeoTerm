@@ -32,5 +32,5 @@ compileTestKotlin {
 }
 
 dependencies {
-    testCompile rootProject.ext.deps["junit"]
+    testImplementation rootProject.ext.deps["junit"]
 }

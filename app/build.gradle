@@ -6,7 +6,7 @@ android {
     buildToolsVersion rootProject.ext.android.BUILD_TOOL_VERSION
     defaultConfig {
         applicationId "io.neoterm"
-        minSdkVersion 21
+        minSdkVersion rootProject.ext.android.MIN_SDK_VERSION
         targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
         versionCode 32
         versionName "2.0.0"
@@ -53,19 +53,21 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    testCompile rootProject.ext.deps["junit"]
+    androidTestImplementation project(path: ':NeoLang')
+
     compile rootProject.ext.deps["kotlin-stdlib"]
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation rootProject.ext.deps["design"]
+    implementation rootProject.ext.deps["cardview-v7"]
+
     compile 'org.greenrobot:eventbus:3.0.0'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support:cardview-v7:26.1.0'
     compile 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
     compile 'com.github.wrdlbrnft:sorted-list-adapter:0.2.0.19'
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
     compile 'de.psdev.licensesdialog:licensesdialog:1.8.3'
     compile 'com.github.GrenderG:Color-O-Matic:1.1.5'
+
     implementation project(':chrome-tabs')
     implementation project(path: ':NeoLang')
-    androidTestImplementation project(path: ':NeoLang')
     implementation project(':Xorg')
 }

@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion rootProject.ext.android.COMPILE_SDK_VERSION
+    buildToolsVersion rootProject.ext.android.BUILD_TOOL_VERSION
     defaultConfig {
         applicationId "io.neoterm"
         minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
         versionCode 32
         versionName "2.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -53,7 +53,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile rootProject.ext.deps["kotlin-stdlib"]
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'

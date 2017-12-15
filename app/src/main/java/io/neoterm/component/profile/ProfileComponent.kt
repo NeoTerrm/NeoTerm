@@ -6,7 +6,6 @@ import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.session.shell.ShellProfile
 import java.io.File
 
 /**
@@ -24,7 +23,7 @@ class ProfileComponent : NeoComponent {
         profileRegistry.remove(metaName)
     }
 
-    inline fun <reified T: NeoProfile> loadConfigure(file: File): T {
+    inline fun <reified T : NeoProfile> loadConfigure(file: File): T {
         return loadConfigure(file, T::class.java) as T
     }
 

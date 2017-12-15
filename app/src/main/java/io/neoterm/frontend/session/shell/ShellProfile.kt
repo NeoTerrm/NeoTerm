@@ -14,6 +14,18 @@ import io.neoterm.frontend.config.NeoPreference
 class ShellProfile : NeoProfile() {
     companion object {
         const val PROFILE_META_NAME = "profile-shell"
+
+        private const val LOGIN_SHELL_NAME = "login-shell"
+        private const val INITIAL_COMMAND = "init-command"
+        private const val BELL = "bell"
+        private const val VIBRATE = "vibrate"
+        private const val EXECVE_WRAPPER = "execve-wrapper"
+        private const val SPECIAL_VOLUME_KEYS = "special-volume-keys"
+        private const val AUTO_COMPLETION = "auto-completion"
+        private const val BACK_KEY_TO_ESC = "back-key-esc"
+        private const val EXTRA_KEYS = "extra-keys"
+        private const val FONT = "font"
+        private const val COLOR_SCHEME = "color-scheme"
     }
 
     override val profileMetaName = PROFILE_META_NAME

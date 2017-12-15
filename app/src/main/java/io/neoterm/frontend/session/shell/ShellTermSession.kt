@@ -4,7 +4,6 @@ import android.content.Context
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import java.io.File
@@ -15,6 +14,7 @@ import java.io.File
 open class ShellTermSession private constructor(shellPath: String, cwd: String,
                                                 args: Array<String>, env: Array<String>,
                                                 changeCallback: SessionChangedCallback,
+                                                val initialCommand: String?,
                                                 val shellProfile: ShellProfile)
     : TerminalSession(shellPath, cwd, args, env, changeCallback) {
 
@@ -22,7 +22,8 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
 
     override fun initializeEmulator(columns: Int, rows: Int) {
         super.initializeEmulator(columns, rows)
-        sendInitialCommand()
+        sendInitialCommand(shellProfile.initialCommand)
+        sendInitialCommand(initialCommand)
     }
 
     override fun getExitDescription(exitCode: Int): String {
@@ -44,10 +45,9 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
         return builder.toString()
     }
 
-    private fun sendInitialCommand() {
-        val initCommand = shellProfile.initialCommand
-        if (initCommand.isNotEmpty()) {
-            write(initCommand + '\r')
+    private fun sendInitialCommand(command: String?) {
+        if (command?.isNotEmpty() == true) {
+            write(command + '\r')
         }
     }
 
@@ -152,12 +152,13 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
                     if (systemShell)
                         "/system/bin/sh"
                     else
-                        NeoPreference.getLoginShellPath()
+                        shellProfile.loginShell
 
             val args = this.args ?: mutableListOf(shell)
             val env = transformEnvironment(this.env) ?: buildEnvironment(cwd, systemShell)
             val callback = changeCallback ?: TermSessionCallback()
-            return ShellTermSession(shell, cwd, args.toTypedArray(), env, callback, shellProfile)
+            return ShellTermSession(shell, cwd, args.toTypedArray(), env, callback,
+                    initialCommand ?: "", shellProfile)
         }
 
         private fun transformEnvironment(env: MutableList<Pair<String, String>>?): Array<String>? {
@@ -172,44 +173,60 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
 
 
         private fun buildEnvironment(cwd: String?, systemShell: Boolean): Array<String> {
-            val cwd = cwd ?: NeoTermPath.HOME_PATH
+            val selectedCwd = cwd ?: NeoTermPath.HOME_PATH
             File(NeoTermPath.HOME_PATH).mkdirs()
 
             val termEnv = "TERM=xterm-256color"
             val homeEnv = "HOME=" + NeoTermPath.HOME_PATH
+            val prefixEnv = "PREFIX=" + NeoTermPath.USR_PATH
             val androidRootEnv = "ANDROID_ROOT=" + System.getenv("ANDROID_ROOT")
             val androidDataEnv = "ANDROID_DATA=" + System.getenv("ANDROID_DATA")
             val externalStorageEnv = "EXTERNAL_STORAGE=" + System.getenv("EXTERNAL_STORAGE")
 
             // PY Trade: Some programs support NeoTerm in a special way.
             val neotermIdEnv = "__NEOTERM=1"
+            val originPathEnv = "__NEOTERM_ORIGIN_PATH=" + buildOriginPathEnv()
+            val originLdEnv = "__NEOTERM_ORIGIN_LD_LIBRARY_PATH=" + buildOriginLdLibEnv()
 
             return if (systemShell) {
                 val pathEnv = "PATH=" + System.getenv("PATH")
                 arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv,
-                        externalStorageEnv, pathEnv, neotermIdEnv)
+                        externalStorageEnv, pathEnv, neotermIdEnv, prefixEnv,
+                        originLdEnv, originPathEnv)
 
             } else {
                 val ps1Env = "PS1=$ "
                 val langEnv = "LANG=en_US.UTF-8"
                 val pathEnv = "PATH=" + buildPathEnv()
                 val ldEnv = "LD_LIBRARY_PATH=" + buildLdLibraryEnv()
-                val pwdEnv = "PWD=" + cwd
+                val pwdEnv = "PWD=" + selectedCwd
                 val tmpdirEnv = "TMPDIR=${NeoTermPath.USR_PATH}/tmp"
-                val originPathEnv = "__NEOTERM_ORIGIN_PATH=" + System.getenv("PATH")
-                val originLdEnv = "__NEOTERM_ORIGIN_LD_LIBRARY_PATH=" + System.getenv("LD_LIBRARY_PATH")
-                var ldPreloadEnv = ""
+
 
                 // execve(2) wrapper to avoid incorrect shebang
-                if (shellProfile.enableExecveWrapper) {
-                    ldPreloadEnv = "LD_PRELOAD=${App.get().applicationInfo.nativeLibraryDir}/libnexec.so"
+                val ldPreloadEnv = if (shellProfile.enableExecveWrapper) {
+                    "LD_PRELOAD=${App.get().applicationInfo.nativeLibraryDir}/libnexec.so"
+                } else {
+                    ""
                 }
 
                 arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv,
                         androidRootEnv, androidDataEnv, externalStorageEnv,
                         tmpdirEnv, neotermIdEnv, originPathEnv, originLdEnv,
-                        ldPreloadEnv).filter { it.isNotEmpty() }.toTypedArray()
+                        ldPreloadEnv, prefixEnv)
             }
+                    .filter { it.isNotEmpty() }
+                    .toTypedArray()
+        }
+
+        private fun buildOriginPathEnv(): String {
+            val path = System.getenv("PATH")
+            return path ?: ""
+        }
+
+        private fun buildOriginLdLibEnv(): String {
+            val path = System.getenv("LD_LIBRARY_PATH")
+            return path ?: ""
         }
 
         private fun buildLdLibraryEnv(): String {

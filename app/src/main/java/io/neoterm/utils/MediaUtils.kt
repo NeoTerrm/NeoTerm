@@ -1,5 +1,6 @@
 package io.neoterm.utils
 
+import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
@@ -8,13 +9,15 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import io.neoterm.frontend.logging.NLog
 
 /**
  * @author kiva
  */
 
 object MediaUtils {
-    /**
+    @SuppressLint("ObsoleteSdkInt")
+            /**
      * Get a file path from a Uri. This will get the the path for Storage Access
      * Framework Documents, as well as the _data field for the MediaStore and
      * other file-based ContentProviders.
@@ -38,7 +41,9 @@ object MediaUtils {
                     return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
                 }
 
-                // TODO handle non-primary volumes
+                // Temporary workaround for non-primary volumes
+                return "/storage/$type/${split[1]}"
+
             } else if (isDownloadsDocument(uri)) {
 
                 val id = DocumentsContract.getDocumentId(uri)
@@ -46,6 +51,7 @@ object MediaUtils {
                         Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)!!)
 
                 return getDataColumn(context, contentUri, null, null)
+
             } else if (isMediaDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -66,8 +72,10 @@ object MediaUtils {
                 return getDataColumn(context, contentUri!!, selection, selectionArgs)
             }// MediaProvider
             // DownloadsProvider
+
         } else if ("content".equals(uri.scheme, ignoreCase = true)) {
             return getDataColumn(context, uri, null, null)
+
         } else if ("file".equals(uri.scheme, ignoreCase = true)) {
             return uri.path
         }

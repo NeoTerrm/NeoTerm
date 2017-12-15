@@ -1,5 +1,6 @@
 package io.neoterm.frontend.session.shell
 
+import io.neolang.visitor.ConfigVisitor
 import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.component.profile.NeoProfile
@@ -32,20 +33,27 @@ class ShellProfile : NeoProfile() {
     var profileColorScheme: String
 
     init {
-        val fontComp = ComponentManager.getComponent<FontComponent>()
-        val colorComp = ComponentManager.getComponent<ColorSchemeComponent>()
+//        val fontComp = ComponentManager.getComponent<FontComponent>()
+//        val colorComp = ComponentManager.getComponent<ColorSchemeComponent>()
+//
+//        profileFont = fontComp.getCurrentFontName()
+//        profileColorScheme = colorComp.getCurrentColorSchemeName()
 
-        profileFont = fontComp.getCurrentFontName()
-        profileColorScheme = colorComp.getCurrentColorSchemeName()
+        profileFont = ""
+        profileColorScheme = ""
 
-        loginShell = NeoPreference.getLoginShellPath()
-        initialCommand = NeoPreference.getInitialCommand()
-        enableBell = NeoPreference.isBellEnabled()
-        enableVibrate = NeoPreference.isVibrateEnabled()
-        enableExecveWrapper = NeoPreference.isExecveWrapperEnabled()
-        enableSpecialVolumeKeys = NeoPreference.isSpecialVolumeKeysEnabled()
-        enableAutoCompletion = NeoPreference.isAutoCompletionEnabled()
-        enableBackButtonBeMappedToEscape = NeoPreference.isBackButtonBeMappedToEscapeEnabled()
-        enableExtraKeys = NeoPreference.isExtraKeysEnabled()
+//        loginShell = NeoPreference.getLoginShellPath()
+//        initialCommand = NeoPreference.getInitialCommand()
+//        enableBell = NeoPreference.isBellEnabled()
+//        enableVibrate = NeoPreference.isVibrateEnabled()
+//        enableExecveWrapper = NeoPreference.isExecveWrapperEnabled()
+//        enableSpecialVolumeKeys = NeoPreference.isSpecialVolumeKeysEnabled()
+//        enableAutoCompletion = NeoPreference.isAutoCompletionEnabled()
+//        enableBackButtonBeMappedToEscape = NeoPreference.isBackButtonBeMappedToEscapeEnabled()
+//        enableExtraKeys = NeoPreference.isExtraKeysEnabled()
+    }
+
+    override fun onProfileLoaded(visitor: ConfigVisitor): Boolean {
+        return true
     }
 }

@@ -10,4 +10,10 @@ class NeoLangGroupNode(val attributes: Array<NeoLangAttributeNode>) : NeoLangBas
     override fun toString(): String {
         return "NeoLangGroupNode { attrs: $attributes }"
     }
+
+    companion object {
+        fun emptyNode() : NeoLangGroupNode {
+            return NeoLangGroupNode(arrayOf())
+        }
+    }
 }

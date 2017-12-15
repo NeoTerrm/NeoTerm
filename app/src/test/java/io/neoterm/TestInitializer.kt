@@ -1,5 +1,6 @@
 package io.neoterm
 
+import io.neoterm.component.NeoInitializer
 import io.neoterm.component.codegen.CodeGenComponent
 import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.component.completion.CompletionComponent
@@ -15,13 +16,6 @@ import io.neoterm.frontend.component.ComponentManager
  */
 object TestInitializer {
     fun init() {
-        ComponentManager.registerComponent(ConfigureComponent::class.java)
-        ComponentManager.registerComponent(CodeGenComponent::class.java)
-        ComponentManager.registerComponent(ColorSchemeComponent::class.java)
-        ComponentManager.registerComponent(FontComponent::class.java)
-        ComponentManager.registerComponent(UserScriptComponent::class.java)
-        ComponentManager.registerComponent(ExtraKeysComponent::class.java)
-        ComponentManager.registerComponent(CompletionComponent::class.java)
-        ComponentManager.registerComponent(PackageComponent::class.java)
+        NeoInitializer.initComponents()
     }
 }

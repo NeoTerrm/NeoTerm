@@ -1,0 +1,3 @@
+profile-shell: {
+    bell: true
+}

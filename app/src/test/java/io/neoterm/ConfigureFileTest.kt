@@ -2,6 +2,9 @@ package io.neoterm
 
 import io.neoterm.component.color.NeoColorScheme
 import io.neoterm.component.extrakey.NeoExtraKey
+import io.neoterm.component.profile.ProfileComponent
+import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.session.shell.ShellProfile
 import org.junit.Test
 import java.io.File
 
@@ -35,7 +38,7 @@ class ConfigureFileTest {
         }
 
         val extraKey = NeoExtraKey()
-        if (extraKey.loadConfigure(File("/Users/kiva/Documents/NeoTerm/app/src/main/assets/eks/vim.nl"))) {
+        if (extraKey.loadConfigure(File("app/src/main/assets/eks/vim.nl"))) {
             println("programs:     ${extraKey.programNames}")
             println("version:      ${extraKey.version}")
             println("with-default: ${extraKey.withDefaultKeys}")
@@ -44,8 +47,25 @@ class ConfigureFileTest {
     }
 
     @Test
+    fun profileConfigureTest() {
+        try {
+            TestInitializer.init()
+        } catch (ignore: Throwable) {
+        }
+
+        ComponentManager.registerComponent(ProfileComponent::class.java)
+
+        val profileComp = ComponentManager.getComponent<ProfileComponent>()
+        profileComp.registerProfile(ShellProfile.PROFILE_META_NAME, ShellProfile::class.java)
+
+        val comp = ComponentManager.getComponent<ProfileComponent>()
+        val profile = comp.loadConfigure<ShellProfile>(File("NeoLang/example/profile.nl"))
+    }
+
+    @Test
     fun configureFileTest() {
         colorConfigureTest()
         extraKeyConfigureTest()
+        profileConfigureTest()
     }
 }

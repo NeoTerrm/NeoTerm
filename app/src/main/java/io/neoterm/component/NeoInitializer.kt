@@ -21,6 +21,10 @@ import io.neoterm.frontend.session.shell.ShellProfile
 object NeoInitializer {
     fun init(context: Context) {
         NLog.init(context)
+        initComponents()
+    }
+
+    fun initComponents() {
         ComponentManager.registerComponent(ConfigureComponent::class.java)
         ComponentManager.registerComponent(CodeGenComponent::class.java)
         ComponentManager.registerComponent(ColorSchemeComponent::class.java)

@@ -6,7 +6,12 @@ import io.neolang.runtime.type.NeoLangArray
 import io.neolang.runtime.type.NeoLangValue
 
 class ConfigVisitor : IVisitorCallback {
+    private var rootContext: NeoLangContext? = null
     private var currentContext: NeoLangContext? = null
+
+    fun getRootContext(): NeoLangContext {
+        return rootContext!!
+    }
 
     fun getContext(contextPath: Array<String>): NeoLangContext {
         var context = getCurrentContext()
@@ -27,6 +32,7 @@ class ConfigVisitor : IVisitorCallback {
 
     override fun onStart() {
         currentContext = NeoLangContext("global")
+        rootContext = currentContext
     }
 
     override fun onFinish() {

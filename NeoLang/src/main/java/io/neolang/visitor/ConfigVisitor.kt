@@ -30,6 +30,16 @@ class ConfigVisitor : IVisitorCallback {
         return NeoLangArray.createFromContext(getContext(contextPath).getChild(arrayName))
     }
 
+    fun getStringValue(path: Array<String>, name: String): String? {
+        val value = this.getAttribute(path, name)
+        return if (value.isValid()) value.asString() else null
+    }
+
+    fun getBooleanValue(path: Array<String>, name: String): Boolean? {
+        val value = this.getAttribute(path, name)
+        return if (value.isValid()) value.asString() == "true" else null
+    }
+
     override fun onStart() {
         currentContext = NeoLangContext("global")
         rootContext = currentContext
@@ -59,10 +69,5 @@ class ConfigVisitor : IVisitorCallback {
 
     override fun getCurrentContext(): NeoLangContext {
         return currentContext!!
-    }
-
-    fun getStringValue(path: Array<String>, name: String): String? {
-        val value = this.getAttribute(path, name)
-        return if (value.isValid()) value.asString() else null
     }
 }

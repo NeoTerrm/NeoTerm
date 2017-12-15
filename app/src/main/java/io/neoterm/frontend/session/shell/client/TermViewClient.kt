@@ -43,7 +43,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {
         val shellSession = termData?.termSession as ShellTermSession? ?: return false
-        return shellSession.shellProfile.enableBackButtonBeMappedToEscape
+        return shellSession.shellProfile.enableBackKeyToEscape
     }
 
     override fun copyModeChanged(copyMode: Boolean) {

@@ -60,6 +60,8 @@ class ConfigureFileTest {
 
         val comp = ComponentManager.getComponent<ProfileComponent>()
         val profile = comp.loadConfigure<ShellProfile>(File("NeoLang/example/profile.nl"))
+
+        return
     }
 
     @Test

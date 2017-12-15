@@ -64,18 +64,18 @@ class ShellProfile : NeoProfile() {
         enableExtraKeys = NeoPreference.isExtraKeysEnabled()
     }
 
-    override fun onProfileLoaded(V: ConfigVisitor): Boolean {
-        loginShell = V.getProfileString(LOGIN_SHELL, loginShell)
-        initialCommand = V.getProfileString(INITIAL_COMMAND, initialCommand)
-        enableBell = V.getProfileBoolean(BELL, enableBell)
-        enableVibrate = V.getProfileBoolean(VIBRATE, enableVibrate)
-        enableExecveWrapper = V.getProfileBoolean(EXECVE_WRAPPER, enableExecveWrapper)
-        enableSpecialVolumeKeys = V.getProfileBoolean(SPECIAL_VOLUME_KEYS, enableSpecialVolumeKeys)
-        enableAutoCompletion = V.getProfileBoolean(AUTO_COMPLETION, enableAutoCompletion)
-        enableBackKeyToEscape = V.getProfileBoolean(BACK_KEY_TO_ESC, enableBackKeyToEscape)
-        enableExtraKeys = V.getProfileBoolean(EXTRA_KEYS, enableExtraKeys)
-        profileFont = V.getProfileString(FONT, profileFont)
-        profileColorScheme = V.getProfileString(COLOR_SCHEME, profileColorScheme)
+    override fun onProfileLoaded(visitor: ConfigVisitor): Boolean {
+        loginShell = visitor.getProfileString(LOGIN_SHELL, loginShell)
+        initialCommand = visitor.getProfileString(INITIAL_COMMAND, initialCommand)
+        enableBell = visitor.getProfileBoolean(BELL, enableBell)
+        enableVibrate = visitor.getProfileBoolean(VIBRATE, enableVibrate)
+        enableExecveWrapper = visitor.getProfileBoolean(EXECVE_WRAPPER, enableExecveWrapper)
+        enableSpecialVolumeKeys = visitor.getProfileBoolean(SPECIAL_VOLUME_KEYS, enableSpecialVolumeKeys)
+        enableAutoCompletion = visitor.getProfileBoolean(AUTO_COMPLETION, enableAutoCompletion)
+        enableBackKeyToEscape = visitor.getProfileBoolean(BACK_KEY_TO_ESC, enableBackKeyToEscape)
+        enableExtraKeys = visitor.getProfileBoolean(EXTRA_KEYS, enableExtraKeys)
+        profileFont = visitor.getProfileString(FONT, profileFont)
+        profileColorScheme = visitor.getProfileString(COLOR_SCHEME, profileColorScheme)
         return true
     }
 

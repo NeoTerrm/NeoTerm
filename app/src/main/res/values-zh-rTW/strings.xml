@@ -61,15 +61,11 @@
     <string name="package_settings_desc">軟體源，更新，升級</string>
     <string name="install_font">安裝字體</string>
     <string name="install_color">安裝色彩主題</string>
-    <string name="setup_hello">發現</string>
     <string name="setup_info">你好，NeoTerm</string>
-    <string name="setup_info2">輕觸以選擇你的最愛</string>
-    <string name="setup_next">短暫的安裝過程之後，\n即可開始使用NeoTerm</string>
-    <string name="discovery">發現</string>
+    <string name="setup_next">GO</string>
     <string name="crash_model">裝置: %s</string>
     <string name="crash_app">程式: %s</string>
     <string name="crash_stack_trace">錯誤訊息</string>
-    <string name="crash_tips">我們正在努力讓這個 Activity 永不見天日…</string>
     <string name="service_status_text">%d 個會話, %d 個图形會話</string>
     <string name="service_lock_acquired"> (永不休眠)</string>
     <string name="service_acquire_lock">開啟休眠鎖</string>

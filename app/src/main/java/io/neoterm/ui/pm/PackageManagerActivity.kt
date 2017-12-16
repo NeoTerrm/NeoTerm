@@ -137,6 +137,8 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
 
     private fun changeSourceToUserInput(sourceManager: SourceManager) {
         val editText = EditText(this)
+        editText.setSelectAllOnFocus(true)
+
         AlertDialog.Builder(this)
                 .setTitle(R.string.pref_package_source)
                 .setView(editText)

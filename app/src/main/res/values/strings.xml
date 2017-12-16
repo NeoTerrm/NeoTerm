@@ -12,13 +12,17 @@
     <string name="service_acquire_lock">Acquire Lock</string>
     <string name="service_release_lock">Release Lock</string>
 
-    <string name="setup_hello">Discovery</string>
     <string name="setup_info">Hello, NeoTerm</string>
-    <string name="setup_info2">Tap to choose your favorites</string>
-    <string name="setup_next">After a short installation process,\nyou can start using NeoTerm</string>
+    <string name="setup_next">Let\'s Go!</string>
+    <string name="setup_setup_method">Select your setup method</string>
+    <string name="setup_online">Online Setup</string>
+    <string name="setup_local">Local Zip File Setup</string>
+    <string name="setup_assets">Assets Zip File Setup</string>
+    <string name="setup_source_url">Source URL</string>
+    <string name="setup_input_source_url">Input source URL…</string>
+    <string name="setup_dots" translatable="false">…</string>
 
     <string name="about">About</string>
-    <string name="discovery">Discovery</string>
     <string name="settings">Settings</string>
     <string name="general_settings">General Settings</string>
     <string name="general_settings_desc">Bell, Vibrate, Shell, Initial Command</string>
@@ -50,7 +54,6 @@
 
     <string name="crash_model">Model: %s</string>
     <string name="crash_app">App: %s</string>
-    <string name="crash_tips">We are trying to deprecate this Activity…</string>
     <string name="crash_stack_trace">Stack Trace</string>
 
     <string name="installer_message">Installing</string>

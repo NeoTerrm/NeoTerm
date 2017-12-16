@@ -1,41 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/white">
+    android:layout_margin="32dp"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/setup_title_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="26dp"
         android:layout_marginTop="26dp"
-        android:gravity="center"
-        android:text="@string/setup_hello"
-        android:textColor="@color/colorAccent"
-        android:textSize="49sp" />
-
-    <TextView
-        android:id="@+id/subtitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="-7dp"
         android:gravity="center"
         android:text="@string/setup_info"
         android:textColor="@color/colorAccent"
-        android:textSize="16sp" />
+        android:textSize="32sp" />
 
     <TextView
-        android:id="@+id/setup_next"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+        android:id="@+id/select_method_tip_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/preview_layout_margin"
-        android:layout_marginEnd="@dimen/preview_layout_margin"
-        android:text="@string/setup_next"
-        android:textColor="#9b9b9b"
-        android:textStyle="bold" />
+        android:layout_below="@id/setup_title_text"
+        android:text="@string/setup_setup_method" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/setup_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/setup_next" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/setup_next"
+        android:layout_below="@id/select_method_tip_text"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/setup_method_online">
+
+            <RadioButton
+                android:id="@+id/setup_method_online"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_online" />
+
+            <RadioButton
+                android:id="@+id/setup_method_local"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_local" />
+
+            <RadioButton
+                android:id="@+id/setup_method_assets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_assets" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/setup_url_tip_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/setup_source_url" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/setup_source_url"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:clickable="false"
+                android:focusable="false"
+                android:hint="@string/setup_input_source_url" />
+
+            <Button
+                android:id="@+id/setup_source_url_select"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:text="@string/setup_dots" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/setup_log_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>

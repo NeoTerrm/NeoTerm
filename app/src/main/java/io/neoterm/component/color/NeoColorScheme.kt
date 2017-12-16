@@ -86,7 +86,7 @@ open class NeoColorScheme : CodeGenObject {
             COLOR_FOREGROUND -> foregroundColor
             COLOR_CURSOR -> cursorColor
             else -> {
-                if (type in (0..color.size - 1)) {
+                if (type in (0 until color.size)) {
                     color[type]
                 } else {
                     ""

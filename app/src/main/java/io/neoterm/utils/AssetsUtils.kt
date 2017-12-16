@@ -2,6 +2,7 @@ package io.neoterm.utils
 
 import android.content.Context
 import java.io.File
+import java.io.InputStream
 
 /**
  * @author kiva
@@ -17,5 +18,10 @@ object AssetsUtils {
                         FileUtils.writeFile(file, it)
                     }
                 }
+    }
+
+    fun openAssetsFile(context: Context, fileName: String) : InputStream {
+        val assets = context.assets
+        return assets.open(fileName)
     }
 }

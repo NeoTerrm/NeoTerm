@@ -72,8 +72,13 @@
     <string name="setup_online">在线设置</string>
     <string name="setup_local">本地 Zip 文件</string>
     <string name="setup_assets">软件自带 Zip 文件</string>
-    <string name="setup_source_url">配置地址</string>
-    <string name="setup_input_source_url">输入配置地址</string>
+    <string name="setup_backup">NeoTerm 备份</string>
+    <string name="setup_source_parameter">配置参数</string>
+    <string name="setup_input_source_parameter">输入配置地址</string>
+    <string name="setup_hint_online">含有启动文件的软件源地址</string>
+    <string name="setup_hint_local">启动文件路径</string>
+    <string name="setup_hint_assets">不可用</string>
+    <string name="setup_hint_backup">备份文件(*.neobackup) 路径</string>
     <string name="crash_model">设备: %s</string>
     <string name="crash_app">应用: %s</string>
     <string name="crash_stack_trace">堆栈信息</string>

@@ -39,6 +39,7 @@
         android:orientation="vertical">
 
         <RadioGroup
+            android:id="@+id/setup_method_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checkedButton="@id/setup_method_online">
@@ -61,6 +62,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/setup_assets" />
 
+            <RadioButton
+                android:id="@+id/setup_method_backup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_backup" />
+
         </RadioGroup>
 
         <TextView
@@ -68,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/setup_source_url" />
+            android:text="@string/setup_source_parameter" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,16 +83,16 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/setup_source_url"
+                android:id="@+id/setup_source_parameter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:clickable="false"
                 android:focusable="false"
-                android:hint="@string/setup_input_source_url" />
+                android:hint="@string/setup_hint_online" />
 
             <Button
-                android:id="@+id/setup_source_url_select"
+                android:id="@+id/setup_source_parameter_select"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"

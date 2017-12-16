@@ -18,9 +18,14 @@
     <string name="setup_online">Online Setup</string>
     <string name="setup_local">Local Zip File Setup</string>
     <string name="setup_assets">Assets Zip File Setup</string>
-    <string name="setup_source_url">Source URL</string>
-    <string name="setup_input_source_url">Input source URL…</string>
+    <string name="setup_backup">NeoTerm Backup</string>
+    <string name="setup_source_parameter">Source Parameter</string>
+    <string name="setup_input_source_parameter">Input source parameter…</string>
     <string name="setup_dots" translatable="false">…</string>
+    <string name="setup_hint_online">URL of mirror that contains setup zip files</string>
+    <string name="setup_hint_local">File path to setup zip files</string>
+    <string name="setup_hint_assets">Not available</string>
+    <string name="setup_hint_backup">File path to backup file(*.neobackup)</string>
 
     <string name="about">About</string>
     <string name="settings">Settings</string>

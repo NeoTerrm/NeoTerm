@@ -2,6 +2,9 @@ package io.neoterm.ui.setup
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.RadioButton
 import io.neoterm.R
 import io.neoterm.utils.PackageUtils
 
@@ -12,10 +15,35 @@ import io.neoterm.utils.PackageUtils
 class SetupActivity : AppCompatActivity() {
     private var aptUpdated = false
 
+    private val MAPPING = arrayOf(
+            R.id.setup_method_online, R.string.setup_hint_online,
+            R.id.setup_method_local, R.string.setup_hint_local,
+            R.id.setup_method_assets, R.string.setup_hint_assets,
+            R.id.setup_method_backup, R.string.setup_hint_backup
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ui_setup)
-        setup()
+
+        val parameterEditor = findViewById<EditText>(R.id.setup_source_parameter)
+
+        val onCheckedChangeListener = CompoundButton.OnCheckedChangeListener { button, checked ->
+            if (checked) {
+                val id = button.id
+                val index = MAPPING.indexOf(id)
+                if (index < 0 || index % 2 != 0) {
+                    parameterEditor.setHint(R.string.setup_input_source_parameter)
+                    return@OnCheckedChangeListener
+                }
+                parameterEditor.setHint(MAPPING[index + 1])
+            }
+        }
+
+        findViewById<RadioButton>(R.id.setup_method_online).setOnCheckedChangeListener(onCheckedChangeListener)
+        findViewById<RadioButton>(R.id.setup_method_local).setOnCheckedChangeListener(onCheckedChangeListener)
+        findViewById<RadioButton>(R.id.setup_method_assets).setOnCheckedChangeListener(onCheckedChangeListener)
+        findViewById<RadioButton>(R.id.setup_method_backup).setOnCheckedChangeListener(onCheckedChangeListener)
     }
 
     private fun setup() {

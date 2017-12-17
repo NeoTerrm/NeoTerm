@@ -89,7 +89,8 @@
                 android:layout_weight="1.0"
                 android:clickable="false"
                 android:focusable="false"
-                android:hint="@string/setup_hint_online" />
+                android:hint="@string/setup_hint_online"
+                android:text="@string/default_source_url" />
 
             <Button
                 android:id="@+id/setup_source_parameter_select"

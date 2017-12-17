@@ -14,11 +14,11 @@
 
     <string name="setup_info">Hello, NeoTerm</string>
     <string name="setup_next">Let\'s Go!</string>
-    <string name="setup_setup_method">Select your setup method</string>
+    <string name="setup_setup_method">Select your installation method</string>
     <string name="setup_online">Online Setup</string>
     <string name="setup_local">Local Zip File Setup</string>
     <string name="setup_assets">Assets Zip File Setup</string>
-    <string name="setup_backup">NeoTerm Backup</string>
+    <string name="setup_backup">Restore from NeoTerm Backup</string>
     <string name="setup_source_parameter">Source Parameter</string>
     <string name="setup_input_source_parameter">Input source parameter…</string>
     <string name="setup_dots" translatable="false">…</string>

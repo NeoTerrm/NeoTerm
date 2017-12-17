@@ -68,11 +68,11 @@
     <string name="install_color">安装配色方案</string>
     <string name="setup_info">你好，NeoTerm</string>
     <string name="setup_next">开始！</string>
-    <string name="setup_setup_method">选择你的配置方式</string>
-    <string name="setup_online">在线设置</string>
-    <string name="setup_local">本地 Zip 文件</string>
-    <string name="setup_assets">软件自带 Zip 文件</string>
-    <string name="setup_backup">NeoTerm 备份</string>
+    <string name="setup_setup_method">选择你的安装方式</string>
+    <string name="setup_online">从软件源安装</string>
+    <string name="setup_local">从本地 Zip 文件安装</string>
+    <string name="setup_assets">从软件自带 Zip 文件安装</string>
+    <string name="setup_backup">从 NeoTerm 备份中恢复</string>
     <string name="setup_source_parameter">配置参数</string>
     <string name="setup_input_source_parameter">输入配置地址</string>
     <string name="setup_hint_online">含有启动文件的软件源地址</string>

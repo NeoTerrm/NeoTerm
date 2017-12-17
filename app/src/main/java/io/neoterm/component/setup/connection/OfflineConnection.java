@@ -12,15 +12,15 @@ import io.neoterm.utils.AssetsUtils;
  * @author kiva
  */
 
-public class OfflineConnection implements SourceConnection {
+public abstract class OfflineConnection implements SourceConnection {
     private InputStream inputStream;
+
+    protected abstract InputStream openInputStream() throws IOException;
 
     @Override
     public InputStream getInputStream() throws IOException {
         if (inputStream == null) {
-            String arch = SetupHelper.determineArchName();
-            String fileName = "offline_setup/" + arch + ".zip";
-            inputStream = AssetsUtils.INSTANCE.openAssetsFile(App.Companion.get(), fileName);
+            inputStream = openInputStream();
         }
         return inputStream;
     }

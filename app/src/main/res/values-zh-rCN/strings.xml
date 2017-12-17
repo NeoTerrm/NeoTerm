@@ -79,6 +79,11 @@
     <string name="setup_hint_local">启动文件路径</string>
     <string name="setup_hint_assets">不可用</string>
     <string name="setup_hint_backup">备份文件(*.neobackup) 路径</string>
+    <string name="setup_error_file_not_found">文件不存在</string>
+    <string name="setup_error_invalid_url">非法的 URL</string>
+    <string name="setup_error_no_internet">无网络连接</string>
+    <string name="setup_error_connection_failed">无法连接到服务器</string>
+    <string name="setup_preparing">准备中…</string>
     <string name="crash_model">设备: %s</string>
     <string name="crash_app">应用: %s</string>
     <string name="crash_stack_trace">堆栈信息</string>

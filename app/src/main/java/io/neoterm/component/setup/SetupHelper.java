@@ -52,8 +52,12 @@ public final class SetupHelper {
     }
 
     private static ProgressDialog makeProgressDialog(Context context) {
+        return makeProgressDialog(context, context.getString(R.string.installer_message));
+    }
+
+    public static ProgressDialog makeProgressDialog(Context context, String message) {
         ProgressDialog dialog = new ProgressDialog(context);
-        dialog.setMessage(context.getString(R.string.installer_message));
+        dialog.setMessage(message);
         dialog.setIndeterminate(false);
         dialog.setCancelable(false);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);

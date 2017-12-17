@@ -26,6 +26,11 @@
     <string name="setup_hint_local">File path to setup zip files</string>
     <string name="setup_hint_assets">Not available</string>
     <string name="setup_hint_backup">File path to backup file(*.neobackup)</string>
+    <string name="setup_error_file_not_found">File not found</string>
+    <string name="setup_error_invalid_url">Invalid URL</string>
+    <string name="setup_error_no_internet">No Internet connection</string>
+    <string name="setup_error_connection_failed">Failed to connect to server</string>
+    <string name="setup_preparing">Preparing…</string>
 
     <string name="about">About</string>
     <string name="settings">Settings</string>
@@ -146,6 +151,8 @@
     <string name="toggle_eks">Toggle extra keys</string>
     <string name="new_x_session">New X Session</string>
 
+    <string name="default_source_url">http://neoterm.studio</string>
+
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>
         <item>zsh</item>
@@ -153,12 +160,8 @@
         <item>fish</item>
     </string-array>
 
-    <string-array name="pref_package_source_entries" translatable="false">
-        <item>neoterm.studio</item>
-    </string-array>
-
     <string-array name="pref_package_source_values" translatable="false">
-        <item>http://neoterm.studio</item>
+        <item>@string/default_source_url</item>
     </string-array>
 
     <string-array name="color_item_names">

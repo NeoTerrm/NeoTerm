@@ -25,15 +25,11 @@ object NeoTermPath {
     const val SOURCE_FILE = "$USR_PATH/etc/apt/sources.list"
     const val PACKAGE_LIST_DIR = "$USR_PATH/var/lib/apt/lists"
 
-    const val SOURCE = "http://neoterm.studio"
+    private const val SOURCE = "http://neoterm.studio"
 
     val DEFAULT_SOURCE: String
-    val SERVER_BASE_URL: String
-    val SERVER_BOOT_URL: String
 
     init {
         DEFAULT_SOURCE = SOURCE
-        SERVER_BASE_URL = DEFAULT_SOURCE
-        SERVER_BOOT_URL = "$SERVER_BASE_URL/boot"
     }
 }

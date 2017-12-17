@@ -66,6 +66,7 @@
     <string name="package_settings_desc">软件源，更新，升级</string>
     <string name="install_font">安装字体</string>
     <string name="install_color">安装配色方案</string>
+
     <string name="setup_info">你好，NeoTerm</string>
     <string name="setup_next">开始！</string>
     <string name="setup_setup_method">选择你的安装方式</string>
@@ -84,6 +85,11 @@
     <string name="setup_error_no_internet">无网络连接</string>
     <string name="setup_error_connection_failed">无法连接到服务器</string>
     <string name="setup_preparing">准备中…</string>
+    <string name="setup_confirm">最后一步</string>
+    <string name="setup_confirm_text">目前为止一切顺利，继续?</string>
+    <string name="setup_reset_confirm">重置确认</string>
+    <string name="setup_reset_confirm_text">这个操作会清空你的所有数据，是否继续？</string>
+
     <string name="crash_model">设备: %s</string>
     <string name="crash_app">应用: %s</string>
     <string name="crash_stack_trace">堆栈信息</string>

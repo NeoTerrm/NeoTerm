@@ -27,7 +27,7 @@ object PackageUtils {
                 .toString()
     }
 
-    fun executeApt(context: Context, subCommand: String, extraArgs: Array<String>?, callback: (Int, TerminalDialog) -> Unit) {
+    fun apt(context: Context, subCommand: String, extraArgs: Array<String>?, callback: (Int, TerminalDialog) -> Unit) {
         val argArray =
                 if (extraArgs != null) arrayOf(NeoTermPath.APT_BIN_PATH, subCommand, *extraArgs)
                 else arrayOf(NeoTermPath.APT_BIN_PATH, subCommand)

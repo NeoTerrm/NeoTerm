@@ -43,7 +43,7 @@
         android:key="@string/discovery"
         android:title="@string/discovery">
         <intent
-            android:targetClass="io.neoterm.ui.setup.SetupActivity"
+            android:targetClass="io.neotermshowConfirmDialogetup.SetupActivity"
             android:targetPackage="io.neoterm" />
     </Preference>
     -->

@@ -22,8 +22,8 @@
     <string name="setup_source_parameter">Source Parameter</string>
     <string name="setup_input_source_parameter">Input source parameter…</string>
     <string name="setup_dots" translatable="false">…</string>
-    <string name="setup_hint_online">URL of mirror that contains setup zip files</string>
-    <string name="setup_hint_local">File path to setup zip files</string>
+    <string name="setup_hint_online">URL of mirror that contains showConfirmDialog zip files</string>
+    <string name="setup_hint_local">File path to showConfirmDialog zip files</string>
     <string name="setup_hint_assets">Not available</string>
     <string name="setup_hint_backup">File path to backup file(*.neobackup)</string>
     <string name="setup_error_file_not_found">File not found</string>
@@ -31,6 +31,10 @@
     <string name="setup_error_no_internet">No Internet connection</string>
     <string name="setup_error_connection_failed">Failed to connect to server</string>
     <string name="setup_preparing">Preparing…</string>
+    <string name="setup_confirm">Finish Setup</string>
+    <string name="setup_confirm_text">Everything goes well till now, continue?</string>
+    <string name="setup_reset_confirm">Reset Confirm</string>
+    <string name="setup_reset_confirm_text">This operation will clear all your data! Continue?</string>
 
     <string name="about">About</string>
     <string name="settings">Settings</string>

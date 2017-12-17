@@ -133,7 +133,7 @@
             android:label="@string/error"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
-            android:name=".ui.setup.SetupActivity"
+            android:name=".ui.showConfirmDialog.SetupActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

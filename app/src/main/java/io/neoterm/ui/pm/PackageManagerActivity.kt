@@ -159,10 +159,10 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     }
 
     private fun executeAptUpdate() {
-        PackageUtils.executeApt(this, "update", null, { exitStatus, dialog ->
+        PackageUtils.apt(this, "update", null, { exitStatus, dialog ->
             if (exitStatus != 0) {
                 dialog.setTitle(getString(R.string.error))
-                return@executeApt
+                return@apt
             }
             Toast.makeText(this, R.string.apt_update_ok, Toast.LENGTH_SHORT).show()
             dialog.dismiss()
@@ -171,14 +171,14 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     }
 
     private fun executeAptUpgrade() {
-        PackageUtils.executeApt(this, "update", null, { exitStatus, dialog ->
+        PackageUtils.apt(this, "update", null, { exitStatus, dialog ->
             if (exitStatus != 0) {
                 dialog.setTitle(getString(R.string.error))
-                return@executeApt
+                return@apt
             }
             dialog.dismiss()
 
-            PackageUtils.executeApt(this, "upgrade", arrayOf("-y"), out@ { exitStatus, dialog ->
+            PackageUtils.apt(this, "upgrade", arrayOf("-y"), out@ { exitStatus, dialog ->
                 if (exitStatus != 0) {
                     dialog.setTitle(getString(R.string.error))
                     return@out

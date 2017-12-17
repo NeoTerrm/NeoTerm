@@ -137,7 +137,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
     }
 
     private fun showConfirmDialog(connection: SourceConnection) {
-        val needSetup = !SetupHelper.needSetup()
+        val needSetup = SetupHelper.needSetup()
         val titleId = if (needSetup) R.string.setup_confirm else R.string.setup_reset_confirm
         val messageId = if (needSetup) R.string.setup_confirm_text else R.string.setup_reset_confirm_text
 

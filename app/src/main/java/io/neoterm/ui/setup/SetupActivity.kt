@@ -1,5 +1,6 @@
 package io.neoterm.ui.setup
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -71,8 +72,12 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener {
 
             SetupActivity@this.runOnUiThread {
                 dialog.dismiss()
+                editor.error = errorMessage
                 if (errorMessage != null) {
-                    editor.error = errorMessage
+                    AlertDialog.Builder(SetupActivity@this)
+                            .setMessage(errorMessage)
+                            .setPositiveButton(android.R.string.yes, null)
+                            .show()
                     return@runOnUiThread
                 }
 
@@ -109,7 +114,8 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener {
                     else -> null
                 }
             }
-            R.id.setup_method_local or R.id.setup_method_backup -> {
+            R.id.setup_method_local,
+            R.id.setup_method_backup -> {
                 if (File(parameter).exists()) null
                 else getString(R.string.setup_error_file_not_found)
             }

@@ -98,7 +98,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
             R.id.setup_method_online -> NetworkConnection(parameter)
             R.id.setup_method_assets -> AssetsFileConnection()
             R.id.setup_method_backup -> BackupFileConnection(parameter)
-            else -> throw IllegalArgumentException("Unexpected showConfirmDialog method!")
+            else -> throw IllegalArgumentException("Unexpected setup method!")
         }
     }
 

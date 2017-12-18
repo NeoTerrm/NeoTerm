@@ -1,22 +1,15 @@
 package io.neoterm.component.setup.connection;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import android.content.Context;
+import android.net.Uri;
 
 /**
  * @author kiva
  */
 
-public class LocalFileConnection extends OfflineConnection {
-    private final String filePath;
+public class LocalFileConnection extends OfflineUriConnection {
 
-    public LocalFileConnection(String filePath) {
-        this.filePath = filePath;
-    }
-
-    @Override
-    protected InputStream openInputStream() throws IOException {
-        return new FileInputStream(filePath);
+    public LocalFileConnection(Context context, Uri uri) {
+        super(context, uri);
     }
 }

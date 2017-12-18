@@ -1,6 +1,8 @@
 package io.neoterm.ui.setup
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -16,6 +18,7 @@ import io.neoterm.component.setup.connection.LocalFileConnection
 import io.neoterm.component.setup.connection.NetworkConnection
 import io.neoterm.component.setup.helper.URLAvailability
 import io.neoterm.frontend.config.NeoTermPath
+import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.PackageUtils
 import java.io.File
 import java.lang.Exception
@@ -25,9 +28,13 @@ import java.lang.Exception
  * @author kiva
  */
 class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener {
+    companion object {
+        private const val REQUEST_SELECT_PARAMETER = 520;
+    }
 
     private var aptUpdated = false
     private var setupParameter = ""
+    private var setupParameterUri: Uri? = null
 
     private val hintMapping = arrayOf(
             R.id.setup_method_online, R.string.setup_hint_online,
@@ -63,12 +70,42 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
         findViewById<RadioButton>(R.id.setup_method_backup).setOnCheckedChangeListener(onCheckedChangeListener)
 
         findViewById<Button>(R.id.setup_next).setOnClickListener(this)
+        findViewById<Button>(R.id.setup_source_parameter_select).setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
+        val clickedId = view?.id ?: return
+        when (clickedId) {
+            R.id.setup_source_parameter_select -> doSelectParameter()
+            R.id.setup_next -> doPrepareSetup()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        if (requestCode == REQUEST_SELECT_PARAMETER && resultCode == RESULT_OK) {
+            if (resultData != null) {
+                setupParameterUri = resultData.data
+                val path = MediaUtils.getPath(this, setupParameterUri!!)
+                findViewById<EditText>(R.id.setup_source_parameter).setText(path)
+                return
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, resultData)
+    }
+
+    private fun doPrepareSetup() {
         val id = findViewById<RadioGroup>(R.id.setup_method_group).checkedRadioButtonId
         val editor = findViewById<EditText>(R.id.setup_source_parameter)
         setupParameter = editor.text.toString()
+        if (setupParameterUri == null) {
+            when (id) {
+                R.id.setup_method_backup,
+                R.id.setup_method_local -> {
+                    // TODO: Report as an error
+                    return
+                }
+            }
+        }
 
         val dialog = SetupHelper.makeProgressDialog(this, getString(R.string.setup_preparing))
         dialog.show()
@@ -86,18 +123,28 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
                     return@runOnUiThread
                 }
 
-                val connection = createSourceConnection(id, setupParameter)
+                val connection = createSourceConnection(id, setupParameter, setupParameterUri)
                 showConfirmDialog(connection)
             }
         }.start()
     }
 
-    private fun createSourceConnection(id: Int, parameter: String): SourceConnection {
+    private fun doSelectParameter() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+
+        // Filter to only show results that can be "opened", such as a
+        // file (as opposed to a list of contacts or timezones)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+
+        startActivityForResult(intent, REQUEST_SELECT_PARAMETER)
+    }
+
+    private fun createSourceConnection(id: Int, parameter: String, parameterUri: Uri?): SourceConnection {
         return when (id) {
-            R.id.setup_method_local -> LocalFileConnection(parameter)
+            R.id.setup_method_local -> LocalFileConnection(this, parameterUri)
             R.id.setup_method_online -> NetworkConnection(parameter)
             R.id.setup_method_assets -> AssetsFileConnection()
-            R.id.setup_method_backup -> BackupFileConnection(parameter)
+            R.id.setup_method_backup -> BackupFileConnection(this, parameterUri)
             else -> throw IllegalArgumentException("Unexpected setup method!")
         }
     }

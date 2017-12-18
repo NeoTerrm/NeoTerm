@@ -1,21 +1,15 @@
 package io.neoterm.component.setup.connection;
 
-import java.io.IOException;
-import java.io.InputStream;
+import android.content.Context;
+import android.net.Uri;
 
 /**
  * @author kiva
  */
 
-public class BackupFileConnection extends OfflineConnection {
-    private final String filePath;
+public class BackupFileConnection extends OfflineUriConnection {
 
-    public BackupFileConnection(String filePath) {
-        this.filePath = filePath;
-    }
-
-    @Override
-    protected InputStream openInputStream() throws IOException {
-        return null;
+    public BackupFileConnection(Context context, Uri uri) {
+        super(context, uri);
     }
 }

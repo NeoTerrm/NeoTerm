@@ -8,6 +8,7 @@
     <string name="key_general_auto_completion" translatable="false">neoterm_general_auto_completion</string>
     <string name="key_general_volume_as_control" translatable="false">neoterm_general_volume_as_control</string>
     <string name="key_general_use_execve_wrapper" translatable="false">neoterm_general_use_execve_wrapper</string>
+    <string name="key_general_enable_word_based_ime" translatable="false">neoterm_general_enable_word_based_ime</string>
 
     <string name="key_ui_fullscreen" translatable="false">neoterm_ui_fullscreen</string>
     <string name="key_ui_hide_toolbar" translatable="false">neoterm_ui_hide_toolbar</string>

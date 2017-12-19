@@ -25,15 +25,8 @@ object NeoPreference {
     const val KEY_CURRENT_SESSION = "neoterm_service_current_session"
     const val KEY_SYSTEM_SHELL = "neoterm_core_system_shell"
     const val KEY_SOURCES = "neoterm_source_source_list"
-//    const val KEY_FLOATING_WINDOW_X = "neoterm_floating_window_x"
-//    const val KEY_FLOATING_WINDOW_Y = "neoterm_floating_window_y"
-//    const val KEY_FLOATING_WIDTH = "neoterm_floating_window_width"
-//    const val KEY_FLOATING_HEIGHT = "neoterm_floating_window_height"
 
     const val VALUE_HAPPY_EGG_TRIGGER = 8
-    const val VALUE_NEOTERM_ONLY = "NeoTermOnly"
-    const val VALUE_NEOTERM_FIRST = "NeoTermFirst"
-    const val VALUE_SYSTEM_FIRST = "SystemFirst"
 
     var MIN_FONT_SIZE: Int = 0
         private set
@@ -243,22 +236,10 @@ object NeoPreference {
                 DefaultValues.enableSwitchNextTab)
     }
 
-//    fun storeWindowSize(context: Context, width: Int, height: Int) {
-//        store(KEY_FLOATING_WIDTH, width)
-//        store(KEY_FLOATING_HEIGHT, height)
-//    }
-//
-//    fun storeWindowLocation(context: Context, x: Int, y: Int) {
-//        store(KEY_FLOATING_WINDOW_X, x)
-//        store(KEY_FLOATING_WINDOW_Y, y)Se
-//    }
-//
-//    fun applySavedWindowParameter(context: Context, layout: WindowManager.LayoutParams) {
-//        layout.x = loadInt(KEY_FLOATING_WINDOW_X, 200)
-//        layout.y = loadInt(KEY_FLOATING_WINDOW_Y, 200)
-//        layout.width = loadInt(KEY_FLOATING_WIDTH, 500)
-//        layout.height = loadInt(KEY_FLOATING_HEIGHT, 800)
-//    }
+    fun isWordBasedImeEnabled() : Boolean {
+        return loadBoolean(R.string.key_general_enable_word_based_ime,
+                DefaultValues.enableWordBasedIme)
+    }
 
     /**
      * TODO

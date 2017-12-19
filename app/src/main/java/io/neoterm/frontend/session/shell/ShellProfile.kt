@@ -26,6 +26,7 @@ class ShellProfile : NeoProfile() {
         private const val EXTRA_KEYS = "extra-keys"
         private const val FONT = "font"
         private const val COLOR_SCHEME = "color-scheme"
+        private const val WORD_BASED_IME = "word-based-ime"
 
         private val PROFILE_META_PATH = arrayOf(PROFILE_META_NAME)
     }
@@ -42,6 +43,7 @@ class ShellProfile : NeoProfile() {
     var enableAutoCompletion = DefaultValues.enableAutoCompletion
     var enableBackKeyToEscape = DefaultValues.enableBackButtonBeMappedToEscape
     var enableExtraKeys = DefaultValues.enableExtraKeys
+    var enableWordBasedIme = DefaultValues.enableWordBasedIme
 
     var profileFont: String
     var profileColorScheme: String
@@ -62,6 +64,7 @@ class ShellProfile : NeoProfile() {
         enableAutoCompletion = NeoPreference.isAutoCompletionEnabled()
         enableBackKeyToEscape = NeoPreference.isBackButtonBeMappedToEscapeEnabled()
         enableExtraKeys = NeoPreference.isExtraKeysEnabled()
+        enableWordBasedIme = NeoPreference.isWordBasedImeEnabled()
     }
 
     override fun onProfileLoaded(visitor: ConfigVisitor): Boolean {
@@ -74,6 +77,7 @@ class ShellProfile : NeoProfile() {
         enableAutoCompletion = visitor.getProfileBoolean(AUTO_COMPLETION, enableAutoCompletion)
         enableBackKeyToEscape = visitor.getProfileBoolean(BACK_KEY_TO_ESC, enableBackKeyToEscape)
         enableExtraKeys = visitor.getProfileBoolean(EXTRA_KEYS, enableExtraKeys)
+        enableWordBasedIme = visitor.getProfileBoolean(WORD_BASED_IME, enableWordBasedIme)
         profileFont = visitor.getProfileString(FONT, profileFont)
         profileColorScheme = visitor.getProfileString(COLOR_SCHEME, profileColorScheme)
         return true

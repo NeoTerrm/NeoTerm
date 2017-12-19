@@ -46,8 +46,8 @@ class CandidatePopupWindow(val context: Context) {
             }
 
             popWindow.showAtLocation(terminalView, Gravity.BOTTOM.and(Gravity.START),
-                    terminalView.cursorAbsX,
-                    terminalView.cursorAbsY)
+                    terminalView.cursorAbsoluteX,
+                    terminalView.cursorAbsoluteY)
         }
     }
 

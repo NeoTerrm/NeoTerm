@@ -14,7 +14,7 @@ import java.io.File
 open class ShellTermSession private constructor(shellPath: String, cwd: String,
                                                 args: Array<String>, env: Array<String>,
                                                 changeCallback: SessionChangedCallback,
-                                                val initialCommand: String?,
+                                                private val initialCommand: String?,
                                                 val shellProfile: ShellProfile)
     : TerminalSession(shellPath, cwd, args, env, changeCallback) {
 

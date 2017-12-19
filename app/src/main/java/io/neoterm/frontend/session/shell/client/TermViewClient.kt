@@ -24,7 +24,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     private var mVirtualFnKeyDown: Boolean = false
     private var lastTitle: String = ""
 
-    var termData: TermDataHolder? = null
+    var termSessionData: TermSessionData? = null
 
     override fun onScale(scale: Float): Float {
         if (scale < 0.9f || scale > 1.1f) {
@@ -36,13 +36,13 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun onSingleTapUp(e: MotionEvent?) {
-        val termView = termData?.termView ?: return
+        val termView = termSessionData?.termView ?: return
         (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
                 .showSoftInput(termView, InputMethodManager.SHOW_IMPLICIT)
     }
 
     override fun shouldBackButtonBeMappedToEscape(): Boolean {
-        val shellSession = termData?.termSession as ShellTermSession? ?: return false
+        val shellSession = termSessionData?.termSession as ShellTermSession? ?: return false
         return shellSession.shellProfile.enableBackKeyToEscape
     }
 
@@ -55,7 +55,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
             return true
         }
 
-        val termUI = termData?.termUI
+        val termUI = termSessionData?.termUI
 
         when (keyCode) {
             KeyEvent.KEYCODE_ENTER -> {
@@ -112,12 +112,12 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     override fun readControlKey(): Boolean {
-        val extraKeysView = termData?.extraKeysView
+        val extraKeysView = termSessionData?.extraKeysView
         return (extraKeysView != null && extraKeysView.readControlButton()) || mVirtualControlKeyDown
     }
 
     override fun readAltKey(): Boolean {
-        val extraKeysView = termData?.extraKeysView
+        val extraKeysView = termSessionData?.extraKeysView
         return (extraKeysView != null && extraKeysView.readAltButton()) || mVirtualFnKeyDown
     }
 
@@ -194,7 +194,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
             return false
         }
 
-        val shellSession = termData?.termSession as ShellTermSession? ?: return false
+        val shellSession = termSessionData?.termSession as ShellTermSession? ?: return false
 
         // Volume keys as special keys
         val volumeAsSpecialKeys = shellSession.shellProfile.enableSpecialVolumeKeys
@@ -213,7 +213,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     fun updateExtraKeys(title: String?, force: Boolean = false) {
-        val extraKeysView = termData?.extraKeysView
+        val extraKeysView = termSessionData?.extraKeysView
 
         if (extraKeysView == null || title == null || title.isEmpty()) {
             return
@@ -229,8 +229,8 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     private fun updateExtraKeysVisibility(): Boolean {
-        val extraKeysView = termData?.extraKeysView ?: return false
-        val shellSession = termData?.termSession as ShellTermSession? ?: return false
+        val extraKeysView = termSessionData?.extraKeysView ?: return false
+        val shellSession = termSessionData?.termSession as ShellTermSession? ?: return false
 
         return if (shellSession.shellProfile.enableExtraKeys) {
             extraKeysView.visibility = View.VISIBLE
@@ -242,12 +242,12 @@ class TermViewClient(val context: Context) : TerminalViewClient {
     }
 
     private fun removeExtraKeys() {
-        val extraKeysView = termData?.extraKeysView
+        val extraKeysView = termSessionData?.extraKeysView
         extraKeysView?.clearUserKeys()
     }
 
     private fun changeFontSize(increase: Boolean) {
-        val termView = termData?.termView
+        val termView = termSessionData?.termView
         if (termView != null) {
             val changedSize = (if (increase) 1 else -1) * 2
             val fontSize = NeoPreference.validateFontSize(termView.textSize + changedSize)

@@ -16,6 +16,7 @@ import io.neoterm.NeoGLView
 import io.neoterm.R
 import io.neoterm.component.color.ColorSchemeComponent
 import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.config.DefaultValues
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import io.neoterm.ui.term.NeoTermActivity
@@ -26,8 +27,9 @@ import io.neoterm.utils.TerminalUtils
  */
 class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     companion object {
-        private val VIEW_TYPE_TERM = 1
-        private val VIEW_TYPE_X = 2
+        private var VIEW_TYPE_COUNT = 0
+        private val VIEW_TYPE_TERM = VIEW_TYPE_COUNT++
+        private val VIEW_TYPE_X = VIEW_TYPE_COUNT++
     }
 
     private fun setViewLayerType(view: View?) = view?.setLayerType(View.LAYER_TYPE_NONE, null)
@@ -146,6 +148,7 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         val termData = tab.termData
 
         termData.initializeViewWith(tab, termView, extraKeysView)
+        termView.setEnableWordBasedIme(termData.profile?.enableWordBasedIme ?: DefaultValues.enableWordBasedIme)
         termView.setTerminalViewClient(termData.viewClient)
         termView.attachSession(termData.termSession)
 
@@ -155,7 +158,7 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
     }
 
     override fun getViewTypeCount(): Int {
-        return 2
+        return VIEW_TYPE_COUNT
     }
 
     override fun getViewType(tab: Tab, index: Int): Int {
@@ -164,6 +167,6 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         } else if (tab is XSessionTab) {
             return VIEW_TYPE_X
         }
-        return 0
+        return -1
     }
 }

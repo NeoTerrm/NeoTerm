@@ -89,6 +89,8 @@
     <string name="pref_general_volume_as_control_desc">Volume Down as Ctrl\nVolume Up as FN</string>
     <string name="pref_general_use_execve_wrapper">Use execve() wrapper</string>
     <string name="pref_general_use_execve_wrapper_desc">Hook execve() to avoid incorrect shebang</string>
+    <string name="pref_general_enable_word_based_ime">Enable word based IME</string>
+    <string name="pref_general_enable_word_based_ime_desc">Word based or char based IME</string>
     <string name="pref_ui_fullscreen">Full Screen</string>
     <string name="pref_ui_hide_toolbar">Hide Toolbar</string>
     <string name="pref_ui_hide_toolbar_desc">Hide toolbar when keyboard is showing</string>

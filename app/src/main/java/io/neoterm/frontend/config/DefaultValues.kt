@@ -19,6 +19,7 @@ object DefaultValues {
     const val enableExplicitExtraKeysWeight = false
     const val enableBackButtonBeMappedToEscape = false
     const val enableSpecialVolumeKeys = false
+    const val enableWordBasedIme = false
 
     const val loginShell = "sh"
     const val initialCommand = ""

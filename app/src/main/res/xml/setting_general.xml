@@ -45,6 +45,12 @@
 
     <CheckBoxPreference
         android:defaultValue="false"
+        android:key="@string/key_general_enable_word_based_ime"
+        android:summary="@string/pref_general_enable_word_based_ime_desc"
+        android:title="@string/pref_general_enable_word_based_ime" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
         android:key="@string/key_general_auto_completion"
         android:summary="@string/pref_general_auto_completion_desc"
         android:title="@string/pref_general_auto_completion" />

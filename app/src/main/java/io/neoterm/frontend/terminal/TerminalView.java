@@ -97,6 +97,11 @@ public final class TerminalView extends View {
     int mCombiningAccent;
     int mTextSize;
 
+    /**
+     * If true, IME will be word based instead of char based.
+     */
+    private boolean mEnableWordBasedIme = false;
+
     public TerminalView(Context context) {
         super(context);
         commonInit(context);
@@ -325,7 +330,12 @@ public final class TerminalView extends View {
         // https://github.com/termux/termux-app/issues/87.
         // https://github.com/termux/termux-app/issues/126.
         // https://github.com/termux/termux-app/issues/137 (japanese chars and TYPE_NULL).
-        outAttrs.inputType = InputType.TYPE_NULL;
+        if (mEnableWordBasedIme) {
+            // Workaround for Google Pinying cannot input Chinese
+            outAttrs.inputType = InputType.TYPE_CLASS_TEXT;
+        } else {
+            outAttrs.inputType = InputType.TYPE_NULL;
+        }
 
         // Note that IME_ACTION_NONE cannot be used as that makes it impossible to input newlines using the on-screen
         // keyboard on Android TV (see https://github.com/termux/termux-app/issues/221).
@@ -1089,13 +1099,17 @@ public final class TerminalView extends View {
         this.onAutoCompleteListener = onAutoCompleteListener;
     }
 
-    public int getCursorAbsX() {
+    public int getCursorAbsoluteX() {
         return (int) mRenderer.getCursorX();
     }
 
-    public int getCursorAbsY() {
+    public int getCursorAbsoluteY() {
         int[] locations = new int[2];
         getLocationOnScreen(locations);
         return (int) (mRenderer.getCursorY() + locations[1]);
+    }
+
+    public void setEnableWordBasedIme(boolean mEnableWordBasedIme) {
+        this.mEnableWordBasedIme = mEnableWordBasedIme;
     }
 }

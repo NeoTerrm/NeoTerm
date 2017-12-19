@@ -10,26 +10,26 @@ import io.neoterm.frontend.session.shell.ShellTermSession
  * @author kiva
  */
 class TermSessionCallback : TerminalSession.SessionChangedCallback {
-    var termData: TermDataHolder? = null
+    var termSessionData: TermSessionData? = null
 
     var bellController: BellController? = null
 
     override fun onTextChanged(changedSession: TerminalSession?) {
-        termData?.termView?.onScreenUpdated()
+        termSessionData?.termView?.onScreenUpdated()
     }
 
     override fun onTitleChanged(changedSession: TerminalSession?) {
         if (changedSession?.title != null) {
-            termData?.termUI?.requireUpdateTitle(changedSession.title)
+            termSessionData?.termUI?.requireUpdateTitle(changedSession.title)
         }
     }
 
     override fun onSessionFinished(finishedSession: TerminalSession?) {
-        termData?.termUI?.requireOnSessionFinished()
+        termSessionData?.termUI?.requireOnSessionFinished()
     }
 
     override fun onClipboardText(session: TerminalSession?, text: String?) {
-        val termView = termData?.termView
+        val termView = termSessionData?.termView
         if (termView != null) {
             val clipboard = termView.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             clipboard.primaryClip = ClipData.newPlainText("", text)
@@ -37,7 +37,7 @@ class TermSessionCallback : TerminalSession.SessionChangedCallback {
     }
 
     override fun onBell(session: TerminalSession?) {
-        val termView = termData?.termView ?: return
+        val termView = termSessionData?.termView ?: return
         val shellSession = session as ShellTermSession
 
         if (bellController == null) {
@@ -48,7 +48,7 @@ class TermSessionCallback : TerminalSession.SessionChangedCallback {
     }
 
     override fun onColorsChanged(session: TerminalSession?) {
-        val termView = termData?.termView
+        val termView = termSessionData?.termView
         if (session != null && termView != null) {
             termView.onScreenUpdated()
         }

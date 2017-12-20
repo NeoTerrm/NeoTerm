@@ -3,7 +3,7 @@ package io.neoterm.ui.customize.model
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import io.neoterm.App
 import io.neoterm.R
-import io.neoterm.component.color.NeoColorScheme
+import io.neoterm.component.colorscheme.NeoColorScheme
 
 /**
  * @author kiva

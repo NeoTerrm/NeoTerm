@@ -2,7 +2,7 @@ package io.neoterm.component
 
 import android.content.Context
 import io.neoterm.component.codegen.CodeGenComponent
-import io.neoterm.component.color.ColorSchemeComponent
+import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.component.completion.CompletionComponent
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.component.extrakey.ExtraKeysComponent

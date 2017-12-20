@@ -1,4 +1,4 @@
-package io.neoterm.component.color
+package io.neoterm.component.colorscheme
 
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.backend.TerminalColorScheme

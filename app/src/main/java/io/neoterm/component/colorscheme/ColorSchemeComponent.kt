@@ -1,4 +1,4 @@
-package io.neoterm.component.color
+package io.neoterm.component.colorscheme
 
 import android.content.Context
 import io.neoterm.App

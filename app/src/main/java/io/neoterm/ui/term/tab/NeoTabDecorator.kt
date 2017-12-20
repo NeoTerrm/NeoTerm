@@ -14,7 +14,7 @@ import de.mrapp.android.tabswitcher.TabSwitcherDecorator
 import io.neoterm.Globals
 import io.neoterm.NeoGLView
 import io.neoterm.R
-import io.neoterm.component.color.ColorSchemeComponent
+import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.DefaultValues
 import io.neoterm.frontend.terminal.TerminalView

@@ -3,7 +3,7 @@ package io.neoterm.component.codegen.impl
 import io.neoterm.component.codegen.CodeGenParameter
 import io.neoterm.component.codegen.generator.ICodeGenerator
 import io.neoterm.component.codegen.model.CodeGenObject
-import io.neoterm.component.color.NeoColorScheme
+import io.neoterm.component.colorscheme.NeoColorScheme
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.component.ComponentManager
 

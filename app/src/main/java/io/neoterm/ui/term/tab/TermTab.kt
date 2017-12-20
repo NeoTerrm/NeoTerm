@@ -3,7 +3,7 @@ package io.neoterm.ui.term.tab
 import android.content.Context
 import android.support.v7.widget.Toolbar
 import android.view.inputmethod.InputMethodManager
-import io.neoterm.component.color.ColorSchemeComponent
+import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.frontend.session.shell.client.TermSessionData
 import io.neoterm.frontend.session.shell.client.TermUiPresenter
 import io.neoterm.frontend.session.shell.client.event.*

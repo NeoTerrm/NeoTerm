@@ -1,7 +1,7 @@
 package io.neoterm.frontend.session.shell
 
 import io.neolang.visitor.ConfigVisitor
-import io.neoterm.component.color.ColorSchemeComponent
+import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.component.profile.NeoProfile
 import io.neoterm.frontend.component.ComponentManager

@@ -11,7 +11,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import io.neoterm.R
 import io.neoterm.backend.TerminalColors
-import io.neoterm.component.color.ColorSchemeComponent
+import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener
 import io.neoterm.frontend.completion.model.CompletionCandidate
 import io.neoterm.frontend.component.ComponentManager

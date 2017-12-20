@@ -19,8 +19,8 @@ import es.dmoral.coloromatic.IndicatorMode
 import es.dmoral.coloromatic.colormode.ColorMode
 import io.neoterm.R
 import io.neoterm.backend.TerminalColors
-import io.neoterm.component.color.ColorSchemeComponent
-import io.neoterm.component.color.NeoColorScheme
+import io.neoterm.component.colorscheme.ColorSchemeComponent
+import io.neoterm.component.colorscheme.NeoColorScheme
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.ui.customize.adapter.ColorItemAdapter

@@ -1,6 +1,6 @@
 package io.neoterm
 
-import io.neoterm.component.color.NeoColorScheme
+import io.neoterm.component.colorscheme.NeoColorScheme
 import io.neoterm.component.extrakey.NeoExtraKey
 import io.neoterm.component.profile.ProfileComponent
 import io.neoterm.frontend.component.ComponentManager

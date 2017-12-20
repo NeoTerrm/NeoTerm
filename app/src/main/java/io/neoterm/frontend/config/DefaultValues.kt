@@ -1,7 +1,5 @@
 package io.neoterm.frontend.config
 
-import io.neoterm.component.color.DefaultColorScheme
-
 /**
  * @author kiva
  */

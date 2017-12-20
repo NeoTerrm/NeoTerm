@@ -1,4 +1,4 @@
-package io.neoterm.component.color
+package io.neoterm.component.colorscheme
 
 /**
  * @author kiva

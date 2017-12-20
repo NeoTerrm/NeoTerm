@@ -1,7 +1,7 @@
 package io.neoterm
 
 import io.neoterm.component.codegen.CodeGenComponent
-import io.neoterm.component.color.DefaultColorScheme
+import io.neoterm.component.colorscheme.DefaultColorScheme
 import io.neoterm.frontend.component.ComponentManager
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package io.neoterm.component.script
+package io.neoterm.component.userscript
 
 import android.content.Context
 import android.system.Os

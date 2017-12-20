@@ -12,8 +12,8 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import io.neoterm.App
 import io.neoterm.R
-import io.neoterm.component.script.UserScript
-import io.neoterm.component.script.UserScriptComponent
+import io.neoterm.component.userscript.UserScript
+import io.neoterm.component.userscript.UserScriptComponent
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoPreference

@@ -1,4 +1,4 @@
-package io.neoterm.component.script
+package io.neoterm.component.userscript
 
 import java.io.File
 

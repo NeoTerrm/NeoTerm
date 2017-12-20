@@ -1,10 +1,10 @@
-package io.neoterm.component.setup.connection;
+package io.neoterm.setup.connection;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import io.neoterm.App;
-import io.neoterm.component.setup.SetupHelper;
+import io.neoterm.setup.SetupHelper;
 import io.neoterm.utils.AssetsUtils;
 
 /**

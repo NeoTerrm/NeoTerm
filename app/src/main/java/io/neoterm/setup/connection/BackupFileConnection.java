@@ -1,4 +1,4 @@
-package io.neoterm.component.setup.connection;
+package io.neoterm.setup.connection;
 
 import android.content.Context;
 import android.net.Uri;

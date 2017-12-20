@@ -1,29 +1,14 @@
-package io.neoterm.component.setup;
+package io.neoterm.setup;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
-import android.system.Os;
-import android.util.Pair;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import io.neoterm.R;
-import io.neoterm.backend.EmulatorDebug;
-import io.neoterm.frontend.logging.NLog;
-import io.neoterm.frontend.config.NeoPreference;
 import io.neoterm.frontend.config.NeoTermPath;
 
 /**

@@ -1,4 +1,4 @@
-package io.neoterm.component.setup.helper;
+package io.neoterm.setup.helper;
 
 import android.content.Context;
 
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 import io.neoterm.utils.NetworkUtils;
 

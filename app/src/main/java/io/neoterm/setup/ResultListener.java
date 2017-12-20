@@ -1,4 +1,4 @@
-package io.neoterm.component.setup;
+package io.neoterm.setup;
 
 /**
  * @author kiva

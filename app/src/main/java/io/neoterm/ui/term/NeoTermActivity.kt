@@ -20,7 +20,7 @@ import de.mrapp.android.tabswitcher.*
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.component.setup.SetupHelper
+import io.neoterm.setup.SetupHelper
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.frontend.session.shell.client.TermViewClient
 import io.neoterm.frontend.session.shell.client.event.*

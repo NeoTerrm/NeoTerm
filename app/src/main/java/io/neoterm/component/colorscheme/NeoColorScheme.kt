@@ -4,9 +4,9 @@ import io.neolang.visitor.ConfigVisitor
 import io.neoterm.backend.TerminalColorScheme
 import io.neoterm.backend.TerminalColors
 import io.neoterm.component.codegen.CodeGenParameter
-import io.neoterm.component.codegen.generator.ICodeGenerator
+import io.neoterm.component.codegen.interfaces.ICodeGenerator
 import io.neoterm.component.codegen.model.CodeGenObject
-import io.neoterm.component.codegen.impl.NeoColorGenerator
+import io.neoterm.component.codegen.generators.NeoColorGenerator
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.component.helper.ConfigFileBasedObject

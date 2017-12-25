@@ -13,10 +13,10 @@ import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.setup.ResultListener
 import io.neoterm.setup.SetupHelper
 import io.neoterm.setup.SourceConnection
-import io.neoterm.setup.connection.AssetsFileConnection
-import io.neoterm.setup.connection.BackupFileConnection
-import io.neoterm.setup.connection.LocalFileConnection
-import io.neoterm.setup.connection.NetworkConnection
+import io.neoterm.setup.connections.AssetsFileConnection
+import io.neoterm.setup.connections.BackupFileConnection
+import io.neoterm.setup.connections.LocalFileConnection
+import io.neoterm.setup.connections.NetworkConnection
 import io.neoterm.setup.helper.URLAvailability
 import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.PackageUtils

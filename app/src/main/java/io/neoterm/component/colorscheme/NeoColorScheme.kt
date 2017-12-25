@@ -9,6 +9,7 @@ import io.neoterm.component.codegen.model.CodeGenObject
 import io.neoterm.component.codegen.impl.NeoColorGenerator
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.component.helper.FileBasedComponentObject
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.TerminalView
@@ -18,7 +19,7 @@ import java.io.File
 /**
  * @author kiva
  */
-open class NeoColorScheme : CodeGenObject {
+open class NeoColorScheme : CodeGenObject, FileBasedComponentObject {
     companion object {
         const val COLOR_PREFIX = "color"
         const val CONTEXT_COLOR_NAME = "colors"
@@ -105,35 +106,18 @@ open class NeoColorScheme : CodeGenObject {
         return copy
     }
 
-    fun loadConfigure(file: File): Boolean {
-        // TODO: Refactor with NeoExtraKey#loadConfigure
-        val loaderService = ComponentManager.getComponent<ConfigureComponent>()
-
-        val configure: NeoConfigureFile?
-        try {
-            configure = loaderService.newLoader(file).loadConfigure()
-            if (configure == null) {
-                throw RuntimeException("Parse configuration failed.")
-            }
-        } catch (e: Exception) {
-            NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}: ${e.localizedMessage}")
-            return false
-        }
-
-        val visitor = configure.getVisitor()
-        val colorName = getMetaByVisitor(visitor, COLOR_META_NAME)
-        if (colorName == null) {
-            NLog.e("ColorScheme", "Failed to load color config: ${file.absolutePath}: ColorScheme must have a name")
-            return false
-        }
+    @Throws(RuntimeException::class)
+    override fun onConfigLoaded(configVisitor: ConfigVisitor) {
+        val colorName = getMetaByVisitor(configVisitor, COLOR_META_NAME)
+                ?: throw RuntimeException("ColorScheme must have a name")
 
         this.colorName = colorName
-        this.colorVersion = getMetaByVisitor(visitor, COLOR_META_VERSION)
+        this.colorVersion = getMetaByVisitor(configVisitor, COLOR_META_VERSION)
 
-        backgroundColor = getColorByVisitor(visitor, "background")
-        foregroundColor = getColorByVisitor(visitor, "foreground")
-        cursorColor = getColorByVisitor(visitor, "cursor")
-        visitor.getContext(COLOR_PATH).getAttributes().forEach {
+        backgroundColor = getColorByVisitor(configVisitor, "background")
+        foregroundColor = getColorByVisitor(configVisitor, "foreground")
+        cursorColor = getColorByVisitor(configVisitor, "cursor")
+        configVisitor.getContext(COLOR_PATH).getAttributes().forEach {
             if (it.key.startsWith(COLOR_PREFIX)) {
                 val colorIndex = try {
                     it.key.substringAfter(COLOR_PREFIX).toInt()
@@ -150,6 +134,25 @@ open class NeoColorScheme : CodeGenObject {
         }
 
         validateColors()
+    }
+
+    @Deprecated("Use ColorSchemeComponent#loadConfigure() instead")
+    fun loadConfigure(file: File): Boolean {
+        val loaderService = ComponentManager.getComponent<ConfigureComponent>()
+
+        val configure: NeoConfigureFile?
+        try {
+            configure = loaderService.newLoader(file).loadConfigure()
+            if (configure == null) {
+                throw RuntimeException("Parse configuration failed.")
+            }
+        } catch (e: Exception) {
+            NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}: ${e.localizedMessage}")
+            return false
+        }
+
+        val visitor = configure.getVisitor()
+        onConfigLoaded(visitor)
         return true
     }
 

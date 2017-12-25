@@ -47,7 +47,7 @@ public class NetworkConnection implements SourceConnection {
     }
 
     private HttpURLConnection openHttpConnection() throws IOException {
-        String arch = SetupHelper.determineArchName();
+        String arch = SetupHelper.INSTANCE.determineArchName();
 
         return (HttpURLConnection) new URL(sourceUrl + "/boot/" + arch + ".zip").openConnection();
     }

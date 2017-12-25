@@ -14,7 +14,7 @@ import io.neoterm.utils.AssetsUtils;
 public class AssetsFileConnection extends OfflineConnection {
     @Override
     protected InputStream openInputStream() throws IOException {
-        String arch = SetupHelper.determineArchName();
+        String arch = SetupHelper.INSTANCE.determineArchName();
         String fileName = "offline_setup/" + arch + ".zip";
         return AssetsUtils.INSTANCE.openAssetsFile(App.Companion.get(), fileName);
     }

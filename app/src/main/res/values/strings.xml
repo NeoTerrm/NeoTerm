@@ -30,6 +30,7 @@
     <string name="setup_error_invalid_url">Invalid URL</string>
     <string name="setup_error_no_internet">No Internet connection</string>
     <string name="setup_error_connection_failed">Failed to connect to server</string>
+    <string name="setup_error_parameter_null">Setup parameter is null</string>
     <string name="setup_preparing">Preparing…</string>
     <string name="setup_confirm">Finish Setup</string>
     <string name="setup_confirm_text">Everything goes well till now, continue?</string>

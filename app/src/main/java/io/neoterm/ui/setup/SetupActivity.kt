@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.*
 import io.neoterm.App
 import io.neoterm.R
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.setup.ResultListener
 import io.neoterm.setup.SetupHelper
 import io.neoterm.setup.SourceConnection
@@ -17,7 +18,6 @@ import io.neoterm.setup.connection.BackupFileConnection
 import io.neoterm.setup.connection.LocalFileConnection
 import io.neoterm.setup.connection.NetworkConnection
 import io.neoterm.setup.helper.URLAvailability
-import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.PackageUtils
 import java.io.File
@@ -101,7 +101,8 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
             when (id) {
                 R.id.setup_method_backup,
                 R.id.setup_method_local -> {
-                    // TODO: Report as an error
+                    SetupHelper.makeErrorDialog(this, R.string.setup_error_parameter_null)
+                            .show()
                     return
                 }
             }
@@ -109,17 +110,15 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
 
         val dialog = SetupHelper.makeProgressDialog(this, getString(R.string.setup_preparing))
         dialog.show()
+
         Thread {
             val errorMessage = validateParameter(id, setupParameter)
 
-            SetupActivity@ this.runOnUiThread {
+            runOnUiThread {
                 dialog.dismiss()
                 editor.error = errorMessage
                 if (errorMessage != null) {
-                    AlertDialog.Builder(SetupActivity@ this)
-                            .setMessage(errorMessage)
-                            .setPositiveButton(android.R.string.yes, null)
-                            .show()
+                    SetupHelper.makeErrorDialog(this, errorMessage).show()
                     return@runOnUiThread
                 }
 
@@ -199,7 +198,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
     }
 
     private fun doSetup(connection: SourceConnection) {
-        SetupHelper.setup(this@SetupActivity, connection, this)
+        SetupHelper.setup(this, connection, this)
     }
 
     override fun onResult(error: Exception?) {
@@ -209,7 +208,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
             executeAptUpdate()
 
         } else {
-            AlertDialog.Builder(this@SetupActivity)
+            AlertDialog.Builder(this)
                     .setTitle(R.string.error)
                     .setMessage(error.toString())
                     .setNegativeButton(R.string.use_system_shell, { _, _ ->

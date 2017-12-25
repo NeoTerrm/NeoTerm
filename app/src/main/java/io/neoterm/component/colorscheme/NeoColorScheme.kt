@@ -9,7 +9,7 @@ import io.neoterm.component.codegen.model.CodeGenObject
 import io.neoterm.component.codegen.impl.NeoColorGenerator
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.component.helper.FileBasedComponentObject
+import io.neoterm.frontend.component.helper.ConfigFileBasedObject
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.TerminalView
@@ -20,7 +20,7 @@ import java.io.File
 /**
  * @author kiva
  */
-open class NeoColorScheme : CodeGenObject, FileBasedComponentObject {
+open class NeoColorScheme : CodeGenObject, ConfigFileBasedObject {
     companion object {
         const val COLOR_PREFIX = "color"
         const val CONTEXT_COLOR_NAME = "colors"

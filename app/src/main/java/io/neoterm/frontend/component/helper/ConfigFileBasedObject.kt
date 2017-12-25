@@ -5,7 +5,7 @@ import io.neolang.visitor.ConfigVisitor
 /**
  * @author kiva
  */
-interface FileBasedComponentObject {
+interface ConfigFileBasedObject {
     @Throws(RuntimeException::class)
     fun onConfigLoaded(configVisitor: ConfigVisitor)
 }

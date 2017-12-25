@@ -9,9 +9,9 @@ import java.io.File
 /**
  * @author kiva
  */
-abstract class FileBasedComponent<out T : FileBasedComponentObject> : NeoComponent {
+abstract class ConfigFileBasedComponent<out T : ConfigFileBasedObject> : NeoComponent {
     companion object {
-        private val TAG = FileBasedComponent::class.java.simpleName
+        private val TAG = ConfigFileBasedComponent::class.java.simpleName
     }
 
     open val checkComponentFileWhenObtained = false

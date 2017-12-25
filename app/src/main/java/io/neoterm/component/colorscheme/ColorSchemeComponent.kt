@@ -5,7 +5,7 @@ import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.component.codegen.CodeGenComponent
 import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.component.helper.FileBasedComponent
+import io.neoterm.frontend.component.helper.ConfigFileBasedComponent
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.logging.NLog
@@ -18,7 +18,7 @@ import java.io.File
 /**
  * @author kiva
  */
-class ColorSchemeComponent : FileBasedComponent<NeoColorScheme>() {
+class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>() {
     companion object {
         fun colorFile(colorName: String): File {
             return File("${NeoTermPath.COLORS_PATH}/$colorName.nl")

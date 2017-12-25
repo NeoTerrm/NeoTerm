@@ -140,10 +140,10 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
 
     private fun createSourceConnection(id: Int, parameter: String, parameterUri: Uri?): SourceConnection {
         return when (id) {
-            R.id.setup_method_local -> LocalFileConnection(this, parameterUri)
+            R.id.setup_method_local -> LocalFileConnection(this, parameterUri!!)
             R.id.setup_method_online -> NetworkConnection(parameter)
             R.id.setup_method_assets -> AssetsFileConnection()
-            R.id.setup_method_backup -> BackupFileConnection(this, parameterUri)
+            R.id.setup_method_backup -> BackupFileConnection(this, parameterUri!!)
             else -> throw IllegalArgumentException("Unexpected setup method!")
         }
     }

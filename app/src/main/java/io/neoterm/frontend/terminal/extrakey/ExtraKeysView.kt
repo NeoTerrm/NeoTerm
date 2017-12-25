@@ -7,7 +7,8 @@ import android.view.*
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import io.neoterm.R
-import io.neoterm.component.extrakey.NeoExtraKey
+import io.neoterm.component.extrakey.ExtraKeyComponent
+import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.session.shell.client.event.ToggleImeEvent
@@ -62,11 +63,14 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         }
     }
 
+    private val extraKeyComponent: ExtraKeyComponent
+
     init {
         alpha = DEFAULT_ALPHA
         gravity = Gravity.TOP
         orientation = LinearLayout.VERTICAL
         typeface = Typeface.createFromAsset(context.assets, "eks_font.ttf")
+        extraKeyComponent = ComponentManager.getComponent<ExtraKeyComponent>()
 
         initBuiltinKeys()
         loadDefaultUserKeys()
@@ -117,20 +121,18 @@ class ExtraKeysView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
     fun loadDefaultUserKeys() {
         clearUserKeys()
-        val defaultConfig = NeoExtraKey()
-        if (defaultConfig.loadConfigure(File(NeoTermPath.EKS_DEFAULT_FILE))) {
+        val defaultConfig = extraKeyComponent.loadConfigure(File(NeoTermPath.EKS_DEFAULT_FILE))
+        if (defaultConfig != null) {
             userKeys.addAll(defaultConfig.shortcutKeys)
         }
     }
 
     fun updateButtons() {
-        for (bar in buttonBars) {
-            bar.removeAllViews()
-        }
+        buttonBars.forEach { it.removeAllViews() }
 
         var targetButtonBarIndex = 0
-        for ((index, value) in builtinKeys.plus(userKeys).withIndex()) {
-            addKeyButton(getButtonBarOrNew(targetButtonBarIndex), value)
+        builtinKeys.plus(userKeys).forEachIndexed { index, button ->
+            addKeyButton(getButtonBarOrNew(targetButtonBarIndex), button)
             targetButtonBarIndex = (index + 1) / MAX_BUTTONS_PER_LINE
         }
         updateButtonBars()

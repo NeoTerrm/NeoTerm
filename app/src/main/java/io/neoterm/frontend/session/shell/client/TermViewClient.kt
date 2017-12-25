@@ -9,7 +9,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import io.neoterm.backend.KeyHandler
 import io.neoterm.backend.TerminalSession
-import io.neoterm.component.extrakey.ExtraKeysComponent
+import io.neoterm.component.extrakey.ExtraKeyComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.session.shell.ShellTermSession
@@ -222,7 +222,7 @@ class TermViewClient(val context: Context) : TerminalViewClient {
         if ((lastTitle != title || force)
                 && updateExtraKeysVisibility()) {
             removeExtraKeys()
-            ComponentManager.getComponent<ExtraKeysComponent>().showShortcutKeys(title, extraKeysView)
+            ComponentManager.getComponent<ExtraKeyComponent>().showShortcutKeys(title, extraKeysView)
             extraKeysView.updateButtons()
             lastTitle = title
         }

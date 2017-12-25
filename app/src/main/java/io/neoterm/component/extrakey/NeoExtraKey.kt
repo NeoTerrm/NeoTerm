@@ -2,18 +2,20 @@ package io.neoterm.component.extrakey
 
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.component.config.ConfigureComponent
+import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.component.helper.ConfigFileBasedObject
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import io.neoterm.frontend.terminal.extrakey.button.IExtraButton
 import io.neoterm.frontend.terminal.extrakey.button.TextButton
+import org.jetbrains.annotations.TestOnly
 import java.io.File
 
 /**
  * @author kiva
  */
-class NeoExtraKey {
+class NeoExtraKey : ConfigFileBasedObject {
     companion object {
         const val EKS_META_CONTEXT_NAME = "extra-key"
 
@@ -42,28 +44,11 @@ class NeoExtraKey {
         }
     }
 
-    fun loadConfigure(file: File): Boolean {
-        // TODO: Refactor with NeoColorScheme#onConfigLoaded
-        val loaderService = ComponentManager.getComponent<ConfigureComponent>()
-
-        val configure: NeoConfigureFile?
-        try {
-            configure = loaderService.newLoader(file).loadConfigure()
-            if (configure == null) {
-                throw RuntimeException("Parse configuration failed.")
-            }
-        } catch (e: Exception) {
-            NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}: ${e.localizedMessage}")
-            return false
-        }
-
-        val visitor = configure.getVisitor()
-
+    override fun onConfigLoaded(configVisitor: ConfigVisitor) {
         // program
-        val programArray = visitor.getArray(EKS_META_CONTEXT_PATH, EKS_META_PROGRAM)
+        val programArray = configVisitor.getArray(EKS_META_CONTEXT_PATH, EKS_META_PROGRAM)
         if (programArray.isEmpty()) {
-            NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}: Extra Key must have programs attribute")
-            return false
+            throw RuntimeException("Extra Key must have programs attribute")
         }
 
         programArray.forEach {
@@ -73,14 +58,13 @@ class NeoExtraKey {
         }
 
         // key
-        val keyArray = visitor.getArray(EKS_META_CONTEXT_PATH, EKS_META_KEY)
+        val keyArray = configVisitor.getArray(EKS_META_CONTEXT_PATH, EKS_META_KEY)
         keyArray.takeWhile { it.isBlock() }
                 .forEach {
                     val display = it.eval(EKS_META_DISPLAY)
                     val code = it.eval(EKS_META_CODE)
                     if (!code.isValid()) {
-                        NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}: Key must have a code")
-                        return false
+                        throw RuntimeException("Key must have a code")
                     }
 
                     val codeText = code.asString()
@@ -95,12 +79,31 @@ class NeoExtraKey {
 
         // We must cal toDouble() before toInt()
         // Because in NeoLang, numbers are default to Double
-        version = getMetaByVisitor(visitor, EKS_META_VERSION)?.toDouble()?.toInt() ?: 0
-        withDefaultKeys = "true" == getMetaByVisitor(visitor, EKS_META_WITH_DEFAULT)
-        return true
+        version = getMetaByVisitor(configVisitor, EKS_META_VERSION)?.toDouble()?.toInt() ?: 0
+        withDefaultKeys = "true" == getMetaByVisitor(configVisitor, EKS_META_WITH_DEFAULT)
     }
 
     private fun getMetaByVisitor(visitor: ConfigVisitor, metaName: String): String? {
         return visitor.getStringValue(EKS_META_CONTEXT_PATH, metaName)
+    }
+
+    @TestOnly
+    fun testLoadConfigure(file: File): Boolean {
+        val loaderService = ComponentManager.getComponent<ConfigureComponent>()
+
+        val configure: NeoConfigureFile?
+        try {
+            configure = loaderService.newLoader(file).loadConfigure()
+            if (configure == null) {
+                throw RuntimeException("Parse configuration failed.")
+            }
+        } catch (e: Exception) {
+            NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}: ${e.localizedMessage}")
+            return false
+        }
+
+        val visitor = configure.getVisitor()
+        onConfigLoaded(visitor)
+        return true
     }
 }

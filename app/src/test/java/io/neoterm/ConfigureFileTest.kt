@@ -20,7 +20,7 @@ class ConfigureFileTest {
         }
 
         val color = NeoColorScheme()
-        if (color.loadConfigure(File("NeoLang/example/color-scheme.nl"))) {
+        if (color.testLoadConfigure(File("NeoLang/example/color-scheme.nl"))) {
             println("colorName:    ${color.colorName}")
             println("colorVersion: ${color.colorVersion}")
             println("background:   ${color.backgroundColor}")
@@ -38,7 +38,7 @@ class ConfigureFileTest {
         }
 
         val extraKey = NeoExtraKey()
-        if (extraKey.loadConfigure(File("app/src/main/assets/eks/vim.nl"))) {
+        if (extraKey.testLoadConfigure(File("app/src/main/assets/eks/vim.nl"))) {
             println("programs:     ${extraKey.programNames}")
             println("version:      ${extraKey.version}")
             println("with-default: ${extraKey.withDefaultKeys}")

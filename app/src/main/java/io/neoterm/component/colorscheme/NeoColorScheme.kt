@@ -175,7 +175,7 @@ open class NeoColorScheme : CodeGenObject, ConfigFileBasedObject {
     }
 
     @TestOnly
-    fun loadConfigure(file: File): Boolean {
+    fun testLoadConfigure(file: File): Boolean {
         val loaderService = ComponentManager.getComponent<ConfigureComponent>()
 
         val configure: NeoConfigureFile?

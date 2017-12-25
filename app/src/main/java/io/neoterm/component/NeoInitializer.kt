@@ -5,7 +5,7 @@ import io.neoterm.component.codegen.CodeGenComponent
 import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.component.completion.CompletionComponent
 import io.neoterm.component.config.ConfigureComponent
-import io.neoterm.component.extrakey.ExtraKeysComponent
+import io.neoterm.component.extrakey.ExtraKeyComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.component.pm.PackageComponent
 import io.neoterm.component.profile.ProfileComponent
@@ -30,7 +30,7 @@ object NeoInitializer {
         ComponentManager.registerComponent(ColorSchemeComponent::class.java)
         ComponentManager.registerComponent(FontComponent::class.java)
         ComponentManager.registerComponent(UserScriptComponent::class.java)
-        ComponentManager.registerComponent(ExtraKeysComponent::class.java)
+        ComponentManager.registerComponent(ExtraKeyComponent::class.java)
         ComponentManager.registerComponent(CompletionComponent::class.java)
         ComponentManager.registerComponent(PackageComponent::class.java)
         ComponentManager.registerComponent(SessionComponent::class.java)

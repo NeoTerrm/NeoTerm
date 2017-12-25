@@ -1,13 +1,13 @@
 package io.neoterm.component.codegen.generators
 
 import io.neoterm.component.codegen.CodeGenParameter
-import io.neoterm.component.codegen.interfaces.ICodeGenerator
+import io.neoterm.component.codegen.interfaces.CodeGenerator
 import io.neoterm.component.codegen.interfaces.CodeGenObject
 
 /**
  * @author kiva
  */
-class NeoProfileGenerator(parameter: CodeGenParameter) : ICodeGenerator(parameter) {
+class NeoProfileGenerator(parameter: CodeGenParameter) : CodeGenerator(parameter) {
     override fun getGeneratorName(): String {
         return "NeoProfile-Generator"
     }

@@ -1,6 +1,6 @@
 package io.neoterm.component.codegen
 
-import io.neoterm.component.codegen.interfaces.ICodeGenerator
+import io.neoterm.component.codegen.interfaces.CodeGenerator
 import io.neoterm.component.codegen.interfaces.CodeGenObject
 import io.neoterm.frontend.component.NeoComponent
 
@@ -17,7 +17,7 @@ class CodeGenComponent : NeoComponent {
     override fun onServiceObtained() {
     }
 
-    fun newGenerator(codeObject: CodeGenObject): ICodeGenerator {
+    fun newGenerator(codeObject: CodeGenObject): CodeGenerator {
         val parameter = CodeGenParameter()
         return codeObject.getCodeGenerator(parameter)
     }

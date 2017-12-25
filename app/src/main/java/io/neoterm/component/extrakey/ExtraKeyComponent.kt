@@ -1,6 +1,7 @@
 package io.neoterm.component.extrakey
 
 import android.content.Context
+import io.neolang.visitor.ConfigVisitor
 import io.neoterm.App
 import io.neoterm.frontend.component.helper.ConfigFileBasedComponent
 import io.neoterm.frontend.config.NeoTermPath
@@ -34,7 +35,7 @@ class ExtraKeyComponent : ConfigFileBasedComponent<NeoExtraKey>() {
         reloadExtraKeyConfig()
     }
 
-    override fun onCreateComponentObject(): NeoExtraKey {
+    override fun onCreateComponentObject(configVisitor: ConfigVisitor): NeoExtraKey {
         return NeoExtraKey()
     }
 

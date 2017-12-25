@@ -1,5 +1,6 @@
 package io.neoterm.frontend.component.helper
 
+import io.neolang.visitor.ConfigVisitor
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.component.NeoComponent
@@ -35,8 +36,9 @@ abstract class ConfigFileBasedComponent<out T : ConfigFileBasedObject> : NeoComp
             val configure = loaderService.newLoader(file).loadConfigure()
                     ?: throw RuntimeException("Parse configuration failed.")
 
-            val componentObject = onCreateComponentObject()
-            componentObject.onConfigLoaded(configure.getVisitor())
+            val configVisitor = configure.getVisitor()
+            val componentObject = onCreateComponentObject(configVisitor)
+            componentObject.onConfigLoaded(configVisitor)
             componentObject
         } catch (e: RuntimeException) {
             NLog.e(TAG, "Failed to load config: ${file.absolutePath}: ${e.localizedMessage}")
@@ -46,5 +48,5 @@ abstract class ConfigFileBasedComponent<out T : ConfigFileBasedObject> : NeoComp
 
     abstract fun onCheckComponentFiles()
 
-    abstract fun onCreateComponentObject(): T
+    abstract fun onCreateComponentObject(configVisitor: ConfigVisitor): T
 }

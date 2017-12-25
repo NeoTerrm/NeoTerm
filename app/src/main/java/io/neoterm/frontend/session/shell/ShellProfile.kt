@@ -67,20 +67,19 @@ class ShellProfile : NeoProfile() {
         enableWordBasedIme = NeoPreference.isWordBasedImeEnabled()
     }
 
-    override fun onProfileLoaded(visitor: ConfigVisitor): Boolean {
-        loginShell = visitor.getProfileString(LOGIN_SHELL, loginShell)
-        initialCommand = visitor.getProfileString(INITIAL_COMMAND, initialCommand)
-        enableBell = visitor.getProfileBoolean(BELL, enableBell)
-        enableVibrate = visitor.getProfileBoolean(VIBRATE, enableVibrate)
-        enableExecveWrapper = visitor.getProfileBoolean(EXECVE_WRAPPER, enableExecveWrapper)
-        enableSpecialVolumeKeys = visitor.getProfileBoolean(SPECIAL_VOLUME_KEYS, enableSpecialVolumeKeys)
-        enableAutoCompletion = visitor.getProfileBoolean(AUTO_COMPLETION, enableAutoCompletion)
-        enableBackKeyToEscape = visitor.getProfileBoolean(BACK_KEY_TO_ESC, enableBackKeyToEscape)
-        enableExtraKeys = visitor.getProfileBoolean(EXTRA_KEYS, enableExtraKeys)
-        enableWordBasedIme = visitor.getProfileBoolean(WORD_BASED_IME, enableWordBasedIme)
-        profileFont = visitor.getProfileString(FONT, profileFont)
-        profileColorScheme = visitor.getProfileString(COLOR_SCHEME, profileColorScheme)
-        return true
+    override fun onConfigLoaded(configVisitor: ConfigVisitor) {
+        loginShell = configVisitor.getProfileString(LOGIN_SHELL, loginShell)
+        initialCommand = configVisitor.getProfileString(INITIAL_COMMAND, initialCommand)
+        enableBell = configVisitor.getProfileBoolean(BELL, enableBell)
+        enableVibrate = configVisitor.getProfileBoolean(VIBRATE, enableVibrate)
+        enableExecveWrapper = configVisitor.getProfileBoolean(EXECVE_WRAPPER, enableExecveWrapper)
+        enableSpecialVolumeKeys = configVisitor.getProfileBoolean(SPECIAL_VOLUME_KEYS, enableSpecialVolumeKeys)
+        enableAutoCompletion = configVisitor.getProfileBoolean(AUTO_COMPLETION, enableAutoCompletion)
+        enableBackKeyToEscape = configVisitor.getProfileBoolean(BACK_KEY_TO_ESC, enableBackKeyToEscape)
+        enableExtraKeys = configVisitor.getProfileBoolean(EXTRA_KEYS, enableExtraKeys)
+        enableWordBasedIme = configVisitor.getProfileBoolean(WORD_BASED_IME, enableWordBasedIme)
+        profileFont = configVisitor.getProfileString(FONT, profileFont)
+        profileColorScheme = configVisitor.getProfileString(COLOR_SCHEME, profileColorScheme)
     }
 
     private fun ConfigVisitor.getProfileString(key: String, fallback: String): String {

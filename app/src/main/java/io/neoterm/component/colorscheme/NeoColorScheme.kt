@@ -14,6 +14,7 @@ import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
+import org.jetbrains.annotations.TestOnly
 import java.io.File
 
 /**
@@ -136,26 +137,6 @@ open class NeoColorScheme : CodeGenObject, FileBasedComponentObject {
         validateColors()
     }
 
-    @Deprecated("Use ColorSchemeComponent#loadConfigure() instead")
-    fun loadConfigure(file: File): Boolean {
-        val loaderService = ComponentManager.getComponent<ConfigureComponent>()
-
-        val configure: NeoConfigureFile?
-        try {
-            configure = loaderService.newLoader(file).loadConfigure()
-            if (configure == null) {
-                throw RuntimeException("Parse configuration failed.")
-            }
-        } catch (e: Exception) {
-            NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}: ${e.localizedMessage}")
-            return false
-        }
-
-        val visitor = configure.getVisitor()
-        onConfigLoaded(visitor)
-        return true
-    }
-
     internal fun applyColorScheme(view: TerminalView?, extraKeysView: ExtraKeysView?) {
         validateColors()
 
@@ -191,5 +172,25 @@ open class NeoColorScheme : CodeGenObject, FileBasedComponentObject {
 
     private fun getColorByVisitor(visitor: ConfigVisitor, colorName: String): String? {
         return visitor.getStringValue(COLOR_PATH, colorName)
+    }
+
+    @TestOnly
+    fun loadConfigure(file: File): Boolean {
+        val loaderService = ComponentManager.getComponent<ConfigureComponent>()
+
+        val configure: NeoConfigureFile?
+        try {
+            configure = loaderService.newLoader(file).loadConfigure()
+            if (configure == null) {
+                throw RuntimeException("Parse configuration failed.")
+            }
+        } catch (e: Exception) {
+            NLog.e("ExtraKey", "Failed to load extra key config: ${file.absolutePath}: ${e.localizedMessage}")
+            return false
+        }
+
+        val visitor = configure.getVisitor()
+        onConfigLoaded(visitor)
+        return true
     }
 }

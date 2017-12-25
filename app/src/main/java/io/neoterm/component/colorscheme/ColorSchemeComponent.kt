@@ -5,41 +5,66 @@ import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.component.codegen.CodeGenComponent
 import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.component.helper.FileBasedComponent
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
-import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.logging.NLog
-import io.neoterm.utils.AssetsUtils
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
+import io.neoterm.utils.AssetsUtils
 import io.neoterm.utils.FileUtils
 import java.io.File
 
 /**
  * @author kiva
  */
-class ColorSchemeComponent : NeoComponent {
+class ColorSchemeComponent : FileBasedComponent<NeoColorScheme>() {
     companion object {
         fun colorFile(colorName: String): File {
             return File("${NeoTermPath.COLORS_PATH}/$colorName.nl")
         }
     }
 
+    override val checkComponentFileWhenObtained = true
+
     private lateinit var DEFAULT_COLOR: NeoColorScheme
     private lateinit var colors: MutableMap<String, NeoColorScheme>
 
-    fun reloadColorSchemes(): Boolean {
-        colors.clear()
-        val colorDir = File(NeoTermPath.COLORS_PATH)
-        for (file in colorDir.listFiles({ pathname ->
-            pathname.name.endsWith(".color") || pathname.name.endsWith(".nl")
-        })) {
-            val color = NeoColorScheme()
+    override fun onCheckComponentFiles() {
+        File(NeoTermPath.COLORS_PATH).mkdirs()
+        colors = mutableMapOf()
 
-            if (color.loadConfigure(file)) {
-                colors.put(color.colorName, color)
+        val defaultColorFile = colorFile(DefaultColorScheme.colorName)
+        if (!defaultColorFile.exists()) {
+            if (!extractDefaultColor(App.get())) {
+                DEFAULT_COLOR = DefaultColorScheme
+                colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
+                return
             }
         }
+
+        if (!reloadColorSchemes()) {
+            DEFAULT_COLOR = DefaultColorScheme
+            colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
+        }
+    }
+
+    override fun onCreateComponentObject(): NeoColorScheme {
+        return NeoColorScheme()
+    }
+
+    fun reloadColorSchemes(): Boolean {
+        colors.clear()
+
+        File(NeoTermPath.COLORS_PATH).listFiles { pathname ->
+            pathname.name.endsWith(".color") || pathname.name.endsWith(".nl")
+        }.forEach {
+            val colorScheme = this.loadConfigure(it)
+            if (colorScheme != null) {
+                colors.put(colorScheme.colorName, colorScheme)
+            }
+        }
+
         if (colors.containsKey(DefaultColorScheme.colorName)) {
             DEFAULT_COLOR = colors[DefaultColorScheme.colorName]!!
             return true
@@ -82,17 +107,6 @@ class ColorSchemeComponent : NeoComponent {
         setCurrentColorScheme(color.colorName)
     }
 
-    override fun onServiceObtained() {
-        checkForFiles()
-    }
-
-    override fun onServiceInit() {
-        checkForFiles()
-    }
-
-    override fun onServiceDestroy() {
-    }
-
     private fun extractDefaultColor(context: Context): Boolean {
         try {
             AssetsUtils.extractAssetsDir(context, "colors", NeoTermPath.COLORS_PATH)
@@ -100,25 +114,6 @@ class ColorSchemeComponent : NeoComponent {
         } catch (e: Exception) {
             NLog.e("ColorScheme", "Failed to extract default colors: ${e.localizedMessage}")
             return false
-        }
-    }
-
-    private fun checkForFiles() {
-        File(NeoTermPath.COLORS_PATH).mkdirs()
-        colors = mutableMapOf()
-
-        val defaultColorFile = colorFile(DefaultColorScheme.colorName)
-        if (!defaultColorFile.exists()) {
-            if (!extractDefaultColor(App.get())) {
-                DEFAULT_COLOR = DefaultColorScheme
-                colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
-                return
-            }
-        }
-
-        if (!reloadColorSchemes()) {
-            DEFAULT_COLOR = DefaultColorScheme
-            colors[DEFAULT_COLOR.colorName] = DEFAULT_COLOR
         }
     }
 

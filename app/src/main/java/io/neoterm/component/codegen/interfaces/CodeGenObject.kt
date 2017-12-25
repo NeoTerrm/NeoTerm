@@ -1,4 +1,4 @@
-package io.neoterm.component.codegen.model
+package io.neoterm.component.codegen.interfaces
 
 import io.neoterm.component.codegen.CodeGenParameter
 import io.neoterm.component.codegen.interfaces.ICodeGenerator

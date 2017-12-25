@@ -5,7 +5,7 @@ import io.neoterm.backend.TerminalColorScheme
 import io.neoterm.backend.TerminalColors
 import io.neoterm.component.codegen.CodeGenParameter
 import io.neoterm.component.codegen.interfaces.ICodeGenerator
-import io.neoterm.component.codegen.model.CodeGenObject
+import io.neoterm.component.codegen.interfaces.CodeGenObject
 import io.neoterm.component.codegen.generators.NeoColorGenerator
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.frontend.component.ComponentManager

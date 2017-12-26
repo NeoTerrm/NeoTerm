@@ -44,11 +44,10 @@ class ExtraKeyComponent : ConfigFileBasedComponent<NeoExtraKey>(NeoTermPath.EKS_
         extraKeysView.loadDefaultUserKeys()
     }
 
-    private fun registerShortcutKeys(extraKey: NeoExtraKey) {
-        extraKey.programNames.forEach {
-            extraKeys[it] = extraKey
-        }
-    }
+    private fun registerShortcutKeys(extraKey: NeoExtraKey) =
+            extraKey.programNames.forEach {
+                extraKeys[it] = extraKey
+            }
 
     private fun extractDefaultConfig(context: Context) {
         try {

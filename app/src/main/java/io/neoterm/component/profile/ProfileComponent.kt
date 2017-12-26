@@ -16,6 +16,10 @@ import java.io.File
  */
 class ProfileComponent : ConfigFileBasedComponent<NeoProfile>() {
     override fun onCheckComponentFiles() {
+        val profileDir = File(NeoTermPath.PROFILE_PATH)
+        if (!profileDir.exists()) {
+            profileDir.mkdirs()
+        }
     }
 
     override fun onCreateComponentObject(configVisitor: ConfigVisitor): NeoProfile {
@@ -41,23 +45,5 @@ class ProfileComponent : ConfigFileBasedComponent<NeoProfile>() {
 
     fun unregisterProfile(metaName: String) {
         profileRegistry.remove(metaName)
-    }
-
-    override fun onServiceInit() {
-        checkForFiles()
-    }
-
-    override fun onServiceDestroy() {
-    }
-
-    override fun onServiceObtained() {
-        checkForFiles()
-    }
-
-    private fun checkForFiles() {
-        val profileDir = File(NeoTermPath.PROFILE_PATH)
-        if (!profileDir.exists()) {
-            profileDir.mkdirs()
-        }
     }
 }

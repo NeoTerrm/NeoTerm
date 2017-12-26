@@ -14,7 +14,7 @@ import java.io.File
 /**
  * @author kiva
  */
-class ProfileComponent : NeoComponent, ConfigFileBasedComponent<NeoProfile>() {
+class ProfileComponent : ConfigFileBasedComponent<NeoProfile>() {
     override fun onCheckComponentFiles() {
     }
 

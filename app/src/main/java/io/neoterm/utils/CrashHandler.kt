@@ -1,7 +1,6 @@
 package io.neoterm.utils
 
 import android.content.Intent
-import android.os.Process
 import io.neoterm.App
 import io.neoterm.ui.crash.CrashActivity
 

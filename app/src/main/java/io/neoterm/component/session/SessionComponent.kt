@@ -5,14 +5,13 @@ import android.app.Activity
 import android.content.Context
 import io.neoterm.Globals
 import io.neoterm.frontend.component.NeoComponent
-import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.config.NeoTermPath
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.ShellTermSession
 import io.neoterm.frontend.session.xorg.XParameter
 import io.neoterm.frontend.session.xorg.XSession
 import io.neoterm.frontend.session.xorg.client.XSessionData
-import io.neoterm.utils.TerminalUtils
 
 /**
  * @author kiva

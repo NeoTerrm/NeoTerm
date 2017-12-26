@@ -3,9 +3,9 @@ package io.neoterm.utils
 import android.content.Context
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.floating.TerminalDialog
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
+import io.neoterm.frontend.floating.TerminalDialog
 import java.io.File
 
 /**

@@ -10,9 +10,9 @@ import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.client.BasicSessionCallback
 import io.neoterm.frontend.session.shell.client.BasicViewClient
-import io.neoterm.utils.TerminalUtils
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
+import io.neoterm.utils.TerminalUtils
 
 /**
  * @author kiva

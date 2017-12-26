@@ -1,7 +1,7 @@
 package io.neoterm.component.codegen
 
-import io.neoterm.component.codegen.interfaces.CodeGenerator
 import io.neoterm.component.codegen.interfaces.CodeGenObject
+import io.neoterm.component.codegen.interfaces.CodeGenerator
 import io.neoterm.frontend.component.NeoComponent
 
 /**

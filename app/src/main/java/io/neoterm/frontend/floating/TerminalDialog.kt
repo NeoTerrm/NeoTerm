@@ -5,10 +5,10 @@ import android.content.Context
 import android.content.DialogInterface
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.session.shell.client.BasicSessionCallback
-import io.neoterm.frontend.session.shell.client.BasicViewClient
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.ShellTermSession
+import io.neoterm.frontend.session.shell.client.BasicSessionCallback
+import io.neoterm.frontend.session.shell.client.BasicViewClient
 import io.neoterm.utils.TerminalUtils
 
 /**

@@ -1,26 +1,19 @@
 package io.neoterm.component.profile
 
 import io.neolang.visitor.ConfigVisitor
-import io.neoterm.component.config.ConfigureComponent
-import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.component.helper.ConfigFileBasedComponent
-import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.config.NeoTermPath
-import io.neoterm.frontend.logging.NLog
-import org.jetbrains.annotations.TestOnly
-import java.io.File
 
 /**
  * @author kiva
  */
-class ProfileComponent : ConfigFileBasedComponent<NeoProfile>() {
-    override fun onCheckComponentFiles() {
-        val profileDir = File(NeoTermPath.PROFILE_PATH)
-        if (!profileDir.exists()) {
-            profileDir.mkdirs()
-        }
-    }
+class ProfileComponent : ConfigFileBasedComponent<NeoProfile>(NeoTermPath.PROFILE_PATH) {
+    override val checkComponentFileWhenObtained = true
+
+    private val profileRegistry = mutableMapOf<String, Class<out NeoProfile>>()
+    private val profileList = mutableListOf<NeoProfile>()
+
+    override fun onCheckComponentFiles() = reloadProfiles()
 
     override fun onCreateComponentObject(configVisitor: ConfigVisitor): NeoProfile {
         val rootContext = configVisitor.getRootContext()
@@ -36,8 +29,9 @@ class ProfileComponent : ConfigFileBasedComponent<NeoProfile>() {
         throw IllegalArgumentException("No proper profile registry for found")
     }
 
-    private val profileRegistry = mutableMapOf<String, Class<out NeoProfile>>()
-    private val profileList = mutableListOf<NeoProfile>()
+    fun reloadProfiles() {
+        profileList.clear()
+    }
 
     fun registerProfile(metaName: String, prototype: Class<out NeoProfile>) {
         profileRegistry[metaName] = prototype

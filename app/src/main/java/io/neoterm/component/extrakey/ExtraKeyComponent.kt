@@ -14,7 +14,7 @@ import java.io.FileFilter
 /**
  * @author kiva
  */
-class ExtraKeyComponent : ConfigFileBasedComponent<NeoExtraKey>() {
+class ExtraKeyComponent : ConfigFileBasedComponent<NeoExtraKey>(NeoTermPath.EKS_PATH) {
     companion object {
         private val FILTER = FileFilter {
             it.extension == "nl"
@@ -26,8 +26,6 @@ class ExtraKeyComponent : ConfigFileBasedComponent<NeoExtraKey>() {
     private val extraKeys: MutableMap<String, NeoExtraKey> = mutableMapOf()
 
     override fun onCheckComponentFiles() {
-        File(NeoTermPath.EKS_PATH).mkdirs()
-
         val defaultFile = File(NeoTermPath.EKS_DEFAULT_FILE)
         if (!defaultFile.exists()) {
             extractDefaultConfig(App.get())

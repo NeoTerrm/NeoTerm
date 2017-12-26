@@ -19,7 +19,7 @@ import java.io.File
 /**
  * @author kiva
  */
-class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>() {
+class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>(NeoTermPath.COLORS_PATH) {
     companion object {
         fun colorFile(colorName: String): File {
             return File("${NeoTermPath.COLORS_PATH}/$colorName.nl")
@@ -29,12 +29,9 @@ class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>() {
     override val checkComponentFileWhenObtained = true
 
     private lateinit var DEFAULT_COLOR: NeoColorScheme
-    private lateinit var colors: MutableMap<String, NeoColorScheme>
+    private var colors: MutableMap<String, NeoColorScheme> = mutableMapOf()
 
     override fun onCheckComponentFiles() {
-        File(NeoTermPath.COLORS_PATH).mkdirs()
-        colors = mutableMapOf()
-
         val defaultColorFile = colorFile(DefaultColorScheme.colorName)
         if (!defaultColorFile.exists()) {
             if (!extractDefaultColor(App.get())) {
@@ -50,9 +47,7 @@ class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>() {
         }
     }
 
-    override fun onCreateComponentObject(configVisitor: ConfigVisitor): NeoColorScheme {
-        return NeoColorScheme()
-    }
+    override fun onCreateComponentObject(configVisitor: ConfigVisitor) = NeoColorScheme()
 
     fun reloadColorSchemes(): Boolean {
         colors.clear()

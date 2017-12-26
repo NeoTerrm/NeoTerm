@@ -14,10 +14,10 @@ import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.component.userscript.UserScript
 import io.neoterm.component.userscript.UserScriptComponent
-import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.session.shell.ShellParameter
+import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.TerminalUtils

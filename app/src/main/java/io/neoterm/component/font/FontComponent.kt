@@ -4,10 +4,10 @@ import android.content.Context
 import android.graphics.Typeface
 import io.neoterm.App
 import io.neoterm.R
-import io.neoterm.frontend.config.NeoPreference
-import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.config.DefaultValues
+import io.neoterm.frontend.config.NeoPreference
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import io.neoterm.utils.AssetsUtils

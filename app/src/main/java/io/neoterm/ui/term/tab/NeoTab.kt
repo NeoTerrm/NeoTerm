@@ -1,7 +1,6 @@
 package io.neoterm.ui.term.tab
 
 import android.content.res.Configuration
-import android.util.Log
 import de.mrapp.android.tabswitcher.Tab
 
 /**

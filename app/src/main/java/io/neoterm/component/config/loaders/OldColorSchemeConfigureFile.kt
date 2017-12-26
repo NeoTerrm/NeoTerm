@@ -1,8 +1,8 @@
 package io.neoterm.component.config.loaders
 
 import io.neolang.runtime.type.NeoLangValue
-import io.neoterm.component.colorscheme.NeoColorScheme
 import io.neolang.visitor.ConfigVisitor
+import io.neoterm.component.colorscheme.NeoColorScheme
 import io.neoterm.frontend.config.NeoConfigureFile
 import io.neoterm.frontend.logging.NLog
 import java.io.File

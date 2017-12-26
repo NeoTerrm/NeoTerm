@@ -9,10 +9,10 @@ import io.neoterm.component.extrakey.ExtraKeyComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.component.pm.PackageComponent
 import io.neoterm.component.profile.ProfileComponent
-import io.neoterm.component.userscript.UserScriptComponent
 import io.neoterm.component.session.SessionComponent
-import io.neoterm.frontend.logging.NLog
+import io.neoterm.component.userscript.UserScriptComponent
 import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.session.shell.ShellProfile
 
 /**

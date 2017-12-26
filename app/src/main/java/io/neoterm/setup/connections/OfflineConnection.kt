@@ -1,9 +1,8 @@
 package io.neoterm.setup.connections
 
+import io.neoterm.setup.SourceConnection
 import java.io.IOException
 import java.io.InputStream
-
-import io.neoterm.setup.SourceConnection
 
 /**
  * @author kiva

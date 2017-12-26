@@ -1,12 +1,11 @@
 package io.neoterm.setup.connections
 
+import io.neoterm.setup.SetupHelper
+import io.neoterm.setup.SourceConnection
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
-
-import io.neoterm.setup.SetupHelper
-import io.neoterm.setup.SourceConnection
 
 /**
  * @author kiva

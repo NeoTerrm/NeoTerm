@@ -13,17 +13,10 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.DisplayMetrics
-import android.view.Gravity
-import android.view.KeyEvent
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewOutlineProvider
-import android.view.WindowManager
+import android.view.*
 import android.view.animation.PathInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
-
 import io.neoterm.R
 
 /**

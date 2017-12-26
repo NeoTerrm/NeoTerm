@@ -1,9 +1,9 @@
 package io.neoterm.component.pm
 
 import io.neoterm.R
-import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
+import io.neoterm.frontend.logging.NLog
 import java.io.File
 import java.net.URL
 

@@ -10,7 +10,7 @@ import java.io.File
 /**
  * @author kiva
  */
-abstract class ConfigFileBasedComponent<out T : ConfigFileBasedObject> : NeoComponent {
+abstract class ConfigFileBasedComponent<out T : ConfigFileBasedObject>(protected val baseDir: String) : NeoComponent {
     companion object {
         private val TAG = ConfigFileBasedComponent::class.java.simpleName
     }
@@ -18,6 +18,12 @@ abstract class ConfigFileBasedComponent<out T : ConfigFileBasedObject> : NeoComp
     open val checkComponentFileWhenObtained = false
 
     override fun onServiceInit() {
+        val baseDirFile = File(this.baseDir)
+        if (!baseDirFile.exists()) {
+            if (!baseDirFile.mkdirs()) {
+                throw RuntimeException("Cannot create component config directory: ${baseDirFile.absolutePath}")
+            }
+        }
         onCheckComponentFiles()
     }
 

@@ -2,11 +2,7 @@ package io.neoterm.ui.support
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AlertDialog
-import android.widget.ImageView
-import io.neoterm.R
 import java.net.URISyntaxException
 
 object Donation {

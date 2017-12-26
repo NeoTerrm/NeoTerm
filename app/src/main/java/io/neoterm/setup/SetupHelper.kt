@@ -4,15 +4,12 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Build
-
-import java.io.File
-import java.util.Arrays
-
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.frontend.config.NeoTermPath
+import java.io.File
+import java.util.*
 
 /**
  * @author kiva

@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.utils.TerminalUtils
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.TerminalViewClient
+import io.neoterm.utils.TerminalUtils
 
 /**
  * @author kiva

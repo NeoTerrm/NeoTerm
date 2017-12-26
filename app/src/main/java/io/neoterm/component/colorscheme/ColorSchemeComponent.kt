@@ -52,14 +52,14 @@ class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>(NeoTermPat
     fun reloadColorSchemes(): Boolean {
         colors.clear()
 
-        File(NeoTermPath.COLORS_PATH).listFiles { pathname ->
-            pathname.name.endsWith(".color") || pathname.name.endsWith(".nl")
-        }.forEach {
-            val colorScheme = this.loadConfigure(it)
-            if (colorScheme != null) {
-                colors.put(colorScheme.colorName, colorScheme)
-            }
-        }
+        File(baseDir)
+                .listFiles(NEOLANG_FILTER)
+                .forEach {
+                    val colorScheme = this.loadConfigure(it)
+                    if (colorScheme != null) {
+                        colors.put(colorScheme.colorName, colorScheme)
+                    }
+                }
 
         if (colors.containsKey(DefaultColorScheme.colorName)) {
             DEFAULT_COLOR = colors[DefaultColorScheme.colorName]!!
@@ -105,7 +105,7 @@ class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>(NeoTermPat
 
     private fun extractDefaultColor(context: Context): Boolean {
         try {
-            AssetsUtils.extractAssetsDir(context, "colors", NeoTermPath.COLORS_PATH)
+            AssetsUtils.extractAssetsDir(context, "colors", baseDir)
             return true
         } catch (e: Exception) {
             NLog.e("ColorScheme", "Failed to extract default colors: ${e.localizedMessage}")

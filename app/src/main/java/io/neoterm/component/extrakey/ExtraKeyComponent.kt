@@ -9,18 +9,11 @@ import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import io.neoterm.utils.AssetsUtils
 import java.io.File
-import java.io.FileFilter
 
 /**
  * @author kiva
  */
 class ExtraKeyComponent : ConfigFileBasedComponent<NeoExtraKey>(NeoTermPath.EKS_PATH) {
-    companion object {
-        private val FILTER = FileFilter {
-            it.extension == "nl"
-        }
-    }
-
     override val checkComponentFileWhenObtained = true
 
     private val extraKeys: MutableMap<String, NeoExtraKey> = mutableMapOf()
@@ -59,22 +52,23 @@ class ExtraKeyComponent : ConfigFileBasedComponent<NeoExtraKey>(NeoTermPath.EKS_
 
     private fun extractDefaultConfig(context: Context) {
         try {
-            AssetsUtils.extractAssetsDir(context, "eks", NeoTermPath.EKS_PATH)
+            AssetsUtils.extractAssetsDir(context, "eks", baseDir)
         } catch (e: Exception) {
             NLog.e("ExtraKey", "Failed to extract configure: ${e.localizedMessage}")
         }
     }
 
     private fun reloadExtraKeyConfig() {
-        val configDir = File(NeoTermPath.EKS_PATH)
-
-        configDir.listFiles(FILTER).forEach {
-            if (it.absolutePath != NeoTermPath.EKS_DEFAULT_FILE) {
-                val extraKey = this.loadConfigure(it)
-                if (extraKey != null) {
-                    registerShortcutKeys(extraKey)
+        extraKeys.clear()
+        File(baseDir)
+                .listFiles(NEOLANG_FILTER)
+                .forEach {
+                    if (it.absolutePath != NeoTermPath.EKS_DEFAULT_FILE) {
+                        val extraKey = this.loadConfigure(it)
+                        if (extraKey != null) {
+                            registerShortcutKeys(extraKey)
+                        }
+                    }
                 }
-            }
-        }
     }
 }

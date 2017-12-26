@@ -6,6 +6,7 @@ import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.logging.NLog
 import java.io.File
+import java.io.FileFilter
 
 /**
  * @author kiva
@@ -13,6 +14,10 @@ import java.io.File
 abstract class ConfigFileBasedComponent<out T : ConfigFileBasedObject>(protected val baseDir: String) : NeoComponent {
     companion object {
         private val TAG = ConfigFileBasedComponent::class.java.simpleName
+
+        val NEOLANG_FILTER = FileFilter {
+            it.extension == "nl"
+        }
     }
 
     open val checkComponentFileWhenObtained = false

@@ -3,6 +3,7 @@ package io.neoterm.component.profile
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.frontend.component.helper.ConfigFileBasedComponent
 import io.neoterm.frontend.config.NeoTermPath
+import java.io.File
 
 /**
  * @author kiva
@@ -31,6 +32,7 @@ class ProfileComponent : ConfigFileBasedComponent<NeoProfile>(NeoTermPath.PROFIL
 
     fun reloadProfiles() {
         profileList.clear()
+
     }
 
     fun registerProfile(metaName: String, prototype: Class<out NeoProfile>) {

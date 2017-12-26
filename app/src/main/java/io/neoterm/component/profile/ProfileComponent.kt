@@ -32,7 +32,10 @@ class ProfileComponent : ConfigFileBasedComponent<NeoProfile>(NeoTermPath.PROFIL
 
     fun reloadProfiles() {
         profileList.clear()
-
+        File(baseDir)
+                .listFiles(NEOLANG_FILTER)
+                .map { this.loadConfigure(it) }
+                .filterNotNullTo(profileList)
     }
 
     fun registerProfile(metaName: String, prototype: Class<out NeoProfile>) {

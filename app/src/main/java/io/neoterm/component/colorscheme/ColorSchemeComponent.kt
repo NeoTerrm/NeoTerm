@@ -54,11 +54,9 @@ class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>(NeoTermPat
 
         File(baseDir)
                 .listFiles(NEOLANG_FILTER)
+                .mapNotNull { this.loadConfigure(it) }
                 .forEach {
-                    val colorScheme = this.loadConfigure(it)
-                    if (colorScheme != null) {
-                        colors.put(colorScheme.colorName, colorScheme)
-                    }
+                    colors.put(it.colorName, it)
                 }
 
         if (colors.containsKey(DefaultColorScheme.colorName)) {

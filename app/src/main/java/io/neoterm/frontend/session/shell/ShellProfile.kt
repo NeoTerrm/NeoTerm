@@ -27,8 +27,6 @@ class ShellProfile : NeoProfile() {
         private const val FONT = "font"
         private const val COLOR_SCHEME = "color-scheme"
         private const val WORD_BASED_IME = "word-based-ime"
-
-        private val PROFILE_META_PATH = arrayOf(PROFILE_META_NAME)
     }
 
     override val profileMetaName = PROFILE_META_NAME
@@ -68,6 +66,7 @@ class ShellProfile : NeoProfile() {
     }
 
     override fun onConfigLoaded(configVisitor: ConfigVisitor) {
+        super.onConfigLoaded(configVisitor)
         loginShell = configVisitor.getProfileString(LOGIN_SHELL, loginShell)
         initialCommand = configVisitor.getProfileString(INITIAL_COMMAND, initialCommand)
         enableBell = configVisitor.getProfileBoolean(BELL, enableBell)
@@ -80,21 +79,5 @@ class ShellProfile : NeoProfile() {
         enableWordBasedIme = configVisitor.getProfileBoolean(WORD_BASED_IME, enableWordBasedIme)
         profileFont = configVisitor.getProfileString(FONT, profileFont)
         profileColorScheme = configVisitor.getProfileString(COLOR_SCHEME, profileColorScheme)
-    }
-
-    private fun ConfigVisitor.getProfileString(key: String, fallback: String): String {
-        return getProfileString(key) ?: fallback
-    }
-
-    private fun ConfigVisitor.getProfileBoolean(key: String, fallback: Boolean): Boolean {
-        return getProfileBoolean(key) ?: fallback
-    }
-
-    private fun ConfigVisitor.getProfileString(key: String): String? {
-        return this.getStringValue(PROFILE_META_PATH, key)
-    }
-
-    private fun ConfigVisitor.getProfileBoolean(key: String): Boolean? {
-        return this.getBooleanValue(PROFILE_META_PATH, key)
     }
 }

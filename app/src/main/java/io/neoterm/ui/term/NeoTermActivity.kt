@@ -187,10 +187,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 toolbar.navigationIcon = null
                 toolbar.setNavigationOnClickListener(null)
                 toolbar.setBackgroundResource(R.color.colorPrimary)
-//                toolbar.alpha = 0f
-//                toolbar.animate().alpha(1f).setDuration(300).withEndAction {
-//                    toolbar.setBackgroundResource(R.color.colorPrimary)
-//                }.start()
             }
 
             override fun onSelectionChanged(tabSwitcher: TabSwitcher, selectedTabIndex: Int, selectedTab: Tab?) {
@@ -591,10 +587,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
 
         return RevealAnimation.Builder().setX(x).setY(y).create()
     }
-
-//    private fun createPeekAnimation(): Animation {
-//        return PeekAnimation.Builder().setX(tabSwitcher.width / 2f).create()
-//    }
 
     private fun getNavigationMenuItem(): View? {
         val toolbars = tabSwitcher.toolbars

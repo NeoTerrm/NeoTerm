@@ -12,7 +12,7 @@ class ProfileComponent : ConfigFileBasedComponent<NeoProfile>(NeoTermPath.PROFIL
     override val checkComponentFileWhenObtained = true
 
     private val profileRegistry = mutableMapOf<String, Class<out NeoProfile>>()
-    private val profileList = mutableListOf<NeoProfile>()
+    private val profileList = mutableMapOf<String, MutableList<NeoProfile>>()
 
     override fun onCheckComponentFiles() = reloadProfiles()
 
@@ -30,12 +30,22 @@ class ProfileComponent : ConfigFileBasedComponent<NeoProfile>(NeoTermPath.PROFIL
         throw IllegalArgumentException("No proper profile registry for found")
     }
 
+    fun getProfiles(metaName: String): List<NeoProfile> = profileList[metaName] ?: listOf()
+
     fun reloadProfiles() {
         profileList.clear()
         File(baseDir)
                 .listFiles(NEOLANG_FILTER)
-                .map { this.loadConfigure(it) }
-                .filterNotNullTo(profileList)
+                .mapNotNull { this.loadConfigure(it) }
+                .forEach {
+                    val list = profileList[it.profileName]
+                    if (list != null) {
+                        list.add(it)
+                    } else {
+                        val newList = mutableListOf(it)
+                        profileList.put(it.profileName, newList)
+                    }
+                }
     }
 
     fun registerProfile(metaName: String, prototype: Class<out NeoProfile>) {

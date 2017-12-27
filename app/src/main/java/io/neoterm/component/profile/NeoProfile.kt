@@ -5,7 +5,13 @@ import io.neoterm.component.codegen.CodeGenParameter
 import io.neoterm.component.codegen.generators.NeoProfileGenerator
 import io.neoterm.component.codegen.interfaces.CodeGenObject
 import io.neoterm.component.codegen.interfaces.CodeGenerator
+import io.neoterm.component.config.ConfigureComponent
+import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.component.helper.ConfigFileBasedObject
+import io.neoterm.frontend.config.NeoConfigureFile
+import io.neoterm.frontend.logging.NLog
+import org.jetbrains.annotations.TestOnly
+import java.io.File
 
 /**
  * @author kiva
@@ -27,6 +33,26 @@ abstract class NeoProfile : CodeGenObject, ConfigFileBasedObject {
 
     override fun getCodeGenerator(parameter: CodeGenParameter): CodeGenerator {
         return NeoProfileGenerator(parameter)
+    }
+
+    @TestOnly
+    fun testLoadConfigure(file: File): Boolean {
+        val loaderService = ComponentManager.getComponent<ConfigureComponent>()
+
+        val configure: NeoConfigureFile?
+        try {
+            configure = loaderService.newLoader(file).loadConfigure()
+            if (configure == null) {
+                throw RuntimeException("Parse configuration failed.")
+            }
+        } catch (e: Exception) {
+            NLog.e("Profile", "Failed to load profile: ${file.absolutePath}: ${e.localizedMessage}")
+            return false
+        }
+
+        val visitor = configure.getVisitor()
+        onConfigLoaded(visitor)
+        return true
     }
 
     protected fun ConfigVisitor.getProfileString(key: String, fallback: String): String {

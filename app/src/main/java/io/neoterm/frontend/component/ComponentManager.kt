@@ -26,9 +26,9 @@ object ComponentManager {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : NeoComponent> getComponent(componentInterface: Class<T>) : T {
+    fun <T : NeoComponent> getComponent(componentInterface: Class<T>, errorThrow: Boolean = true) : T {
         val component: NeoComponent = COMPONENTS[componentInterface] ?:
-                throw ComponentNotFoundException(componentInterface.simpleName)
+                    throw ComponentNotFoundException(componentInterface.simpleName)
 
         component.onServiceObtained()
         return component as T

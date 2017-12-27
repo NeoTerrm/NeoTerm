@@ -1,7 +1,10 @@
 package io.neoterm
 
+import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.component.colorscheme.NeoColorScheme
 import io.neoterm.component.extrakey.NeoExtraKey
+import io.neoterm.component.font.FontComponent
+import io.neoterm.component.profile.NeoProfile
 import io.neoterm.component.profile.ProfileComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.session.shell.ShellProfile
@@ -53,15 +56,11 @@ class ConfigureFileTest {
         } catch (ignore: Throwable) {
         }
 
-        ComponentManager.registerComponent(ProfileComponent::class.java)
+        val profile = ShellProfile()
+        profile.testLoadConfigure(File("NeoLang/example/profile.nl"))
 
-        val profileComp = ComponentManager.getComponent<ProfileComponent>()
-        profileComp.registerProfile(ShellProfile.PROFILE_META_NAME, ShellProfile::class.java)
-
-        val comp = ComponentManager.getComponent<ProfileComponent>()
-        val profile = comp.loadConfigure<ShellProfile>(File("NeoLang/example/profile.nl"))
-
-        return
+        println(profile.profileMetaName)
+        println(profile.profileName)
     }
 
     @Test

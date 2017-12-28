@@ -27,6 +27,10 @@ class ShellProfile : NeoProfile() {
         private const val FONT = "font"
         private const val COLOR_SCHEME = "color-scheme"
         private const val WORD_BASED_IME = "word-based-ime"
+
+        fun create() : ShellProfile {
+            return ShellProfile()
+        }
     }
 
     override val profileMetaName = PROFILE_META_NAME

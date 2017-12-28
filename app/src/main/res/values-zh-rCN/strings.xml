@@ -152,6 +152,8 @@
     <string name="select_new_value">选择</string>
     <string name="input_new_value">输入新颜色</string>
     <string name="toggle_eks">切换拓展键</string>
+    <string name="new_x_session">新建图形会话</string>
+    <string name="new_session_with_profile">新建个性化会话</string>
 
     <string-array name="color_item_names">
         <item>背景色</item>

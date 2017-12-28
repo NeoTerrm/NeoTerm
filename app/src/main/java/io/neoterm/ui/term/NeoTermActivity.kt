@@ -20,9 +20,12 @@ import de.mrapp.android.tabswitcher.*
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
+import io.neoterm.component.profile.ProfileComponent
+import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoPermission
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.session.shell.ShellParameter
+import io.neoterm.frontend.session.shell.ShellProfile
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.frontend.session.shell.client.TermViewClient
 import io.neoterm.frontend.session.shell.client.event.*
@@ -149,6 +152,10 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
             R.id.menu_item_new_session -> {
                 addNewSession()
+                true
+            }
+            R.id.menu_item_new_session_with_profile -> {
+                showProfileDialog()
                 true
             }
             R.id.menu_item_new_system_session -> {
@@ -370,7 +377,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             val lastSession = getStoredCurrentSessionOrLast()
 
             for (session in termService!!.sessions) {
-                addNewSession(session)
+                addNewSessionFromExisting(session)
             }
 
             for (session in termService!!.xSessions) {
@@ -425,14 +432,55 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         this@NeoTermActivity.recreate()
     }
 
-    private fun addNewSession() {
+    private fun showProfileDialog() {
+        val profileComponent = ComponentManager.getComponent<ProfileComponent>()
+        val profiles = profileComponent.getProfiles(ShellProfile.PROFILE_META_NAME)
+                .filterIsInstance<ShellProfile>()
+
+        AlertDialog.Builder(this)
+                .setTitle(R.string.new_session_with_profile)
+                .setItems(profiles.map { it.profileName }.toTypedArray(), { dialog, which ->
+                    val selectedProfile = profiles[which]
+                    addNewSessionWithProfile(selectedProfile)
+                })
+                .setPositiveButton(android.R.string.no, null)
+                .show()
+    }
+
+    private fun addNewSession() = addNewSessionWithProfile(ShellProfile.create())
+
+    private fun addNewSession(sessionName: String?, systemShell: Boolean, animation: Animation)
+            = addNewSessionWithProfile(sessionName, systemShell, animation, ShellProfile.create())
+
+    private fun addNewSessionWithProfile(profile: ShellProfile) {
         if (!tabSwitcher.isSwitcherShown) {
             toggleSwitcher(showSwitcher = true, easterEgg = false)
         }
-        addNewSession(null, getSystemShellMode(), createRevealAnimation())
+        addNewSessionWithProfile(null, getSystemShellMode(),
+                createRevealAnimation(), profile)
     }
 
-    private fun addNewSession(session: TerminalSession?) {
+    private fun addNewSessionWithProfile(sessionName: String?, systemShell: Boolean,
+                                         animation: Animation, profile: ShellProfile) {
+        val sessionCallback = TermSessionCallback()
+        val viewClient = TermViewClient(this)
+
+        val parameter = ShellParameter()
+                .callback(sessionCallback)
+                .systemShell(systemShell)
+                .profile(profile)
+        val session = termService!!.createTermSession(parameter)
+
+        session.mSessionName = sessionName ?: generateSessionName("NeoTerm")
+
+        val tab = createTab(session.mSessionName) as TermTab
+        tab.termData.initializeSessionWith(session, sessionCallback, viewClient)
+
+        addNewTab(tab, animation)
+        switchToSession(tab)
+    }
+
+    private fun addNewSessionFromExisting(session: TerminalSession?) {
         if (session == null) {
             return
         }
@@ -452,24 +500,6 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         tab.termData.initializeSessionWith(session, sessionCallback, viewClient)
 
         addNewTab(tab, createRevealAnimation())
-        switchToSession(tab)
-    }
-
-    private fun addNewSession(sessionName: String?, systemShell: Boolean, animation: Animation) {
-        val sessionCallback = TermSessionCallback()
-        val viewClient = TermViewClient(this)
-
-        val parameter = ShellParameter()
-                .callback(sessionCallback)
-                .systemShell(systemShell)
-        val session = termService!!.createTermSession(parameter)
-
-        session.mSessionName = sessionName ?: generateSessionName("NeoTerm")
-
-        val tab = createTab(session.mSessionName) as TermTab
-        tab.termData.initializeSessionWith(session, sessionCallback, viewClient)
-
-        addNewTab(tab, animation)
         switchToSession(tab)
     }
 

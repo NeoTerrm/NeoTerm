@@ -157,6 +157,7 @@
     <string name="input_new_value">Enter new color</string>
     <string name="toggle_eks">Toggle extra keys</string>
     <string name="new_x_session">New X Session</string>
+    <string name="new_session_with_profile">New Session With Profile</string>
 
     <string name="default_source_url">http://neoterm.studio</string>
     <string name="lnpo_source_url">http://lnpo.top:81/neoterm</string>

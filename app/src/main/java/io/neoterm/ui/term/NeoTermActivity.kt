@@ -435,12 +435,21 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     private fun showProfileDialog() {
         val profileComponent = ComponentManager.getComponent<ProfileComponent>()
         val profiles = profileComponent.getProfiles(ShellProfile.PROFILE_META_NAME)
-                .filterIsInstance<ShellProfile>()
+        val profilesShell = profiles.filterIsInstance<ShellProfile>()
+
+        if (profiles.isEmpty()) {
+            AlertDialog.Builder(this)
+                    .setTitle(R.string.error)
+                    .setMessage(R.string.no_profile_available)
+                    .setPositiveButton(android.R.string.yes, null)
+                    .show()
+            return
+        }
 
         AlertDialog.Builder(this)
                 .setTitle(R.string.new_session_with_profile)
                 .setItems(profiles.map { it.profileName }.toTypedArray(), { dialog, which ->
-                    val selectedProfile = profiles[which]
+                    val selectedProfile = profilesShell[which]
                     addNewSessionWithProfile(selectedProfile)
                 })
                 .setPositiveButton(android.R.string.no, null)

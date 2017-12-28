@@ -154,6 +154,7 @@
     <string name="toggle_eks">切换拓展键</string>
     <string name="new_x_session">新建图形会话</string>
     <string name="new_session_with_profile">新建个性化会话</string>
+    <string name="no_profile_available">没有可用的个性化配置</string>
 
     <string-array name="color_item_names">
         <item>背景色</item>

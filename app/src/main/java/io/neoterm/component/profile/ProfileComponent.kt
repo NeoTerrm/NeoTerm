@@ -9,7 +9,8 @@ import java.io.File
  * @author kiva
  */
 class ProfileComponent : ConfigFileBasedComponent<NeoProfile>(NeoTermPath.PROFILE_PATH) {
-    override val checkComponentFileWhenObtained = true
+    override val checkComponentFileWhenObtained
+        get() = true
 
     private val profileRegistry = mutableMapOf<String, Class<out NeoProfile>>()
     private val profileList = mutableMapOf<String, MutableList<NeoProfile>>()
@@ -20,14 +21,16 @@ class ProfileComponent : ConfigFileBasedComponent<NeoProfile>(NeoTermPath.PROFIL
         val rootContext = configVisitor.getRootContext()
 
         val profileClass = rootContext.children
-                .mapNotNull { profileRegistry[it.contextName] }
+                .mapNotNull {
+                    profileRegistry[it.contextName]
+                }
                 .singleOrNull()
 
         if (profileClass != null) {
             return profileClass.newInstance()
         }
 
-        throw IllegalArgumentException("No proper profile registry for found")
+        throw IllegalArgumentException("No proper profile registry found")
     }
 
     fun getProfiles(metaName: String): List<NeoProfile> = profileList[metaName] ?: listOf()
@@ -36,7 +39,9 @@ class ProfileComponent : ConfigFileBasedComponent<NeoProfile>(NeoTermPath.PROFIL
         profileList.clear()
         File(baseDir)
                 .listFiles(NEOLANG_FILTER)
-                .mapNotNull { this.loadConfigure(it) }
+                .mapNotNull {
+                    this.loadConfigure(it)
+                }
                 .forEach {
                     val list = profileList[it.profileName]
                     if (list != null) {

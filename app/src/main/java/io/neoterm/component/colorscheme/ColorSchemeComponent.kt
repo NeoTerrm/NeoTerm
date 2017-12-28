@@ -26,7 +26,8 @@ class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>(NeoTermPat
         }
     }
 
-    override val checkComponentFileWhenObtained = true
+    override val checkComponentFileWhenObtained
+        get() = true
 
     private lateinit var DEFAULT_COLOR: NeoColorScheme
     private var colors: MutableMap<String, NeoColorScheme> = mutableMapOf()

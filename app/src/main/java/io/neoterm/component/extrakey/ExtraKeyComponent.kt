@@ -14,7 +14,8 @@ import java.io.File
  * @author kiva
  */
 class ExtraKeyComponent : ConfigFileBasedComponent<NeoExtraKey>(NeoTermPath.EKS_PATH) {
-    override val checkComponentFileWhenObtained = true
+    override val checkComponentFileWhenObtained
+            get() = true
 
     private val extraKeys: MutableMap<String, NeoExtraKey> = mutableMapOf()
 

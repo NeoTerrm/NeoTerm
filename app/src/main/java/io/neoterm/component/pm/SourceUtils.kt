@@ -40,9 +40,12 @@ object SourceUtils {
                 builder.append(":${url.port}")
             }
 
-            if (url.path != null && url.path.isNotEmpty()) {
+            val path = url.path
+            if (path != null && path.isNotEmpty()) {
                 builder.append("_")
-                builder.append(url.path.substring(1)) // Skip '/'
+                val fixedPath = path.replace("/", "_")
+                        .substring(1) // skip the last '/'
+                builder.append(fixedPath)
             }
             builder.append("_dists_stable_main_binary-")
             return builder.toString()

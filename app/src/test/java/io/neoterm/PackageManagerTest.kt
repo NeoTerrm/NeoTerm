@@ -3,6 +3,8 @@ package io.neoterm
 import io.neoterm.component.pm.PackageComponent
 import io.neoterm.component.pm.SourceUtils
 import io.neoterm.frontend.component.ComponentManager
+import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
@@ -27,5 +29,10 @@ class PackageManagerTest {
         pm.reloadPackages(File("/Users/kiva/1"), false)
 
         System.err.println(pm.packages["rcs"]?.description)
+    }
+
+    @Test
+    fun testReplaceAll() {
+        assertEquals("/root/boom.sh".replace("/", "_"), "_root_boom.sh")
     }
 }

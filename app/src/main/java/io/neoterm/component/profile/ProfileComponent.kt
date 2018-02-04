@@ -3,6 +3,7 @@ package io.neoterm.component.profile
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.frontend.component.helper.ConfigFileBasedComponent
 import io.neoterm.frontend.config.NeoTermPath
+import io.neoterm.frontend.logging.NLog
 import java.io.File
 
 /**
@@ -27,6 +28,7 @@ class ProfileComponent : ConfigFileBasedComponent<NeoProfile>(NeoTermPath.PROFIL
                 .singleOrNull()
 
         if (profileClass != null) {
+            NLog.e("ProfileComponent", "Loaded profile: " + profileClass.name)
             return profileClass.newInstance()
         }
 
@@ -43,18 +45,19 @@ class ProfileComponent : ConfigFileBasedComponent<NeoProfile>(NeoTermPath.PROFIL
                     this.loadConfigure(it)
                 }
                 .forEach {
-                    val list = profileList[it.profileName]
+                    val list = profileList[it.profileMetaName]
                     if (list != null) {
                         list.add(it)
                     } else {
                         val newList = mutableListOf(it)
-                        profileList.put(it.profileName, newList)
+                        profileList.put(it.profileMetaName, newList)
                     }
                 }
     }
 
     fun registerProfile(metaName: String, prototype: Class<out NeoProfile>) {
         profileRegistry[metaName] = prototype
+        reloadProfiles()
     }
 
     fun unregisterProfile(metaName: String) {

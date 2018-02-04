@@ -96,7 +96,7 @@ class SessionComponent : NeoComponent {
     }
 
     fun createSession(context: Context, parameter: ShellParameter): ShellTermSession {
-        val session = ShellTermSession.Builder()
+        return ShellTermSession.Builder()
                 .executablePath(parameter.executablePath)
                 .currentWorkingDirectory(parameter.cwd)
                 .callback(parameter.sessionCallback)
@@ -106,6 +106,5 @@ class SessionComponent : NeoComponent {
                 .initialCommand(parameter.initialCommand)
                 .profile(parameter.shellProfile)
                 .create(context)
-        return session
     }
 }

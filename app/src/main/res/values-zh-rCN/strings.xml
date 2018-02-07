@@ -5,6 +5,7 @@
     <string name="copy_text">复制</string>
     <string name="general_settings">通用设置</string>
     <string name="new_session">新建会话</string>
+    <string name="new_session_more">新建会话…</string>
     <string name="new_system_session">新建系统会话</string>
     <string name="package_settings">软件包</string>
     <string name="paste_text">粘贴</string>
@@ -153,7 +154,7 @@
     <string name="input_new_value">输入新颜色</string>
     <string name="toggle_eks">切换拓展键</string>
     <string name="new_x_session">新建图形会话</string>
-    <string name="new_session_with_profile">新建个性化会话</string>
+    <string name="new_session_with_profile">新建 Profile 会话</string>
     <string name="no_profile_available">没有可用的个性化配置</string>
     <string name="no_file_picker">没有文件选择器</string>
 

@@ -14,19 +14,25 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_item_new_session_with_profile"
-        android:title="@string/new_session_with_profile"
-        app:showAsAction="never" />
+        android:title="@string/new_session_more"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/menu_item_new_session_with_profile"
+                android:title="@string/new_session_with_profile"
+                app:showAsAction="never" />
 
-    <item
-        android:id="@+id/menu_item_new_system_session"
-        android:title="@string/new_system_session"
-        app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_item_new_system_session"
+                android:title="@string/new_system_session"
+                app:showAsAction="never" />
 
-    <item
-        android:id="@+id/menu_item_new_x_session"
-        android:title="@string/new_x_session"
-        app:showAsAction="never" />
+            <item
+                android:id="@+id/menu_item_new_x_session"
+                android:title="@string/new_x_session"
+                app:showAsAction="never" />
+        </menu>
+    </item>
 
     <item
         android:id="@+id/menu_item_package_settings"

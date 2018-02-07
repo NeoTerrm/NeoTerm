@@ -160,8 +160,7 @@
     <string name="new_session_with_profile">New Session With Profile</string>
     <string name="no_profile_available">No profile available</string>
 
-    <string name="default_source_url">http://neoterm.studio</string>
-    <string name="lnpo_source_url">http://lnpo.top:81/neoterm</string>
+    <string name="default_source_url">http://janyo.pw:82/kiva/neoterm</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>
@@ -172,7 +171,6 @@
 
     <string-array name="pref_package_source_values" translatable="false">
         <item>@string/default_source_url</item>
-        <item>@string/lnpo_source_url</item>
     </string-array>
 
     <string-array name="color_item_names">

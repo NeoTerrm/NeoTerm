@@ -34,6 +34,7 @@ object SetupHelper {
         progress.show()
 
         SetupThread(activity, connection, prefixFile, resultListener, progress)
+                .start()
     }
 
     private fun makeProgressDialog(context: Context): ProgressDialog {

@@ -87,8 +87,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:clickable="false"
                 android:focusable="false"
+                android:clickable="false"
                 android:hint="@string/setup_hint_online"
                 android:text="@string/default_source_url" />
 

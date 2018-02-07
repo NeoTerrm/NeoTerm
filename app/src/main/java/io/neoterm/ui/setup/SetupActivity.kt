@@ -1,6 +1,7 @@
 package io.neoterm.ui.setup
 
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -48,6 +49,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
         setContentView(R.layout.ui_setup)
 
         val parameterEditor = findViewById<EditText>(R.id.setup_source_parameter)
+
         val tipText = findViewById<TextView>(R.id.setup_url_tip_text)
 
         val onCheckedChangeListener = CompoundButton.OnCheckedChangeListener { button, checked ->
@@ -129,13 +131,18 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
     }
 
     private fun doSelectParameter() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-
-        // Filter to only show results that can be "opened", such as a
-        // file (as opposed to a list of contacts or timezones)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-
-        startActivityForResult(intent, REQUEST_SELECT_PARAMETER)
+        val id = findViewById<RadioGroup>(R.id.setup_method_group).checkedRadioButtonId
+        when (id) {
+            R.id.setup_method_backup,
+            R.id.setup_method_local -> {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                try {
+                    startActivityForResult(intent, REQUEST_SELECT_PARAMETER)
+                } catch (ignore: ActivityNotFoundException) {
+                    Toast.makeText(this, R.string.no_file_picker, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun createSourceConnection(id: Int, parameter: String, parameterUri: Uri?): SourceConnection {

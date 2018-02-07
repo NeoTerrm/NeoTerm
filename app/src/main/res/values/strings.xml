@@ -159,6 +159,7 @@
     <string name="new_x_session">New X Session</string>
     <string name="new_session_with_profile">New Session With Profile</string>
     <string name="no_profile_available">No profile available</string>
+    <string name="no_file_picker">No file picker found</string>
 
     <string name="default_source_url">http://janyo.pw:82/kiva/neoterm</string>
 

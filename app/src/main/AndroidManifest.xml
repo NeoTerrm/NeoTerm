@@ -135,6 +135,7 @@
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
             android:name=".ui.setup.SetupActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

@@ -79,7 +79,7 @@
     <string name="setup_source_parameter">配置参数</string>
     <string name="setup_input_source_parameter">输入配置参数</string>
     <string name="setup_hint_online">含有启动文件的软件源地址</string>
-    <string name="setup_hint_local">启动文件路径</string>
+    <string name="setup_hint_local">启动文件(*.zip)路径</string>
     <string name="setup_hint_assets">不可用</string>
     <string name="setup_hint_backup">备份文件(*.neobackup) 路径</string>
     <string name="setup_error_file_not_found">文件不存在</string>
@@ -155,6 +155,7 @@
     <string name="new_x_session">新建图形会话</string>
     <string name="new_session_with_profile">新建个性化会话</string>
     <string name="no_profile_available">没有可用的个性化配置</string>
+    <string name="no_file_picker">没有文件选择器</string>
 
     <string-array name="color_item_names">
         <item>背景色</item>

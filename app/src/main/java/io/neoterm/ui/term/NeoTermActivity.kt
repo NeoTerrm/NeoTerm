@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import de.mrapp.android.tabswitcher.*
 import io.neoterm.App
+import io.neoterm.BuildConfig
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.profile.ProfileComponent
@@ -513,6 +514,15 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     private fun addXSession() {
+        if (!BuildConfig.DEBUG) {
+            AlertDialog.Builder(this)
+                    .setTitle(R.string.error)
+                    .setMessage(R.string.sorry_for_development)
+                    .setPositiveButton(android.R.string.yes, null)
+                    .show()
+            return
+        }
+
         if (!tabSwitcher.isSwitcherShown) {
             toggleSwitcher(showSwitcher = true, easterEgg = false)
         }

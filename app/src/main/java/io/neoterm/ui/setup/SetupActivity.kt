@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.*
 import io.neoterm.App
 import io.neoterm.R
+import io.neoterm.component.pm.SourceHelper
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.setup.ResultListener
 import io.neoterm.setup.SetupHelper
@@ -183,7 +184,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
 
     private fun setDefaultValue(parameterEditor: EditText, id: Int) {
         setupParameter = when (id) {
-            R.id.setup_method_online -> NeoTermPath.DEFAULT_SOURCE
+            R.id.setup_method_online -> NeoTermPath.DEFAULT_MAIN_PACKAGE_SOURCE
             else -> ""
         }
         parameterEditor.setText(setupParameter)
@@ -211,7 +212,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
     override fun onResult(error: Exception?) {
         if (error == null) {
             setResult(RESULT_OK)
-            PackageUtils.syncSource()
+            SourceHelper.syncSource()
             executeAptUpdate()
 
         } else {

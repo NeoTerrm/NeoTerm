@@ -161,6 +161,10 @@
     <string name="new_session_with_profile">New Session With Profile</string>
     <string name="no_profile_available">No profile available</string>
     <string name="no_file_picker">No file picker found</string>
+    <string name="input_new_source_url">Enter new URL</string>
+    <string name="input_new_source_repo">Enter new Repo</string>
+    <string name="error_new_source_url">URL cannot be empty</string>
+    <string name="error_new_source_repo">Repo cannot be empty</string>
 
     <string name="default_source_url">http://janyo.pw:82/kiva/neoterm</string>
 

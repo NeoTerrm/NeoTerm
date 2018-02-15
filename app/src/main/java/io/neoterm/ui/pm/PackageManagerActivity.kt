@@ -1,5 +1,6 @@
 package io.neoterm.ui.pm
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.AlertDialog
@@ -8,16 +9,19 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.pm.PackageComponent
+import io.neoterm.component.pm.Source
 import io.neoterm.component.pm.SourceManager
-import io.neoterm.component.pm.SourceUtils
+import io.neoterm.component.pm.SourceHelper
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
@@ -109,24 +113,16 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
 
     private fun changeSource() {
         val sourceManager = ComponentManager.getComponent<PackageComponent>().sourceManager
-        val sourceList = sourceManager.sources
+        val sourceList = sourceManager.getAllSources()
 
-        val currentSource = NeoPreference.loadString(R.string.key_package_source, NeoTermPath.DEFAULT_SOURCE)
-        var checkedItem = sourceList.indexOf(currentSource)
-        if (checkedItem == -1) {
-            // Users may edit source.list on his own
-            checkedItem = sourceList.size
-            sourceManager.addSource(currentSource)
-        }
-
-        var selectedIndex = 0
         AlertDialog.Builder(this)
                 .setTitle(R.string.pref_package_source)
-                .setSingleChoiceItems(sourceList.toTypedArray(), checkedItem, { _, which ->
-                    selectedIndex = which
+                .setMultiChoiceItems(sourceList.map { "${it.url} :: ${it.repo}" }.toTypedArray(),
+                        sourceList.map { it.enabled }.toBooleanArray(), { dialog, which, isChecked ->
+                    sourceList[which].enabled = isChecked
                 })
                 .setPositiveButton(android.R.string.yes, { _, _ ->
-                    changeSourceInternal(sourceManager, sourceList.elementAt(selectedIndex))
+                    changeSourceInternal(sourceManager, sourceList)
                 })
                 .setNeutralButton(R.string.new_source, { _, _ ->
                     changeSourceToUserInput(sourceManager)
@@ -135,26 +131,51 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
                 .show()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun changeSourceToUserInput(sourceManager: SourceManager) {
-        val editText = EditText(this)
-        editText.setSelectAllOnFocus(true)
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_two_text, null, false)
+        view.findViewById<TextView>(R.id.dialog_edit_text_info).text = getString(R.string.input_new_source_url)
+        view.findViewById<TextView>(R.id.dialog_edit_text2_info).text = getString(R.string.input_new_source_repo)
+
+        val urlEditor = view.findViewById<EditText>(R.id.dialog_edit_text_editor)
+        val repoEditor = view.findViewById<EditText>(R.id.dialog_edit_text2_editor)
+        repoEditor.setText("stable main")
 
         AlertDialog.Builder(this)
                 .setTitle(R.string.pref_package_source)
-                .setView(editText)
+                .setView(view)
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, { _, _ ->
-                    val source = editText.text.toString()
-                    changeSourceInternal(sourceManager, source)
+                    val url = urlEditor.text.toString()
+                    val repo = repoEditor.text.toString()
+                    var errored = false
+                    if (url.trim().isEmpty()) {
+                        urlEditor.error = getString(R.string.error_new_source_url)
+                        errored = true
+                    }
+                    if (repo.trim().isEmpty()) {
+                        repoEditor.error = getString(R.string.error_new_source_repo)
+                        errored = true
+                    }
+                    if (errored) {
+                        return@setPositiveButton
+                    }
+                    val source = urlEditor.text.toString()
+                    sourceManager.addSource(source, repo, true)
+                    postChangeSource(sourceManager)
                 })
                 .show()
     }
 
-    private fun changeSourceInternal(sourceManager: SourceManager, source: String) {
-        sourceManager.addSource(source)
+    private fun changeSourceInternal(sourceManager: SourceManager, source: List<Source>) {
+        sourceManager.updateAll(source)
+        postChangeSource(sourceManager)
+    }
+
+    private fun postChangeSource(sourceManager: SourceManager) {
         sourceManager.applyChanges()
-        NeoPreference.store(R.string.key_package_source, source)
-        PackageUtils.syncSource()
+        NeoPreference.store(R.string.key_package_source, sourceManager.getMainPackageSource())
+        SourceHelper.syncSource(sourceManager)
         executeAptUpdate()
     }
 
@@ -193,17 +214,11 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         models.clear()
         Thread {
             val pm = ComponentManager.getComponent<PackageComponent>()
-            val sourceFiles = SourceUtils.detectSourceFiles()
+            val sourceFiles = SourceHelper.detectSourceFiles()
 
             pm.clearPackages()
-            for (index in sourceFiles.indices) {
-                pm.reloadPackages(sourceFiles[index], false)
-            }
-
-            val packages = pm.packages
-            for (packageInfo in packages.values) {
-                models.add(PackageModel(packageInfo))
-            }
+            sourceFiles.forEach { pm.reloadPackages(it, false) }
+            pm.packages.values.mapTo(models, { PackageModel(it) })
 
             this@PackageManagerActivity.runOnUiThread {
                 adapter.edit()

@@ -6,14 +6,28 @@
     android:padding="@dimen/text_margin">
 
     <TextView
-        android:labelFor="@id/dialog_edit_text_editor"
         android:id="@+id/dialog_edit_text_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:labelFor="@id/dialog_edit_text_editor"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <EditText
         android:id="@+id/dialog_edit_text_editor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/dialog_edit_text2_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/dialog_edit_text2_editor"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <EditText
+        android:id="@+id/dialog_edit_text2_editor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inputType="text"

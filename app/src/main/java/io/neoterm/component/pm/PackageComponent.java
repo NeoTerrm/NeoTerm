@@ -22,7 +22,7 @@ public class PackageComponent implements NeoComponent {
     }
 
     public HashMap<String, NeoPackageInfo> getPackages() {
-        return queryEnabled ? neoPackages : new HashMap<String, NeoPackageInfo>();
+        return queryEnabled ? neoPackages : new HashMap<>();
     }
 
     public int getPackageCount() {

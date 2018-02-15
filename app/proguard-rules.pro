@@ -94,3 +94,6 @@
  java.lang.Object readResolve();
 }
 
+-keep class * extends io.neoterm.framework.database.annotation.* { *; }
+-keep interface * extends io.neoterm.framework.database.annotation.* { *; }
+

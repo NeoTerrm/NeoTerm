@@ -24,7 +24,7 @@ object NeoPreference {
     const val KEY_FONT_SIZE = "neoterm_general_font_size"
     const val KEY_CURRENT_SESSION = "neoterm_service_current_session"
     const val KEY_SYSTEM_SHELL = "neoterm_core_system_shell"
-    const val KEY_SOURCES = "neoterm_source_source_list"
+    const val KEY_SOURCES = "neoterm_package_enabled_sources"
 
     const val VALUE_HAPPY_EGG_TRIGGER = 8
 
@@ -54,14 +54,6 @@ object NeoPreference {
                 store(R.string.key_package_source, array[1])
             }
         }
-    }
-
-    fun storeStrings(key: String, value: Set<String>) {
-        preference!!.edit().putStringSet(key, value).apply()
-    }
-
-    fun loadStrings(key: String): Set<String> {
-        return preference!!.getStringSet(key, setOf())
     }
 
     fun store(key: Int, value: Any) {

@@ -157,6 +157,10 @@
     <string name="new_session_with_profile">新建 Profile 会话</string>
     <string name="no_profile_available">没有可用的个性化配置</string>
     <string name="no_file_picker">没有文件选择器</string>
+    <string name="input_new_source_url">输入 URL</string>
+    <string name="input_new_source_repo">输入仓库名</string>
+    <string name="error_new_source_url">URL 不能为空</string>
+    <string name="error_new_source_repo">仓库 不能为空</string>
 
     <string-array name="color_item_names">
         <item>背景色</item>

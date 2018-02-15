@@ -1,10 +1,9 @@
 package io.neoterm
 
 import io.neoterm.component.pm.PackageComponent
-import io.neoterm.component.pm.SourceUtils
+import io.neoterm.component.pm.SourceHelper
 import io.neoterm.frontend.component.ComponentManager
 import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
 import org.junit.Test
 import java.io.File
 
@@ -15,7 +14,7 @@ class PackageManagerTest {
     @Test
     fun testSourceUrl() {
         val url = "http://7sp0th.iok.la:81/neoterm"
-        println(SourceUtils.detectSourceFilePrefix(url))
+        println(SourceHelper.detectSourceFilePrefix(url))
     }
 
     @Test

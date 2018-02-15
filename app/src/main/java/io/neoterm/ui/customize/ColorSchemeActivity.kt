@@ -96,10 +96,10 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
     }
 
     private fun showItemEditor(model: ColorItem) {
-        val view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_color, null, false)
-        view.findViewById<TextView>(R.id.dialog_edit_color_info).text = getString(R.string.input_new_value)
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_text, null, false)
+        view.findViewById<TextView>(R.id.dialog_edit_text_info).text = getString(R.string.input_new_value)
 
-        val edit = view.findViewById<EditText>(R.id.dialog_edit_color_editor)
+        val edit = view.findViewById<EditText>(R.id.dialog_edit_text_editor)
         edit.setText(model.colorValue)
         if (model.colorValue.isNotEmpty()) {
             edit.setTextColor(TerminalColors.parse(model.colorValue))

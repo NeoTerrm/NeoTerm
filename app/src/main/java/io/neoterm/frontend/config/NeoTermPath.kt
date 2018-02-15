@@ -27,9 +27,9 @@ object NeoTermPath {
 
     private const val SOURCE = "http://janyo.pw:82/kiva/neoterm"
 
-    val DEFAULT_SOURCE: String
+    val DEFAULT_MAIN_PACKAGE_SOURCE: String
 
     init {
-        DEFAULT_SOURCE = SOURCE
+        DEFAULT_MAIN_PACKAGE_SOURCE = SOURCE
     }
 }

@@ -18,16 +18,14 @@ import android.widget.Toast
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.component.pm.PackageComponent
-import io.neoterm.component.pm.Source
-import io.neoterm.component.pm.SourceManager
-import io.neoterm.component.pm.SourceHelper
+import io.neoterm.component.pm.*
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.floating.TerminalDialog
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
+import io.neoterm.ui.pm.utils.StringDistance
 import io.neoterm.utils.PackageUtils
 
 /**
@@ -232,18 +230,25 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         }.start()
     }
 
-    private fun filter(models: List<PackageModel>, query: String?): List<PackageModel> {
-        val filteredModelList = ArrayList<PackageModel>()
-        if (query != null) {
-            val lowerCaseQuery = query.toLowerCase()
-            for (model in models) {
-                val name = model.packageInfo.packageName!!.toLowerCase()
-                val desc = model.packageInfo.description!!.toLowerCase()
-                if (name.contains(lowerCaseQuery) || desc.contains(lowerCaseQuery)) {
-                    filteredModelList.add(model)
-                }
-            }
+    private fun sortDistance(models: List<PackageModel>, query: String,
+                             mapper: (NeoPackageInfo) -> String): List<Pair<PackageModel, Int>> {
+        return models
+                .map({
+                    Pair(it, StringDistance.distance(mapper(it.packageInfo).toLowerCase(), query.toLowerCase()))
+                })
+                .sortedWith(Comparator { l, r -> r.second.compareTo(l.second) })
+                .toList()
+    }
+
+    private fun filter(models: List<PackageModel>, query: String): List<PackageModel> {
+        val filteredModelList = mutableListOf<PackageModel>()
+        val prepared = models.filter {
+            it.packageInfo.packageName!!.contains(query, true)
+                    || it.packageInfo.description!!.contains(query, true)
         }
+
+        sortDistance(prepared, query, { it.packageName!! }).mapTo(filteredModelList, { it.first })
+        sortDistance(prepared, query, { it.description!! }).mapTo(filteredModelList, { it.first })
         return filteredModelList
     }
 
@@ -252,10 +257,12 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     }
 
     override fun onQueryTextChange(text: String?): Boolean {
-        val filteredModelList = filter(models, text)
-        adapter.edit()
-                .replaceAll(filteredModelList)
-                .commit()
+        if (text != null) {
+            val filteredModelList = filter(models, text)
+            adapter.edit()
+                    .replaceAll(filteredModelList)
+                    .commit()
+        }
         return true
     }
 

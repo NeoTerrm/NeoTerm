@@ -62,7 +62,7 @@ class ExtraKeyComponent : ConfigFileBasedComponent<NeoExtraKey>(NeoTermPath.EKS_
         extraKeys.clear()
         File(baseDir)
                 .listFiles(NEOLANG_FILTER)
-                .filterNot { it.absolutePath != NeoTermPath.EKS_DEFAULT_FILE }
+                .filter { it.absolutePath != NeoTermPath.EKS_DEFAULT_FILE }
                 .mapNotNull { this.loadConfigure(it) }
                 .forEach {
                     registerShortcutKeys(it)

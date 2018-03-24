@@ -65,15 +65,12 @@ final class SetupThread extends Thread {
                     final int totalReadBytesFinal = totalReadBytes;
                     final int totalBytesFinal = totalBytes;
 
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                double progressFloat = ((double) totalReadBytesFinal) / ((double) totalBytesFinal) * 100.0;
-                                progressDialog.setProgress((int) progressFloat);
-                            } catch (RuntimeException ignore) {
-                                // activity dismissed
-                            }
+                    activity.runOnUiThread(() -> {
+                        try {
+                            double progressFloat = ((double) totalReadBytesFinal) / ((double) totalBytesFinal) * 100.0;
+                            progressDialog.setProgress((int) progressFloat);
+                        } catch (RuntimeException ignore) {
+                            // activity dismissed
                         }
                     });
 

@@ -32,7 +32,7 @@ buildscript {
 
             TARGET_SDK_VERSION     : 27,
 
-            BUILD_TOOL_VERSION     : '27.0.2',
+            BUILD_TOOL_VERSION     : '27.0.3',
 
             JUNIT_VERSION          : "4.12"
     ]
@@ -51,9 +51,10 @@ buildscript {
     repositories {
         maven { url 'https://dl.google.com/dl/android/maven2/' }
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.0'
         classpath rootProject.ext.deps["kotlin-gradle-plugin"]
 
         // NOTE: Do not place your application dependencies here; they belong

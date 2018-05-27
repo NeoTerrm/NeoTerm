@@ -2,7 +2,7 @@ package io.neoterm.ui.customize.model
 
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import io.neoterm.App
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.component.colorscheme.NeoColorScheme
 
 /**

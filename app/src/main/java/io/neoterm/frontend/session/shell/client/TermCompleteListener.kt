@@ -2,7 +2,7 @@ package io.neoterm.frontend.session.shell.client
 
 import android.util.Log
 import android.view.KeyEvent
-import io.neoterm.BuildConfig
+import com.termux.BuildConfig
 import io.neoterm.frontend.completion.CompletionManager
 import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
 import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener

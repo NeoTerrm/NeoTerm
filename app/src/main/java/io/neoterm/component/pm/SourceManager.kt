@@ -1,7 +1,7 @@
 package io.neoterm.component.pm
 
 import io.neoterm.App
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.framework.NeoTermDatabase
 import io.neoterm.frontend.config.NeoTermPath
 

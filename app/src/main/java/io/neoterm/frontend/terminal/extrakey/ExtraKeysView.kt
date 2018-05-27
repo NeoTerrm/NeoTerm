@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.GridLayout
 import android.widget.LinearLayout
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.component.extrakey.ExtraKeyComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoPreference

@@ -3,7 +3,7 @@ package io.neoterm.frontend.session.shell.client
 import android.content.Context
 import android.media.SoundPool
 import android.os.Vibrator
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.frontend.session.shell.ShellTermSession
 
 /**

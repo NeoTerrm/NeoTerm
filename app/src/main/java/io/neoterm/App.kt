@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.view.Gravity
 import android.widget.Toast
+import com.termux.R
 import io.neoterm.component.NeoInitializer
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.ui.bonus.BonusActivity

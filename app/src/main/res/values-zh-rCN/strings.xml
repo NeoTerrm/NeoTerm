@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">NeoTerm</string>
     <string name="about">关于</string>
     <string name="copy_text">复制</string>
     <string name="general_settings">通用设置</string>

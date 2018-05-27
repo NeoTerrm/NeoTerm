@@ -18,8 +18,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import de.mrapp.android.tabswitcher.*
 import io.neoterm.App
-import io.neoterm.BuildConfig
-import io.neoterm.R
+import com.termux.BuildConfig
+import com.termux.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.profile.ProfileComponent
 import io.neoterm.frontend.component.ComponentManager

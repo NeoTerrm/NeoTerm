@@ -7,7 +7,7 @@
         android:title="@string/general_settings">
         <intent
             android:targetClass="io.neoterm.ui.settings.GeneralSettingsActivity"
-            android:targetPackage="io.neoterm" />
+            android:targetPackage="com.termux" />
     </Preference>
 
     <Preference
@@ -16,7 +16,7 @@
         android:title="@string/ui_settings">
         <intent
             android:targetClass="io.neoterm.ui.settings.UISettingsActivity"
-            android:targetPackage="io.neoterm" />
+            android:targetPackage="com.termux" />
     </Preference>
 
     <Preference
@@ -25,7 +25,7 @@
         android:title="@string/customization_settings">
         <intent
             android:targetClass="io.neoterm.ui.customize.CustomizeActivity"
-            android:targetPackage="io.neoterm" />
+            android:targetPackage="com.termux" />
     </Preference>
 
     <Preference
@@ -34,34 +34,15 @@
         android:title="@string/package_settings">
         <intent
             android:targetClass="io.neoterm.ui.pm.PackageManagerActivity"
-            android:targetPackage="io.neoterm" />
+            android:targetPackage="com.termux" />
     </Preference>
-
-    <!--
-    <Preference
-        android:icon="@drawable/ic_guide_white_36dp"
-        android:key="@string/discovery"
-        android:title="@string/discovery">
-        <intent
-            android:targetClass="io.neotermshowConfirmDialogetup.SetupActivity"
-            android:targetPackage="io.neoterm" />
-    </Preference>
-    -->
-
-    <!--<Preference-->
-        <!--android:icon="@drawable/ic_info_white_36dp"-->
-        <!--android:title="@string/faq" >-->
-        <!--<intent-->
-            <!--android:targetClass="io.neoterm.ui.support.HelpActivity"-->
-            <!--android:targetPackage="io.neoterm" />-->
-    <!--</Preference>-->
 
     <Preference
         android:icon="@drawable/ic_info_white_36dp"
         android:title="@string/about" >
         <intent
             android:targetClass="io.neoterm.ui.support.AboutActivity"
-            android:targetPackage="io.neoterm" />
+            android:targetPackage="com.termux" />
     </Preference>
 
 </PreferenceScreen>

@@ -3,7 +3,7 @@ package io.neoterm.ui.support
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import io.neoterm.R
+import com.termux.R
 
 /**
  * @author kiva

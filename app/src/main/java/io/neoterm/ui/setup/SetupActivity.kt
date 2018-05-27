@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.*
 import io.neoterm.App
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.component.pm.SourceHelper
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.setup.ResultListener
@@ -136,7 +136,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
         when (id) {
             R.id.setup_method_backup,
             R.id.setup_method_local -> {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                val intent = Intent(Intent.ACTION_CHOOSER)
                 try {
                     startActivityForResult(intent, REQUEST_SELECT_PARAMETER)
                 } catch (ignore: ActivityNotFoundException) {

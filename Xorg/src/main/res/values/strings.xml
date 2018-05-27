@@ -2,9 +2,6 @@
 <resources
   xmlns:tools="http://schemas.android.com/tools"
   tools:ignore="MissingTranslation">
-    <string name="app_name">XServer XSDL - NeoTerm</string>
-
-
     <string name="init">Initializing</string>
     <string name="please_wait">Please wait while data is being downloaded</string>
 

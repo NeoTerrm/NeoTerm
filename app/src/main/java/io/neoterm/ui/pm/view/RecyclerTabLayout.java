@@ -35,7 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import io.neoterm.R;
+import com.termux.R;
 
 public class RecyclerTabLayout extends RecyclerView {
 

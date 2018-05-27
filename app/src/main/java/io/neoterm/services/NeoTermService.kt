@@ -10,7 +10,7 @@ import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.support.v4.app.NotificationCompat
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.session.shell.ShellParameter

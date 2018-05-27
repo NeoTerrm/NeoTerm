@@ -17,7 +17,7 @@ import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import es.dmoral.coloromatic.ColorOMaticDialog
 import es.dmoral.coloromatic.IndicatorMode
 import es.dmoral.coloromatic.colormode.ColorMode
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.backend.TerminalColors
 import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.component.colorscheme.NeoColorScheme

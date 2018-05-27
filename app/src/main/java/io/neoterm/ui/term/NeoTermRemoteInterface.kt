@@ -10,8 +10,8 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import com.termux.R
 import io.neoterm.App
-import io.neoterm.R
 import io.neoterm.component.userscript.UserScript
 import io.neoterm.component.userscript.UserScriptComponent
 import io.neoterm.frontend.component.ComponentManager

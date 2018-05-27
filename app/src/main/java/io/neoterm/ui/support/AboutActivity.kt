@@ -16,7 +16,7 @@ import de.psdev.licensesdialog.licenses.MITLicense
 import de.psdev.licensesdialog.model.Notice
 import de.psdev.licensesdialog.model.Notices
 import io.neoterm.App
-import io.neoterm.R
+import com.termux.R
 
 
 /**

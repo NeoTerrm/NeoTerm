@@ -7,7 +7,7 @@
 #include <fcntl.h>
 
 static const char *rewrite_executable(const char *filename, char *buffer, int buffer_len) {
-    strcpy(buffer, "/data/data/io.neoterm/files/usr/bin/");
+    strcpy(buffer, "/data/data/com.termux/files/usr/bin/");
     char *bin_match = strstr(filename, "/bin/");
     if (bin_match == filename || bin_match == (filename + 4)) {
         // We have either found "/bin/" at the start of the string or at

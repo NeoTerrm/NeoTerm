@@ -17,7 +17,7 @@ import android.view.*
 import android.view.animation.PathInterpolator
 import android.widget.FrameLayout
 import android.widget.ImageView
-import io.neoterm.R
+import com.termux.R
 
 /**
  * @author kiva

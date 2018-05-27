@@ -2,7 +2,7 @@ package io.neoterm.ui.settings
 
 import android.os.Bundle
 import android.view.MenuItem
-import io.neoterm.R
+import com.termux.R
 
 /**
  * @author Lody

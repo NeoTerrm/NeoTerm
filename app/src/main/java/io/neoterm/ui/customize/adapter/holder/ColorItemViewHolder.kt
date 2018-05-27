@@ -3,7 +3,7 @@ package io.neoterm.ui.customize.adapter.holder
 import android.view.View
 import android.widget.TextView
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.backend.TerminalColors
 import io.neoterm.ui.customize.adapter.ColorItemAdapter
 import io.neoterm.ui.customize.model.ColorItem

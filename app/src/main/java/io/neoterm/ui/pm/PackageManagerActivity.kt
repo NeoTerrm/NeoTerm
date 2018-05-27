@@ -16,7 +16,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.pm.*
 import io.neoterm.frontend.component.ComponentManager

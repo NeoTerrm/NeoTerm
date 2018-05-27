@@ -5,7 +5,7 @@ import android.widget.TextView
 
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 

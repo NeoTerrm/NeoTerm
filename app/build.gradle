@@ -6,7 +6,7 @@ android {
     buildToolsVersion rootProject.ext.android.BUILD_TOOL_VERSION
 
     defaultConfig {
-        applicationId "io.neoterm"
+        applicationId "com.termux"
         minSdkVersion rootProject.ext.android.MIN_SDK_VERSION
         targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
         versionCode 35
@@ -32,10 +32,10 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFile 'app/proguard-rules.pro'
-            versionNameSuffix "-${getGitHeadRefsSuffix()}"
+            versionNameSuffix "-termux-${getGitHeadRefsSuffix()}"
         }
         debug {
-            versionNameSuffix "-snapshot-${getGitHeadRefsSuffix()}"
+            versionNameSuffix "-termux-snapshot-${getGitHeadRefsSuffix()}"
         }
     }
     externalNativeBuild {

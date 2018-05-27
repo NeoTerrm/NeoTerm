@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.neoterm">
+    package="com.termux">
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -15,10 +15,9 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
 
     <application
-        android:name=".App"
+        android:name="io.neoterm.App"
         android:allowBackup="true"
         android:banner="@drawable/banner"
         android:extractNativeLibs="true"
@@ -30,7 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.term.NeoTermActivity"
+            android:name="io.neoterm.ui.term.NeoTermActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar.Dark"
@@ -51,7 +50,7 @@
         </activity>
 
         <activity-alias
-            android:name=".NeoLotMainActivity"
+            android:name="io.neoterm.NeoLotMainActivity"
             android:targetActivity="io.neoterm.ui.term.NeoTermActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,7 +61,7 @@
         </activity-alias>
 
         <activity
-            android:name=".ui.term.NeoTermRemoteInterface"
+            android:name="io.neoterm.ui.term.NeoTermRemoteInterface"
             android:configChanges="orientation|keyboardHidden"
             android:exported="true"
             android:theme="@style/AppTheme.Dark"
@@ -73,10 +72,10 @@
         </activity>
 
         <activity-alias
-            android:name=".ui.term.TermHere"
+            android:name="io.neoterm.ui.term.TermHere"
             android:exported="true"
             android:label="@string/term_here"
-            android:targetActivity=".ui.term.NeoTermRemoteInterface">
+            android:targetActivity="io.neoterm.ui.term.NeoTermRemoteInterface">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.MAIN" />
@@ -87,10 +86,10 @@
         </activity-alias>
 
         <activity-alias
-            android:name=".ui.term.UserScript"
+            android:name="io.neoterm.ui.term.UserScript"
             android:exported="true"
             android:label="@string/user_script"
-            android:targetActivity=".ui.term.NeoTermRemoteInterface">
+            android:targetActivity="io.neoterm.ui.term.NeoTermRemoteInterface">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
@@ -124,61 +123,61 @@
         </activity-alias>
 
         <activity
-            android:name=".ui.support.AboutActivity"
-            android:exported="false"
+            android:name="io.neoterm.ui.support.AboutActivity"
+            android:exported="true"
             android:label="@string/about"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
-            android:name=".ui.crash.CrashActivity"
-            android:exported="false"
+            android:name="io.neoterm.ui.crash.CrashActivity"
+            android:exported="true"
             android:label="@string/error"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
-            android:name=".ui.setup.SetupActivity"
+            android:name="io.neoterm.ui.setup.SetupActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.bonus.BonusActivity"
+            android:name="io.neoterm.ui.bonus.BonusActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
-            android:name=".ui.pm.PackageManagerActivity"
-            android:exported="false"
+            android:name="io.neoterm.ui.pm.PackageManagerActivity"
+            android:exported="true"
             android:label="@string/package_settings"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
-            android:name=".ui.customize.CustomizeActivity"
-            android:exported="false"
+            android:name="io.neoterm.ui.customize.CustomizeActivity"
+            android:exported="true"
             android:label="@string/customization_settings"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
-            android:name=".ui.customize.ColorSchemeActivity"
-            android:exported="false"
+            android:name="io.neoterm.ui.customize.ColorSchemeActivity"
+            android:exported="true"
             android:label="@string/pref_customization_color_scheme"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
         <activity
-            android:name=".ui.support.HelpActivity"
-            android:exported="false"
+            android:name="io.neoterm.ui.support.HelpActivity"
+            android:exported="true"
             android:label="@string/faq"
             android:theme="@style/AppTheme.NoActionBar.Dark" />
 
         <activity
-            android:name=".ui.settings.SettingActivity"
-            android:exported="false"
+            android:name="io.neoterm.ui.settings.SettingActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".ui.settings.GeneralSettingsActivity"
-            android:exported="false"
+            android:name="io.neoterm.ui.settings.GeneralSettingsActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.Dark" />
         <activity
-            android:name=".ui.settings.UISettingsActivity"
-            android:exported="false"
+            android:name="io.neoterm.ui.settings.UISettingsActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.Dark" />
 
         <service
-            android:name=".services.NeoTermService"
+            android:name="io.neoterm.services.NeoTermService"
             android:enabled="true" />
 
         <meta-data

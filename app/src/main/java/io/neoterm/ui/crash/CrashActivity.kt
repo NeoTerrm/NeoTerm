@@ -4,7 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
-import io.neoterm.R
+import com.termux.R
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 

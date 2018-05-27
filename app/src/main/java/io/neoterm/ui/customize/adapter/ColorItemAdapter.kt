@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.component.colorscheme.NeoColorScheme
 import io.neoterm.ui.customize.adapter.holder.ColorItemViewHolder
 import io.neoterm.ui.customize.model.ColorItem

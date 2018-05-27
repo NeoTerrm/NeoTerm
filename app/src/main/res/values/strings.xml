@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NeoTerm</string>
+    <string name="app_name" translatable="false">NeoTerm Z</string>
     <string name="copy_text">Copy</string>
     <string name="paste_text">Paste</string>
     <string name="text_selection_more">More</string>
@@ -167,7 +167,7 @@
     <string name="error_new_source_repo">Repo cannot be empty</string>
     <string name="sorry_for_development">This feature is still under development so it is only available on DEBUG builds.\n</string>
 
-    <string name="default_source_url">http://193.112.47.241</string>
+    <string name="default_source_url">http://termux.net</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

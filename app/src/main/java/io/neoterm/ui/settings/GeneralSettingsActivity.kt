@@ -3,7 +3,7 @@ package io.neoterm.ui.settings
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.MenuItem
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.utils.PackageUtils
 

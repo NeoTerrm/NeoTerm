@@ -7,7 +7,7 @@ import android.annotation.SuppressLint
  */
 object NeoTermPath {
     @SuppressLint("SdCardPath")
-    const val ROOT_PATH = "/data/data/io.neoterm/files"
+    const val ROOT_PATH = "/data/data/com.termux/files"
     const val USR_PATH = "$ROOT_PATH/usr"
     const val HOME_PATH = "$ROOT_PATH/home"
     const val APT_BIN_PATH = "$USR_PATH/bin/apt"
@@ -25,7 +25,7 @@ object NeoTermPath {
     const val SOURCE_FILE = "$USR_PATH/etc/apt/sources.list"
     const val PACKAGE_LIST_DIR = "$USR_PATH/var/lib/apt/lists"
 
-    private const val SOURCE = "http://janyo.pw:82/kiva/neoterm"
+    private const val SOURCE = "http://termux.net"
 
     val DEFAULT_MAIN_PACKAGE_SOURCE: String
 

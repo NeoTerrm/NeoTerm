@@ -6,7 +6,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.os.Build
 import io.neoterm.App
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.frontend.config.NeoTermPath
 import java.io.File
 import java.util.*

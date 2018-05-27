@@ -9,7 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.ListView
 import android.widget.PopupWindow
 import android.widget.TextView
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.backend.TerminalColors
 import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener

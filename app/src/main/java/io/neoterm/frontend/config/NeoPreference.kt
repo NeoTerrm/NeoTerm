@@ -7,7 +7,7 @@ import android.system.ErrnoException
 import android.system.Os
 import android.util.TypedValue
 import io.neoterm.App
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.services.NeoTermService

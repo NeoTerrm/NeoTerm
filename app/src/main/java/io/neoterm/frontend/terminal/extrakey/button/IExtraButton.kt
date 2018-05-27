@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.combine.CombinedSequence
 

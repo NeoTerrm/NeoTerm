@@ -29,7 +29,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.Scroller;
 
-import io.neoterm.R;
+import com.termux.R;
 import io.neoterm.backend.EmulatorDebug;
 import io.neoterm.backend.KeyHandler;
 import io.neoterm.backend.TerminalBuffer;

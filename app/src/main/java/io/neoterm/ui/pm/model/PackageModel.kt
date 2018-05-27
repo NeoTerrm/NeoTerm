@@ -2,7 +2,7 @@ package io.neoterm.ui.pm.model
 
 import android.content.Context
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
-import io.neoterm.R
+import com.termux.R
 
 import io.neoterm.component.pm.NeoPackageInfo
 import io.neoterm.utils.FileUtils

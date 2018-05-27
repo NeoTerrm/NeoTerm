@@ -3,7 +3,7 @@ package io.neoterm.frontend.floating
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.ShellTermSession

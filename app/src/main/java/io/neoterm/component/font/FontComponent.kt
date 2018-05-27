@@ -3,7 +3,7 @@ package io.neoterm.component.font
 import android.content.Context
 import android.graphics.Typeface
 import io.neoterm.App
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.config.DefaultValues
 import io.neoterm.frontend.config.NeoPreference

@@ -2,7 +2,7 @@ package io.neoterm.frontend.session.shell
 
 import android.content.Context
 import io.neoterm.App
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.session.shell.client.TermSessionCallback

@@ -3,7 +3,7 @@ package io.neoterm.component.colorscheme
 import android.content.Context
 import io.neolang.visitor.ConfigVisitor
 import io.neoterm.App
-import io.neoterm.R
+import com.termux.R
 import io.neoterm.component.codegen.CodeGenComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.component.helper.ConfigFileBasedComponent

@@ -24,7 +24,7 @@ buildscript {
     ext.android = [
             ANDROID_SUPPORT_VERSION: '27.0.2',
 
-            KOTLIN_VERSION         : '1.2.21',
+            KOTLIN_VERSION         : '1.2.30',
 
             MIN_SDK_VERSION        : 21,
 

@@ -72,7 +72,7 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
             VIEW_TYPE_TERM -> {
                 val termTab = tab as TermTab
                 termTab.toolbar = toolbar
-                val terminalView = findViewById<TerminalView>(R.id.terminal_view)
+                val terminalView =  findViewById<TerminalView>(R.id.terminal_view)
                 if (isQuickPreview) {
                     bindTerminalView(termTab, terminalView, null)
                 } else {

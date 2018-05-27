@@ -136,7 +136,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
         when (id) {
             R.id.setup_method_backup,
             R.id.setup_method_local -> {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                val intent = Intent(Intent.ACTION_VIEW)
                 try {
                     startActivityForResult(intent, REQUEST_SELECT_PARAMETER)
                 } catch (ignore: ActivityNotFoundException) {

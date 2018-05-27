@@ -136,7 +136,8 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
         when (id) {
             R.id.setup_method_backup,
             R.id.setup_method_local -> {
-                val intent = Intent(Intent.ACTION_CHOOSER)
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.type = "*/*";
                 try {
                     startActivityForResult(intent, REQUEST_SELECT_PARAMETER)
                 } catch (ignore: ActivityNotFoundException) {

@@ -8,6 +8,7 @@ import android.util.Pair;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,47 +124,42 @@ final class SetupThread extends Thread {
                 throw new RuntimeException("Unable to rename staging folder");
             }
 
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    resultListener.onResult(null);
-                }
-            });
+            activity.runOnUiThread(() -> resultListener.onResult(null));
         } catch (final Exception e) {
             NLog.INSTANCE.e(EmulatorDebug.LOG_TAG, "Bootstrap error", e);
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        resultListener.onResult(e);
-                    } catch (RuntimeException e) {
-                        // Activity already dismissed - ignore.
-                    }
+            activity.runOnUiThread(() -> {
+                try {
+                    resultListener.onResult(e);
+                } catch (RuntimeException e1) {
+                    // Activity already dismissed - ignore.
                 }
             });
         } finally {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        progressDialog.dismiss();
-                    } catch (RuntimeException e) {
-                        // Activity already dismissed - ignore.
-                    }
+            activity.runOnUiThread(() -> {
+                try {
+                    progressDialog.dismiss();
+                } catch (RuntimeException e) {
+                    // Activity already dismissed - ignore.
                 }
             });
         }
     }
 
-    private static void deleteFolder(File fileOrDirectory) {
-        File[] children = fileOrDirectory.listFiles();
-        if (children != null) {
-            for (File child : children) {
-                deleteFolder(child);
+    private static void deleteFolder(File fileOrDirectory) throws IOException {
+        if (fileOrDirectory.getCanonicalPath().equals(fileOrDirectory.getAbsolutePath()) && fileOrDirectory.isDirectory()) {
+            File[] children = fileOrDirectory.listFiles();
+
+            if (children != null) {
+                for (File child : children) {
+                    deleteFolder(child);
+                }
             }
         }
+
         if (!fileOrDirectory.delete()) {
-            throw new RuntimeException("Unable to delete " + (fileOrDirectory.isDirectory() ? "directory " : "file ") + fileOrDirectory.getAbsolutePath());
+            throw new RuntimeException("Unable to delete "
+                    + (fileOrDirectory.isDirectory() ? "directory " : "file ")
+                    + fileOrDirectory.getAbsolutePath());
         }
     }
 }

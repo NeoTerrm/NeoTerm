@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
@@ -101,6 +102,8 @@ public final class TerminalView extends View {
      * If true, IME will be word based instead of char based.
      */
     private boolean mEnableWordBasedIme = false;
+
+    private boolean mAccessibilityEnabled;
 
     public TerminalView(Context context) {
         super(context);
@@ -283,6 +286,8 @@ public final class TerminalView extends View {
             }
         });
         mScroller = new Scroller(context);
+        AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
+        mAccessibilityEnabled = am != null && am.isEnabled();
     }
 
     /**
@@ -460,8 +465,8 @@ public final class TerminalView extends View {
         // 如果二者不一样，即 mTop != 0，则说明用户在脚本输出的时候滚动了屏幕
         // 很有可能时用户需要观察上面脚本的输出结果
         // 那么这个时候我们就不跟随输出滚动屏幕
-//        int currentScroll = computeVerticalScrollOffset();
-//        int expectedScroll = mEmulator.getScreen().getActiveRows() - mEmulator.mRows;
+        // int currentScroll = computeVerticalScrollOffset();
+        // int expectedScroll = mEmulator.getScreen().getActiveRows() - mEmulator.mRows;
 
         if (mTopRow != 0) {
             isScreenHeld = true;
@@ -508,8 +513,10 @@ public final class TerminalView extends View {
 
         // Basic accessibility service
         String contentText = mEmulator.getScreen()
-                .getSelectedText(0, mTopRow, mEmulator.mColumns, mTopRow +mEmulator.mRows);
-        setContentDescription(contentText);
+                .getSelectedText(0, mTopRow, mEmulator.mColumns, mTopRow + mEmulator.mRows);
+        if (mAccessibilityEnabled) {
+            setContentDescription(contentText);
+        }
     }
 
     public int getTextSize() {

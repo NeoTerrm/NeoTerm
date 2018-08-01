@@ -25,7 +25,7 @@ object NeoTermPath {
     const val SOURCE_FILE = "$USR_PATH/etc/apt/sources.list"
     const val PACKAGE_LIST_DIR = "$USR_PATH/var/lib/apt/lists"
 
-    private const val SOURCE = "http://janyo.pw:82/kiva/neoterm"
+    private const val SOURCE = "http://193.112.47.241"
 
     val DEFAULT_MAIN_PACKAGE_SOURCE: String
 

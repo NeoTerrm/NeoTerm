@@ -166,6 +166,7 @@
     <string name="error_new_source_url">URL cannot be empty</string>
     <string name="error_new_source_repo">Repo cannot be empty</string>
     <string name="sorry_for_development">This feature is still under development so it is only available on DEBUG builds.\n</string>
+    <string name="dangerous_zone">Dangerous Zone</string>
 
     <string name="default_source_url">http://193.112.47.241</string>
 

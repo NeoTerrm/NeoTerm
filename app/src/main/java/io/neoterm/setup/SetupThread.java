@@ -50,15 +50,15 @@ final class SetupThread extends Thread {
                 deleteFolder(stagingPrefixFile);
             }
 
-            int totalBytes = 0;
             int totalReadBytes = 0;
             final byte[] buffer = new byte[8096];
             final List<Pair<String, String>> symlinks = new ArrayList<>(50);
 
-            totalBytes = sourceConnection.getSize();
 
             try (ZipInputStream zipInput = new ZipInputStream(sourceConnection.getInputStream())) {
                 ZipEntry zipEntry;
+
+                int totalBytes = sourceConnection.getSize();
 
                 while ((zipEntry = zipInput.getNextEntry()) != null) {
                     totalReadBytes += zipEntry.getCompressedSize();

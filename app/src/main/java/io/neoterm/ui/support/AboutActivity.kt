@@ -17,6 +17,7 @@ import de.psdev.licensesdialog.model.Notice
 import de.psdev.licensesdialog.model.Notices
 import io.neoterm.App
 import io.neoterm.R
+import io.neoterm.ui.setup.SetupActivity
 
 
 /**
@@ -86,8 +87,18 @@ class AboutActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.about_reset_app_view).setOnClickListener {
-            App.get().errorDialog(this, "WIP", null);
+            AlertDialog.Builder(this)
+                    .setMessage(R.string.reset_app_warning)
+                    .setPositiveButton(R.string.yes, { _, _ ->
+                        resetApp()
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show()
         }
+    }
+
+    private fun resetApp() {
+        startActivity(Intent(this, SetupActivity::class.java))
     }
 
     private fun openUrl(url: String) {

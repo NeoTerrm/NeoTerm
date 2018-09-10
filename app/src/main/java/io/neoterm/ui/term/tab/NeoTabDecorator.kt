@@ -15,8 +15,11 @@ import io.neoterm.Globals
 import io.neoterm.NeoGLView
 import io.neoterm.R
 import io.neoterm.component.colorscheme.ColorSchemeComponent
+import io.neoterm.frontend.completion.listener.OnAutoCompleteListener
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.DefaultValues
+import io.neoterm.frontend.config.NeoPreference
+import io.neoterm.frontend.session.shell.client.TermCompleteListener
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import io.neoterm.ui.term.NeoTermActivity
@@ -152,9 +155,20 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         termView.setTerminalViewClient(termData.viewClient)
         termView.attachSession(termData.termSession)
 
+        if (NeoPreference.loadBoolean(R.string.key_general_auto_completion, false)) {
+            if (termData.onAutoCompleteListener == null) {
+                termData.onAutoCompleteListener = createAutoCompleteListener(termView)
+            }
+            termView.onAutoCompleteListener = termData.onAutoCompleteListener
+        }
+
         if (termData.termSession != null) {
             termData.viewClient?.updateExtraKeys(termData.termSession?.title, true)
         }
+    }
+
+    private fun createAutoCompleteListener(view: TerminalView): OnAutoCompleteListener? {
+        return TermCompleteListener(view)
     }
 
     override fun getViewTypeCount(): Int {

@@ -199,7 +199,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
                 val langEnv = "LANG=en_US.UTF-8"
                 val pathEnv = "PATH=" + buildPathEnv()
                 val ldEnv = "LD_LIBRARY_PATH=" + buildLdLibraryEnv()
-                val pwdEnv = "PWD=" + selectedCwd
+                val pwdEnv = "PWD=$selectedCwd"
                 val tmpdirEnv = "TMPDIR=${NeoTermPath.USR_PATH}/tmp"
 
 

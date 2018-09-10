@@ -9,6 +9,7 @@ import io.neoterm.frontend.completion.listener.OnCandidateSelectedListener
 import io.neoterm.frontend.completion.model.CompletionCandidate
 import io.neoterm.frontend.completion.model.CompletionResult
 import io.neoterm.frontend.completion.view.CandidatePopupWindow
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.TerminalView
 import java.util.*
 
@@ -72,7 +73,7 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
 
         val deleteLength = newText.indexOf(textNeedCompletion) + textNeedCompletion.length
         if (deleteLength > 0) {
-            for (i in 0..deleteLength - 1) {
+            for (i in 0 until deleteLength) {
                 session.write("\b")
                 popChar()
             }
@@ -85,7 +86,6 @@ class TermCompleteListener(var terminalView: TerminalView?) : OnAutoCompleteList
 
         pushString(newText)
         session.write(newText)
-
         // Trigger next completion
         lastCompletedIndex = inputStack.size
         triggerCompletion()

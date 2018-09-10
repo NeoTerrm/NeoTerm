@@ -326,7 +326,7 @@
                             android:layout_gravity="center_vertical"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
-                            android:text="@string/app_name"
+                            android:text="@string/dangerous_zone"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                     </LinearLayout>
 

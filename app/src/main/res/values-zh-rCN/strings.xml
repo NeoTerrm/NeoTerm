@@ -9,6 +9,7 @@
     <string name="new_system_session">新建系统会话</string>
     <string name="package_settings">软件包</string>
     <string name="paste_text">粘贴</string>
+    <string name="super_paste_text">高级粘贴</string>
     <string name="pref_general_backspace_map_to_esc">返回键发送ESC</string>
     <string name="pref_general_backspace_map_to_esc_desc">当返回键按下时，发送ESC而不是关闭窗口</string>
     <string name="pref_general_bell">响铃</string>
@@ -75,13 +76,11 @@
     <string name="setup_setup_method">选择你的安装方式</string>
     <string name="setup_online">从软件源安装</string>
     <string name="setup_local">从本地 Zip 文件安装</string>
-    <string name="setup_assets">从软件自带 Zip 文件安装</string>
     <string name="setup_backup">从 NeoTerm 备份中恢复</string>
     <string name="setup_source_parameter">配置参数</string>
     <string name="setup_input_source_parameter">输入配置参数</string>
     <string name="setup_hint_online">含有启动文件的软件源地址</string>
     <string name="setup_hint_local">启动文件(*.zip)路径</string>
-    <string name="setup_hint_assets">不可用</string>
     <string name="setup_hint_backup">备份文件(*.neobackup) 路径</string>
     <string name="setup_error_file_not_found">文件不存在</string>
     <string name="setup_error_invalid_url">非法的 URL</string>
@@ -163,6 +162,7 @@
     <string name="error_new_source_repo">仓库 不能为空</string>
     <string name="sorry_for_development">本功能仍在开发中，所以只能在 DEBUG 构建版本下使用。\n若想尝鲜，请尝试联系开发者来成为测试者。</string>
     <string name="dangerous_zone">危险区域</string>
+    <string name="reset_app_warning">执行此操作后，下次启动时将要重新配置 NeoTerm，继续？</string>
 
     <string-array name="color_item_names">
         <item>背景色</item>

@@ -10,7 +10,7 @@ object CompletionManager {
     private val candidateProviders = mutableMapOf<String, ICandidateProvider>()
 
     fun registerProvider(provider: ICandidateProvider) {
-        this.candidateProviders.put(provider.providerName, provider)
+        this.candidateProviders[provider.providerName] = provider
     }
 
     fun unregisterProvider(providerName: String) {

@@ -134,10 +134,10 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
             R.id.setup_method_backup,
             R.id.setup_method_local -> {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "*/*";
+                intent.type = "*/*"
                 try {
-                    startActivityForResult(intent, REQUEST_SELECT_PARAMETER)
+                    startActivityForResult( Intent.createChooser(intent, getString(R.string.setup_local)),
+                            REQUEST_SELECT_PARAMETER)
                 } catch (ignore: ActivityNotFoundException) {
                     Toast.makeText(this, R.string.no_file_picker, Toast.LENGTH_SHORT).show()
                 }

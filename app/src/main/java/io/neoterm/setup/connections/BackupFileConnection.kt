@@ -7,4 +7,4 @@ import android.net.Uri
  * @author kiva
  */
 
-class BackupFileConnection(context: Context, uri: Uri) : OfflineUriConnection(context, uri)
+class BackupFileConnection(context: Context, uri: Uri) : LocalFileConnection(context, uri)

@@ -24,11 +24,11 @@ abstract class OfflineConnection : SourceConnection {
 
     override fun getSize(): Int {
         if (inputStream != null) {
-            try {
-                return inputStream!!.available()
+            return try {
+                inputStream!!.available()
             } catch (e: IOException) {
                 e.printStackTrace()
-                return 0
+                0
             }
 
         }

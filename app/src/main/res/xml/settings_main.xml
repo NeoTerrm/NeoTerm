@@ -37,25 +37,6 @@
             android:targetPackage="io.neoterm" />
     </Preference>
 
-    <!--
-    <Preference
-        android:icon="@drawable/ic_guide_white_36dp"
-        android:key="@string/discovery"
-        android:title="@string/discovery">
-        <intent
-            android:targetClass="io.neotermshowConfirmDialogetup.SetupActivity"
-            android:targetPackage="io.neoterm" />
-    </Preference>
-    -->
-
-    <!--<Preference-->
-        <!--android:icon="@drawable/ic_info_white_36dp"-->
-        <!--android:title="@string/faq" >-->
-        <!--<intent-->
-            <!--android:targetClass="io.neoterm.ui.support.HelpActivity"-->
-            <!--android:targetPackage="io.neoterm" />-->
-    <!--</Preference>-->
-
     <Preference
         android:icon="@drawable/ic_info_white_36dp"
         android:title="@string/about" >

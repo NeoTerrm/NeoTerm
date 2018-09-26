@@ -2,6 +2,7 @@
     <string name="app_name">NeoTerm</string>
     <string name="copy_text">Copy</string>
     <string name="paste_text">Paste</string>
+    <string name="super_paste_text">Super Paste</string>
     <string name="text_selection_more">More</string>
 
     <string name="toggle_tab_switcher_menu_item">Toggle Tabs</string>
@@ -18,14 +19,12 @@
     <string name="setup_setup_method">Select your installation method</string>
     <string name="setup_online">Online Setup</string>
     <string name="setup_local">Local Zip File Setup</string>
-    <string name="setup_assets">Assets Zip File Setup</string>
     <string name="setup_backup">Restore from NeoTerm Backup</string>
     <string name="setup_source_parameter">Source Parameter</string>
     <string name="setup_input_source_parameter">Input source parameter…</string>
     <string name="setup_dots" translatable="false">…</string>
     <string name="setup_hint_online">URL of mirror that contains setup zip files</string>
     <string name="setup_hint_local">File path to showConfirmDialog zip files</string>
-    <string name="setup_hint_assets">Not available</string>
     <string name="setup_hint_backup">File path to backup file(*.neobackup)</string>
     <string name="setup_error_file_not_found">File not found</string>
     <string name="setup_error_invalid_url">Invalid URL</string>
@@ -166,6 +165,8 @@
     <string name="error_new_source_url">URL cannot be empty</string>
     <string name="error_new_source_repo">Repo cannot be empty</string>
     <string name="sorry_for_development">This feature is still under development so it is only available on DEBUG builds.\n</string>
+    <string name="dangerous_zone">Dangerous Zone</string>
+    <string name="reset_app_warning">You will have to re-setup later, confirm?</string>
 
     <string name="default_source_url">http://193.112.47.241</string>
 

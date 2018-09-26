@@ -37,8 +37,4 @@ public abstract class AbstractTabViewHolder {
      */
     public ImageButton closeButton;
 
-    /**
-     * The custom button of a tab.
-     */
-    public ImageButton customButton;
 }

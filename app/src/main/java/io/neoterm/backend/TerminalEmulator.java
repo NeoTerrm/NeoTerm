@@ -2474,6 +2474,9 @@ public final class TerminalEmulator {
     public void paste(String text) {
         // First: Always remove escape key and C1 control characters [0x80,0x9F]:
         text = text.replaceAll("(\u001B|[\u0080-\u009F])", "");
+        // Second: Convert DOS (\r\n) CRLF newlines and linefeeds (\n) into carriage returns (\r==13).
+        text = text.replaceAll("\r?\n", "\r");
+
         // Then: Implement bracketed paste mode if enabled:
         boolean bracketed = isDecsetInternalBitSet(DECSET_BIT_BRACKETED_PASTE_MODE);
         if (bracketed) mSession.write("\033[200~");

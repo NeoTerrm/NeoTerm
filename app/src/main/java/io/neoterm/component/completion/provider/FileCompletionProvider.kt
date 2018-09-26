@@ -26,7 +26,7 @@ open class FileCompletionProvider : ICandidateProvider {
     }
 
     override fun canComplete(text: String): Boolean {
-        return text.startsWith(File.separatorChar)
+        return text.startsWith(File.separatorChar) || text.startsWith("\\./")
     }
 
     private fun listDirectory(path: File, filter: ((File) -> Boolean)?): Array<File> {

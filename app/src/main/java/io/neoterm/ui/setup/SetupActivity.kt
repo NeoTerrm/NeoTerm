@@ -15,7 +15,6 @@ import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.setup.ResultListener
 import io.neoterm.setup.SetupHelper
 import io.neoterm.setup.SourceConnection
-import io.neoterm.setup.connections.AssetsFileConnection
 import io.neoterm.setup.connections.BackupFileConnection
 import io.neoterm.setup.connections.LocalFileConnection
 import io.neoterm.setup.connections.NetworkConnection
@@ -41,7 +40,6 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
     private val hintMapping = arrayOf(
             R.id.setup_method_online, R.string.setup_hint_online,
             R.id.setup_method_local, R.string.setup_hint_local,
-            R.id.setup_method_assets, R.string.setup_hint_assets,
             R.id.setup_method_backup, R.string.setup_hint_backup
     )
 
@@ -69,7 +67,6 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
 
         findViewById<RadioButton>(R.id.setup_method_online).setOnCheckedChangeListener(onCheckedChangeListener)
         findViewById<RadioButton>(R.id.setup_method_local).setOnCheckedChangeListener(onCheckedChangeListener)
-        findViewById<RadioButton>(R.id.setup_method_assets).setOnCheckedChangeListener(onCheckedChangeListener)
         findViewById<RadioButton>(R.id.setup_method_backup).setOnCheckedChangeListener(onCheckedChangeListener)
 
         findViewById<Button>(R.id.setup_next).setOnClickListener(this)
@@ -137,9 +134,10 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
             R.id.setup_method_backup,
             R.id.setup_method_local -> {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.type = "*/*";
+                intent.type = "*/*"
                 try {
-                    startActivityForResult(intent, REQUEST_SELECT_PARAMETER)
+                    startActivityForResult( Intent.createChooser(intent, getString(R.string.setup_local)),
+                            REQUEST_SELECT_PARAMETER)
                 } catch (ignore: ActivityNotFoundException) {
                     Toast.makeText(this, R.string.no_file_picker, Toast.LENGTH_SHORT).show()
                 }
@@ -151,7 +149,6 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
         return when (id) {
             R.id.setup_method_local -> LocalFileConnection(this, parameterUri!!)
             R.id.setup_method_online -> NetworkConnection(parameter)
-            R.id.setup_method_assets -> AssetsFileConnection()
             R.id.setup_method_backup -> BackupFileConnection(this, parameterUri!!)
             else -> throw IllegalArgumentException("Unexpected setup method!")
         }

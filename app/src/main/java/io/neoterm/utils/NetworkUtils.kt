@@ -12,7 +12,7 @@ object NetworkUtils {
         return getNetworkType(context) != null
     }
 
-    fun getNetworkType(context: Context): String? {
+    private fun getNetworkType(context: Context): String? {
         var networkType: String? = null
 
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager ?: return null

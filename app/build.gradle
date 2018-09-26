@@ -10,7 +10,7 @@ android {
         minSdkVersion rootProject.ext.android.MIN_SDK_VERSION
         targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
         versionCode 35
-        versionName "2.0.1"
+        versionName "2.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resConfigs "zh-rCN", "zh-rTW"
         externalNativeBuild {

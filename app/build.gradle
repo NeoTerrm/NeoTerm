@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.android.COMPILE_SDK_VERSION
-    buildToolsVersion rootProject.ext.android.BUILD_TOOL_VERSION
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "io.neoterm"

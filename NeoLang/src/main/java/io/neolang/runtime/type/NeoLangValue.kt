@@ -15,7 +15,7 @@ class NeoLangValue(private val rawValue: Any) {
 
         try {
             return rawValue.toString().toDouble()
-        } catch (e: NumberFormatException) {
+        } catch (e: Throwable) {
             return 0.0
         }
     }

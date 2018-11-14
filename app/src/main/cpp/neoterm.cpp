@@ -7,6 +7,8 @@
 #include <sys/ioctl.h>
 #include <sys/wait.h>
 #include <termios.h>
+#include <unistd.h>
+#include <string.h>
 
 #define __neoterm_no_return __attribute__((__noreturn__))
 

@@ -1,0 +1,71 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def siteUrl = 'https://github.com/NeoTerm/NeoTerm.git'
+def gitUrl = 'https://github.com/NeoTerm/NeoTerm.git'
+def libraryGroup = "io.neoterm.bridge"
+def libraryRepoName = "neoterm-bridge"
+def libraryDesc = "Communicate with NeoTerm in an elegant way."
+def libraryVersionCode = 1
+def libraryVersionName = "1.0"
+def libraryLicences = ["MIT"]
+
+group = libraryGroup
+version = libraryVersionName + "-" + libraryVersionCode
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name libraryDesc
+                url siteUrl
+                licenses {
+                    license {
+                        name 'The MIT Software License'
+                        url 'https://mit-license.org/'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'imkiva'
+                        name 'imKiva'
+                        email 'libkernelpanic@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.file('../local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = libraryRepoName
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        dryRun = false
+        licenses = libraryLicences
+        publish = true
+        publicDownloadNumbers = true
+    }
+}

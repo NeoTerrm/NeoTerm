@@ -1,12 +1,13 @@
 package io.neoterm.frontend.session.shell
 
 import io.neoterm.backend.TerminalSession
+import io.neoterm.bridge.SessionId
 
 /**
  * @author kiva
  */
 class ShellParameter {
-    var sessionId: String? = null;
+    var sessionId: SessionId? = null
     var executablePath: String? = null
     var arguments: Array<String>? = null
     var cwd: String? = null
@@ -56,12 +57,12 @@ class ShellParameter {
         return this
     }
 
-    fun session(sessionId: String?): ShellParameter {
+    fun session(sessionId: SessionId?): ShellParameter {
         this.sessionId = sessionId
         return this
     }
 
     fun willCreateNewSession(): Boolean {
-        return sessionId == null
+        return sessionId?.equals(SessionId.NEW_SESSION) ?: true
     }
 }

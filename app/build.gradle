@@ -9,8 +9,8 @@ android {
         applicationId "io.neoterm"
         minSdkVersion rootProject.ext.android.MIN_SDK_VERSION
         targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
-        versionCode 36
-        versionName "2.0.3"
+        versionCode 37
+        versionName "2.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resConfigs "zh-rCN", "zh-rTW"
         externalNativeBuild {
@@ -74,6 +74,7 @@ dependencies {
     implementation 'com.github.GrenderG:Color-O-Matic:1.1.5'
 
     implementation project(':chrome-tabs')
-    implementation project(path: ':NeoLang')
+    implementation project(':NeoLang')
+    implementation project(':NeoTermBridge')
     implementation project(':Xorg')
 }

@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import io.neoterm.App
 import io.neoterm.R
+import io.neoterm.bridge.Bridge.*
+import io.neoterm.bridge.SessionId
 import io.neoterm.component.userscript.UserScript
 import io.neoterm.component.userscript.UserScriptComponent
 import io.neoterm.frontend.component.ComponentManager
@@ -23,7 +25,6 @@ import io.neoterm.services.NeoTermService
 import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.TerminalUtils
 import java.io.File
-
 
 /**
  * @author kiva
@@ -80,17 +81,15 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
         when (intent.action) {
             ACTION_EXECUTE -> {
                 if (!intent.hasExtra(EXTRA_COMMAND)) {
-                    App.get().errorDialog(this, R.string.no_command_extra, { finish() })
+                    App.get().errorDialog(this, R.string.no_command_extra)
+                    { finish() }
                     return
                 }
                 val command = intent.getStringExtra(EXTRA_COMMAND)
                 val foreground = intent.getBooleanExtra(EXTRA_FOREGROUND, true)
-                val session = if (intent.hasExtra(EXTRA_SESSION_ID)) {
-                    intent.getStringExtra(EXTRA_SESSION_ID)
-                } else {
-                    null
-                }
-                openTerm(command, session, foreground)
+                val session = intent.getStringExtra(EXTRA_SESSION_ID)
+
+                openTerm(command, SessionId.of(session), foreground)
             }
 
             else -> openTerm(null, null)
@@ -199,6 +198,10 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
                          foreground: Boolean = true) {
         val session = termService!!.createTermSession(parameter)
 
+        val data = Intent()
+        data.putExtra(EXTRA_SESSION_ID, session.mHandle)
+        setResult(Activity.RESULT_OK, data)
+
         if (foreground) {
             // Set current session to our new one
             // In order to switch to it when entering NeoTermActivity
@@ -209,14 +212,10 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
-
-        val data = Intent()
-        data.putExtra(EXTRA_SESSION_ID, session.mHandle)
-        setResult(Activity.RESULT_OK, data)
     }
 
     private fun openTerm(initialCommand: String?,
-                         sessionId: String? = null,
+                         sessionId: SessionId? = null,
                          foreground: Boolean = true) {
         val parameter = ShellParameter()
                 .initialCommand(initialCommand)
@@ -238,12 +237,5 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
     private fun detectSystemShell(): Boolean {
         return false
-    }
-
-    companion object {
-        const val ACTION_EXECUTE = "neoterm.action.remote.execute"
-        const val EXTRA_COMMAND = "neoterm.extra.remote.execute.command"
-        const val EXTRA_SESSION_ID = "neoterm.extra.remote.execute.session"
-        const val EXTRA_FOREGROUND = "neoterm.extra.remote.execute.foreground"
     }
 }

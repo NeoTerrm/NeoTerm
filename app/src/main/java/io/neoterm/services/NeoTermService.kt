@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
+import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.xorg.XParameter
 import io.neoterm.frontend.session.xorg.XSession
@@ -109,14 +110,16 @@ class NeoTermService : Service() {
 
     private fun createOrFindSession(parameter: ShellParameter): TerminalSession {
         if (parameter.willCreateNewSession()) {
+            NLog.d("createOrFindSession: creating new session")
             val session = TerminalUtils.createSession(this, parameter)
             mTerminalSessions.add(session)
             return session
         }
 
-        // TODO: find session by id
         val sessionId = parameter.sessionId!!
-        val session = mTerminalSessions.find { it.mHandle == sessionId }
+        NLog.d("createOrFindSession: find session by id $sessionId")
+
+        val session = mTerminalSessions.find { it.mHandle == sessionId.sessionId }
                 ?: throw IllegalArgumentException("cannot find session by given id")
 
         session.write(parameter.initialCommand + "\n")

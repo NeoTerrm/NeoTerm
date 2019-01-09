@@ -46,6 +46,7 @@ public class TerminalSession extends TerminalOutput {
 
     }
 
+    @SuppressWarnings("JavaReflectionMemberAccess")
     private static FileDescriptor wrapFileDescriptor(int fileDescriptor) {
         FileDescriptor result = new FileDescriptor();
         try {
@@ -70,18 +71,18 @@ public class TerminalSession extends TerminalOutput {
 
     public final String mHandle = UUID.randomUUID().toString();
 
-    TerminalEmulator mEmulator;
+    private TerminalEmulator mEmulator;
 
     /**
      * A queue written to from a separate thread when the process outputs, and read by main thread to process by
      * terminal emulator.
      */
-    final ByteQueue mProcessToTerminalIOQueue = new ByteQueue(4096);
+    private final ByteQueue mProcessToTerminalIOQueue = new ByteQueue(4096);
     /**
      * A queue written to from the main thread due to user interaction, and read by another thread which forwards by
      * writing to the {@link #mTerminalFileDescriptor}.
      */
-    final ByteQueue mTerminalToProcessIOQueue = new ByteQueue(4096);
+    private final ByteQueue mTerminalToProcessIOQueue = new ByteQueue(4096);
     /** Buffer to write translate code points into utf8 before writing to mTerminalToProcessIOQueue */
     private final byte[] mUtf8InputBuffer = new byte[5];
 
@@ -90,13 +91,13 @@ public class TerminalSession extends TerminalOutput {
     }
 
     /** Callback which gets notified when a session finishes or changes title. */
-    final SessionChangedCallback mChangeCallback;
+    private final SessionChangedCallback mChangeCallback;
 
     /** The pid of the executablePath process. 0 if not started and -1 if finished running. */
-    int mShellPid;
+    private int mShellPid;
 
     /** The exit status of the executablePath process. Only valid if ${@link #mShellPid} is -1. */
-    int mShellExitStatus;
+    private int mShellExitStatus;
 
     /**
      * The file descriptor referencing the master half of a pseudo-terminal pair, resulting from calling
@@ -108,7 +109,7 @@ public class TerminalSession extends TerminalOutput {
     public String mSessionName;
 
     @SuppressLint("HandlerLeak")
-    final Handler mMainThreadHandler = new Handler() {
+    private final Handler mMainThreadHandler = new Handler() {
         final byte[] mReceiveBuffer = new byte[4 * 1024];
 
         @Override
@@ -266,7 +267,7 @@ public class TerminalSession extends TerminalOutput {
     }
 
     /** Notify the {@link #mChangeCallback} that the screen has changed. */
-    protected void notifyScreenUpdate() {
+    private void notifyScreenUpdate() {
         mChangeCallback.onTextChanged(this);
     }
 
@@ -282,7 +283,8 @@ public class TerminalSession extends TerminalOutput {
             try {
                 Os.kill(mShellPid, OsConstants.SIGKILL);
             } catch (ErrnoException e) {
-                Log.w("neoterm-termux", "Failed sending SIGKILL: " + e.getMessage());
+                Log.w("neoterm-shell-session",
+                        "Failed sending SIGKILL: " + e.getMessage());
             }
         }
     }
@@ -301,7 +303,7 @@ public class TerminalSession extends TerminalOutput {
     }
 
     /** Cleanup resources when the process exits. */
-    void cleanupResources(int exitStatus) {
+    private void cleanupResources(int exitStatus) {
         synchronized (this) {
             mShellPid = -1;
             mShellExitStatus = exitStatus;

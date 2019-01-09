@@ -1,5 +1,6 @@
 package io.neoterm.ui.term
 
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -83,10 +84,16 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
                     return
                 }
                 val command = intent.getStringExtra(EXTRA_COMMAND)
-                openTerm(command)
+                val foreground = intent.getBooleanExtra(EXTRA_FOREGROUND, true)
+                val session = if (intent.hasExtra(EXTRA_SESSION_ID)) {
+                    intent.getStringExtra(EXTRA_SESSION_ID)
+                } else {
+                    null
+                }
+                openTerm(command, session, foreground)
             }
 
-            else -> openTerm(null)
+            else -> openTerm(null, null)
         }
         finish()
     }
@@ -98,13 +105,15 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
                 val path = MediaUtils.getPath(this, extra)
                 val file = File(path)
                 val dirPath = if (file.isDirectory) path else file.parent
-                openTerm("cd " + TerminalUtils.escapeString(dirPath))
+                val command = "cd " + TerminalUtils.escapeString(dirPath)
+                openTerm(command, null)
             }
             finish()
         } else {
             App.get().errorDialog(this,
-                    getString(R.string.unsupported_term_here, intent?.toString()),
-                    { finish() })
+                    getString(R.string.unsupported_term_here, intent?.toString())) {
+                finish()
+            }
         }
     }
 
@@ -124,10 +133,10 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
             when (extra) {
                 is ArrayList<*> -> {
                     extra.takeWhile { it is Uri }
-                            .mapTo(filesToHandle, {
+                            .mapTo(filesToHandle) {
                                 val uri = it as Uri
                                 File(MediaUtils.getPath(this, uri)).absolutePath
-                            })
+                            }
                 }
                 is Uri -> {
                     filesToHandle.add(File(MediaUtils.getPath(this, extra)).absolutePath)
@@ -142,8 +151,8 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
             setupUserScriptView(filesToHandle, userScripts)
         } else {
             App.get().errorDialog(this,
-                    getString(R.string.no_files_selected, intent?.toString()),
-                    { finish() })
+                    getString(R.string.no_files_selected, intent?.toString())
+            ) { finish() }
         }
     }
 
@@ -155,10 +164,10 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
         filesList.setOnItemClickListener { _, _, position, _ ->
             AlertDialog.Builder(this@NeoTermRemoteInterface)
                     .setMessage(R.string.confirm_remove_file_from_list)
-                    .setPositiveButton(android.R.string.yes, { _, _ ->
+                    .setPositiveButton(android.R.string.yes) { _, _ ->
                         filesToHandle.removeAt(position)
                         filesAdapter.notifyDataSetChanged()
-                    })
+                    }
                     .setNegativeButton(android.R.string.no, null)
                     .show()
         }
@@ -186,17 +195,35 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
         return arguments.toTypedArray()
     }
 
-    private fun openTerm(parameter: ShellParameter) {
+    private fun openTerm(parameter: ShellParameter,
+                         foreground: Boolean = true) {
         val session = termService!!.createTermSession(parameter)
 
-        // Set current session to our new one
-        // In order to switch to it when entering NeoTermActivity
-        NeoPreference.storeCurrentSession(session)
+        if (foreground) {
+            // Set current session to our new one
+            // In order to switch to it when entering NeoTermActivity
+            NeoPreference.storeCurrentSession(session)
 
-        val intent = Intent(this, NeoTermActivity::class.java)
-        intent.addCategory(Intent.CATEGORY_DEFAULT)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
+            val intent = Intent(this, NeoTermActivity::class.java)
+            intent.addCategory(Intent.CATEGORY_DEFAULT)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+
+        val data = Intent()
+        data.putExtra(EXTRA_SESSION_ID, session.mHandle)
+        setResult(Activity.RESULT_OK, data)
+    }
+
+    private fun openTerm(initialCommand: String?,
+                         sessionId: String? = null,
+                         foreground: Boolean = true) {
+        val parameter = ShellParameter()
+                .initialCommand(initialCommand)
+                .callback(TermSessionCallback())
+                .systemShell(detectSystemShell())
+                .session(sessionId)
+        openTerm(parameter, foreground)
     }
 
     private fun openCustomExecTerm(executablePath: String?, arguments: Array<String>?, cwd: String?) {
@@ -209,14 +236,6 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
         openTerm(parameter)
     }
 
-    private fun openTerm(initialCommand: String?) {
-        val parameter = ShellParameter()
-                .initialCommand(initialCommand)
-                .callback(TermSessionCallback())
-                .systemShell(detectSystemShell())
-        openTerm(parameter)
-    }
-
     private fun detectSystemShell(): Boolean {
         return false
     }
@@ -224,5 +243,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
     companion object {
         const val ACTION_EXECUTE = "neoterm.action.remote.execute"
         const val EXTRA_COMMAND = "neoterm.extra.remote.execute.command"
+        const val EXTRA_SESSION_ID = "neoterm.extra.remote.execute.session"
+        const val EXTRA_FOREGROUND = "neoterm.extra.remote.execute.foreground"
     }
 }

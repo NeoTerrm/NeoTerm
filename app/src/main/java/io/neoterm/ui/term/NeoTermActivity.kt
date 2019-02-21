@@ -1,5 +1,6 @@
 package io.neoterm.ui.term
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
@@ -8,6 +9,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
+import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.OnApplyWindowInsetsListener
 import android.support.v4.view.ViewCompat
@@ -70,6 +72,19 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         if (fullscreen) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+
+        val SDCARD_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1
+        if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    SDCARD_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE
+            )
         }
 
         setContentView(R.layout.ui_main)

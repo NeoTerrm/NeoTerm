@@ -25,7 +25,7 @@ object NeoTermPath {
     const val SOURCE_FILE = "$USR_PATH/etc/apt/sources.list"
     const val PACKAGE_LIST_DIR = "$USR_PATH/var/lib/apt/lists"
 
-    private const val SOURCE = "http://193.112.47.241"
+    private const val SOURCE = "http://120.79.193.152"
 
     val DEFAULT_MAIN_PACKAGE_SOURCE: String
 

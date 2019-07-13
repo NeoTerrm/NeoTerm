@@ -38,7 +38,7 @@
         android:title="@string/pref_general_volume_as_control" />
 
     <CheckBoxPreference
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:key="@string/key_general_use_execve_wrapper"
         android:summary="@string/pref_general_use_execve_wrapper_desc"
         android:title="@string/pref_general_use_execve_wrapper" />

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import io.neoterm.App
@@ -141,6 +142,24 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
                 } catch (ignore: ActivityNotFoundException) {
                     Toast.makeText(this, R.string.no_file_picker, Toast.LENGTH_SHORT).show()
                 }
+            }
+
+            R.id.setup_method_online -> {
+                val view = LayoutInflater.from(this).inflate(R.layout.dialog_edit_text, null, false)
+                view.findViewById<TextView>(R.id.dialog_edit_text_info).text = getString(R.string.input_new_source_url)
+
+                val edit = view.findViewById<EditText>(R.id.dialog_edit_text_editor)
+
+                AlertDialog.Builder(this)
+                        .setTitle(R.string.new_source)
+                        .setView(view)
+                        .setPositiveButton(android.R.string.yes, { _, _ ->
+                            val newURL = edit.text.toString()
+                            val parameterEditor = findViewById<EditText>(R.id.setup_source_parameter)
+                            parameterEditor.setText(newURL)
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .show()
             }
         }
     }

@@ -168,7 +168,7 @@
     <string name="dangerous_zone">Dangerous Zone</string>
     <string name="reset_app_warning">You will have to re-setup later, confirm?</string>
 
-    <string name="default_source_url" translatable="false">http://193.112.47.241</string>
+    <string name="default_source_url" translatable="false">http://120.79.193.152</string>
 
     <string-array name="pref_general_shell_entries" translatable="false">
         <item>sh</item>

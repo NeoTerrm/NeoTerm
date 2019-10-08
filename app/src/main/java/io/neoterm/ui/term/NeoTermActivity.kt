@@ -219,6 +219,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             }
 
             override fun onTabAdded(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
+                update_colors()
             }
 
             override fun onTabRemoved(tabSwitcher: TabSwitcher, index: Int, tab: Tab, animation: Animation) {
@@ -344,6 +345,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 return
             }
             enterMain()
+            update_colors()
         }
     }
 
@@ -781,4 +783,19 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
             switchToSession(tabSwitcher.getTab(nextIndex))
         }
     }
+    
+    fun update_colors() {
+        // Simple fix to bug on custom color
+        Handler().postDelayed({
+
+            if (tabSwitcher.count > 0) {
+                val tab = tabSwitcher.selectedTab
+                if (tab is TermTab) {
+                    tab.updateColorScheme()
+                }
+            }
+
+        }, 500)
+    }
+    
 }

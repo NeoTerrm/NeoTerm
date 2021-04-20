@@ -2,13 +2,13 @@ package io.neoterm.ui.pm
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v4.view.MenuItemCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.Toolbar
+import androidx.core.view.MenuItemCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -39,7 +39,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
             }
             .build()
 
-    lateinit var recyclerView: RecyclerView
+    lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
     lateinit var adapter: PackageAdapter
     lateinit var models: ArrayList<PackageModel>
 

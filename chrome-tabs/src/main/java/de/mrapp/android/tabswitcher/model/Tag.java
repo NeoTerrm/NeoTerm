@@ -13,7 +13,7 @@
  */
 package de.mrapp.android.tabswitcher.model;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import de.mrapp.android.tabswitcher.TabSwitcher;
 

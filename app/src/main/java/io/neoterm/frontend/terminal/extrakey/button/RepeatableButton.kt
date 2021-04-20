@@ -3,6 +3,7 @@ package io.neoterm.frontend.terminal.extrakey.button
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import androidx.appcompat.widget.AppCompatButton
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.Button
@@ -18,7 +19,7 @@ open class RepeatableButton(buttonText: String) : ControlButton(buttonText) {
     }
 
     private class RepeatableButtonWidget(context: Context?, attrs: AttributeSet?, defStyleAttr: Int)
-        : Button(context, attrs, defStyleAttr) {
+        : AppCompatButton(context!!, attrs, defStyleAttr) {
 
         /**
          * Milliseconds how long we trigger an action

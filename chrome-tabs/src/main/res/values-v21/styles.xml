@@ -19,7 +19,7 @@ License.
         <item name="android:drawablePadding">@dimen/tab_title_drawable_padding</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:maxLines">1</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/tab_title_text_color</item>
     </style>
 

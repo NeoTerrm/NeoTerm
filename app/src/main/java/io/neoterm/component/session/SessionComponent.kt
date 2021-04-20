@@ -1,7 +1,7 @@
 package io.neoterm.component.session
 
 import android.annotation.SuppressLint
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import io.neoterm.Globals
 import io.neoterm.frontend.component.NeoComponent
@@ -85,7 +85,7 @@ class SessionComponent : NeoComponent {
     }
 
     fun createSession(context: Context, parameter: XParameter): XSession {
-        if (context is Activity) {
+        if (context is AppCompatActivity) {
             if (!checkLibrariesLoaded()) {
                 throw RuntimeException("Cannot load libraries!")
             }

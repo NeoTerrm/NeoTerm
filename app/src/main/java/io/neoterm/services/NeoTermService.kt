@@ -9,7 +9,8 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
+import androidx.appcompat.app.AppCompatActivity
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
@@ -92,7 +93,7 @@ class NeoTermService : Service() {
         return indexOfRemoved
     }
 
-    fun createXSession(activity: Activity, parameter: XParameter): XSession {
+    fun createXSession(activity: AppCompatActivity, parameter: XParameter): XSession {
         val session = TerminalUtils.createSession(activity, parameter)
         mXSessions.add(session)
         updateNotification()

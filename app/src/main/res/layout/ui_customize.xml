@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/custom_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -36,7 +36,7 @@
                 android:layout_width="@dimen/custom_install_icon_width"
                 android:layout_height="@dimen/custom_editor_line_height"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_install_white_36" />
+                app:srcCompat="@drawable/ic_install_white_36" />
 
             <TextView
                 android:gravity="center"
@@ -69,7 +69,7 @@
                 android:layout_width="@dimen/custom_install_icon_width"
                 android:layout_height="@dimen/custom_editor_line_height"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_install_white_36" />
+                app:srcCompat="@drawable/ic_install_white_36" />
 
             <TextView
                 android:gravity="center"

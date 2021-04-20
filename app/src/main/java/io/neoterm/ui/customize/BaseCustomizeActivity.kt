@@ -1,8 +1,8 @@
 package io.neoterm.ui.customize
 
 import android.annotation.SuppressLint
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession

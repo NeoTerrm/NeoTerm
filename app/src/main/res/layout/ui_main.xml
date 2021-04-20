@@ -6,7 +6,7 @@
     android:background="@color/terminal_background"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/terminal_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

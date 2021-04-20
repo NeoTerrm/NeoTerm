@@ -1,6 +1,6 @@
 package io.neoterm.ui.customize
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -104,7 +104,7 @@ class CustomizeActivity : BaseCustomizeActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK && data != null) {
+        if (resultCode == AppCompatActivity.RESULT_OK && data != null) {
             val selected = MediaUtils.getPath(this, data.data)
             if (selected != null && selected.isNotEmpty()) {
                 when (requestCode) {

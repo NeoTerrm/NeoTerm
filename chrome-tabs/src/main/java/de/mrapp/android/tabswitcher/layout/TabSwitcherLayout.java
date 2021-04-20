@@ -13,8 +13,8 @@
  */
 package de.mrapp.android.tabswitcher.layout;
 
-import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.ViewGroup;
 

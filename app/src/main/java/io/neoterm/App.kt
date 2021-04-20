@@ -1,7 +1,7 @@
 package io.neoterm
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.Intent

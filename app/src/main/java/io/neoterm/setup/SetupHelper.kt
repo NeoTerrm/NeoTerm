@@ -1,7 +1,7 @@
 package io.neoterm.setup
 
-import android.app.Activity
-import android.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.Build
@@ -20,7 +20,7 @@ object SetupHelper {
         return !PREFIX_FILE.isDirectory
     }
 
-    fun setup(activity: Activity, connection: SourceConnection,
+    fun setup(activity: AppCompatActivity, connection: SourceConnection,
               resultListener: ResultListener) {
         if (!needSetup()) {
             resultListener.onResult(null)

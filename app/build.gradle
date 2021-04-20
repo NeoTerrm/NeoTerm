@@ -12,7 +12,7 @@ android {
         targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
         versionCode 37
         versionName "2.1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         resConfigs "zh-rCN", "zh-rTW"
         externalNativeBuild {
             cmake {
@@ -56,16 +56,10 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     testImplementation rootProject.ext.deps["junit"]
     androidTestImplementation project(path: ':NeoLang')
 
     implementation rootProject.ext.deps["kotlin-stdlib"]
-    implementation rootProject.ext.deps["design"]
-    implementation rootProject.ext.deps["cardview-v7"]
-    implementation rootProject.ext.deps["appcompat-v7"]
 
     implementation 'org.greenrobot:eventbus:3.0.0'
     implementation 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
@@ -73,6 +67,10 @@ dependencies {
     implementation 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
     implementation 'de.psdev.licensesdialog:licensesdialog:1.8.3'
     implementation 'com.github.GrenderG:Color-O-Matic:1.1.5'
+    implementation 'androidx.annotation:annotation:1.2.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat-resources:1.2.0'
 
     implementation project(':chrome-tabs')
     implementation project(':NeoLang')

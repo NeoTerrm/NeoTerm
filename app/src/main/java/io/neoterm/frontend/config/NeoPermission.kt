@@ -1,14 +1,14 @@
 package io.neoterm.frontend.config
 
 import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Build
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 /**
  * @author kiva
@@ -16,7 +16,7 @@ import android.support.v4.content.ContextCompat
 object NeoPermission {
     const val REQUEST_APP_PERMISSION = 10086
 
-    fun initAppPermission(context: Activity, requestCode: Int) {
+    fun initAppPermission(context: AppCompatActivity, requestCode: Int) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return
         }
@@ -39,7 +39,7 @@ object NeoPermission {
         }
     }
 
-    private fun doRequestPermission(context: Activity, requestCode: Int) {
+    private fun doRequestPermission(context: AppCompatActivity, requestCode: Int) {
         try {
             ActivityCompat.requestPermissions(context,
                     arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),

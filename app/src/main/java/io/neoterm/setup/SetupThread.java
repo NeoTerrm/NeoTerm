@@ -1,7 +1,7 @@
 package io.neoterm.setup;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.system.Os;
 import android.util.Pair;
 
@@ -26,11 +26,11 @@ import io.neoterm.frontend.logging.NLog;
 final class SetupThread extends Thread {
     private final SourceConnection sourceConnection;
     private final File prefixPath;
-    private final Activity activity;
+    private final AppCompatActivity activity;
     private final ResultListener resultListener;
     private final ProgressDialog progressDialog;
 
-    public SetupThread(Activity activity, SourceConnection sourceConnection,
+    public SetupThread(AppCompatActivity activity, SourceConnection sourceConnection,
                        File prefixPath, ResultListener resultListener,
                        ProgressDialog progressDialog) {
         this.activity = activity;

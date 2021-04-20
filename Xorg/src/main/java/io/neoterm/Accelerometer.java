@@ -22,21 +22,14 @@ freely, subject to the following restrictions:
 
 package io.neoterm;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.KeyEvent;
-import android.view.Window;
-import android.view.WindowManager;
-import android.os.Vibrator;
-import android.hardware.SensorManager;
-import android.hardware.SensorEventListener;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
-import android.os.Build;
+
 import java.util.Arrays;
 
 
@@ -294,12 +287,12 @@ class AccelerometerReader implements SensorEventListener
 		public void onAccuracyChanged(Sensor s, int a)
 		{
 		}
-		public boolean available(Activity context)
+		public boolean available(AppCompatActivity context)
 		{
 			SensorManager manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 			return ( manager != null && manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null );
 		}
-		public void registerListener(Activity context, SensorEventListener l)
+		public void registerListener(AppCompatActivity context, SensorEventListener l)
 		{
 			SensorManager manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 			if ( manager == null && manager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) == null )
@@ -308,7 +301,7 @@ class AccelerometerReader implements SensorEventListener
 					Globals.AppUsesOrientationSensor ? Sensor.TYPE_GAME_ROTATION_VECTOR : Sensor.TYPE_GYROSCOPE),
 				SensorManager.SENSOR_DELAY_GAME);
 		}
-		public void unregisterListener(Activity context,SensorEventListener l)
+		public void unregisterListener(AppCompatActivity context, SensorEventListener l)
 		{
 			SensorManager manager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 			if ( manager == null )

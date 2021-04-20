@@ -1,14 +1,13 @@
 package io.neoterm.ui.term
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import io.neoterm.App
@@ -200,7 +199,7 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
         val data = Intent()
         data.putExtra(EXTRA_SESSION_ID, session.mHandle)
-        setResult(Activity.RESULT_OK, data)
+        setResult(AppCompatActivity.RESULT_OK, data)
 
         if (foreground) {
             // Set current session to our new one

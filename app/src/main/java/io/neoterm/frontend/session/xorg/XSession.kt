@@ -1,6 +1,6 @@
 package io.neoterm.frontend.session.xorg
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.app.UiModeManager
 import android.content.Context
 import android.content.pm.ActivityInfo
@@ -24,7 +24,7 @@ import java.util.*
  * @author kiva
  */
 
-class XSession constructor(private val mActivity: Activity, val mSessionData: XSessionData) : NeoXorgViewClient {
+class XSession constructor(private val mActivity: AppCompatActivity, val mSessionData: XSessionData) : NeoXorgViewClient {
     var mSessionName = "";
 
     init {

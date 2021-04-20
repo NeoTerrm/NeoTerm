@@ -21,10 +21,11 @@ buildscript {
         return ""
     }
 
+    ext.kotlin_version = '1.3.50'
     ext.android = [
             ANDROID_SUPPORT_VERSION: '27.0.2',
 
-            KOTLIN_VERSION         : '1.2.51',
+            KOTLIN_VERSION         : '1.3.50',
 
             MIN_SDK_VERSION        : 21,
 
@@ -42,7 +43,7 @@ buildscript {
             "appcompat-v7"        : "com.android.support:appcompat-v7:${ext.android.ANDROID_SUPPORT_VERSION}",
             "design"              : "com.android.support:design:${ext.android.ANDROID_SUPPORT_VERSION}",
             "cardview-v7"         : "com.android.support:cardview-v7:${ext.android.ANDROID_SUPPORT_VERSION}",
-            "kotlin-stdlib"       : "org.jetbrains.kotlin:kotlin-stdlib-jre7:${ext.android.KOTLIN_VERSION}",
+            "kotlin-stdlib"       : "org.jetbrains.kotlin:kotlin-stdlib:${ext.android.KOTLIN_VERSION}",
             "kotlin-gradle-plugin": "org.jetbrains.kotlin:kotlin-gradle-plugin:${ext.android.KOTLIN_VERSION}",
             "junit"               : "junit:junit:${ext.android.JUNIT_VERSION}"
     ]
@@ -54,7 +55,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath rootProject.ext.deps["kotlin-gradle-plugin"]
 
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
@@ -71,6 +73,7 @@ allprojects {
         maven { url 'https://dl.google.com/dl/android/maven2/' }
         mavenCentral()
         maven { url "https://jitpack.io" }
+        google()
     }
 }
 

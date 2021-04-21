@@ -1,7 +1,7 @@
 package io.neoterm.frontend.logging
 
 import android.content.Context
-import android.support.annotation.IntDef
+import androidx.annotation.IntDef
 import android.util.Log
 import java.io.*
 import java.text.SimpleDateFormat
@@ -21,7 +21,7 @@ object NLog {
     const val E = Log.ERROR
     const val A = Log.ASSERT
 
-    @IntDef(V.toLong(), D.toLong(), I.toLong(), W.toLong(), E.toLong(), A.toLong())
+    @IntDef(V.toLong().toInt(), D.toLong().toInt(), I.toLong().toInt(), W.toLong().toInt(), E.toLong().toInt(), A.toLong().toInt())
     @Retention(AnnotationRetention.SOURCE)
     private annotation class TYPE
 

@@ -1,9 +1,9 @@
 package io.neoterm.ui.customize
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -59,7 +59,7 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
                 showItemEditor(model)
             }
         })
-        val recyclerView = findViewById<RecyclerView>(R.id.custom_color_color_list)
+        val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.custom_color_color_list)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter

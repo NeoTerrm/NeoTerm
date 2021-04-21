@@ -1,6 +1,6 @@
 package io.neoterm.frontend.floating
 
-import android.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import io.neoterm.R

@@ -24,7 +24,6 @@ package io.neoterm;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
 import android.app.UiModeManager;
@@ -40,6 +39,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.os.SystemClock;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.SpannedString;
 import android.util.DisplayMetrics;
@@ -72,7 +72,7 @@ import io.neoterm.xorg.NeoXorgViewClient;
 import io.neoterm.xorg.R;
 
 
-public class MainActivity extends Activity implements NeoXorgViewClient {
+public class MainActivity extends AppCompatActivity implements NeoXorgViewClient {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

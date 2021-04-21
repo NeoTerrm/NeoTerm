@@ -1,6 +1,6 @@
 package io.neoterm.utils
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.graphics.Rect
 import android.view.View
 import android.widget.FrameLayout
@@ -9,7 +9,7 @@ import android.widget.FrameLayout
  * Helper class to "adjustResize" Activity when we are in full screen mode and check IME status.
  * Android Bug 5497: https://code.google.com/p/android/issues/detail?id=5497
  */
-class FullScreenHelper private constructor(activity: Activity, var fullScreen: Boolean, private var shouldSkipFirst: Boolean) {
+class FullScreenHelper private constructor(activity: AppCompatActivity, var fullScreen: Boolean, private var shouldSkipFirst: Boolean) {
 
     interface KeyBoardListener {
         /**
@@ -111,7 +111,7 @@ class FullScreenHelper private constructor(activity: Activity, var fullScreen: B
     }
 
     companion object {
-        fun injectActivity(activity: Activity, fullScreen: Boolean, recreate: Boolean): FullScreenHelper {
+        fun injectActivity(activity: AppCompatActivity, fullScreen: Boolean, recreate: Boolean): FullScreenHelper {
             return FullScreenHelper(activity, fullScreen, recreate)
         }
 

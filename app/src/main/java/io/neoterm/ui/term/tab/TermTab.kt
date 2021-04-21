@@ -1,7 +1,7 @@
 package io.neoterm.ui.term.tab
 
 import android.content.Context
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.view.inputmethod.InputMethodManager
 import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.frontend.component.ComponentManager

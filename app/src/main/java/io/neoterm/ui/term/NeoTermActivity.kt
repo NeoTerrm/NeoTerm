@@ -1,20 +1,20 @@
 package io.neoterm.ui.term
 
 import android.Manifest
-import android.app.Activity
-import android.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
 import android.preference.PreferenceManager
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.OnApplyWindowInsetsListener
-import android.support.v4.view.ViewCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.OnApplyWindowInsetsListener
+import androidx.core.view.ViewCompat
+import androidx.appcompat.widget.Toolbar
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
@@ -353,8 +353,8 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         when (requestCode) {
             REQUEST_SETUP -> {
                 when (resultCode) {
-                    Activity.RESULT_OK -> enterMain()
-                    Activity.RESULT_CANCELED -> {
+                    AppCompatActivity.RESULT_OK -> enterMain()
+                    AppCompatActivity.RESULT_CANCELED -> {
                         setSystemShellMode(true)
                         forceAddSystemSession()
                     }
@@ -364,7 +364,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (newConfig == null) {
             return

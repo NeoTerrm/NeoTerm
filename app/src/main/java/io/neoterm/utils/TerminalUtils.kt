@@ -1,6 +1,6 @@
 package io.neoterm.utils
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.font.FontComponent
@@ -40,7 +40,7 @@ object TerminalUtils {
         return sessionComponent.createSession(context, parameter)
     }
 
-    fun createSession(activity: Activity, parameter: XParameter) : XSession {
+    fun createSession(activity: AppCompatActivity, parameter: XParameter) : XSession {
         val sessionComponent = ComponentManager.getComponent<SessionComponent>()
         return sessionComponent.createSession(activity, parameter)
     }

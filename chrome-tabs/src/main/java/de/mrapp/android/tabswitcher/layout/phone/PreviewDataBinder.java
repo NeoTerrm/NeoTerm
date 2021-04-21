@@ -15,10 +15,10 @@ package de.mrapp.android.tabswitcher.layout.phone;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.util.LruCache;
-import android.support.v4.util.Pair;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.LruCache;
+import androidx.core.util.Pair;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;

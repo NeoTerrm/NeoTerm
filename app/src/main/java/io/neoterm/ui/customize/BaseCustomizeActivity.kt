@@ -41,7 +41,7 @@ open class BaseCustomizeActivity : AppCompatActivity() {
 
         val script = resources.getStringArray(R.array.custom_preview_script_colors)
         val parameter = ShellParameter()
-                .executablePath("${NeoTermPath.USR_PATH}/bin/applets/echo")
+                .executablePath("${NeoTermPath.USR_PATH}/bin/echo")
                 .arguments(arrayOf("echo", "-e", *script))
                 .callback(sessionCallback)
                 .systemShell(false)

@@ -25,8 +25,10 @@ import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.profile.ProfileComponent
 import io.neoterm.frontend.component.ComponentManager
+import io.neoterm.frontend.config.DefaultValues
 import io.neoterm.frontend.config.NeoPermission
 import io.neoterm.frontend.config.NeoPreference
+import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.ShellProfile
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
@@ -179,7 +181,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
                 true
             }
             R.id.menu_item_new_x_session -> {
-                addXSession();
+                addXSession()
                 true
             }
             else -> super.onOptionsItemSelected(item)

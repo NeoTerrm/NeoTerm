@@ -11,7 +11,7 @@ android {
         minSdkVersion rootProject.ext.android.MIN_SDK_VERSION
         targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
         versionCode 37
-        versionName "2.1.0"
+        versionName "2.0.5"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         resConfigs "zh-rCN", "zh-rTW"
         externalNativeBuild {
@@ -34,9 +34,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFile 'app/proguard-rules.pro'
             versionNameSuffix "-${getGitHeadRefsSuffix()}"
-        }
-        debug {
-            versionNameSuffix "-snapshot-${getGitHeadRefsSuffix()}"
         }
     }
     externalNativeBuild {

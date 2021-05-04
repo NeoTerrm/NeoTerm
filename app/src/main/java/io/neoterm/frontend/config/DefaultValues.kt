@@ -19,7 +19,7 @@ object DefaultValues {
     const val enableSpecialVolumeKeys = false
     const val enableWordBasedIme = false
 
-    const val loginShell = "sh"
+    const val loginShell = "bash"
     const val initialCommand = ""
     const val defaultFont = "SourceCodePro"
 }

@@ -182,6 +182,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
             val androidRootEnv = "ANDROID_ROOT=" + System.getenv("ANDROID_ROOT")
             val androidDataEnv = "ANDROID_DATA=" + System.getenv("ANDROID_DATA")
             val externalStorageEnv = "EXTERNAL_STORAGE=" + System.getenv("EXTERNAL_STORAGE")
+            val colorterm = "COLORTERM=truecolor"
 
             // PY Trade: Some programs support NeoTerm in a special way.
             val neotermIdEnv = "__NEOTERM=1"
@@ -192,7 +193,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
                 val pathEnv = "PATH=" + System.getenv("PATH")
                 arrayOf(termEnv, homeEnv, androidRootEnv, androidDataEnv,
                         externalStorageEnv, pathEnv, neotermIdEnv, prefixEnv,
-                        originLdEnv, originPathEnv)
+                        originLdEnv, originPathEnv, colorterm)
 
             } else {
                 val ps1Env = "PS1=$ "
@@ -213,7 +214,7 @@ open class ShellTermSession private constructor(shellPath: String, cwd: String,
                 arrayOf(termEnv, homeEnv, ps1Env, ldEnv, langEnv, pathEnv, pwdEnv,
                         androidRootEnv, androidDataEnv, externalStorageEnv,
                         tmpdirEnv, neotermIdEnv, originPathEnv, originLdEnv,
-                        ldPreloadEnv, prefixEnv)
+                        ldPreloadEnv, prefixEnv, colorterm)
             }
                     .filter { it.isNotEmpty() }
                     .toTypedArray()

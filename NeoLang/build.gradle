@@ -6,9 +6,6 @@ dependencies {
     compile rootProject.ext.deps["kotlin-stdlib"]
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
-
 buildscript {
     repositories {
         mavenCentral()
@@ -30,7 +27,6 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
-
 dependencies {
     testImplementation rootProject.ext.deps["junit"]
 }

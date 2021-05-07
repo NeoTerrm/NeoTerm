@@ -5,33 +5,27 @@ def libraryVersionName = "1.0"
 
 android {
     compileSdkVersion rootProject.ext.android.COMPILE_SDK_VERSION
-    buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion rootProject.ext.android.MIN_SDK_VERSION
         targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
         versionCode libraryVersionCode
         versionName libraryVersionName
-
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation rootProject.ext.deps["junit"]
 }
-
-apply from: 'bintray.gradle'

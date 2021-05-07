@@ -1,38 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.getGitHeadRefsSuffix = {
-        try {
-            def headFile = new File('.git/HEAD')
-            if (headFile.exists()) {
-                String[] strings = headFile.getText('UTF-8').split(" ");
-                if (strings.size() > 1) {
-                    String refFilePath = '.git/' + strings[1];
-
-                    def refFile = new File(refFilePath.replace("\n", ""));
-
-                    return refFile.getText('UTF-8').substring(0, 7)
-                }
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
-        return ""
-    }
-
-    ext.kotlin_version = '1.3.50'
+    ext.kotlin_version = '1.4.32'
     ext.android = [
-            KOTLIN_VERSION         : '1.3.50',
-
+            KOTLIN_VERSION         : '1.4.32',
             MIN_SDK_VERSION        : 21,
-
             COMPILE_SDK_VERSION    : 28,
-
             TARGET_SDK_VERSION     : 28,
-
-            BUILD_TOOL_VERSION     : '28.0.3',
-
             JUNIT_VERSION          : "4.12"
     ]
 
@@ -46,14 +20,14 @@ buildscript {
             "junit"               : "junit:junit:${ext.android.JUNIT_VERSION}"
     ]
 
-
     repositories {
         maven { url 'https://dl.google.com/dl/android/maven2/' }
         jcenter()
         google()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:4.1.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath rootProject.ext.deps["kotlin-gradle-plugin"]
 

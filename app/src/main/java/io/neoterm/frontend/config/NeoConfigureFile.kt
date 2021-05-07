@@ -2,9 +2,8 @@ package io.neoterm.frontend.config
 
 import io.neolang.parser.NeoLangParser
 import io.neolang.visitor.ConfigVisitor
-import io.neoterm.frontend.logging.NLog
-import io.neoterm.utils.FileUtils
 import java.io.File
+import java.nio.file.Files
 
 /**
  * @author kiva
@@ -13,30 +12,15 @@ open class NeoConfigureFile(val configureFile: File) {
     private val configParser = NeoLangParser()
     open protected var configVisitor : ConfigVisitor? = null
 
-    fun getVisitor(): ConfigVisitor {
-        checkParsed()
-        return configVisitor!!
-    }
+    fun getVisitor() = configVisitor ?: throw IllegalStateException("Configure file not loaded or parse failed.")
 
-    open fun parseConfigure(): Boolean {
-        val configContent = FileUtils.readFile(configureFile)
-        if (configContent == null) {
-            NLog.e("ConfigureFile", "Cannot read file $configureFile")
-            return false
-        }
-        val programCode = String(configContent)
+    open fun parseConfigure() = kotlin.runCatching {
+        val programCode = String(Files.readAllBytes(configureFile.toPath()))
         configParser.setInputSource(programCode)
 
         val ast = configParser.parse()
         val astVisitor = ast.visit().getVisitor(ConfigVisitor::class.java) ?: return false
         astVisitor.start()
         configVisitor = astVisitor.getCallback()
-        return true
-    }
-
-    private fun checkParsed() {
-        if (configVisitor == null) {
-            throw IllegalStateException("Configure file not loaded or parse failed.")
-        }
-    }
+    }.isSuccess
 }

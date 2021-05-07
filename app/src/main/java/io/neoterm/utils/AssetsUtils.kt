@@ -2,7 +2,7 @@ package io.neoterm.utils
 
 import android.content.Context
 import java.io.File
-import java.io.InputStream
+import java.nio.file.Files
 
 /**
  * @author kiva
@@ -10,18 +10,14 @@ import java.io.InputStream
 object AssetsUtils {
     fun extractAssetsDir(context: Context, dirName: String, extractDir: String) {
         val assets = context.assets
-        assets.list(dirName)
-                .map { File(extractDir, it) }
+        assets.list(dirName)?.let {
+            it.map { File(extractDir, it) }
                 .takeWhile { !it.exists() }
                 .forEach { file ->
                     assets.open("$dirName/${file.name}").use {
-                        FileUtils.writeFile(file, it)
+                        kotlin.runCatching { Files.copy(it, file.toPath()) }
                     }
                 }
-    }
-
-    fun openAssetsFile(context: Context, fileName: String) : InputStream {
-        val assets = context.assets
-        return assets.open(fileName)
+        }
     }
 }

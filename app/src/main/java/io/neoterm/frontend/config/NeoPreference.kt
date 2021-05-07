@@ -11,8 +11,8 @@ import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.services.NeoTermService
-import io.neoterm.utils.FileUtils
 import java.io.File
+import java.nio.file.Files
 
 
 /**
@@ -46,12 +46,13 @@ object NeoPreference {
 
         // load apt source
         val sourceFile = File(NeoTermPath.SOURCE_FILE)
-        val bytes = FileUtils.readFile(sourceFile)
-        if (bytes != null) {
-            val source = String(FileUtils.readFile(sourceFile)!!).trim().trimEnd()
-            val array = source.split(" ")
-            if (array.size >= 2 && array[0] == "deb") {
-                store(R.string.key_package_source, array[1])
+        kotlin.runCatching {
+            Files.readAllBytes(sourceFile.toPath())?.let {
+                val source = String(it).trim().trimEnd()
+                val array = source.split(" ")
+                if (array.size >= 2 && array[0] == "deb") {
+                    store(R.string.key_package_source, array[1])
+                }
             }
         }
     }
@@ -94,16 +95,16 @@ object NeoPreference {
 
     fun storeCurrentSession(session: TerminalSession) {
         preference!!.edit()
-                .putString(KEY_CURRENT_SESSION, session.mHandle)
-                .apply()
+            .putString(KEY_CURRENT_SESSION, session.mHandle)
+            .apply()
     }
 
     fun getCurrentSession(termService: NeoTermService?): TerminalSession? {
         val sessionHandle = PreferenceManager.getDefaultSharedPreferences(termService!!)
-                .getString(KEY_CURRENT_SESSION, "")
+            .getString(KEY_CURRENT_SESSION, "")
 
         return termService.sessions
-                .singleOrNull { it.mHandle == sessionHandle }
+            .singleOrNull { it.mHandle == sessionHandle }
     }
 
     fun setLoginShellName(loginProgramName: String?): Boolean {
@@ -164,73 +165,101 @@ object NeoPreference {
     }
 
     fun getFontSize(): Int {
-        return loadInt(KEY_FONT_SIZE,
-                DefaultValues.fontSize)
+        return loadInt(
+            KEY_FONT_SIZE,
+            DefaultValues.fontSize
+        )
     }
 
     fun getInitialCommand(): String {
-        return loadString(R.string.key_general_initial_command,
-                DefaultValues.initialCommand)
+        return loadString(
+            R.string.key_general_initial_command,
+            DefaultValues.initialCommand
+        )
     }
 
     fun isBellEnabled(): Boolean {
-        return loadBoolean(R.string.key_general_bell,
-                DefaultValues.enableBell)
+        return loadBoolean(
+            R.string.key_general_bell,
+            DefaultValues.enableBell
+        )
     }
 
     fun isVibrateEnabled(): Boolean {
-        return loadBoolean(R.string.key_general_vibrate,
-                DefaultValues.enableVibrate)
+        return loadBoolean(
+            R.string.key_general_vibrate,
+            DefaultValues.enableVibrate
+        )
     }
 
-    fun isExecveWrapperEnabled() : Boolean {
-        return loadBoolean(R.string.key_general_use_execve_wrapper,
-                DefaultValues.enableExecveWrapper)
+    fun isExecveWrapperEnabled(): Boolean {
+        return loadBoolean(
+            R.string.key_general_use_execve_wrapper,
+            DefaultValues.enableExecveWrapper
+        )
     }
 
-    fun isSpecialVolumeKeysEnabled() : Boolean {
-        return loadBoolean(R.string.key_general_volume_as_control,
-                DefaultValues.enableSpecialVolumeKeys)
+    fun isSpecialVolumeKeysEnabled(): Boolean {
+        return loadBoolean(
+            R.string.key_general_volume_as_control,
+            DefaultValues.enableSpecialVolumeKeys
+        )
     }
 
-    fun isAutoCompletionEnabled() : Boolean {
-        return loadBoolean(R.string.key_general_auto_completion,
-                DefaultValues.enableAutoCompletion)
+    fun isAutoCompletionEnabled(): Boolean {
+        return loadBoolean(
+            R.string.key_general_auto_completion,
+            DefaultValues.enableAutoCompletion
+        )
     }
 
     fun isBackButtonBeMappedToEscapeEnabled(): Boolean {
-        return loadBoolean(R.string.key_generaL_backspace_map_to_esc,
-                DefaultValues.enableBackButtonBeMappedToEscape)
+        return loadBoolean(
+            R.string.key_generaL_backspace_map_to_esc,
+            DefaultValues.enableBackButtonBeMappedToEscape
+        )
     }
 
     fun isExtraKeysEnabled(): Boolean {
-        return loadBoolean(R.string.key_ui_eks_enabled,
-                DefaultValues.enableExtraKeys)
+        return loadBoolean(
+            R.string.key_ui_eks_enabled,
+            DefaultValues.enableExtraKeys
+        )
     }
 
-    fun isExplicitExtraKeysWeightEnabled() :Boolean {
-        return loadBoolean(R.string.key_ui_eks_weight_explicit,
-                DefaultValues.enableExplicitExtraKeysWeight)
+    fun isExplicitExtraKeysWeightEnabled(): Boolean {
+        return loadBoolean(
+            R.string.key_ui_eks_weight_explicit,
+            DefaultValues.enableExplicitExtraKeysWeight
+        )
     }
 
-    fun isFullScreenEnabled() : Boolean {
-        return loadBoolean(R.string.key_ui_fullscreen,
-                DefaultValues.enableFullScreen)
+    fun isFullScreenEnabled(): Boolean {
+        return loadBoolean(
+            R.string.key_ui_fullscreen,
+            DefaultValues.enableFullScreen
+        )
     }
 
-    fun isHideToolbarEnabled() :Boolean {
-        return loadBoolean(R.string.key_ui_hide_toolbar,
-                DefaultValues.enableAutoHideToolbar)
+    fun isHideToolbarEnabled(): Boolean {
+        return loadBoolean(
+            R.string.key_ui_hide_toolbar,
+            DefaultValues.enableAutoHideToolbar
+        )
     }
 
-    fun isNextTabEnabled() :Boolean {
-        return loadBoolean(R.string.key_ui_next_tab_anim,
-                DefaultValues.enableSwitchNextTab)
+    fun isNextTabEnabled(): Boolean {
+        return loadBoolean(
+            R.string.key_ui_next_tab_anim,
+            DefaultValues.enableSwitchNextTab
+        )
     }
 
-    fun isWordBasedImeEnabled() : Boolean {
-        return loadBoolean(R.string.key_general_enable_word_based_ime,
-                DefaultValues.enableWordBasedIme)
+    fun isWordBasedImeEnabled(): Boolean {
+        return loadBoolean(
+            R.string.key_general_enable_word_based_ime,
+            DefaultValues.enableWordBasedIme
+        )
     }
 
     /**

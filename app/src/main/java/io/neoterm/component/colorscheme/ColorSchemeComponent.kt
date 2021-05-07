@@ -13,8 +13,8 @@ import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import io.neoterm.utils.AssetsUtils
-import io.neoterm.utils.FileUtils
 import java.io.File
+import java.nio.file.Files
 
 /**
  * @author kiva
@@ -121,7 +121,9 @@ class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>(NeoTermPat
         val component = ComponentManager.getComponent<CodeGenComponent>()
         val content = component.newGenerator(colorScheme).generateCode(colorScheme)
 
-        if (!FileUtils.writeFile(colorFile, content.toByteArray())) {
+        kotlin.runCatching {
+            Files.write(colorFile.toPath(), content.toByteArray())
+        }.onFailure {
             throw RuntimeException("Failed to save file ${colorFile.absolutePath}")
         }
     }

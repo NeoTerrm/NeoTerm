@@ -1,13 +1,13 @@
 package io.neoterm
 
 import android.annotation.SuppressLint
-import androidx.appcompat.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.Gravity
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import io.neoterm.component.NeoInitializer
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.ui.bonus.BonusActivity
@@ -31,16 +31,16 @@ class App : Application() {
 
     fun errorDialog(context: Context, message: String, dismissCallback: (() -> Unit)?) {
         AlertDialog.Builder(context)
-                .setTitle(R.string.error)
-                .setMessage(message)
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(R.string.show_help, { _, _ ->
-                    openHelpLink()
-                })
-                .setOnDismissListener {
-                    dismissCallback?.invoke()
-                }
-                .show()
+            .setTitle(R.string.error)
+            .setMessage(message)
+            .setNegativeButton(android.R.string.no, null)
+            .setPositiveButton(R.string.show_help) { _, _ ->
+                openHelpLink()
+            }
+            .setOnDismissListener {
+                dismissCallback?.invoke()
+            }
+            .show()
     }
 
     fun openHelpLink() {
@@ -72,6 +72,5 @@ class App : Application() {
         fun get(): App {
             return app!!
         }
-
     }
 }

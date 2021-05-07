@@ -1,14 +1,14 @@
 package io.neoterm.ui.setup
 
-import androidx.appcompat.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.component.pm.SourceHelper
@@ -19,11 +19,9 @@ import io.neoterm.setup.SourceConnection
 import io.neoterm.setup.connections.BackupFileConnection
 import io.neoterm.setup.connections.LocalFileConnection
 import io.neoterm.setup.connections.NetworkConnection
-import io.neoterm.setup.helper.URLAvailability
 import io.neoterm.utils.MediaUtils
 import io.neoterm.utils.PackageUtils
 import java.io.File
-import java.lang.Exception
 
 
 /**
@@ -39,9 +37,9 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
     private var setupParameterUri: Uri? = null
 
     private val hintMapping = arrayOf(
-            R.id.setup_method_online, R.string.setup_hint_online,
-            R.id.setup_method_local, R.string.setup_hint_local,
-            R.id.setup_method_backup, R.string.setup_hint_backup
+        R.id.setup_method_online, R.string.setup_hint_online,
+        R.id.setup_method_local, R.string.setup_hint_local,
+        R.id.setup_method_backup, R.string.setup_hint_backup
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,7 +101,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
                 R.id.setup_method_backup,
                 R.id.setup_method_local -> {
                     SetupHelper.makeErrorDialog(this, R.string.setup_error_parameter_null)
-                            .show()
+                        .show()
                     return
                 }
             }
@@ -137,8 +135,10 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.type = "*/*"
                 try {
-                    startActivityForResult( Intent.createChooser(intent, getString(R.string.setup_local)),
-                            REQUEST_SELECT_PARAMETER)
+                    startActivityForResult(
+                        Intent.createChooser(intent, getString(R.string.setup_local)),
+                        REQUEST_SELECT_PARAMETER
+                    )
                 } catch (ignore: ActivityNotFoundException) {
                     Toast.makeText(this, R.string.no_file_picker, Toast.LENGTH_SHORT).show()
                 }
@@ -151,15 +151,15 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
                 val edit = view.findViewById<EditText>(R.id.dialog_edit_text_editor)
 
                 AlertDialog.Builder(this)
-                        .setTitle(R.string.new_source)
-                        .setView(view)
-                        .setPositiveButton(android.R.string.yes, { _, _ ->
-                            val newURL = edit.text.toString()
-                            val parameterEditor = findViewById<EditText>(R.id.setup_source_parameter)
-                            parameterEditor.setText(newURL)
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .show()
+                    .setTitle(R.string.new_source)
+                    .setView(view)
+                    .setPositiveButton(android.R.string.yes) { _, _ ->
+                        val newURL = edit.text.toString()
+                        val parameterEditor = findViewById<EditText>(R.id.setup_source_parameter)
+                        parameterEditor.setText(newURL)
+                    }
+                    .setNegativeButton(android.R.string.no, null)
+                    .show()
             }
         }
     }
@@ -175,26 +175,14 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
 
     private fun validateParameter(id: Int, parameter: String): String? {
         return when (id) {
-            R.id.setup_method_online -> {
-                val result = URLAvailability.checkUrlAvailability(this, parameter)
-                return when (result) {
-                    URLAvailability.ResultCode.URL_NO_INTERNET -> {
-                        getString(R.string.setup_error_no_internet)
-                    }
-                    URLAvailability.ResultCode.URL_CONNECTION_FAILED -> {
-                        getString(R.string.setup_error_connection_failed)
-                    }
-                    URLAvailability.ResultCode.URL_INVALID -> {
-                        getString(R.string.setup_error_invalid_url)
-                    }
-                    else -> null
-                }
+            R.id.setup_method_online -> try {
+                java.net.URI.create(parameter)
+                null
+            } catch (e: IllegalArgumentException) {
+                getString(R.string.setup_error_invalid_url)
             }
             R.id.setup_method_local,
-            R.id.setup_method_backup -> {
-                if (File(parameter).exists()) null
-                else getString(R.string.setup_error_file_not_found)
-            }
+            R.id.setup_method_backup -> if (File(parameter).exists()) null else getString(R.string.setup_error_file_not_found)
             else -> null
         }
     }
@@ -213,13 +201,13 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
         val messageId = if (needSetup) R.string.setup_confirm_text else R.string.setup_reset_confirm_text
 
         AlertDialog.Builder(this)
-                .setTitle(titleId)
-                .setMessage(messageId)
-                .setPositiveButton(android.R.string.yes, { _, _ ->
-                    doSetup(connection)
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .show()
+            .setTitle(titleId)
+            .setMessage(messageId)
+            .setPositiveButton(android.R.string.yes) { _, _ ->
+                doSetup(connection)
+            }
+            .setNegativeButton(android.R.string.no, null)
+            .show()
     }
 
     private fun doSetup(connection: SourceConnection) {
@@ -234,22 +222,22 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
 
         } else {
             AlertDialog.Builder(this)
-                    .setTitle(R.string.error)
-                    .setMessage(error.toString())
-                    .setNegativeButton(R.string.use_system_shell, { _, _ ->
-                        setResult(RESULT_CANCELED)
-                        finish()
-                    })
-                    .setNeutralButton(R.string.show_help, { _, _ ->
-                        App.get().openHelpLink()
-                    })
-                    .setPositiveButton(android.R.string.yes, null)
-                    .show()
+                .setTitle(R.string.error)
+                .setMessage(error.toString())
+                .setNegativeButton(R.string.use_system_shell) { _, _ ->
+                    setResult(RESULT_CANCELED)
+                    finish()
+                }
+                .setNeutralButton(R.string.show_help) { _, _ ->
+                    App.get().openHelpLink()
+                }
+                .setPositiveButton(android.R.string.yes, null)
+                .show()
         }
     }
 
     private fun executeAptUpdate() {
-        PackageUtils.apt(this, "update", null, { exitStatus, dialog ->
+        PackageUtils.apt(this, "update", null) { exitStatus, dialog ->
             if (exitStatus == 0) {
                 dialog.dismiss()
                 aptUpdated = true
@@ -257,17 +245,17 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
             } else {
                 dialog.setTitle(getString(R.string.error))
             }
-        })
+        }
     }
 
     private fun executeAptUpgrade() {
-        PackageUtils.apt(this, "upgrade", arrayOf("-y"), { exitStatus, dialog ->
+        PackageUtils.apt(this, "upgrade", arrayOf("-y")) { exitStatus, dialog ->
             if (exitStatus == 0) {
                 dialog.dismiss()
                 finish()
             } else {
                 dialog.setTitle(getString(R.string.error))
             }
-        })
+        }
     }
 }

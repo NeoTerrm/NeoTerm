@@ -15,8 +15,7 @@ import android.provider.MediaStore
  */
 
 object MediaUtils {
-    @SuppressLint("ObsoleteSdkInt")
-            /**
+    /**
      * Get a file path from a Uri. This will get the the path for Storage Access
      * Framework Documents, as well as the _data field for the MediaStore and
      * other file-based ContentProviders.
@@ -25,9 +24,10 @@ object MediaUtils {
      * *
      * @param uri     The Uri to query.
      */
-    fun getPath(context: Context, uri: Uri): String? {
+    @SuppressLint("ObsoleteSdkInt")
+    fun getPath(context: Context, uri: Uri?): String? {
+        uri ?: return null
         val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
             // ExternalStorageProvider
@@ -44,37 +44,30 @@ object MediaUtils {
                 return "/storage/$type/${split[1]}"
 
             } else if (isDownloadsDocument(uri)) {
-
                 val id = DocumentsContract.getDocumentId(uri)
                 val contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)!!)
+                    Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id)!!
+                )
 
                 return getDataColumn(context, contentUri, null, null)
-
             } else if (isMediaDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                val type = split[0]
 
-                var contentUri: Uri? = null
-                if ("image" == type) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                } else if ("video" == type) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                } else if ("audio" == type) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                val contentUri = when (split[0]) {
+                    "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    "video" -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                    "audio" -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                    else -> null
                 }
 
                 val selection = "_id=?"
                 val selectionArgs = arrayOf(split[1])
 
                 return getDataColumn(context, contentUri!!, selection, selectionArgs)
-            }// MediaProvider
-            // DownloadsProvider
-
+            }
         } else if ("content".equals(uri.scheme, ignoreCase = true)) {
             return getDataColumn(context, uri, null, null)
-
         } else if ("file".equals(uri.scheme, ignoreCase = true)) {
             return uri.path
         }
@@ -96,8 +89,10 @@ object MediaUtils {
      * *
      * @return The value of the _data column, which is typically a file path.
      */
-    private fun getDataColumn(context: Context, uri: Uri, selection: String?,
-                      selectionArgs: Array<String>?): String? {
+    private fun getDataColumn(
+        context: Context, uri: Uri, selection: String?,
+        selectionArgs: Array<String>?
+    ): String? {
 
         var cursor: Cursor? = null
         val column = "_data"

@@ -1,6 +1,5 @@
 package io.neoterm.ui.customize
 
-import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -14,10 +13,10 @@ import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoTermPath
-import io.neoterm.utils.FileUtils
 import io.neoterm.utils.MediaUtils
 import java.io.File
-import java.io.FileInputStream
+import java.nio.file.Files
+import java.nio.file.Paths
 
 /**
  * @author kiva
@@ -41,7 +40,10 @@ class CustomizeActivity : BaseCustomizeActivity() {
             val intent = Intent()
             intent.action = Intent.ACTION_GET_CONTENT
             intent.type = "*/*"
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.install_color)), REQUEST_SELECT_COLOR)
+            startActivityForResult(
+                Intent.createChooser(intent, getString(R.string.install_color)),
+                REQUEST_SELECT_COLOR
+            )
         }
     }
 
@@ -50,40 +52,47 @@ class CustomizeActivity : BaseCustomizeActivity() {
         val colorSchemeComponent = ComponentManager.getComponent<ColorSchemeComponent>()
 
         setupSpinner(R.id.custom_font_spinner, fontComponent.getFontNames(),
-                fontComponent.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val fontName = parent!!.adapter!!.getItem(position) as String
-                val font = fontComponent.getFont(fontName)
-                fontComponent.applyFont(terminalView, extraKeysView, font)
-                fontComponent.setCurrentFont(fontName)
-            }
-        })
-
-        val colorData = listOf(getString(R.string.new_color_scheme),
-                *colorSchemeComponent.getColorSchemeNames().toTypedArray())
-        setupSpinner(R.id.custom_color_spinner, colorData,
-                colorSchemeComponent.getCurrentColorSchemeName(), object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position == 0) {
-                    val intent = Intent(this@CustomizeActivity, ColorSchemeActivity::class.java)
-                    startActivity(intent)
-                    return
+            fontComponent.getCurrentFontName(), object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
-                val colorName = parent!!.adapter!!.getItem(position) as String
-                val color = colorSchemeComponent.getColorScheme(colorName)
-                colorSchemeComponent.applyColorScheme(terminalView, extraKeysView, color)
-                colorSchemeComponent.setCurrentColorScheme(colorName)
-            }
-        })
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    val fontName = parent!!.adapter!!.getItem(position) as String
+                    val font = fontComponent.getFont(fontName)
+                    fontComponent.applyFont(terminalView, extraKeysView, font)
+                    fontComponent.setCurrentFont(fontName)
+                }
+            })
+
+        val colorData = listOf(
+            getString(R.string.new_color_scheme),
+            *colorSchemeComponent.getColorSchemeNames().toTypedArray()
+        )
+        setupSpinner(R.id.custom_color_spinner, colorData,
+            colorSchemeComponent.getCurrentColorSchemeName(), object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    if (position == 0) {
+                        val intent = Intent(this@CustomizeActivity, ColorSchemeActivity::class.java)
+                        startActivity(intent)
+                        return
+                    }
+                    val colorName = parent!!.adapter!!.getItem(position) as String
+                    val color = colorSchemeComponent.getColorScheme(colorName)
+                    colorSchemeComponent.applyColorScheme(terminalView, extraKeysView, color)
+                    colorSchemeComponent.setCurrentColorScheme(colorName)
+                }
+            })
     }
 
-    private fun setupSpinner(id: Int, data: List<String>, selected: String, listener: AdapterView.OnItemSelectedListener) : Spinner {
+    private fun setupSpinner(
+        id: Int,
+        data: List<String>,
+        selected: String,
+        listener: AdapterView.OnItemSelectedListener
+    ): Spinner {
         val spinner = findViewById<Spinner>(id)
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -104,7 +113,7 @@ class CustomizeActivity : BaseCustomizeActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == AppCompatActivity.RESULT_OK && data != null) {
+        if (resultCode == RESULT_OK && data != null) {
             val selected = MediaUtils.getPath(this, data.data)
             if (selected != null && selected.isNotEmpty()) {
                 when (requestCode) {
@@ -127,15 +136,11 @@ class CustomizeActivity : BaseCustomizeActivity() {
     }
 
     private fun installFileTo(file: String, targetDir: String) {
-        try {
-            val fileObject = File(file)
-            val input = FileInputStream(fileObject.absolutePath)
-            val targetFile = File(targetDir, fileObject.name)
-            input.use {
-                FileUtils.writeFile(targetFile, it)
-            }
-        } catch (e: Exception) {
-            Toast.makeText(this, getString(R.string.error) + ": ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+        kotlin.runCatching {
+            val source = File(file)
+            Files.copy(source.toPath(), Paths.get(targetDir, source.name))
+        }.onFailure {
+            Toast.makeText(this, getString(R.string.error) + ": ${it.localizedMessage}", Toast.LENGTH_LONG).show()
         }
     }
 

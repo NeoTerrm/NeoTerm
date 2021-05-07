@@ -1,7 +1,7 @@
 package io.neoterm.utils
 
-import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import io.neoterm.backend.TerminalSession
 import io.neoterm.component.font.FontComponent
 import io.neoterm.component.session.SessionComponent
@@ -54,7 +54,7 @@ object TerminalUtils {
         val specialChars = "\"\\$`!"
         builder.append('"')
         val length = s.length
-        for (i in 0..length - 1) {
+        for (i in 0 until length) {
             val c = s[i]
             if (specialChars.indexOf(c) >= 0) {
                 builder.append('\\')

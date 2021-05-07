@@ -7,7 +7,7 @@ import io.neolang.ast.base.NeoLangBaseNode
  */
 class NeoLangAttributeNode(val stringNode: NeoLangStringNode, val blockNode: NeoLangBlockNode) : NeoLangBaseNode() {
 
-    override fun toString(): String {
-        return "NeoLangAttributeNode { stringNode: $stringNode, block: $blockNode }"
-    }
+  override fun toString(): String {
+    return "NeoLangAttributeNode { stringNode: $stringNode, block: $blockNode }"
+  }
 }

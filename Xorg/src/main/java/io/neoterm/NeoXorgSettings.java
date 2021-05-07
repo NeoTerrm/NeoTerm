@@ -7,7 +7,7 @@ import io.neoterm.xorg.NeoXorgViewClient;
  */
 
 public class NeoXorgSettings {
-    public static void init(NeoXorgViewClient client) {
-        Settings.Load(client);
-    }
+  public static void init(NeoXorgViewClient client) {
+    Settings.Load(client);
+  }
 }

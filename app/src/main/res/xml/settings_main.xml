@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:icon="@drawable/ic_general_white_36dp"
-        android:summary="@string/general_settings_desc"
-        android:title="@string/general_settings">
-        <intent
-            android:targetClass="io.neoterm.ui.settings.GeneralSettingsActivity"
-            android:targetPackage="io.neoterm" />
-    </Preference>
+  <Preference
+    android:icon="@drawable/ic_general_white_36dp"
+    android:summary="@string/general_settings_desc"
+    android:title="@string/general_settings">
+    <intent
+      android:targetClass="io.neoterm.ui.settings.GeneralSettingsActivity"
+      android:targetPackage="io.neoterm"/>
+  </Preference>
 
-    <Preference
-        android:icon="@drawable/ic_ui_white_36dp"
-        android:summary="@string/ui_settings_desc"
-        android:title="@string/ui_settings">
-        <intent
-            android:targetClass="io.neoterm.ui.settings.UISettingsActivity"
-            android:targetPackage="io.neoterm" />
-    </Preference>
+  <Preference
+    android:icon="@drawable/ic_ui_white_36dp"
+    android:summary="@string/ui_settings_desc"
+    android:title="@string/ui_settings">
+    <intent
+      android:targetClass="io.neoterm.ui.settings.UISettingsActivity"
+      android:targetPackage="io.neoterm"/>
+  </Preference>
 
-    <Preference
-        android:icon="@drawable/ic_customization_white_36dp"
-        android:summary="@string/customization_settings_desc"
-        android:title="@string/customization_settings">
-        <intent
-            android:targetClass="io.neoterm.ui.customize.CustomizeActivity"
-            android:targetPackage="io.neoterm" />
-    </Preference>
+  <Preference
+    android:icon="@drawable/ic_customization_white_36dp"
+    android:summary="@string/customization_settings_desc"
+    android:title="@string/customization_settings">
+    <intent
+      android:targetClass="io.neoterm.ui.customize.CustomizeActivity"
+      android:targetPackage="io.neoterm"/>
+  </Preference>
 
-    <Preference
-        android:icon="@drawable/ic_apps_white_36dp"
-        android:summary="@string/package_settings_desc"
-        android:title="@string/package_settings">
-        <intent
-            android:targetClass="io.neoterm.ui.pm.PackageManagerActivity"
-            android:targetPackage="io.neoterm" />
-    </Preference>
+  <Preference
+    android:icon="@drawable/ic_apps_white_36dp"
+    android:summary="@string/package_settings_desc"
+    android:title="@string/package_settings">
+    <intent
+      android:targetClass="io.neoterm.ui.pm.PackageManagerActivity"
+      android:targetPackage="io.neoterm"/>
+  </Preference>
 
-    <Preference
-        android:icon="@drawable/ic_info_white_36dp"
-        android:title="@string/about" >
-        <intent
-            android:targetClass="io.neoterm.ui.support.AboutActivity"
-            android:targetPackage="io.neoterm" />
-    </Preference>
+  <Preference
+    android:icon="@drawable/ic_info_white_36dp"
+    android:title="@string/about">
+    <intent
+      android:targetClass="io.neoterm.ui.support.AboutActivity"
+      android:targetPackage="io.neoterm"/>
+  </Preference>
 
 </PreferenceScreen>

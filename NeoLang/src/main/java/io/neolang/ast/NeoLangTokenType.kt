@@ -5,15 +5,15 @@ package io.neolang.ast
  */
 
 enum class NeoLangTokenType {
-    NUMBER,
-    ID,
-    STRING,
-    BRACKET_START,
-    BRACKET_END,
-    ARRAY_START,
-    ARRAY_END,
-    COLON,
-    COMMA,
-    EOL,
-    EOF,
+  NUMBER,
+  ID,
+  STRING,
+  BRACKET_START,
+  BRACKET_END,
+  ARRAY_START,
+  ARRAY_END,
+  COLON,
+  COMMA,
+  EOL,
+  EOF,
 }

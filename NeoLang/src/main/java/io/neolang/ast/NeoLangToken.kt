@@ -5,9 +5,9 @@ package io.neolang.ast
  */
 
 open class NeoLangToken(val tokenType: NeoLangTokenType, val tokenValue: NeoLangTokenValue) {
-    var lineNumber = 0
+  var lineNumber = 0
 
-    override fun toString(): String {
-        return "Token { tokenType: $tokenType, tokenValue: $tokenValue };"
-    }
+  override fun toString(): String {
+    return "Token { tokenType: $tokenType, tokenValue: $tokenValue };"
+  }
 }

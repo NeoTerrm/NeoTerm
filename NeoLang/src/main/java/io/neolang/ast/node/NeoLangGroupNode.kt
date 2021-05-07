@@ -7,13 +7,13 @@ import io.neolang.ast.base.NeoLangBaseNode
  */
 class NeoLangGroupNode(val attributes: Array<NeoLangAttributeNode>) : NeoLangBaseNode() {
 
-    override fun toString(): String {
-        return "NeoLangGroupNode { attrs: $attributes }"
-    }
+  override fun toString(): String {
+    return "NeoLangGroupNode { attrs: $attributes }"
+  }
 
-    companion object {
-        fun emptyNode() : NeoLangGroupNode {
-            return NeoLangGroupNode(arrayOf())
-        }
+  companion object {
+    fun emptyNode(): NeoLangGroupNode {
+      return NeoLangGroupNode(arrayOf())
     }
+  }
 }

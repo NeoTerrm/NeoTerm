@@ -8,18 +8,18 @@ import io.neoterm.frontend.component.NeoComponent
  * @author kiva
  */
 class CodeGenComponent : NeoComponent {
-    override fun onServiceInit() {
-    }
+  override fun onServiceInit() {
+  }
 
-    override fun onServiceDestroy() {
-    }
+  override fun onServiceDestroy() {
+  }
 
-    override fun onServiceObtained() {
-    }
+  override fun onServiceObtained() {
+  }
 
-    fun newGenerator(codeObject: CodeGenObject): CodeGenerator {
-        val parameter = CodeGenParameter()
-        return codeObject.getCodeGenerator(parameter)
-    }
+  fun newGenerator(codeObject: CodeGenObject): CodeGenerator {
+    val parameter = CodeGenParameter()
+    return codeObject.getCodeGenerator(parameter)
+  }
 }
 

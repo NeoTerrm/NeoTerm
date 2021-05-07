@@ -3,7 +3,6 @@ package io.neoterm.xorg;
 import android.content.Context;
 import android.view.Window;
 import android.view.WindowManager;
-
 import io.neoterm.NeoGLView;
 
 /**
@@ -11,35 +10,35 @@ import io.neoterm.NeoGLView;
  */
 
 public interface NeoXorgViewClient {
-    Context getContext();
+  Context getContext();
 
-    boolean isKeyboardWithoutTextInputShown();
+  boolean isKeyboardWithoutTextInputShown();
 
-    void showScreenKeyboardWithoutTextInputField(int flags);
+  void showScreenKeyboardWithoutTextInputField(int flags);
 
-    void setScreenKeyboardHintMessage(String hideMessage);
+  void setScreenKeyboardHintMessage(String hideMessage);
 
-    boolean isScreenKeyboardShown();
+  boolean isScreenKeyboardShown();
 
-    void showScreenKeyboard(String message);
+  void showScreenKeyboard(String message);
 
-    void hideScreenKeyboard();
+  void hideScreenKeyboard();
 
-    void runOnUiThread(Runnable runnable);
+  void runOnUiThread(Runnable runnable);
 
-    void updateScreenOrientation();
+  void updateScreenOrientation();
 
-    void initScreenOrientation();
+  void initScreenOrientation();
 
-    boolean isRunningOnOUYA();
+  boolean isRunningOnOUYA();
 
-    NeoGLView getGLView();
+  NeoGLView getGLView();
 
-    Window getWindow();
+  Window getWindow();
 
-    WindowManager getWindowManager();
+  WindowManager getWindowManager();
 
-    void setSystemMousePointerVisible(int visible);
+  void setSystemMousePointerVisible(int visible);
 
-    boolean isPaused();
+  boolean isPaused();
 }

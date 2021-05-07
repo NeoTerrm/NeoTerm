@@ -15,7 +15,7 @@ License.
 -->
 <resources>
 
-    <item name="tag_view_holder" type="id"/>
-    <item name="tag_properties" type="id"/>
+  <item name="tag_view_holder" type="id"/>
+  <item name="tag_properties" type="id"/>
 
 </resources>

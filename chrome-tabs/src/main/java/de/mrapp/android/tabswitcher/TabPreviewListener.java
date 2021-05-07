@@ -24,18 +24,16 @@ import androidx.annotation.NonNull;
  */
 public interface TabPreviewListener {
 
-    /**
-     * The method, which is invoked, when the preview of a tab is about to be loaded.
-     *
-     * @param tabSwitcher
-     *         The tab switcher, which contains the tab, whose preview is about to be loaded, as an
-     *         instance of the class {@link TabSwitcher}. The tab switcher may not be null
-     * @param tab
-     *         The tab, whose preview is about to be loaded, as an instance of the class {@link
-     *         Tab}. The tab may not be null
-     * @return True, if loading the preview should be proceeded, false otherwise. When returning
-     * false, the method gets invoked repeatedly until true is returned.
-     */
-    boolean onLoadTabPreview(@NonNull TabSwitcher tabSwitcher, @NonNull Tab tab);
+  /**
+   * The method, which is invoked, when the preview of a tab is about to be loaded.
+   *
+   * @param tabSwitcher The tab switcher, which contains the tab, whose preview is about to be loaded, as an
+   *                    instance of the class {@link TabSwitcher}. The tab switcher may not be null
+   * @param tab         The tab, whose preview is about to be loaded, as an instance of the class {@link
+   *                    Tab}. The tab may not be null
+   * @return True, if loading the preview should be proceeded, false otherwise. When returning
+   * false, the method gets invoked repeatedly until true is returned.
+   */
+  boolean onLoadTabPreview(@NonNull TabSwitcher tabSwitcher, @NonNull Tab tab);
 
 }

@@ -9,14 +9,14 @@ import io.neoterm.frontend.component.NeoComponent
  * @author kiva
  */
 class CompletionComponent : NeoComponent {
-    override fun onServiceInit() {
-        CompletionManager.registerProvider(FileCompletionProvider())
-        CompletionManager.registerProvider(ProgramCompletionProvider())
-    }
+  override fun onServiceInit() {
+    CompletionManager.registerProvider(FileCompletionProvider())
+    CompletionManager.registerProvider(ProgramCompletionProvider())
+  }
 
-    override fun onServiceDestroy() {
-    }
+  override fun onServiceDestroy() {
+  }
 
-    override fun onServiceObtained() {
-    }
+  override fun onServiceObtained() {
+  }
 }

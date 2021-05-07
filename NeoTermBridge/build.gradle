@@ -4,28 +4,28 @@ def libraryVersionCode = 1
 def libraryVersionName = "1.0"
 
 android {
-    compileSdkVersion rootProject.ext.android.COMPILE_SDK_VERSION
+  compileSdkVersion rootProject.ext.android.COMPILE_SDK_VERSION
 
-    defaultConfig {
-        minSdkVersion rootProject.ext.android.MIN_SDK_VERSION
-        targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
-        versionCode libraryVersionCode
-        versionName libraryVersionName
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-    }
+  defaultConfig {
+    minSdkVersion rootProject.ext.android.MIN_SDK_VERSION
+    targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
+    versionCode libraryVersionCode
+    versionName libraryVersionName
+    testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+  }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
+  buildTypes {
+    release {
+      minifyEnabled false
     }
+  }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testImplementation rootProject.ext.deps["junit"]
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation 'androidx.appcompat:appcompat:1.2.0'
+  androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+    exclude group: 'com.android.support', module: 'support-annotations'
+  })
+  testImplementation rootProject.ext.deps["junit"]
 }

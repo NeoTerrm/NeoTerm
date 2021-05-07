@@ -14,6 +14,6 @@ implied. See the License for the specific language governing permissions and lim
 License.
 -->
 <de.mrapp.android.tabswitcher.view.TabSwitcherButton
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/tab_switcher_drawable_size"
-    android:layout_height="@dimen/tab_switcher_drawable_size"/>
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="@dimen/tab_switcher_drawable_size"
+  android:layout_height="@dimen/tab_switcher_drawable_size"/>

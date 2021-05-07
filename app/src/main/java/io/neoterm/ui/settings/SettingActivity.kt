@@ -9,21 +9,21 @@ import io.neoterm.R
  */
 class SettingActivity : BasePreferenceActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        supportActionBar?.title = getString(R.string.settings)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        addPreferencesFromResource(R.xml.settings_main)
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    supportActionBar?.title = getString(R.string.settings)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    addPreferencesFromResource(R.xml.settings_main)
+  }
 
-    override fun onBuildHeaders(target: MutableList<Header>?) {
-    }
+  override fun onBuildHeaders(target: MutableList<Header>?) {
+  }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            android.R.id.home ->
-                finish()
-        }
-        return super.onOptionsItemSelected(item)
+  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    when (item?.itemId) {
+      android.R.id.home ->
+        finish()
     }
+    return super.onOptionsItemSelected(item)
+  }
 }

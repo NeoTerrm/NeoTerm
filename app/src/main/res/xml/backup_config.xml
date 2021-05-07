@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <full-backup-content>
-    <!-- See https://developer.android.com/training/backup/autosyncapi.html -->
-    <include domain="file" path="home/.neoterm" />
+  <!-- See https://developer.android.com/training/backup/autosyncapi.html -->
+  <include domain="file" path="home/.neoterm"/>
 </full-backup-content>

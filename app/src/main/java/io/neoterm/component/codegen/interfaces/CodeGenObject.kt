@@ -6,5 +6,5 @@ import io.neoterm.component.codegen.CodeGenParameter
  * @author kiva
  */
 interface CodeGenObject {
-    fun getCodeGenerator(parameter: CodeGenParameter): CodeGenerator
+  fun getCodeGenerator(parameter: CodeGenParameter): CodeGenerator
 }

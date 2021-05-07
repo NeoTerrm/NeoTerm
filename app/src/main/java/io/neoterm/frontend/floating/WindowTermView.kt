@@ -14,26 +14,26 @@ import io.neoterm.utils.TerminalUtils
  * @author kiva
  */
 class WindowTermView(val context: Context) {
-    @SuppressLint("InflateParams")
-    var rootView: View = LayoutInflater.from(context).inflate(R.layout.ui_term_dialog, null, false)
-        private set
-    var terminalView: TerminalView = rootView.findViewById<TerminalView>(R.id.terminal_view_dialog)
-        private set
+  @SuppressLint("InflateParams")
+  var rootView: View = LayoutInflater.from(context).inflate(R.layout.ui_term_dialog, null, false)
+    private set
+  var terminalView: TerminalView = rootView.findViewById<TerminalView>(R.id.terminal_view_dialog)
+    private set
 
-    init {
-        TerminalUtils.setupTerminalView(terminalView)
-    }
+  init {
+    TerminalUtils.setupTerminalView(terminalView)
+  }
 
-    fun setTerminalViewClient(terminalViewClient: TerminalViewClient?) {
-        terminalView.setTerminalViewClient(terminalViewClient)
-    }
+  fun setTerminalViewClient(terminalViewClient: TerminalViewClient?) {
+    terminalView.setTerminalViewClient(terminalViewClient)
+  }
 
-    fun attachSession(terminalSession: TerminalSession?) {
-        terminalView.attachSession(terminalSession)
-    }
+  fun attachSession(terminalSession: TerminalSession?) {
+    terminalView.attachSession(terminalSession)
+  }
 
-    fun setInputMethodEnabled(enabled: Boolean) {
-        terminalView.isFocusable = enabled
-        terminalView.isFocusableInTouchMode = enabled
-    }
+  fun setInputMethodEnabled(enabled: Boolean) {
+    terminalView.isFocusable = enabled
+    terminalView.isFocusableInTouchMode = enabled
+  }
 }

@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/toggle_tab_switcher_menu_item"
-        android:title="@string/toggle_tab_switcher_menu_item"
-        app:actionLayout="@layout/tab_switcher_menu_item"
-        app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/toggle_tab_switcher_menu_item"
+    android:title="@string/toggle_tab_switcher_menu_item"
+    app:actionLayout="@layout/tab_switcher_menu_item"
+    app:showAsAction="ifRoom"/>
 
-    <item
-        android:id="@+id/menu_item_new_session"
-        android:title="@string/new_session"
-        app:showAsAction="never" />
+  <item
+    android:id="@+id/menu_item_new_session"
+    android:title="@string/new_session"
+    app:showAsAction="never"/>
 
-    <item
-        android:title="@string/new_session_more"
-        app:showAsAction="never">
-        <menu>
-            <item
-                android:id="@+id/menu_item_new_session_with_profile"
-                android:title="@string/new_session_with_profile"
-                app:showAsAction="never" />
+  <item
+    android:title="@string/new_session_more"
+    app:showAsAction="never">
+    <menu>
+      <item
+        android:id="@+id/menu_item_new_session_with_profile"
+        android:title="@string/new_session_with_profile"
+        app:showAsAction="never"/>
 
-            <item
-                android:id="@+id/menu_item_new_system_session"
-                android:title="@string/new_system_session"
-                app:showAsAction="never" />
+      <item
+        android:id="@+id/menu_item_new_system_session"
+        android:title="@string/new_system_session"
+        app:showAsAction="never"/>
 
-            <item
-                android:id="@+id/menu_item_new_x_session"
-                android:title="@string/new_x_session"
-                android:visible="false"
-                app:showAsAction="never" />
-        </menu>
-    </item>
+      <item
+        android:id="@+id/menu_item_new_x_session"
+        android:title="@string/new_x_session"
+        android:visible="false"
+        app:showAsAction="never"/>
+    </menu>
+  </item>
 
-    <item
-        android:id="@+id/menu_item_package_settings"
-        android:title="@string/package_settings"
-        app:showAsAction="never" />
+  <item
+    android:id="@+id/menu_item_package_settings"
+    android:title="@string/package_settings"
+    app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/menu_item_settings"
-        android:title="@string/settings"
-        app:showAsAction="never" />
+  <item
+    android:id="@+id/menu_item_settings"
+    android:title="@string/settings"
+    app:showAsAction="never"/>
 
 </menu>

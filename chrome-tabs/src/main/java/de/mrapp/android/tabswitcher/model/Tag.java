@@ -14,7 +14,6 @@
 package de.mrapp.android.tabswitcher.model;
 
 import androidx.annotation.NonNull;
-
 import de.mrapp.android.tabswitcher.TabSwitcher;
 
 import static de.mrapp.android.util.Condition.ensureNotNull;
@@ -27,105 +26,102 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  */
 public class Tag implements Cloneable {
 
-    /**
-     * The position of the tab on the dragging axis.
-     */
-    private float position;
+  /**
+   * The position of the tab on the dragging axis.
+   */
+  private float position;
 
-    /**
-     * The state of the tab.
-     */
-    private State state;
+  /**
+   * The state of the tab.
+   */
+  private State state;
 
-    /**
-     * True, if the tab is currently being closed, false otherwise
-     */
-    private boolean closing;
+  /**
+   * True, if the tab is currently being closed, false otherwise
+   */
+  private boolean closing;
 
-    /**
-     * Creates a new tag, which allows to store the properties of the tabs of a {@link
-     * TabSwitcher}.
-     */
-    public Tag() {
-        setPosition(Float.NaN);
-        setState(State.HIDDEN);
-        setClosing(false);
+  /**
+   * Creates a new tag, which allows to store the properties of the tabs of a {@link
+   * TabSwitcher}.
+   */
+  public Tag() {
+    setPosition(Float.NaN);
+    setState(State.HIDDEN);
+    setClosing(false);
+  }
+
+  /**
+   * Returns the position of the tab on the dragging axis.
+   *
+   * @return The position of the tab as a {@link Float} value
+   */
+  public final float getPosition() {
+    return position;
+  }
+
+  /**
+   * Sets the position of the tab on the dragging axis.
+   *
+   * @param position The position, which should be set, as a {@link Float} value
+   */
+  public final void setPosition(final float position) {
+    this.position = position;
+  }
+
+  /**
+   * Returns the state of the tab.
+   *
+   * @return The state of the tab as a value of the enum {@link State}. The state may not be null
+   */
+  @NonNull
+  public final State getState() {
+    return state;
+  }
+
+  /**
+   * Sets the state of the tab.
+   *
+   * @param state The state, which should be set, as a value of the enum {@link State}. The state may
+   *              not be null
+   */
+  public final void setState(@NonNull final State state) {
+    ensureNotNull(state, "The state may not be null");
+    this.state = state;
+  }
+
+  /**
+   * Returns, whether the tab is currently being closed, or not.
+   *
+   * @return True, if the tab is currently being closed, false otherwise
+   */
+  public final boolean isClosing() {
+    return closing;
+  }
+
+  /**
+   * Sets, whether the tab is currently being closed, or not.
+   *
+   * @param closing True, if the tab is currently being closed, false otherwise
+   */
+  public final void setClosing(final boolean closing) {
+    this.closing = closing;
+  }
+
+  @Override
+  public final Tag clone() {
+    Tag clone;
+
+    try {
+      clone = (Tag) super.clone();
+    } catch (ClassCastException | CloneNotSupportedException e) {
+      clone = new Tag();
     }
 
-    /**
-     * Returns the position of the tab on the dragging axis.
-     *
-     * @return The position of the tab as a {@link Float} value
-     */
-    public final float getPosition() {
-        return position;
-    }
-
-    /**
-     * Sets the position of the tab on the dragging axis.
-     *
-     * @param position
-     *         The position, which should be set, as a {@link Float} value
-     */
-    public final void setPosition(final float position) {
-        this.position = position;
-    }
-
-    /**
-     * Returns the state of the tab.
-     *
-     * @return The state of the tab as a value of the enum {@link State}. The state may not be null
-     */
-    @NonNull
-    public final State getState() {
-        return state;
-    }
-
-    /**
-     * Sets the state of the tab.
-     *
-     * @param state
-     *         The state, which should be set, as a value of the enum {@link State}. The state may
-     *         not be null
-     */
-    public final void setState(@NonNull final State state) {
-        ensureNotNull(state, "The state may not be null");
-        this.state = state;
-    }
-
-    /**
-     * Returns, whether the tab is currently being closed, or not.
-     *
-     * @return True, if the tab is currently being closed, false otherwise
-     */
-    public final boolean isClosing() {
-        return closing;
-    }
-
-    /**
-     * Sets, whether the tab is currently being closed, or not.
-     *
-     * @param closing
-     *         True, if the tab is currently being closed, false otherwise
-     */
-    public final void setClosing(final boolean closing) {
-        this.closing = closing;
-    }
-
-    @Override
-    public final Tag clone() {
-        Tag clone;
-
-        try {
-            clone = (Tag) super.clone();
-        } catch (ClassCastException | CloneNotSupportedException e) {
-            clone = new Tag();
-        }
-
-        clone.position = position;
-        clone.state = state;
-        clone.closing = closing;
-        return clone;
-    }
+    clone.position = position;
+    clone.state = state;
+    clone.closing = closing;
+    return clone;
+  }
 
 }

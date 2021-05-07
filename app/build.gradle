@@ -2,70 +2,70 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion rootProject.ext.android.COMPILE_SDK_VERSION
+  compileSdkVersion rootProject.ext.android.COMPILE_SDK_VERSION
 
-    defaultConfig {
-        applicationId "io.neoterm"
-        minSdkVersion rootProject.ext.android.MIN_SDK_VERSION
-        targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
-        versionCode 37
-        versionName "2.0.5"
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        resConfigs "zh-rCN", "zh-rTW"
-        externalNativeBuild {
-            cmake {
-                cppFlags "-std=c++11"
-                abiFilters 'arm64-v8a'
-            }
-        }
-        sourceSets {
-            main {
-                jniLibs.srcDirs = ['src/main/jniLibs']
-            }
-        }
-    }
-    buildTypes {
-        release {
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources true
-        }
-    }
+  defaultConfig {
+    applicationId "io.neoterm"
+    minSdkVersion rootProject.ext.android.MIN_SDK_VERSION
+    targetSdkVersion rootProject.ext.android.TARGET_SDK_VERSION
+    versionCode 37
+    versionName "2.0.5"
+    testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    resConfigs "zh-rCN", "zh-rTW"
     externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
+      cmake {
+        cppFlags "-std=c++11"
+        abiFilters 'arm64-v8a'
+      }
     }
-    lintOptions {
-        abortOnError false
-        checkReleaseBuilds false
+    sourceSets {
+      main {
+        jniLibs.srcDirs = ['src/main/jniLibs']
+      }
     }
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+  }
+  buildTypes {
+    release {
+      minifyEnabled true
+      zipAlignEnabled true
+      shrinkResources true
     }
+  }
+  externalNativeBuild {
+    cmake {
+      path "CMakeLists.txt"
+    }
+  }
+  lintOptions {
+    abortOnError false
+    checkReleaseBuilds false
+  }
+  compileOptions {
+    targetCompatibility 1.8
+    sourceCompatibility 1.8
+  }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation rootProject.ext.deps["junit"]
-    androidTestImplementation project(path: ':NeoLang')
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
+  testImplementation rootProject.ext.deps["junit"]
+  androidTestImplementation project(path: ':NeoLang')
 
-    implementation rootProject.ext.deps["kotlin-stdlib"]
+  implementation rootProject.ext.deps["kotlin-stdlib"]
 
-    implementation 'org.greenrobot:eventbus:3.0.0'
-    implementation 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
-    implementation 'com.github.wrdlbrnft:sorted-list-adapter:0.2.0.19'
-    implementation 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
-    implementation 'de.psdev.licensesdialog:licensesdialog:1.8.3'
-    implementation 'com.github.GrenderG:Color-O-Matic:1.1.5'
-    implementation 'androidx.annotation:annotation:1.2.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.appcompat:appcompat-resources:1.2.0'
+  implementation 'org.greenrobot:eventbus:3.0.0'
+  implementation 'com.github.wrdlbrnft:modular-adapter:0.2.0.6'
+  implementation 'com.github.wrdlbrnft:sorted-list-adapter:0.2.0.19'
+  implementation 'com.simplecityapps:recyclerview-fastscroll:1.0.16'
+  implementation 'de.psdev.licensesdialog:licensesdialog:1.8.3'
+  implementation 'com.github.GrenderG:Color-O-Matic:1.1.5'
+  implementation 'androidx.annotation:annotation:1.2.0'
+  implementation 'androidx.cardview:cardview:1.0.0'
+  implementation 'androidx.appcompat:appcompat:1.2.0'
+  implementation 'androidx.appcompat:appcompat-resources:1.2.0'
 
-    implementation project(':chrome-tabs')
-    implementation project(':NeoLang')
-    implementation project(':NeoTermBridge')
-    implementation project(':Xorg')
+  implementation project(':chrome-tabs')
+  implementation project(':NeoLang')
+  implementation project(':NeoTermBridge')
+  implementation project(':Xorg')
 }

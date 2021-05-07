@@ -6,13 +6,13 @@ import io.neolang.runtime.context.NeoLangContext
  * @author kiva
  */
 interface IVisitorCallback {
-    fun onStart()
+  fun onStart()
 
-    fun onFinish()
+  fun onFinish()
 
-    fun onEnterContext(contextName: String)
+  fun onEnterContext(contextName: String)
 
-    fun onExitContext()
+  fun onExitContext()
 
-    fun getCurrentContext() : NeoLangContext
+  fun getCurrentContext(): NeoLangContext
 }

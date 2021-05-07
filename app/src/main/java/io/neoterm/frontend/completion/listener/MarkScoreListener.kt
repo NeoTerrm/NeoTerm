@@ -5,5 +5,5 @@ package io.neoterm.frontend.completion.listener
  */
 
 interface MarkScoreListener {
-    fun onMarkScore(score: Int)
+  fun onMarkScore(score: Int)
 }

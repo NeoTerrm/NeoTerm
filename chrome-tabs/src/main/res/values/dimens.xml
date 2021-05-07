@@ -15,22 +15,22 @@ License.
 -->
 <resources>
 
-    <dimen name="tab_inset">16dp</dimen>
-    <dimen name="tab_border_width">4dp</dimen>
-    <dimen name="tab_title_container_height">48dp</dimen>
-    <dimen name="tab_title_padding">12dp</dimen>
-    <dimen name="tab_title_drawable_padding">8dp</dimen>
-    <dimen name="end_overshoot_pivot">128dp</dimen>
-    <dimen name="stacked_tab_spacing">4dp</dimen>
-    <dimen name="max_overshoot_distance">48dp</dimen>
-    <dimen name="max_camera_distance">1280dp</dimen>
-    <dimen name="min_swipe_velocity">2048dp</dimen>
-    <dimen name="drag_threshold">8dp</dimen>
-    <dimen name="swipe_threshold">24dp</dimen>
-    <dimen name="tab_switcher_drawable_size">32dp</dimen>
-    <dimen name="tab_switcher_drawable_font_size_normal">10sp</dimen>
-    <dimen name="tab_switcher_drawable_font_size_small">7sp</dimen>
-    <item name="swiped_tab_scale" format="float" type="dimen">0.5</item>
-    <item name="swiped_tab_alpha" format="float" type="dimen">0</item>
+  <dimen name="tab_inset">16dp</dimen>
+  <dimen name="tab_border_width">4dp</dimen>
+  <dimen name="tab_title_container_height">48dp</dimen>
+  <dimen name="tab_title_padding">12dp</dimen>
+  <dimen name="tab_title_drawable_padding">8dp</dimen>
+  <dimen name="end_overshoot_pivot">128dp</dimen>
+  <dimen name="stacked_tab_spacing">4dp</dimen>
+  <dimen name="max_overshoot_distance">48dp</dimen>
+  <dimen name="max_camera_distance">1280dp</dimen>
+  <dimen name="min_swipe_velocity">2048dp</dimen>
+  <dimen name="drag_threshold">8dp</dimen>
+  <dimen name="swipe_threshold">24dp</dimen>
+  <dimen name="tab_switcher_drawable_size">32dp</dimen>
+  <dimen name="tab_switcher_drawable_font_size_normal">10sp</dimen>
+  <dimen name="tab_switcher_drawable_font_size_small">7sp</dimen>
+  <item name="swiped_tab_scale" format="float" type="dimen">0.5</item>
+  <item name="swiped_tab_alpha" format="float" type="dimen">0</item>
 
 </resources>

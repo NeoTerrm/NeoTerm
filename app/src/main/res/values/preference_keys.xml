@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="key_general_bell" translatable="false">neoterm_general_bell</string>
-    <string name="key_general_vibrate" translatable="false">neoterm_general_vibrate</string>
-    <string name="key_generaL_backspace_map_to_esc" translatable="false">neoterm_general_backspace_map_to_esc</string>
-    <string name="key_general_shell" translatable="false">neoterm_general_shell</string>
-    <string name="key_general_initial_command" translatable="false">neoterm_general_initial_command</string>
-    <string name="key_general_auto_completion" translatable="false">neoterm_general_auto_completion</string>
-    <string name="key_general_volume_as_control" translatable="false">neoterm_general_volume_as_control</string>
-    <string name="key_general_use_execve_wrapper" translatable="false">neoterm_general_use_execve_wrapper</string>
-    <string name="key_general_enable_word_based_ime" translatable="false">neoterm_general_enable_word_based_ime</string>
+  <string name="key_general_bell" translatable="false">neoterm_general_bell</string>
+  <string name="key_general_vibrate" translatable="false">neoterm_general_vibrate</string>
+  <string name="key_generaL_backspace_map_to_esc" translatable="false">neoterm_general_backspace_map_to_esc</string>
+  <string name="key_general_shell" translatable="false">neoterm_general_shell</string>
+  <string name="key_general_initial_command" translatable="false">neoterm_general_initial_command</string>
+  <string name="key_general_auto_completion" translatable="false">neoterm_general_auto_completion</string>
+  <string name="key_general_volume_as_control" translatable="false">neoterm_general_volume_as_control</string>
+  <string name="key_general_use_execve_wrapper" translatable="false">neoterm_general_use_execve_wrapper</string>
+  <string name="key_general_enable_word_based_ime" translatable="false">neoterm_general_enable_word_based_ime</string>
 
-    <string name="key_ui_fullscreen" translatable="false">neoterm_ui_fullscreen</string>
-    <string name="key_ui_hide_toolbar" translatable="false">neoterm_ui_hide_toolbar</string>
-    <string name="key_ui_next_tab_anim" translatable="false">neoterm_ui_next_tab_anim</string>
-    <string name="key_ui_eks_weight_explicit" translatable="false">neoterm_ui_eks_weight_explicit</string>
-    <string name="key_ui_eks_enabled" translatable="false">neoterm_ui_eks_enabled</string>
+  <string name="key_ui_fullscreen" translatable="false">neoterm_ui_fullscreen</string>
+  <string name="key_ui_hide_toolbar" translatable="false">neoterm_ui_hide_toolbar</string>
+  <string name="key_ui_next_tab_anim" translatable="false">neoterm_ui_next_tab_anim</string>
+  <string name="key_ui_eks_weight_explicit" translatable="false">neoterm_ui_eks_weight_explicit</string>
+  <string name="key_ui_eks_enabled" translatable="false">neoterm_ui_eks_enabled</string>
 
-    <string name="key_package_source" translatable="false">neoterm_package_source</string>
+  <string name="key_package_source" translatable="false">neoterm_package_source</string>
 
-    <string name="key_customization_font" translatable="false">neoterm_ui_font</string>
-    <string name="key_customization_color_scheme" translatable="false">neoterm_ui_color_scheme</string>
+  <string name="key_customization_font" translatable="false">neoterm_ui_font</string>
+  <string name="key_customization_color_scheme" translatable="false">neoterm_ui_color_scheme</string>
 </resources>

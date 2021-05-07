@@ -1,77 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/custom_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:visibility="visible"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/custom_toolbar"
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_margin="@dimen/preview_layout_margin"
+      android:layout_weight="1.0"
+      android:background="@color/terminal_background">
+
+      <io.neoterm.frontend.terminal.extrakey.ExtraKeysView
+        android:id="@+id/custom_extra_keys"
+        style="?android:buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:visibility="visible"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+        android:layout_height="@dimen/eks_height_two_line"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:visibility="gone"/>
 
-
-    <LinearLayout
+      <io.neoterm.frontend.terminal.TerminalView
+        android:id="@+id/terminal_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_above="@id/custom_extra_keys"
+        android:fadeScrollbars="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:scrollbars="vertical"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/preview_layout_margin"
-            android:layout_weight="1.0"
-            android:background="@color/terminal_background">
+    </RelativeLayout>
 
-            <io.neoterm.frontend.terminal.extrakey.ExtraKeysView
-                android:id="@+id/custom_extra_keys"
-                style="?android:buttonBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/eks_height_two_line"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal"
-                android:visibility="gone" />
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_marginBottom="@dimen/preview_layout_margin_small"
+      android:layout_marginEnd="@dimen/preview_layout_margin_small"
+      android:layout_marginLeft="@dimen/preview_layout_margin_small"
+      android:layout_marginRight="@dimen/preview_layout_margin_small"
+      android:layout_marginStart="@dimen/preview_layout_margin_small"
+      android:layout_marginTop="0dp"
+      android:layout_weight="1.0"
+      android:orientation="vertical">
 
-            <io.neoterm.frontend.terminal.TerminalView
-                android:id="@+id/terminal_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@id/custom_extra_keys"
-                android:fadeScrollbars="true"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:scrollbars="vertical" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/preview_layout_margin_small"
-            android:layout_marginEnd="@dimen/preview_layout_margin_small"
-            android:layout_marginLeft="@dimen/preview_layout_margin_small"
-            android:layout_marginRight="@dimen/preview_layout_margin_small"
-            android:layout_marginStart="@dimen/preview_layout_margin_small"
-            android:layout_marginTop="0dp"
-            android:layout_weight="1.0"
-            android:orientation="vertical">
-
-            <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-                android:id="@+id/custom_color_color_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:fastScrollAutoHide="true"
-                app:fastScrollAutoHideDelay="1000"
-                app:fastScrollPopupBgColor="@color/colorAccent"
-                app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-                app:fastScrollThumbColor="@color/colorAccent" />
-
-        </LinearLayout>
+      <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+        android:id="@+id/custom_color_color_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:fastScrollAutoHide="true"
+        app:fastScrollAutoHideDelay="1000"
+        app:fastScrollPopupBgColor="@color/colorAccent"
+        app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+        app:fastScrollThumbColor="@color/colorAccent"/>
 
     </LinearLayout>
+
+  </LinearLayout>
 
 </LinearLayout>

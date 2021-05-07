@@ -25,22 +25,20 @@ import androidx.annotation.Nullable;
  */
 public interface Restorable {
 
-    /**
-     * Saves the current state.
-     *
-     * @param outState
-     *         The bundle, which should be used to store the saved state, as an instance of the
-     *         class {@link Bundle}. The bundle may not be null
-     */
-    void saveInstanceState(@NonNull Bundle outState);
+  /**
+   * Saves the current state.
+   *
+   * @param outState The bundle, which should be used to store the saved state, as an instance of the
+   *                 class {@link Bundle}. The bundle may not be null
+   */
+  void saveInstanceState(@NonNull Bundle outState);
 
-    /**
-     * Restores a previously saved state.
-     *
-     * @param savedInstanceState
-     *         The saved state as an instance of the class {@link Bundle} or null, if no saved state
-     *         is available
-     */
-    void restoreInstanceState(@Nullable Bundle savedInstanceState);
+  /**
+   * Restores a previously saved state.
+   *
+   * @param savedInstanceState The saved state as an instance of the class {@link Bundle} or null, if no saved state
+   *                           is available
+   */
+  void restoreInstanceState(@Nullable Bundle savedInstanceState);
 
 }

@@ -6,7 +6,7 @@ import io.neoterm.component.codegen.CodeGenParameter
  * @author kiva
  */
 abstract class CodeGenerator(parameter: CodeGenParameter) {
-    abstract fun getGeneratorName(): String
+  abstract fun getGeneratorName(): String
 
-    abstract fun generateCode(codeGenObject: CodeGenObject): String
+  abstract fun generateCode(codeGenObject: CodeGenObject): String
 }

@@ -8,11 +8,11 @@ import io.neolang.runtime.type.NeoLangValue
  * @author kiva
  */
 open class NeoLangTokenBasedNode(val token: NeoLangToken) : NeoLangBaseNode() {
-    override fun toString(): String {
-        return "${javaClass.simpleName} { token: $token }"
-    }
+  override fun toString(): String {
+    return "${javaClass.simpleName} { token: $token }"
+  }
 
-    fun eval(): NeoLangValue {
-        return token.tokenValue.value
-    }
+  fun eval(): NeoLangValue {
+    return token.tokenValue.value
+  }
 }

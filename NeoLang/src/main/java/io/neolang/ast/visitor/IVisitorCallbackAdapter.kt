@@ -6,19 +6,19 @@ import io.neolang.runtime.context.NeoLangContext
  * @author kiva
  */
 open class IVisitorCallbackAdapter : IVisitorCallback {
-    override fun onStart() {
-    }
+  override fun onStart() {
+  }
 
-    override fun onFinish() {
-    }
+  override fun onFinish() {
+  }
 
-    override fun onEnterContext(contextName: String) {
-    }
+  override fun onEnterContext(contextName: String) {
+  }
 
-    override fun onExitContext() {
-    }
+  override fun onExitContext() {
+  }
 
-    override fun getCurrentContext(): NeoLangContext {
-        throw RuntimeException("getCurrentContext() not supported in this IVisitorCallback!")
-    }
+  override fun getCurrentContext(): NeoLangContext {
+    throw RuntimeException("getCurrentContext() not supported in this IVisitorCallback!")
+  }
 }

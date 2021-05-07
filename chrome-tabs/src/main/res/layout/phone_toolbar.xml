@@ -14,12 +14,12 @@ implied. See the License for the specific language governing permissions and lim
 License.
 -->
 <androidx.appcompat.widget.Toolbar
-    android:id="@+id/primary_toolbar"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:background="@android:color/transparent"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    android:visibility="invisible"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+  android:id="@+id/primary_toolbar"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="?attr/actionBarSize"
+  android:background="@android:color/transparent"
+  android:theme="@style/ThemeOverlay.AppCompat.Dark"
+  android:visibility="invisible"
+  app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>

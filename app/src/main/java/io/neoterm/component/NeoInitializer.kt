@@ -19,24 +19,24 @@ import io.neoterm.frontend.session.shell.ShellProfile
  * @author kiva
  */
 object NeoInitializer {
-    fun init(context: Context) {
-        NLog.init(context)
-        initComponents()
-    }
+  fun init(context: Context) {
+    NLog.init(context)
+    initComponents()
+  }
 
-    fun initComponents() {
-        ComponentManager.registerComponent(ConfigureComponent::class.java)
-        ComponentManager.registerComponent(CodeGenComponent::class.java)
-        ComponentManager.registerComponent(ColorSchemeComponent::class.java)
-        ComponentManager.registerComponent(FontComponent::class.java)
-        ComponentManager.registerComponent(UserScriptComponent::class.java)
-        ComponentManager.registerComponent(ExtraKeyComponent::class.java)
-        ComponentManager.registerComponent(CompletionComponent::class.java)
-        ComponentManager.registerComponent(PackageComponent::class.java)
-        ComponentManager.registerComponent(SessionComponent::class.java)
-        ComponentManager.registerComponent(ProfileComponent::class.java)
+  fun initComponents() {
+    ComponentManager.registerComponent(ConfigureComponent::class.java)
+    ComponentManager.registerComponent(CodeGenComponent::class.java)
+    ComponentManager.registerComponent(ColorSchemeComponent::class.java)
+    ComponentManager.registerComponent(FontComponent::class.java)
+    ComponentManager.registerComponent(UserScriptComponent::class.java)
+    ComponentManager.registerComponent(ExtraKeyComponent::class.java)
+    ComponentManager.registerComponent(CompletionComponent::class.java)
+    ComponentManager.registerComponent(PackageComponent::class.java)
+    ComponentManager.registerComponent(SessionComponent::class.java)
+    ComponentManager.registerComponent(ProfileComponent::class.java)
 
-        val profileComp = ComponentManager.getComponent<ProfileComponent>()
-        profileComp.registerProfile(ShellProfile.PROFILE_META_NAME, ShellProfile::class.java)
-    }
+    val profileComp = ComponentManager.getComponent<ProfileComponent>()
+    profileComp.registerProfile(ShellProfile.PROFILE_META_NAME, ShellProfile::class.java)
+  }
 }

@@ -8,8 +8,8 @@ import java.io.File
  * @author kiva
  */
 class NeoLangConfigureLoader(private val configFile: File) : IConfigureLoader {
-    override fun loadConfigure(): NeoConfigureFile? {
-        val configureFile = NeoConfigureFile(configFile)
-        return if (configureFile.parseConfigure()) configureFile else null
-    }
+  override fun loadConfigure(): NeoConfigureFile? {
+    val configureFile = NeoConfigureFile(configFile)
+    return if (configureFile.parseConfigure()) configureFile else null
+  }
 }

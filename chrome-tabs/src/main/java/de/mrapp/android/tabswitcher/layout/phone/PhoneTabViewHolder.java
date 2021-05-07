@@ -16,7 +16,6 @@ package de.mrapp.android.tabswitcher.layout.phone;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import de.mrapp.android.tabswitcher.TabSwitcher;
 import de.mrapp.android.tabswitcher.layout.AbstractTabViewHolder;
 
@@ -29,29 +28,29 @@ import de.mrapp.android.tabswitcher.layout.AbstractTabViewHolder;
  */
 public class PhoneTabViewHolder extends AbstractTabViewHolder {
 
-    /**
-     * The view group, which contains the title and close button of a tab.
-     */
-    public ViewGroup titleContainer;
+  /**
+   * The view group, which contains the title and close button of a tab.
+   */
+  public ViewGroup titleContainer;
 
-    /**
-     * The view group, which contains the child view of a tab.
-     */
-    public ViewGroup childContainer;
+  /**
+   * The view group, which contains the child view of a tab.
+   */
+  public ViewGroup childContainer;
 
-    /**
-     * The child view, which contains the tab's content.
-     */
-    public View child;
+  /**
+   * The child view, which contains the tab's content.
+   */
+  public View child;
 
-    /**
-     * The image view, which is used to display the preview of a tab.
-     */
-    public ImageView previewImageView;
+  /**
+   * The image view, which is used to display the preview of a tab.
+   */
+  public ImageView previewImageView;
 
-    /**
-     * The view, which is used to display a border around the preview of a tab.
-     */
-    public View borderView;
+  /**
+   * The view, which is used to display a border around the preview of a tab.
+   */
+  public View borderView;
 
 }

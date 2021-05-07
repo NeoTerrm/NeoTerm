@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <io.neoterm.frontend.terminal.TerminalView
-        android:layout_margin="@dimen/text_margin"
-        android:id="@+id/terminal_view_dialog"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/terminal_dialog_height"
-        android:background="@color/terminal_background"
-        android:fadeScrollbars="true"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:scrollbars="vertical" />
+  <io.neoterm.frontend.terminal.TerminalView
+    android:layout_margin="@dimen/text_margin"
+    android:id="@+id/terminal_view_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/terminal_dialog_height"
+    android:background="@color/terminal_background"
+    android:fadeScrollbars="true"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:scrollbars="vertical"/>
 
 </RelativeLayout>

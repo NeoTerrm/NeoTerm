@@ -14,59 +14,59 @@ implied. See the License for the specific language governing permissions and lim
 License.
 -->
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <LinearLayout
+    android:id="@+id/tab_title_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/tab_title_container_height"
+    android:orientation="horizontal">
+
+    <ImageButton
+      android:id="@+id/close_tab_button"
+      android:layout_width="@dimen/tab_title_container_height"
+      android:layout_height="match_parent"
+      android:layout_gravity="center_vertical"
+      android:background="?attr/selectableItemBackgroundBorderless"
+      android:contentDescription="@null"
+      app:srcCompat="@drawable/phone_close_tab_icon"/>
+
+    <TextView
+      android:id="@+id/tab_title_text_view"
+      style="@style/Tab.Title"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:layout_weight="1"
+      android:paddingLeft="@dimen/tab_title_padding"
+      android:paddingRight="@dimen/tab_title_padding"/>
+
+  </LinearLayout>
+
+  <FrameLayout
+    android:id="@+id/child_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="?android:attr/windowBackground">
 
-    <LinearLayout
-        android:id="@+id/tab_title_container"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_title_container_height"
-        android:orientation="horizontal">
+    <ImageView
+      android:id="@+id/preview_image_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:contentDescription="@null"
+      android:scaleType="matrix"
+      android:visibility="gone"/>
 
-        <ImageButton
-            android:id="@+id/close_tab_button"
-            android:layout_width="@dimen/tab_title_container_height"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@null"
-            app:srcCompat="@drawable/phone_close_tab_icon"/>
+    <View
+      android:id="@+id/border_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/tab_title_text_view"
-            style="@style/Tab.Title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:paddingLeft="@dimen/tab_title_padding"
-            android:paddingRight="@dimen/tab_title_padding"/>
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/child_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:attr/windowBackground">
-
-        <ImageView
-            android:id="@+id/preview_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@null"
-            android:scaleType="matrix"
-            android:visibility="gone"/>
-
-        <View
-            android:id="@+id/border_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"/>
-
-    </FrameLayout>
+  </FrameLayout>
 
 </LinearLayout>

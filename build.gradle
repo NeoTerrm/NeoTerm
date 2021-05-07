@@ -4,7 +4,7 @@ buildscript {
     ext.kotlin_version = '1.4.32'
     ext.android = [
             KOTLIN_VERSION         : '1.4.32',
-            MIN_SDK_VERSION        : 21,
+            MIN_SDK_VERSION        : 26,
             COMPILE_SDK_VERSION    : 28,
             TARGET_SDK_VERSION     : 28,
             JUNIT_VERSION          : "4.12"

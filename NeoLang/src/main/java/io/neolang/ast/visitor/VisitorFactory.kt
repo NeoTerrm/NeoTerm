@@ -8,11 +8,11 @@ import io.neolang.ast.base.NeoLangAst
 
 class VisitorFactory(private val ast: NeoLangAst) {
 
-    fun getVisitor(callbackInterface: Class<out IVisitorCallback>): AstVisitor? {
-        try {
-            return AstVisitor(ast, callbackInterface.newInstance())
-        } catch (e: Exception) {
-            return null
-        }
+  fun getVisitor(callbackInterface: Class<out IVisitorCallback>): AstVisitor? {
+    try {
+      return AstVisitor(ast, callbackInterface.newInstance())
+    } catch (e: Exception) {
+      return null
     }
+  }
 }

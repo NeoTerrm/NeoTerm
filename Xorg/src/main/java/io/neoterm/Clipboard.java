@@ -22,119 +22,94 @@ freely, subject to the following restrictions:
 
 package io.neoterm;
 
-import android.os.Bundle;
-import android.os.Build;
-import android.os.Environment;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.AssetManager;
-import android.app.Activity;
-import android.view.MotionEvent;
-import android.view.KeyEvent;
-import android.view.InputDevice;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.content.ClipboardManager;
 import android.content.ClipboardManager.OnPrimaryClipChangedListener;
-import android.app.PendingIntent;
-import android.app.AlarmManager;
-import android.content.Intent;
-import android.view.View;
-import android.view.Display;
+import android.content.Context;
+import android.os.Build;
+import android.util.Log;
 
 
-public abstract class Clipboard
-{
-	public static Clipboard get()
-	{
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-			return NewerClipboard.Holder.Instance;
-		return OlderClipboard.Holder.Instance;
-	}
-	public abstract void set(final Context context, final String text);
-	public abstract String get(final Context context);
-	public abstract void setListener(final Context context, final Runnable listener);
+public abstract class Clipboard {
+  public static Clipboard get() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+      return NewerClipboard.Holder.Instance;
+    return OlderClipboard.Holder.Instance;
+  }
 
-	private static class NewerClipboard extends Clipboard
-	{
-		private static class Holder
-		{
-			private static final NewerClipboard Instance = new NewerClipboard();
-		}
-		public void set(final Context context, final String text)
-		{
-			try {
-				ClipboardManager clipboard = (ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
-				if( clipboard != null )
-					clipboard.setText(text);
-			} catch (Exception e) {
-				Log.i("SDL", "setClipboardText() exception: " + e.toString());
-			}
-		}
-		public String get(final Context context)
-		{
-			String ret = "";
-			try {
-				ClipboardManager clipboard = (ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
-				if( clipboard != null && clipboard.getText() != null )
-					ret = clipboard.getText().toString();
-			} catch (Exception e) {
-				Log.i("SDL", "getClipboardText() exception: " + e.toString());
-			}
-			return ret;
-		}
-		public void setListener(final Context context, final Runnable listener)
-		{
-			ClipboardManager clipboard = (ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
-			clipboard.addPrimaryClipChangedListener(new OnPrimaryClipChangedListener()
-			{
-				public void onPrimaryClipChanged()
-				{
-					listener.run();
-				}
-			});
-		}
-	}
+  public abstract void set(final Context context, final String text);
 
-	private static class OlderClipboard extends Clipboard
-	{
-		private static class Holder
-		{
-			private static final OlderClipboard Instance = new OlderClipboard();
-		}
-		public void set(final Context context, final String text)
-		{
-			try {
-				android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
-				if( clipboard != null )
-					clipboard.setText(text);
-			} catch (Exception e) {
-				Log.i("SDL", "setClipboardText() exception: " + e.toString());
-			}
-		}
-		public String get(final Context context)
-		{
-			String ret = "";
-			try {
-				android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
-				if( clipboard != null && clipboard.getText() != null )
-					ret = clipboard.getText().toString();
-			} catch (Exception e) {
-				Log.i("SDL", "getClipboardText() exception: " + e.toString());
-			}
-			return ret;
-		}
-		public void setListener(final Context context, final Runnable listener)
-		{
-			Log.i("SDL", "Cannot set clipboard listener on Android 2.3 or older");
-		}
-	}
+  public abstract String get(final Context context);
+
+  public abstract void setListener(final Context context, final Runnable listener);
+
+  private static class NewerClipboard extends Clipboard {
+    private static class Holder {
+      private static final NewerClipboard Instance = new NewerClipboard();
+    }
+
+    public void set(final Context context, final String text) {
+      try {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
+        if (clipboard != null)
+          clipboard.setText(text);
+      } catch (Exception e) {
+        Log.i("SDL", "setClipboardText() exception: " + e.toString());
+      }
+    }
+
+    public String get(final Context context) {
+      String ret = "";
+      try {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
+        if (clipboard != null && clipboard.getText() != null)
+          ret = clipboard.getText().toString();
+      } catch (Exception e) {
+        Log.i("SDL", "getClipboardText() exception: " + e.toString());
+      }
+      return ret;
+    }
+
+    public void setListener(final Context context, final Runnable listener) {
+      ClipboardManager clipboard = (ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
+      clipboard.addPrimaryClipChangedListener(new OnPrimaryClipChangedListener() {
+        public void onPrimaryClipChanged() {
+          listener.run();
+        }
+      });
+    }
+  }
+
+  private static class OlderClipboard extends Clipboard {
+    private static class Holder {
+      private static final OlderClipboard Instance = new OlderClipboard();
+    }
+
+    public void set(final Context context, final String text) {
+      try {
+        android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
+        if (clipboard != null)
+          clipboard.setText(text);
+      } catch (Exception e) {
+        Log.i("SDL", "setClipboardText() exception: " + e.toString());
+      }
+    }
+
+    public String get(final Context context) {
+      String ret = "";
+      try {
+        android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(context.CLIPBOARD_SERVICE);
+        if (clipboard != null && clipboard.getText() != null)
+          ret = clipboard.getText().toString();
+      } catch (Exception e) {
+        Log.i("SDL", "getClipboardText() exception: " + e.toString());
+      }
+      return ret;
+    }
+
+    public void setListener(final Context context, final Runnable listener) {
+      Log.i("SDL", "Cannot set clipboard listener on Android 2.3 or older");
+    }
+  }
 }
 
 

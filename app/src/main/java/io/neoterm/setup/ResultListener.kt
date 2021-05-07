@@ -4,5 +4,5 @@ package io.neoterm.setup
  * @author kiva
  */
 interface ResultListener {
-    fun onResult(error: Exception?)
+  fun onResult(error: Exception?)
 }

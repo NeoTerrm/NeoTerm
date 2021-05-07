@@ -6,5 +6,5 @@ import io.neoterm.frontend.completion.model.CompletionCandidate
  * @author kiva
  */
 interface OnCandidateSelectedListener {
-    fun onCandidateSelected(candidate: CompletionCandidate)
+  fun onCandidateSelected(candidate: CompletionCandidate)
 }

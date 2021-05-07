@@ -7,7 +7,7 @@ import io.neoterm.xorg.NeoXorgViewClient;
  */
 
 public class NeoAudioThread extends AudioThread {
-    public NeoAudioThread(NeoXorgViewClient client) {
-        super(client);
-    }
+  public NeoAudioThread(NeoXorgViewClient client) {
+    super(client);
+  }
 }

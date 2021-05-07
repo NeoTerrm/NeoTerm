@@ -7,9 +7,9 @@ import io.neoterm.frontend.completion.model.CompletionCandidate
  */
 
 interface ICandidateProvider {
-    val providerName: String
+  val providerName: String
 
-    fun provideCandidates(text: String): List<CompletionCandidate>?
+  fun provideCandidates(text: String): List<CompletionCandidate>?
 
-    fun canComplete(text: String): Boolean
+  fun canComplete(text: String): Boolean
 }

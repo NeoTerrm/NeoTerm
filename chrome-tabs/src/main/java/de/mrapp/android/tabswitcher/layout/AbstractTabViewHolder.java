@@ -15,7 +15,6 @@ package de.mrapp.android.tabswitcher.layout;
 
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import de.mrapp.android.tabswitcher.TabSwitcher;
 
 /**
@@ -27,14 +26,14 @@ import de.mrapp.android.tabswitcher.TabSwitcher;
  */
 public abstract class AbstractTabViewHolder {
 
-    /**
-     * The text view, which is used to display the title of a tab.
-     */
-    public TextView titleTextView;
+  /**
+   * The text view, which is used to display the title of a tab.
+   */
+  public TextView titleTextView;
 
-    /**
-     * The close button of a tab.
-     */
-    public ImageButton closeButton;
+  /**
+   * The close button of a tab.
+   */
+  public ImageButton closeButton;
 
 }

@@ -1,54 +1,54 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.4.32'
-    ext.android = [
-            KOTLIN_VERSION         : '1.4.32',
-            MIN_SDK_VERSION        : 26,
-            COMPILE_SDK_VERSION    : 28,
-            TARGET_SDK_VERSION     : 28,
-            JUNIT_VERSION          : "4.12"
-    ]
+  ext.kotlin_version = '1.4.32'
+  ext.android = [
+    KOTLIN_VERSION     : '1.4.32',
+    MIN_SDK_VERSION    : 26,
+    COMPILE_SDK_VERSION: 28,
+    TARGET_SDK_VERSION : 28,
+    JUNIT_VERSION      : "4.12"
+  ]
 
-    ext.deps = [
-            "annotations"         : "androidx.annotation:annotation:1.0.0",
-            "appcompat-v7"        : "androidx.appcompat:appcompat:1.0.0",
-            "design"              : "com.android.support:design:${ext.android.ANDROID_SUPPORT_VERSION}",
-            "cardview-v7"         : "com.android.support:cardview-v7:${ext.android.ANDROID_SUPPORT_VERSION}",
-            "kotlin-stdlib"       : "org.jetbrains.kotlin:kotlin-stdlib:${ext.android.KOTLIN_VERSION}",
-            "kotlin-gradle-plugin": "org.jetbrains.kotlin:kotlin-gradle-plugin:${ext.android.KOTLIN_VERSION}",
-            "junit"               : "junit:junit:${ext.android.JUNIT_VERSION}"
-    ]
+  ext.deps = [
+    "annotations"         : "androidx.annotation:annotation:1.0.0",
+    "appcompat-v7"        : "androidx.appcompat:appcompat:1.0.0",
+    "design"              : "com.android.support:design:${ext.android.ANDROID_SUPPORT_VERSION}",
+    "cardview-v7"         : "com.android.support:cardview-v7:${ext.android.ANDROID_SUPPORT_VERSION}",
+    "kotlin-stdlib"       : "org.jetbrains.kotlin:kotlin-stdlib:${ext.android.KOTLIN_VERSION}",
+    "kotlin-gradle-plugin": "org.jetbrains.kotlin:kotlin-gradle-plugin:${ext.android.KOTLIN_VERSION}",
+    "junit"               : "junit:junit:${ext.android.JUNIT_VERSION}"
+  ]
 
-    repositories {
-        maven { url 'https://dl.google.com/dl/android/maven2/' }
-        jcenter()
-        google()
-    }
+  repositories {
+    maven { url 'https://dl.google.com/dl/android/maven2/' }
+    jcenter()
+    google()
+  }
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath rootProject.ext.deps["kotlin-gradle-plugin"]
+  dependencies {
+    classpath 'com.android.tools.build:gradle:4.1.3'
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath rootProject.ext.deps["kotlin-gradle-plugin"]
 
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
+  }
 }
 
 allprojects {
-    repositories {
-        jcenter()
-        maven { url 'https://dl.google.com/dl/android/maven2/' }
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-        google()
-    }
+  repositories {
+    jcenter()
+    maven { url 'https://dl.google.com/dl/android/maven2/' }
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+    google()
+  }
 }
 
 task clean(type: Delete) {
-    delete rootProject.buildDir
+  delete rootProject.buildDir
 }

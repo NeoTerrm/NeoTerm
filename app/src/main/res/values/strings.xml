@@ -1,226 +1,243 @@
 <resources>
-    <string name="app_name">NeoTerm</string>
-    <string name="copy_text">Copy</string>
-    <string name="paste_text">Paste</string>
-    <string name="super_paste_text">Super Paste</string>
-    <string name="text_selection_more">More</string>
+  <string name="app_name">NeoTerm</string>
+  <string name="copy_text">Copy</string>
+  <string name="paste_text">Paste</string>
+  <string name="super_paste_text">Super Paste</string>
+  <string name="text_selection_more">More</string>
 
-    <string name="toggle_tab_switcher_menu_item">Toggle Tabs</string>
-    <string name="new_session">New Session</string>
-    <string name="new_session_more">New Session…</string>
-    <string name="new_system_session">New System Shell</string>
-    <string name="service_status_text">%d session(s), %d X session(s)</string>
-    <string name="service_lock_acquired"> (Wake Locked)</string>
-    <string name="service_acquire_lock">Acquire Lock</string>
-    <string name="service_release_lock">Release Lock</string>
+  <string name="toggle_tab_switcher_menu_item">Toggle Tabs</string>
+  <string name="new_session">New Session</string>
+  <string name="new_session_more">New Session…</string>
+  <string name="new_system_session">New System Shell</string>
+  <string name="service_status_text">%d session(s), %d X session(s)</string>
+  <string name="service_lock_acquired">(Wake Locked)</string>
+  <string name="service_acquire_lock">Acquire Lock</string>
+  <string name="service_release_lock">Release Lock</string>
 
-    <string name="setup_info">Hello, NeoTerm</string>
-    <string name="setup_next">Let\'s Go!</string>
-    <string name="setup_setup_method">Select your installation method</string>
-    <string name="setup_online">Online Setup</string>
-    <string name="setup_local">Local Zip File Setup</string>
-    <string name="setup_backup">Restore from NeoTerm Backup</string>
-    <string name="setup_source_parameter">Source Parameter</string>
-    <string name="setup_input_source_parameter">Input source parameter…</string>
-    <string name="setup_dots" translatable="false">…</string>
-    <string name="setup_hint_online">URL of mirror that contains setup zip files</string>
-    <string name="setup_hint_local">File path to showConfirmDialog zip files</string>
-    <string name="setup_hint_backup">File path to backup file(*.neobackup)</string>
-    <string name="setup_error_file_not_found">File not found</string>
-    <string name="setup_error_invalid_url">Invalid URL</string>
-    <string name="setup_error_no_internet">No Internet connection</string>
-    <string name="setup_error_connection_failed">Failed to connect to server</string>
-    <string name="setup_error_parameter_null">Setup parameter is null</string>
-    <string name="setup_preparing">Preparing…</string>
-    <string name="setup_confirm">Finish Setup</string>
-    <string name="setup_confirm_text">Everything goes well till now, continue?</string>
-    <string name="setup_reset_confirm">Reset Confirm</string>
-    <string name="setup_reset_confirm_text">This operation will clear all your data! Continue?</string>
+  <string name="setup_info">Hello, NeoTerm</string>
+  <string name="setup_next">Let\'s Go!</string>
+  <string name="setup_setup_method">Select your installation method</string>
+  <string name="setup_online">Online Setup</string>
+  <string name="setup_local">Local Zip File Setup</string>
+  <string name="setup_backup">Restore from NeoTerm Backup</string>
+  <string name="setup_source_parameter">Source Parameter</string>
+  <string name="setup_input_source_parameter">Input source parameter…</string>
+  <string name="setup_dots" translatable="false">…</string>
+  <string name="setup_hint_online">URL of mirror that contains setup zip files</string>
+  <string name="setup_hint_local">File path to showConfirmDialog zip files</string>
+  <string name="setup_hint_backup">File path to backup file(*.neobackup)</string>
+  <string name="setup_error_file_not_found">File not found</string>
+  <string name="setup_error_invalid_url">Invalid URL</string>
+  <string name="setup_error_no_internet">No Internet connection</string>
+  <string name="setup_error_connection_failed">Failed to connect to server</string>
+  <string name="setup_error_parameter_null">Setup parameter is null</string>
+  <string name="setup_preparing">Preparing…</string>
+  <string name="setup_confirm">Finish Setup</string>
+  <string name="setup_confirm_text">Everything goes well till now, continue?</string>
+  <string name="setup_reset_confirm">Reset Confirm</string>
+  <string name="setup_reset_confirm_text">This operation will clear all your data! Continue?</string>
 
-    <string name="about">About</string>
-    <string name="settings">Settings</string>
-    <string name="general_settings">General Settings</string>
-    <string name="general_settings_desc">Bell, Vibrate, Shell, Initial Command</string>
-    <string name="ui_settings">UI Settings</string>
-    <string name="ui_settings_desc">FullScreen, Title Bar, Animation</string>
-    <string name="package_settings">Package Settings</string>
-    <string name="package_settings_desc">Source, Updates, Upgrades</string>
-    <string name="customization_settings_desc">Font, ColorScheme</string>
-    <string name="customization_settings">Customization</string>
+  <string name="about">About</string>
+  <string name="settings">Settings</string>
+  <string name="general_settings">General Settings</string>
+  <string name="general_settings_desc">Bell, Vibrate, Shell, Initial Command</string>
+  <string name="ui_settings">UI Settings</string>
+  <string name="ui_settings_desc">FullScreen, Title Bar, Animation</string>
+  <string name="package_settings">Package Settings</string>
+  <string name="package_settings_desc">Source, Updates, Upgrades</string>
+  <string name="customization_settings_desc">Font, ColorScheme</string>
+  <string name="customization_settings">Customization</string>
 
-    <string name="toggle_ime">Toggle Keyboard</string>
-    <string name="float_up">Float Up</string>
-    <string name="shell_not_found">Shell %s not found</string>
-    <string name="shell_not_found_message">Would you like you install it?</string>
-    <string name="fullscreen_mode_changed">FullScreen mode changed, please restart NeoTerm.</string>
-    <string name="permission_denied">NeoTerm cannot get essential permissions, exiting.</string>
-    <string name="error">Oops!</string>
-    <string name="use_system_shell">System Shell</string>
-    <string name="retry">Retry</string>
-    <string name="source_changed">APT source changed, you may get it updated by executing: apt update</string>
-    <string name="done">Done</string>
-    <string name="install">Install</string>
-    <string name="package_details">Package: %s\nVersion: %s\nDepends: %s\nInstalled Size: %s\nDescription: %s\nHome Page: %s</string>
-    <string name="package_list_empty">Package list is empty, please check out your source.</string>
-    <string name="menu_refresh_list">Refresh</string>
-    <string name="menu_update">Update and Refresh</string>
-    <string name="install_font">Install Font</string>
-    <string name="install_color">Install Color Scheme</string>
+  <string name="toggle_ime">Toggle Keyboard</string>
+  <string name="float_up">Float Up</string>
+  <string name="shell_not_found">Shell %s not found</string>
+  <string name="shell_not_found_message">Would you like you install it?</string>
+  <string name="fullscreen_mode_changed">FullScreen mode changed, please restart NeoTerm.</string>
+  <string name="permission_denied">NeoTerm cannot get essential permissions, exiting.</string>
+  <string name="error">Oops!</string>
+  <string name="use_system_shell">System Shell</string>
+  <string name="retry">Retry</string>
+  <string name="source_changed">APT source changed, you may get it updated by executing: apt update</string>
+  <string name="done">Done</string>
+  <string name="install">Install</string>
+  <string name="package_details">Package: %s\nVersion: %s\nDepends: %s\nInstalled Size: %s\nDescription: %s\nHome
+    Page: %s
+  </string>
+  <string name="package_list_empty">Package list is empty, please check out your source.</string>
+  <string name="menu_refresh_list">Refresh</string>
+  <string name="menu_update">Update and Refresh</string>
+  <string name="install_font">Install Font</string>
+  <string name="install_color">Install Color Scheme</string>
 
-    <string name="crash_model">Model: %s</string>
-    <string name="crash_app">App: %s</string>
-    <string name="crash_stack_trace">Stack Trace</string>
+  <string name="crash_model">Model: %s</string>
+  <string name="crash_app">App: %s</string>
+  <string name="crash_stack_trace">Stack Trace</string>
 
-    <string name="installer_message">Installing</string>
-    <string name="installer_install_zsh_required">We will install oh-my-zsh and switch your login program to zsh</string>
+  <string name="installer_message">Installing</string>
+  <string name="installer_install_zsh_required">We will install oh-my-zsh and switch your login program to zsh
+  </string>
 
-    <string name="pref_general_bell">Bell</string>
-    <string name="pref_general_bell_desc">Bell when receiving \'\\a\'</string>
-    <string name="pref_general_vibrate">Vibrate</string>
-    <string name="pref_general_vibrate_desc">Vibrate when receiving \'\\a\'</string>
-    <string name="pref_general_backspace_map_to_esc">BackSpace Mapped to Esc</string>
-    <string name="pref_general_backspace_map_to_esc_desc">Send esc when backspace is pressed</string>
-    <string name="pref_general_shell">Login Program</string>
-    <string name="pref_general_shell_desc">Which program should we use as shell when login</string>
-    <string name="pref_general_initial_command">Initial Command</string>
-    <string name="pref_general_initial_command_desc">Execute commands when a session is being created</string>
-    <string name="pref_general_auto_completion">Auto Completion(Experimental)</string>
-    <string name="pref_general_auto_completion_desc">Enable complete things when typing commands or path. This is still work in progress with lots of bugs to deal with</string>
-    <string name="pref_general_volume_as_control">Use volume up and down as special keys</string>
-    <string name="pref_general_volume_as_control_desc">Volume Down as Ctrl\nVolume Up as FN</string>
-    <string name="pref_general_use_execve_wrapper">Use execve() wrapper</string>
-    <string name="pref_general_use_execve_wrapper_desc">Hook execve() to avoid incorrect shebang</string>
-    <string name="pref_general_enable_word_based_ime">Enable word based IME</string>
-    <string name="pref_general_enable_word_based_ime_desc">Word based or char based IME</string>
-    <string name="pref_ui_fullscreen">Full Screen</string>
-    <string name="pref_ui_hide_toolbar">Hide Toolbar</string>
-    <string name="pref_ui_hide_toolbar_desc">Hide toolbar when keyboard is showing</string>
-    <string name="pref_ui_close_tab_anim_next_tab">Next tab animation</string>
-    <string name="pref_ui_close_tab_anim_next_tab_desc">Switch to the next tab instead of the previous tab when closing tab</string>
-    <string name="pref_ui_eks_weight_explicit">Use explicit weight for ExtraKeysView</string>
-    <string name="pref_ui_eks_weight_explicit_desc">If ExtraKeysView shows incorrectly, please enable this</string>
-    <string name="pref_ui_eks_enabled">Show extra keys</string>
-    <string name="pref_ui_eks_enabled_desc">Some useful keys like arrow, esc, tab, etc.</string>
-    <string name="pref_customization_font">Font</string>
-    <string name="pref_customization_color_scheme">Color Scheme</string>
-    <string name="pref_customization_eks">Extra Keys</string>
-    <string name="pref_package_source">Source</string>
+  <string name="pref_general_bell">Bell</string>
+  <string name="pref_general_bell_desc">Bell when receiving \'\\a\'</string>
+  <string name="pref_general_vibrate">Vibrate</string>
+  <string name="pref_general_vibrate_desc">Vibrate when receiving \'\\a\'</string>
+  <string name="pref_general_backspace_map_to_esc">BackSpace Mapped to Esc</string>
+  <string name="pref_general_backspace_map_to_esc_desc">Send esc when backspace is pressed</string>
+  <string name="pref_general_shell">Login Program</string>
+  <string name="pref_general_shell_desc">Which program should we use as shell when login</string>
+  <string name="pref_general_initial_command">Initial Command</string>
+  <string name="pref_general_initial_command_desc">Execute commands when a session is being created</string>
+  <string name="pref_general_auto_completion">Auto Completion(Experimental)</string>
+  <string name="pref_general_auto_completion_desc">Enable complete things when typing commands or path. This is still
+    work in progress with lots of bugs to deal with
+  </string>
+  <string name="pref_general_volume_as_control">Use volume up and down as special keys</string>
+  <string name="pref_general_volume_as_control_desc">Volume Down as Ctrl\nVolume Up as FN</string>
+  <string name="pref_general_use_execve_wrapper">Use execve() wrapper</string>
+  <string name="pref_general_use_execve_wrapper_desc">Hook execve() to avoid incorrect shebang</string>
+  <string name="pref_general_enable_word_based_ime">Enable word based IME</string>
+  <string name="pref_general_enable_word_based_ime_desc">Word based or char based IME</string>
+  <string name="pref_ui_fullscreen">Full Screen</string>
+  <string name="pref_ui_hide_toolbar">Hide Toolbar</string>
+  <string name="pref_ui_hide_toolbar_desc">Hide toolbar when keyboard is showing</string>
+  <string name="pref_ui_close_tab_anim_next_tab">Next tab animation</string>
+  <string name="pref_ui_close_tab_anim_next_tab_desc">Switch to the next tab instead of the previous tab when closing
+    tab
+  </string>
+  <string name="pref_ui_eks_weight_explicit">Use explicit weight for ExtraKeysView</string>
+  <string name="pref_ui_eks_weight_explicit_desc">If ExtraKeysView shows incorrectly, please enable this</string>
+  <string name="pref_ui_eks_enabled">Show extra keys</string>
+  <string name="pref_ui_eks_enabled_desc">Some useful keys like arrow, esc, tab, etc.</string>
+  <string name="pref_customization_font">Font</string>
+  <string name="pref_customization_color_scheme">Color Scheme</string>
+  <string name="pref_customization_eks">Extra Keys</string>
+  <string name="pref_package_source">Source</string>
 
-    <string name="exit">Exit</string>
-    <string name="term_here">Term Here</string>
-    <string name="user_script">User Script</string>
-    <string name="command_shortcut">Command Shortcut</string>
-    <string name="no_user_script_found">No user script found (Did you forget to set executable permissions?)</string>
-    <string name="no_files_selected">No files selected\n\n(raw Intent: %s)</string>
-    <string name="unsupported_term_here">Unsupported term here\n\n(raw Intent: %s)</string>
-    <string name="files_to_handle">Files to Handle</string>
-    <string name="available_user_scripts">Available User Scripts</string>
-    <string name="confirm_remove_file_from_list">Remove file from list?</string>
-    <string name="confirm_remove">Remove?</string>
-    <string name="command_shortcut_display_title">Title</string>
-    <string name="command_shortcut_command">Command</string>
-    <string name="no_command_extra">No command provided, did you put extras?</string>
-    <string name="command_display_title_cannot_be_null">Display title cannot be null</string>
-    <string name="menu_upgrade">Upgrade</string>
-    <string name="apt_update_ok">Package list successfully updated</string>
-    <string name="apt_upgrade_ok">Package successfully upgraded</string>
-    <string name="installing_topic">Installation started. Please pay attention to the prompt that appears on the screen</string>
-    <string name="session_closed">Session was closed</string>
-    <string name="restore_session">Cancel</string>
-    <string name="show_help">Show Help</string>
-    <string name="service_connection_failed">Failed to connect to service</string>
-    <string name="about_version_label">Version</string>
-    <string name="about_developers_label">Developers &amp; Contributors</string>
-    <string name="about_libraries_label">Libraries</string>
-    <string name="about_source_label">Source Code</string>
-    <string name="about_reset_label">Reset App</string>
-    <string name="about_reset_label_desc">Clear all files except user home directory</string>
-    <string name="support_donate_label">Donate</string>
-    <string name="support_donate_description">If you like this app, you can offer developers a cup of coffee</string>
-    <string name="support_donate_dialog_text">This app is made in my spare time. Not only me needs to develop app, but also maintains various software packages and servers. If you can support me, I will be more motivated to improve this app.</string>
-    <string name="support_donate_alipay">Alipay</string>
-    <string name="about_developers">Kiva for Maintaining\nCrixec for Icon Design\nCoolApk User @NimaQu for providing server\nQQ User @My for providing free network</string>
-    <string name="new_color_scheme">New Color Scheme</string>
-    <string name="faq">FAQ</string>
-    <string name="new_source">New</string>
-    <string name="process_exit_info">Process completed</string>
-    <string name="process_exit_code">code %d</string>
-    <string name="process_exit_signal">signal %d</string>
-    <string name="process_exit_prompt">press Enter</string>
-    <string name="process_exit_prompt_press_back">Press Back</string>
-    <string name="save_color_info">Enter new color scheme name</string>
-    <string name="save_color_scheme_name_template">NewColorScheme</string>
-    <string name="save_color">Save color scheme</string>
-    <string name="discard_changes">Discard all changes?</string>
-    <string name="save">Save</string>
-    <string name="select_new_value">Select</string>
-    <string name="input_new_value">Enter new color</string>
-    <string name="toggle_eks">Toggle extra keys</string>
-    <string name="new_x_session">New X Session</string>
-    <string name="new_session_with_profile">New Session With Profile</string>
-    <string name="no_profile_available">No profile available</string>
-    <string name="no_file_picker">No file picker found</string>
-    <string name="input_new_source_url">Enter new URL</string>
-    <string name="input_new_source_repo">Enter new Repo</string>
-    <string name="error_new_source_url">URL cannot be empty</string>
-    <string name="error_new_source_repo">Repo cannot be empty</string>
-    <string name="sorry_for_development">This feature is still under development so it is only available on DEBUG builds.\n</string>
-    <string name="dangerous_zone">Dangerous Zone</string>
-    <string name="reset_app_warning">You will have to re-setup later, confirm?</string>
+  <string name="exit">Exit</string>
+  <string name="term_here">Term Here</string>
+  <string name="user_script">User Script</string>
+  <string name="command_shortcut">Command Shortcut</string>
+  <string name="no_user_script_found">No user script found (Did you forget to set executable permissions?)</string>
+  <string name="no_files_selected">No files selected\n\n(raw Intent: %s)</string>
+  <string name="unsupported_term_here">Unsupported term here\n\n(raw Intent: %s)</string>
+  <string name="files_to_handle">Files to Handle</string>
+  <string name="available_user_scripts">Available User Scripts</string>
+  <string name="confirm_remove_file_from_list">Remove file from list?</string>
+  <string name="confirm_remove">Remove?</string>
+  <string name="command_shortcut_display_title">Title</string>
+  <string name="command_shortcut_command">Command</string>
+  <string name="no_command_extra">No command provided, did you put extras?</string>
+  <string name="command_display_title_cannot_be_null">Display title cannot be null</string>
+  <string name="menu_upgrade">Upgrade</string>
+  <string name="apt_update_ok">Package list successfully updated</string>
+  <string name="apt_upgrade_ok">Package successfully upgraded</string>
+  <string name="installing_topic">Installation started. Please pay attention to the prompt that appears on the
+    screen
+  </string>
+  <string name="session_closed">Session was closed</string>
+  <string name="restore_session">Cancel</string>
+  <string name="show_help">Show Help</string>
+  <string name="service_connection_failed">Failed to connect to service</string>
+  <string name="about_version_label">Version</string>
+  <string name="about_developers_label">Developers &amp; Contributors</string>
+  <string name="about_libraries_label">Libraries</string>
+  <string name="about_source_label">Source Code</string>
+  <string name="about_reset_label">Reset App</string>
+  <string name="about_reset_label_desc">Clear all files except user home directory</string>
+  <string name="support_donate_label">Donate</string>
+  <string name="support_donate_description">If you like this app, you can offer developers a cup of coffee</string>
+  <string name="support_donate_dialog_text">This app is made in my spare time. Not only me needs to develop app, but
+    also maintains various software packages and servers. If you can support me, I will be more motivated to improve
+    this app.
+  </string>
+  <string name="support_donate_alipay">Alipay</string>
+  <string name="about_developers">Kiva for Maintaining\nCrixec for Icon Design\nCoolApk User @NimaQu for providing
+    server\nQQ User @My for providing free network
+  </string>
+  <string name="new_color_scheme">New Color Scheme</string>
+  <string name="faq">FAQ</string>
+  <string name="new_source">New</string>
+  <string name="process_exit_info">Process completed</string>
+  <string name="process_exit_code">code %d</string>
+  <string name="process_exit_signal">signal %d</string>
+  <string name="process_exit_prompt">press Enter</string>
+  <string name="process_exit_prompt_press_back">Press Back</string>
+  <string name="save_color_info">Enter new color scheme name</string>
+  <string name="save_color_scheme_name_template">NewColorScheme</string>
+  <string name="save_color">Save color scheme</string>
+  <string name="discard_changes">Discard all changes?</string>
+  <string name="save">Save</string>
+  <string name="select_new_value">Select</string>
+  <string name="input_new_value">Enter new color</string>
+  <string name="toggle_eks">Toggle extra keys</string>
+  <string name="new_x_session">New X Session</string>
+  <string name="new_session_with_profile">New Session With Profile</string>
+  <string name="no_profile_available">No profile available</string>
+  <string name="no_file_picker">No file picker found</string>
+  <string name="input_new_source_url">Enter new URL</string>
+  <string name="input_new_source_repo">Enter new Repo</string>
+  <string name="error_new_source_url">URL cannot be empty</string>
+  <string name="error_new_source_repo">Repo cannot be empty</string>
+  <string name="sorry_for_development">This feature is still under development so it is only available on DEBUG
+    builds.\n
+  </string>
+  <string name="dangerous_zone">Dangerous Zone</string>
+  <string name="reset_app_warning">You will have to re-setup later, confirm?</string>
 
-    <string name="default_source_url" translatable="false">https://raw.githubusercontent.com/NeoTerm/NeoTerm-repo/main</string>
+  <string name="default_source_url" translatable="false">https://raw.githubusercontent.com/NeoTerm/NeoTerm-repo/main
+  </string>
 
-    <string-array name="pref_general_shell_entries" translatable="false">
-        <item>sh</item>
-        <item>zsh</item>
-        <item>bash</item>
-        <item>fish</item>
-    </string-array>
+  <string-array name="pref_general_shell_entries" translatable="false">
+    <item>sh</item>
+    <item>zsh</item>
+    <item>bash</item>
+    <item>fish</item>
+  </string-array>
 
-    <string-array name="pref_package_source_values" translatable="false">
-        <item>@string/default_source_url</item>
-    </string-array>
+  <string-array name="pref_package_source_values" translatable="false">
+    <item>@string/default_source_url</item>
+  </string-array>
 
-    <string-array name="color_item_names">
-        <item>Background color</item>
-        <item>Foreground color</item>
-        <item>Cursor color</item>
-        <item>Dim black</item>
-        <item>Dim red</item>
-        <item>Dim green</item>
-        <item>Dim yellow</item>
-        <item>Dim blue</item>
-        <item>Dim magenta</item>
-        <item>Dim cyan</item>
-        <item>Dim white</item>
-        <item>Bright black</item>
-        <item>Bright red</item>
-        <item>Bright green</item>
-        <item>Bright yellow</item>
-        <item>Bright blue</item>
-        <item>Bright magenta</item>
-        <item>Bright cyan</item>
-        <item>Bright white</item>
-    </string-array>
+  <string-array name="color_item_names">
+    <item>Background color</item>
+    <item>Foreground color</item>
+    <item>Cursor color</item>
+    <item>Dim black</item>
+    <item>Dim red</item>
+    <item>Dim green</item>
+    <item>Dim yellow</item>
+    <item>Dim blue</item>
+    <item>Dim magenta</item>
+    <item>Dim cyan</item>
+    <item>Dim white</item>
+    <item>Bright black</item>
+    <item>Bright red</item>
+    <item>Bright green</item>
+    <item>Bright yellow</item>
+    <item>Bright blue</item>
+    <item>Bright magenta</item>
+    <item>Bright cyan</item>
+    <item>Bright white</item>
+  </string-array>
 
-    <string-array name="custom_preview_script_colors">
-        <item>Hello NeoTerm\\n</item>
-        <item>"\\e[30m    Dim black   \\e[0m\\n"</item>
-        <item>"\\e[31m    Dim red     \\e[0m\\n"</item>
-        <item>"\\e[32m    Dim green   \\e[0m\\n"</item>
-        <item>"\\e[33m    Dim yellow  \\e[0m\\n"</item>
-        <item>"\\e[34m    Dim blue    \\e[0m\\n"</item>
-        <item>"\\e[35m    Dim magenta \\e[0m\\n"</item>
-        <item>"\\e[36m    Dim cyan    \\e[0m\\n"</item>
-        <item>"\\e[37m    Dim white   \\e[0m\\n"</item>
-        <item>"\\e[1;30m    Bright black  \\e[0m\\n"</item>
-        <item>"\\e[1;31m    Bright red    \\e[0m\\n"</item>
-        <item>"\\e[1;32m    Bright green  \\e[0m\\n"</item>
-        <item>"\\e[1;33m    Bright yellow \\e[0m\\n"</item>
-        <item>"\\e[1;34m    Bright blue   \\e[0m\\n"</item>
-        <item>"\\e[1;35m    Bright magenta\\e[0m\\n"</item>
-        <item>"\\e[1;36m    Bright cyan   \\e[0m\\n"</item>
-        <item>"\\e[1;37m    Bright white  \\e[0m\\n"</item>
-    </string-array>
+  <string-array name="custom_preview_script_colors">
+    <item>Hello NeoTerm\\n</item>
+    <item>"\\e[30m Dim black \\e[0m\\n"</item>
+    <item>"\\e[31m Dim red \\e[0m\\n"</item>
+    <item>"\\e[32m Dim green \\e[0m\\n"</item>
+    <item>"\\e[33m Dim yellow \\e[0m\\n"</item>
+    <item>"\\e[34m Dim blue \\e[0m\\n"</item>
+    <item>"\\e[35m Dim magenta \\e[0m\\n"</item>
+    <item>"\\e[36m Dim cyan \\e[0m\\n"</item>
+    <item>"\\e[37m Dim white \\e[0m\\n"</item>
+    <item>"\\e[1;30m Bright black \\e[0m\\n"</item>
+    <item>"\\e[1;31m Bright red \\e[0m\\n"</item>
+    <item>"\\e[1;32m Bright green \\e[0m\\n"</item>
+    <item>"\\e[1;33m Bright yellow \\e[0m\\n"</item>
+    <item>"\\e[1;34m Bright blue \\e[0m\\n"</item>
+    <item>"\\e[1;35m Bright magenta\\e[0m\\n"</item>
+    <item>"\\e[1;36m Bright cyan \\e[0m\\n"</item>
+    <item>"\\e[1;37m Bright white \\e[0m\\n"</item>
+  </string-array>
 
 </resources>

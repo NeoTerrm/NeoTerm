@@ -21,63 +21,61 @@ package de.mrapp.android.tabswitcher;
  */
 public enum LayoutPolicy {
 
-    /**
-     * If the layout should automatically adapted, depending on whether the device is a smartphone
-     * or tablet.
-     */
-    AUTO(0),
+  /**
+   * If the layout should automatically adapted, depending on whether the device is a smartphone
+   * or tablet.
+   */
+  AUTO(0),
 
-    /**
-     * If the smartphone layout should be used, regardless of the device.
-     */
-    PHONE(1),
+  /**
+   * If the smartphone layout should be used, regardless of the device.
+   */
+  PHONE(1),
 
-    /**
-     * If the tablet layout should be used, regardless of the device.
-     */
-    TABLET(2);
+  /**
+   * If the tablet layout should be used, regardless of the device.
+   */
+  TABLET(2);
 
-    /**
-     * The value of the layout policy.
-     */
-    private int value;
+  /**
+   * The value of the layout policy.
+   */
+  private int value;
 
-    /**
-     * Creates a new layout policy.
-     *
-     * @param value
-     *         The value of the layout policy as an {@link Integer} value
-     */
-    LayoutPolicy(final int value) {
-        this.value = value;
+  /**
+   * Creates a new layout policy.
+   *
+   * @param value The value of the layout policy as an {@link Integer} value
+   */
+  LayoutPolicy(final int value) {
+    this.value = value;
+  }
+
+  /**
+   * Returns the value of the layout policy.
+   *
+   * @return The value of the layout policy as an {@link Integer} value
+   */
+  public final int getValue() {
+    return value;
+  }
+
+  /**
+   * Returns the layout policy, which corresponds to a specific value.
+   *
+   * @param value The value of the layout policy, which should be returned, as an {@link Integer}
+   *              value
+   * @return The layout policy, which corresponds to the given value, as a value of the enum
+   * {@link LayoutPolicy}
+   */
+  public static LayoutPolicy fromValue(final int value) {
+    for (LayoutPolicy layoutPolicy : values()) {
+      if (layoutPolicy.getValue() == value) {
+        return layoutPolicy;
+      }
     }
 
-    /**
-     * Returns the value of the layout policy.
-     *
-     * @return The value of the layout policy as an {@link Integer} value
-     */
-    public final int getValue() {
-        return value;
-    }
-
-    /**
-     * Returns the layout policy, which corresponds to a specific value.
-     *
-     * @param value
-     *         The value of the layout policy, which should be returned, as an {@link Integer}
-     *         value
-     * @return The layout policy, which corresponds to the given value, as a value of the enum
-     * {@link LayoutPolicy}
-     */
-    public static LayoutPolicy fromValue(final int value) {
-        for (LayoutPolicy layoutPolicy : values()) {
-            if (layoutPolicy.getValue() == value) {
-                return layoutPolicy;
-            }
-        }
-
-        throw new IllegalArgumentException("Invalid enum value: " + value);
-    }
+    throw new IllegalArgumentException("Invalid enum value: " + value);
+  }
 
 }

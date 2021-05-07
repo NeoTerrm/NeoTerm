@@ -1,382 +1,382 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:ignore="UseCompoundDrawables,ContentDescription">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              tools:ignore="UseCompoundDrawables,ContentDescription">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/about_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/about_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp">
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <LinearLayout
+      android:id="@android:id/content"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <androidx.cardview.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/list_download_item_color_dark"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:id="@android:id/content"
-            android:layout_width="match_parent"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          android:orientation="vertical">
+
+          <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="72dp"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+              android:layout_width="48dp"
+              android:layout_height="48dp"
+              android:layout_gravity="center_vertical"
+              android:scaleType="centerCrop"
+              app:srcCompat="@mipmap/about_logo"/>
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:text="@string/app_name"
+              android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+          </LinearLayout>
+
+          <LinearLayout
+            android:id="@+id/about_version_view"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="fill_parent"
+            <ImageView
+              android:layout_width="24dp"
+              android:layout_height="24dp"
+              app:srcCompat="@drawable/ic_info"/>
+
+            <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="32dp"
+              android:layout_marginStart="32dp"
+              android:orientation="vertical"
+              android:paddingBottom="8dp"
+              android:paddingTop="8dp">
+
+              <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="@color/list_download_item_color_dark"
-                app:cardUseCompatPadding="true">
+                android:text="@string/about_version_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="72dp"
-                        android:orientation="horizontal"
-                        android:padding="16dp">
-
-                        <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_gravity="center_vertical"
-                            android:scaleType="centerCrop"
-                            app:srcCompat="@mipmap/about_logo" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@string/app_name"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/about_version_view"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:orientation="horizontal"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_info" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="32dp"
-                            android:layout_marginStart="32dp"
-                            android:orientation="vertical"
-                            android:paddingBottom="8dp"
-                            android:paddingTop="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/about_version_label"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                            <TextView
-                                android:id="@+id/app_version"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/about_developers_view"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:orientation="horizontal"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_person" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="32dp"
-                            android:layout_marginStart="32dp"
-                            android:orientation="vertical"
-                            android:paddingBottom="8dp"
-                            android:paddingTop="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/about_developers_label"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/about_show_help_view"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:orientation="horizontal"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_description" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="32dp"
-                            android:layout_marginStart="32dp"
-                            android:orientation="vertical"
-                            android:paddingBottom="8dp"
-                            android:paddingTop="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/show_help"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/about_licenses_view"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="@dimen/md_list_item_height"
-                        android:orientation="horizontal"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_description" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="32dp"
-                            android:layout_marginStart="32dp"
-                            android:paddingBottom="8dp"
-                            android:paddingTop="8dp"
-                            android:text="@string/about_libraries_label"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/about_source_code_view"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:orientation="horizontal"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_github" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="32dp"
-                            android:layout_marginStart="32dp"
-                            android:orientation="vertical"
-                            android:paddingBottom="8dp"
-                            android:paddingTop="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/about_source_label"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/about_donate_view"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:orientation="horizontal"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_donate" />
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="32dp"
-                            android:layout_marginStart="32dp"
-                            android:orientation="vertical"
-                            android:paddingBottom="8dp"
-                            android:paddingTop="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/support_donate_label"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/support_donate_description"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="fill_parent"
+              <TextView
+                android:id="@+id/app_version"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="@color/list_download_item_color_dark"
-                app:cardUseCompatPadding="true">
+                android:text=""
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+            </LinearLayout>
+          </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="vertical">
+          <LinearLayout
+            android:id="@+id/about_developers_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="72dp"
-                        android:orientation="horizontal"
-                        android:padding="16dp">
+            <ImageView
+              android:layout_width="24dp"
+              android:layout_height="24dp"
+              app:srcCompat="@drawable/ic_person"/>
 
-                        <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_gravity="center_vertical"
-                            android:scaleType="centerCrop"
-                            app:srcCompat="@mipmap/ic_danger" />
+            <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="32dp"
+              android:layout_marginStart="32dp"
+              android:orientation="vertical"
+              android:paddingBottom="8dp"
+              android:paddingTop="8dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="@string/dangerous_zone"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-                    </LinearLayout>
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_developers_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
-                    <LinearLayout
-                        android:id="@+id/about_reset_app_view"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:orientation="horizontal"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp">
+            </LinearLayout>
 
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            app:srcCompat="@drawable/ic_info" />
+          </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="32dp"
-                            android:layout_marginStart="32dp"
-                            android:orientation="vertical"
-                            android:paddingBottom="8dp"
-                            android:paddingTop="8dp">
+          <LinearLayout
+            android:id="@+id/about_show_help_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/about_reset_label"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+            <ImageView
+              android:layout_width="24dp"
+              android:layout_height="24dp"
+              app:srcCompat="@drawable/ic_description"/>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/about_reset_label_desc"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+            <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="32dp"
+              android:layout_marginStart="32dp"
+              android:orientation="vertical"
+              android:paddingBottom="8dp"
+              android:paddingTop="8dp">
 
-                        </LinearLayout>
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show_help"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
 
-                    </LinearLayout>
-                </LinearLayout>
+            </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+          </LinearLayout>
+
+          <LinearLayout
+            android:id="@+id/about_licenses_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/md_list_item_height"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+              android:layout_width="24dp"
+              android:layout_height="24dp"
+              app:srcCompat="@drawable/ic_description"/>
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="32dp"
+              android:layout_marginStart="32dp"
+              android:paddingBottom="8dp"
+              android:paddingTop="8dp"
+              android:text="@string/about_libraries_label"
+              android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+          </LinearLayout>
+
+          <LinearLayout
+            android:id="@+id/about_source_code_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+              android:layout_width="24dp"
+              android:layout_height="24dp"
+              app:srcCompat="@drawable/ic_github"/>
+
+            <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="32dp"
+              android:layout_marginStart="32dp"
+              android:orientation="vertical"
+              android:paddingBottom="8dp"
+              android:paddingTop="8dp">
+
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_source_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+            </LinearLayout>
+
+          </LinearLayout>
+
+          <LinearLayout
+            android:id="@+id/about_donate_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+              android:layout_width="24dp"
+              android:layout_height="24dp"
+              app:srcCompat="@drawable/ic_donate"/>
+
+            <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="32dp"
+              android:layout_marginStart="32dp"
+              android:orientation="vertical"
+              android:paddingBottom="8dp"
+              android:paddingTop="8dp">
+
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/support_donate_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/support_donate_description"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+            </LinearLayout>
+
+          </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+
+      </androidx.cardview.widget.CardView>
+
+      <androidx.cardview.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/list_download_item_color_dark"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          android:orientation="vertical">
+
+          <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="72dp"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+              android:layout_width="48dp"
+              android:layout_height="48dp"
+              android:layout_gravity="center_vertical"
+              android:scaleType="centerCrop"
+              app:srcCompat="@mipmap/ic_danger"/>
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp"
+              android:text="@string/dangerous_zone"
+              android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+          </LinearLayout>
+
+          <LinearLayout
+            android:id="@+id/about_reset_app_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:minHeight="48dp"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+              android:layout_width="24dp"
+              android:layout_height="24dp"
+              app:srcCompat="@drawable/ic_info"/>
+
+            <LinearLayout
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="32dp"
+              android:layout_marginStart="32dp"
+              android:orientation="vertical"
+              android:paddingBottom="8dp"
+              android:paddingTop="8dp">
+
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_reset_label"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
+
+              <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_reset_label_desc"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+            </LinearLayout>
+
+          </LinearLayout>
+        </LinearLayout>
+
+      </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+  </ScrollView>
 
 </LinearLayout>

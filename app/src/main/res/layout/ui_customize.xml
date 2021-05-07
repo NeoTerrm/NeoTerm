@@ -1,122 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/custom_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:visibility="visible"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/custom_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:visibility="visible"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
-
-    <LinearLayout
-        android:layout_marginBottom="@dimen/text_margin"
-        android:id="@+id/custom_editor_layout"
-        style="?buttonBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/text_margin"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/custom_editor_line_height"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageButton
-                style="?buttonBarButtonStyle"
-                android:id="@+id/custom_install_font_button"
-                android:layout_width="@dimen/custom_install_icon_width"
-                android:layout_height="@dimen/custom_editor_line_height"
-                android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_install_white_36" />
-
-            <TextView
-                android:gravity="center"
-                android:id="@+id/custom_font_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:text="@string/pref_customization_font" />
-
-            <Spinner
-                android:id="@+id/custom_font_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_toEndOf="@id/custom_font_text"
-                android:layout_toStartOf="@id/custom_install_font_button" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/custom_editor_line_height"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageButton
-                style="?buttonBarButtonStyle"
-                android:id="@+id/custom_install_color_button"
-                android:layout_width="@dimen/custom_install_icon_width"
-                android:layout_height="@dimen/custom_editor_line_height"
-                android:layout_alignParentEnd="true"
-                app:srcCompat="@drawable/ic_install_white_36" />
-
-            <TextView
-                android:gravity="center"
-                android:id="@+id/custom_color_text"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:text="@string/pref_customization_color_scheme" />
-
-            <Spinner
-                android:id="@+id/custom_color_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_toEndOf="@id/custom_color_text"
-                android:layout_toStartOf="@id/custom_install_color_button" />
-
-        </RelativeLayout>
-    </LinearLayout>
+  <LinearLayout
+    android:layout_marginBottom="@dimen/text_margin"
+    android:id="@+id/custom_editor_layout"
+    style="?buttonBarStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_margin="@dimen/text_margin"
+    android:orientation="vertical">
 
     <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/custom_editor_line_height"
+      android:layout_gravity="center"
+      android:gravity="center"
+      android:orientation="horizontal">
+
+      <ImageButton
+        style="?buttonBarButtonStyle"
+        android:id="@+id/custom_install_font_button"
+        android:layout_width="@dimen/custom_install_icon_width"
+        android:layout_height="@dimen/custom_editor_line_height"
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@drawable/ic_install_white_36"/>
+
+      <TextView
+        android:gravity="center"
+        android:id="@+id/custom_font_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:text="@string/pref_customization_font"/>
+
+      <Spinner
+        android:id="@+id/custom_font_spinner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/custom_editor_layout"
-        android:layout_below="@id/custom_toolbar"
-        android:layout_margin="@dimen/preview_layout_margin">
-
-        <io.neoterm.frontend.terminal.extrakey.ExtraKeysView
-            android:id="@+id/custom_extra_keys"
-            style="?android:buttonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/eks_height_two_line"
-            android:layout_alignParentBottom="true"
-            android:background="@color/terminal_background"
-            android:orientation="horizontal" />
-
-        <io.neoterm.frontend.terminal.TerminalView
-            android:id="@+id/terminal_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/custom_extra_keys"
-            android:background="@color/terminal_background"
-            android:fadeScrollbars="true"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:scrollbars="vertical" />
+        android:layout_marginStart="@dimen/text_margin"
+        android:layout_toEndOf="@id/custom_font_text"
+        android:layout_toStartOf="@id/custom_install_font_button"/>
 
     </RelativeLayout>
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/custom_editor_line_height"
+      android:layout_gravity="center"
+      android:gravity="center"
+      android:orientation="horizontal">
+
+      <ImageButton
+        style="?buttonBarButtonStyle"
+        android:id="@+id/custom_install_color_button"
+        android:layout_width="@dimen/custom_install_icon_width"
+        android:layout_height="@dimen/custom_editor_line_height"
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@drawable/ic_install_white_36"/>
+
+      <TextView
+        android:gravity="center"
+        android:id="@+id/custom_color_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:text="@string/pref_customization_color_scheme"/>
+
+      <Spinner
+        android:id="@+id/custom_color_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/text_margin"
+        android:layout_toEndOf="@id/custom_color_text"
+        android:layout_toStartOf="@id/custom_install_color_button"/>
+
+    </RelativeLayout>
+  </LinearLayout>
+
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@id/custom_editor_layout"
+    android:layout_below="@id/custom_toolbar"
+    android:layout_margin="@dimen/preview_layout_margin">
+
+    <io.neoterm.frontend.terminal.extrakey.ExtraKeysView
+      android:id="@+id/custom_extra_keys"
+      style="?android:buttonBarStyle"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/eks_height_two_line"
+      android:layout_alignParentBottom="true"
+      android:background="@color/terminal_background"
+      android:orientation="horizontal"/>
+
+    <io.neoterm.frontend.terminal.TerminalView
+      android:id="@+id/terminal_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_above="@id/custom_extra_keys"
+      android:background="@color/terminal_background"
+      android:fadeScrollbars="true"
+      android:focusable="false"
+      android:focusableInTouchMode="false"
+      android:scrollbars="vertical"/>
+
+  </RelativeLayout>
 
 </RelativeLayout>

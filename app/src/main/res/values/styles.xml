@@ -1,50 +1,50 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="windowActionModeOverlay">true</item>
-    </style>
+  <!-- Base application theme. -->
+  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="windowActionModeOverlay">true</item>
+  </style>
 
-    <style name="AppTheme.Dark" parent="Theme.AppCompat">
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-    </style>
+  <style name="AppTheme.Dark" parent="Theme.AppCompat">
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="windowActionModeOverlay">true</item>
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+  </style>
 
-    <style name="AppTheme.NoActionBar" parent="@style/AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+  <style name="AppTheme.NoActionBar" parent="@style/AppTheme">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+  </style>
 
-    <style name="AppTheme.NoActionBar.Dark" parent="@style/AppTheme.Dark">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+  <style name="AppTheme.NoActionBar.Dark" parent="@style/AppTheme.Dark">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+  </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+  <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+  <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="rtl_RecyclerTabLayout">
-        <item name="rtl_tabMinWidth">72dp</item>
-        <item name="rtl_tabMaxWidth">264dp</item>
-        <item name="rtl_tabIndicatorColor">?attr/colorAccent</item>
-        <item name="rtl_tabIndicatorHeight">2dp</item>
-        <item name="rtl_tabPaddingStart">12dp</item>
-        <item name="rtl_tabPaddingEnd">12dp</item>
-        <item name="rtl_tabBackground">?attr/selectableItemBackground</item>
-        <item name="rtl_tabTextAppearance">@style/rtl_RecyclerTabLayout.Tab</item>
-        <item name="rtl_tabSelectedTextColor">?android:textColorPrimary</item>
-    </style>
+  <style name="rtl_RecyclerTabLayout">
+    <item name="rtl_tabMinWidth">72dp</item>
+    <item name="rtl_tabMaxWidth">264dp</item>
+    <item name="rtl_tabIndicatorColor">?attr/colorAccent</item>
+    <item name="rtl_tabIndicatorHeight">2dp</item>
+    <item name="rtl_tabPaddingStart">12dp</item>
+    <item name="rtl_tabPaddingEnd">12dp</item>
+    <item name="rtl_tabBackground">?attr/selectableItemBackground</item>
+    <item name="rtl_tabTextAppearance">@style/rtl_RecyclerTabLayout.Tab</item>
+    <item name="rtl_tabSelectedTextColor">?android:textColorPrimary</item>
+  </style>
 
-    <style name="rtl_RecyclerTabLayout.Tab">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">?android:textColorSecondary</item>
-        <item name="textAllCaps">true</item>
-    </style>
+  <style name="rtl_RecyclerTabLayout.Tab">
+    <item name="android:textSize">14sp</item>
+    <item name="android:textColor">?android:textColorSecondary</item>
+    <item name="textAllCaps">true</item>
+  </style>
 
 </resources>

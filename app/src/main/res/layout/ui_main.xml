@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/terminal_background"
+              android:orientation="vertical">
+
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/terminal_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:visibility="visible"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+
+  <de.mrapp.android.tabswitcher.TabSwitcher
+    android:id="@+id/tab_switcher"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/terminal_background"
-    android:orientation="vertical">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/terminal_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:visibility="visible"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
-
-
-    <de.mrapp.android.tabswitcher.TabSwitcher
-        android:id="@+id/tab_switcher"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutPolicy="auto"
-        app:tabBackgroundColor="@color/tab_background_color"
-        app:tabCloseButtonIcon="@drawable/ic_close_tab_18dp"
-        app:tabIcon="@drawable/ic_tab_icon"
-        app:tabTitleTextColor="@color/tab_title_text_color"
-        app:toolbarMenu="@menu/menu_main"
-        app:toolbarNavigationIcon="@drawable/ic_add_box_white_24dp" />
+    app:layoutPolicy="auto"
+    app:tabBackgroundColor="@color/tab_background_color"
+    app:tabCloseButtonIcon="@drawable/ic_close_tab_18dp"
+    app:tabIcon="@drawable/ic_tab_icon"
+    app:tabTitleTextColor="@color/tab_title_text_color"
+    app:toolbarMenu="@menu/menu_main"
+    app:toolbarNavigationIcon="@drawable/ic_add_box_white_24dp"/>
 
 </LinearLayout>

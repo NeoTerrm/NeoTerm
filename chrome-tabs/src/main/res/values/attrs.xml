@@ -15,20 +15,20 @@ License.
 -->
 <resources>
 
-    <declare-styleable name="TabSwitcher">
-        <attr name="android:background"/>
-        <attr name="layoutPolicy" format="enum">
-            <enum name="auto" value="0"/>
-            <enum name="phone" value="1"/>
-            <enum name="tablet" value="2"/>
-        </attr>
-        <attr name="tabIcon" format="reference"/>
-        <attr name="tabBackgroundColor" format="color"/>
-        <attr name="tabTitleTextColor" format="color"/>
-        <attr name="tabCloseButtonIcon" format="reference"/>
-        <attr name="toolbarTitle" format="string"/>
-        <attr name="toolbarMenu" format="reference"/>
-        <attr name="toolbarNavigationIcon" format="reference"/>
-    </declare-styleable>
+  <declare-styleable name="TabSwitcher">
+    <attr name="android:background"/>
+    <attr name="layoutPolicy" format="enum">
+      <enum name="auto" value="0"/>
+      <enum name="phone" value="1"/>
+      <enum name="tablet" value="2"/>
+    </attr>
+    <attr name="tabIcon" format="reference"/>
+    <attr name="tabBackgroundColor" format="color"/>
+    <attr name="tabTitleTextColor" format="color"/>
+    <attr name="tabCloseButtonIcon" format="reference"/>
+    <attr name="toolbarTitle" format="string"/>
+    <attr name="toolbarMenu" format="reference"/>
+    <attr name="toolbarNavigationIcon" format="reference"/>
+  </declare-styleable>
 
 </resources>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#607D8B</color>
-    <color name="colorPrimaryDark">#455A64</color>
-    <color name="colorAccent">#42a5f5</color>
-    <color name="terminal_background">#ff14181c</color>
-    <color name="textColor">#fefefe</color>
-    <color name="textColorSecondary">#ced7db</color>
+  <color name="colorPrimary">#607D8B</color>
+  <color name="colorPrimaryDark">#455A64</color>
+  <color name="colorAccent">#42a5f5</color>
+  <color name="terminal_background">#ff14181c</color>
+  <color name="textColor">#fefefe</color>
+  <color name="textColorSecondary">#ced7db</color>
 
-    <color name="popup_background">#7f000000</color>
-    <color name="popup_split_background">#efefef</color>
-    <color name="list_download_item_color_dark">#363636</color>
+  <color name="popup_background">#7f000000</color>
+  <color name="popup_split_background">#efefef</color>
+  <color name="list_download_item_color_dark">#363636</color>
 </resources>

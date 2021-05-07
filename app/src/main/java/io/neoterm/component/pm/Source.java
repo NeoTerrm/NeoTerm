@@ -8,22 +8,22 @@ import io.neoterm.framework.database.annotation.Table;
  */
 @Table
 public class Source {
-    @ID(autoIncrement = true)
-    private int id;
+  @ID(autoIncrement = true)
+  private int id;
 
-    public String url;
+  public String url;
 
-    public String repo;
+  public String repo;
 
-    public boolean enabled;
+  public boolean enabled;
 
-    public Source() {
-        // for Database
-    }
+  public Source() {
+    // for Database
+  }
 
-    public Source(String url, String repo, boolean enabled) {
-        this.url = url;
-        this.repo = repo;
-        this.enabled = enabled;
-    }
+  public Source(String url, String repo, boolean enabled) {
+    this.url = url;
+    this.repo = repo;
+    this.enabled = enabled;
+  }
 }

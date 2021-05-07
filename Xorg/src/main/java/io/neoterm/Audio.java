@@ -23,300 +23,256 @@ freely, subject to the following restrictions:
 package io.neoterm;
 
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.KeyEvent;
-import android.view.Window;
-import android.view.WindowManager;
-import android.media.AudioTrack;
-import android.media.AudioManager;
 import android.media.AudioFormat;
+import android.media.AudioManager;
 import android.media.AudioRecord;
+import android.media.AudioTrack;
 import android.media.MediaRecorder.AudioSource;
-import java.io.*;
 import android.util.Log;
-import java.util.concurrent.Semaphore;
-import android.Manifest;
-import android.content.pm.PackageManager;
-
 import io.neoterm.xorg.NeoXorgViewClient;
 
+import java.util.concurrent.Semaphore;
+
 @SuppressWarnings("JniMissingFunction")
-class AudioThread
-{
-	private NeoXorgViewClient mClient;
-	private AudioTrack mAudio;
-	private byte[] mAudioBuffer;
-	private int mVirtualBufSize;
+class AudioThread {
+  private NeoXorgViewClient mClient;
+  private AudioTrack mAudio;
+  private byte[] mAudioBuffer;
+  private int mVirtualBufSize;
 
-	public AudioThread(NeoXorgViewClient client)
-	{
-	    this.mClient = client;
-		mAudio = null;
-		mAudioBuffer = null;
-		nativeAudioInitJavaCallbacks();
-	}
-	
-	public int fillBuffer()
-	{
-		if( mClient.isPaused() )
-		{
-			try{
-				Thread.sleep(500);
-			} catch (InterruptedException e) {}
-		}
-		else
-		{
-			//if( Globals.AudioBufferConfig == 0 ) // Gives too much spam to logcat, makes things worse
-			//	mAudio.flush();
+  public AudioThread(NeoXorgViewClient client) {
+    this.mClient = client;
+    mAudio = null;
+    mAudioBuffer = null;
+    nativeAudioInitJavaCallbacks();
+  }
 
-			mAudio.write( mAudioBuffer, 0, mVirtualBufSize );
-		}
-		
-		return 1;
-	}
-	
-	public int initAudio(int rate, int channels, int encoding, int bufSize)
-	{
-			if( mAudio == null )
-			{
-					channels = ( channels == 1 ) ? AudioFormat.CHANNEL_CONFIGURATION_MONO : 
-													AudioFormat.CHANNEL_CONFIGURATION_STEREO;
-					encoding = ( encoding == 1 ) ? AudioFormat.ENCODING_PCM_16BIT :
-													AudioFormat.ENCODING_PCM_8BIT;
+  public int fillBuffer() {
+    if (mClient.isPaused()) {
+      try {
+        Thread.sleep(500);
+      } catch (InterruptedException e) {
+      }
+    } else {
+      //if( Globals.AudioBufferConfig == 0 ) // Gives too much spam to logcat, makes things worse
+      //	mAudio.flush();
 
-					mVirtualBufSize = bufSize;
+      mAudio.write(mAudioBuffer, 0, mVirtualBufSize);
+    }
 
-					if( AudioTrack.getMinBufferSize( rate, channels, encoding ) > bufSize )
-						bufSize = AudioTrack.getMinBufferSize( rate, channels, encoding );
+    return 1;
+  }
 
-					if(Globals.AudioBufferConfig != 0) {    // application's choice - use minimal buffer
-						bufSize = (int)((float)bufSize * (((float)(Globals.AudioBufferConfig - 1) * 2.5f) + 1.0f));
-						mVirtualBufSize = bufSize;
-					}
-					mAudioBuffer = new byte[bufSize];
+  public int initAudio(int rate, int channels, int encoding, int bufSize) {
+    if (mAudio == null) {
+      channels = (channels == 1) ? AudioFormat.CHANNEL_CONFIGURATION_MONO :
+        AudioFormat.CHANNEL_CONFIGURATION_STEREO;
+      encoding = (encoding == 1) ? AudioFormat.ENCODING_PCM_16BIT :
+        AudioFormat.ENCODING_PCM_8BIT;
 
-					mAudio = new AudioTrack(AudioManager.STREAM_MUSIC,
-												rate,
-												channels,
-												encoding,
-												bufSize,
-												AudioTrack.MODE_STREAM );
-					mAudio.play();
-			}
-			return mVirtualBufSize;
-	}
-	
-	public byte[] getBuffer()
-	{
-		return mAudioBuffer;
-	}
-	
-	public int deinitAudio()
-	{
-		if( mAudio != null )
-		{
-			mAudio.stop();
-			mAudio.release();
-			mAudio = null;
-		}
-		mAudioBuffer = null;
-		return 1;
-	}
-	
-	public int initAudioThread()
-	{
-		// Make audio thread priority higher so audio thread won't get underrun
-		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-		return 1;
-	}
-	
-	public int pauseAudioPlayback()
-	{
-		if( mAudio != null )
-		{
-			mAudio.pause();
-		}
-		if( mRecordThread != null )
-		{
-			mRecordThread.pauseRecording();
-		}
-		return 1;
-	}
+      mVirtualBufSize = bufSize;
 
-	public int resumeAudioPlayback()
-	{
-		if( mAudio != null )
-		{
-			mAudio.play();
-		}
-		if( mRecordThread != null )
-		{
-			mRecordThread.resumeRecording();
-		}
-		return 1;
-	}
+      if (AudioTrack.getMinBufferSize(rate, channels, encoding) > bufSize)
+        bufSize = AudioTrack.getMinBufferSize(rate, channels, encoding);
 
-	private native int nativeAudioInitJavaCallbacks();
+      if (Globals.AudioBufferConfig != 0) {    // application's choice - use minimal buffer
+        bufSize = (int) ((float) bufSize * (((float) (Globals.AudioBufferConfig - 1) * 2.5f) + 1.0f));
+        mVirtualBufSize = bufSize;
+      }
+      mAudioBuffer = new byte[bufSize];
 
-	// ----- Audio recording -----
+      mAudio = new AudioTrack(AudioManager.STREAM_MUSIC,
+        rate,
+        channels,
+        encoding,
+        bufSize,
+        AudioTrack.MODE_STREAM);
+      mAudio.play();
+    }
+    return mVirtualBufSize;
+  }
 
-	private RecordingThread mRecordThread = null;
-	private AudioRecord mRecorder = null;
-	private int mRecorderBufferSize = 0;
+  public byte[] getBuffer() {
+    return mAudioBuffer;
+  }
 
-	private byte[] startRecording(int rate, int channels, int encoding, int bufsize)
-	{
-		if( mRecordThread == null )
-		{
-			mRecordThread = new RecordingThread();
-			mRecordThread.start();
-		}
-		if( !mRecordThread.isStopped() )
-		{
-			Log.i("SDL", "SDL: error: application already opened audio recording device");
-			return null;
-		}
+  public int deinitAudio() {
+    if (mAudio != null) {
+      mAudio.stop();
+      mAudio.release();
+      mAudio = null;
+    }
+    mAudioBuffer = null;
+    return 1;
+  }
 
-		mRecordThread.init(bufsize);
+  public int initAudioThread() {
+    // Make audio thread priority higher so audio thread won't get underrun
+    Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+    return 1;
+  }
 
-		int channelConfig = ( channels == 1 ) ? AudioFormat.CHANNEL_IN_MONO :
-										AudioFormat.CHANNEL_IN_STEREO;
-		int encodingConfig = ( encoding == 1 ) ? AudioFormat.ENCODING_PCM_16BIT :
-										AudioFormat.ENCODING_PCM_8BIT;
+  public int pauseAudioPlayback() {
+    if (mAudio != null) {
+      mAudio.pause();
+    }
+    if (mRecordThread != null) {
+      mRecordThread.pauseRecording();
+    }
+    return 1;
+  }
 
-		int minBufDevice = AudioRecord.getMinBufferSize(rate, channelConfig, encodingConfig);
-		int minBufferSize = Math.max(bufsize * 8, minBufDevice + (bufsize - (minBufDevice % bufsize)));
-		Log.i("SDL", "SDL: app opened recording device, rate " + rate + " channels " + channels + " sample size " + (encoding+1) + " bufsize " + bufsize + " internal bufsize " + minBufferSize);
-		if( mRecorder == null || mRecorder.getSampleRate() != rate ||
-			mRecorder.getChannelCount() != channels ||
-			mRecorder.getAudioFormat() != encodingConfig ||
-			mRecorderBufferSize != minBufferSize )
-		{
-			if( mRecorder != null )
-				mRecorder.release();
-			mRecorder = null;
-			try {
-				mRecorder = new AudioRecord(AudioSource.MIC, rate, channelConfig, encodingConfig, minBufferSize);
-				mRecorderBufferSize = minBufferSize;
-			} catch (IllegalArgumentException e) {
-				Log.i("SDL", "SDL: error: failed to open MIC recording device!");
-				try {
-					mRecorder = new AudioRecord(AudioSource.VOICE_RECOGNITION, rate, channelConfig, encodingConfig, minBufferSize);
-					mRecorderBufferSize = minBufferSize;
-				} catch (IllegalArgumentException eee) {
-					Log.i("SDL", "SDL: error: failed to open VOICE_RECOGNITION recording device!");
-					try {
-						mRecorder = new AudioRecord(AudioSource.DEFAULT, rate, channelConfig, encodingConfig, minBufferSize);
-						mRecorderBufferSize = minBufferSize;
-					} catch (IllegalArgumentException eeee) {
-						Log.i("SDL", "SDL: error: failed to open DEFAULT recording device!");
-						return null;
-					}
-				}
-			}
-		}
-		else
-		{
-			Log.i("SDL", "SDL: reusing old recording device");
-		}
-		mRecordThread.startRecording();
-		return mRecordThread.mRecordBuffer;
-	}
+  public int resumeAudioPlayback() {
+    if (mAudio != null) {
+      mAudio.play();
+    }
+    if (mRecordThread != null) {
+      mRecordThread.resumeRecording();
+    }
+    return 1;
+  }
 
-	private void stopRecording()
-	{
-		if( mRecordThread == null || mRecordThread.isStopped() )
-		{
-			Log.i("SDL", "SDL: error: application already closed audio recording device");
-			return;
-		}
-		mRecordThread.stopRecording();
-		Log.i("SDL", "SDL: app closed recording device");
-	}
+  private native int nativeAudioInitJavaCallbacks();
 
-	private class RecordingThread extends Thread
-	{
-		private boolean stopped = true;
-		byte[] mRecordBuffer;
-		private Semaphore waitStarted = new Semaphore(0);
-		private boolean sleep = false;
+  // ----- Audio recording -----
 
-		RecordingThread()
-		{
-			super();
-		}
+  private RecordingThread mRecordThread = null;
+  private AudioRecord mRecorder = null;
+  private int mRecorderBufferSize = 0;
 
-		void init(int bufsize)
-		{
-			if( mRecordBuffer == null || mRecordBuffer.length != bufsize )
-				mRecordBuffer = new byte[bufsize];
-		}
+  private byte[] startRecording(int rate, int channels, int encoding, int bufsize) {
+    if (mRecordThread == null) {
+      mRecordThread = new RecordingThread();
+      mRecordThread.start();
+    }
+    if (!mRecordThread.isStopped()) {
+      Log.i("SDL", "SDL: error: application already opened audio recording device");
+      return null;
+    }
 
-		public void run()
-		{
-			while( true )
-			{
-				waitStarted.acquireUninterruptibly();
-				waitStarted.drainPermits();
-				stopped = false;
-				sleep = false;
+    mRecordThread.init(bufsize);
 
-				while( !sleep )
-				{
-					int got = mRecorder.read(mRecordBuffer, 0, mRecordBuffer.length);
-					if( got != mRecordBuffer.length )
-					{
-						// Audio is stopped here, sleep a bit.
-						try{
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {}
-					}
-					else
-					{
-						//Log.i("SDL", "SDL: nativeAudioRecordCallback with len " + mRecordBuffer.length);
-						nativeAudioRecordCallback();
-						//Log.i("SDL", "SDL: nativeAudioRecordCallback returned");
-					}
-				}
+    int channelConfig = (channels == 1) ? AudioFormat.CHANNEL_IN_MONO :
+      AudioFormat.CHANNEL_IN_STEREO;
+    int encodingConfig = (encoding == 1) ? AudioFormat.ENCODING_PCM_16BIT :
+      AudioFormat.ENCODING_PCM_8BIT;
 
-				stopped = true;
-				mRecorder.stop();
-			}
-		}
+    int minBufDevice = AudioRecord.getMinBufferSize(rate, channelConfig, encodingConfig);
+    int minBufferSize = Math.max(bufsize * 8, minBufDevice + (bufsize - (minBufDevice % bufsize)));
+    Log.i("SDL", "SDL: app opened recording device, rate " + rate + " channels " + channels + " sample size " + (encoding + 1) + " bufsize " + bufsize + " internal bufsize " + minBufferSize);
+    if (mRecorder == null || mRecorder.getSampleRate() != rate ||
+      mRecorder.getChannelCount() != channels ||
+      mRecorder.getAudioFormat() != encodingConfig ||
+      mRecorderBufferSize != minBufferSize) {
+      if (mRecorder != null)
+        mRecorder.release();
+      mRecorder = null;
+      try {
+        mRecorder = new AudioRecord(AudioSource.MIC, rate, channelConfig, encodingConfig, minBufferSize);
+        mRecorderBufferSize = minBufferSize;
+      } catch (IllegalArgumentException e) {
+        Log.i("SDL", "SDL: error: failed to open MIC recording device!");
+        try {
+          mRecorder = new AudioRecord(AudioSource.VOICE_RECOGNITION, rate, channelConfig, encodingConfig, minBufferSize);
+          mRecorderBufferSize = minBufferSize;
+        } catch (IllegalArgumentException eee) {
+          Log.i("SDL", "SDL: error: failed to open VOICE_RECOGNITION recording device!");
+          try {
+            mRecorder = new AudioRecord(AudioSource.DEFAULT, rate, channelConfig, encodingConfig, minBufferSize);
+            mRecorderBufferSize = minBufferSize;
+          } catch (IllegalArgumentException eeee) {
+            Log.i("SDL", "SDL: error: failed to open DEFAULT recording device!");
+            return null;
+          }
+        }
+      }
+    } else {
+      Log.i("SDL", "SDL: reusing old recording device");
+    }
+    mRecordThread.startRecording();
+    return mRecordThread.mRecordBuffer;
+  }
 
-		public void startRecording()
-		{
-			mRecorder.startRecording();
-			waitStarted.release();
-		}
-		public void stopRecording()
-		{
-			sleep = true;
-			while( !stopped )
-			{
-				try{
-					Thread.sleep(100);
-				} catch (InterruptedException e) {}
-			}
-		}
-		public void pauseRecording()
-		{
-			if( !stopped )
-				mRecorder.stop();
-		}
-		public void resumeRecording()
-		{
-			if( !stopped )
-				mRecorder.startRecording();
-		}
-		public boolean isStopped()
-		{
-			return stopped;
-		}
-	}
+  private void stopRecording() {
+    if (mRecordThread == null || mRecordThread.isStopped()) {
+      Log.i("SDL", "SDL: error: application already closed audio recording device");
+      return;
+    }
+    mRecordThread.stopRecording();
+    Log.i("SDL", "SDL: app closed recording device");
+  }
 
-	private native void nativeAudioRecordCallback();
+  private class RecordingThread extends Thread {
+    private boolean stopped = true;
+    byte[] mRecordBuffer;
+    private Semaphore waitStarted = new Semaphore(0);
+    private boolean sleep = false;
+
+    RecordingThread() {
+      super();
+    }
+
+    void init(int bufsize) {
+      if (mRecordBuffer == null || mRecordBuffer.length != bufsize)
+        mRecordBuffer = new byte[bufsize];
+    }
+
+    public void run() {
+      while (true) {
+        waitStarted.acquireUninterruptibly();
+        waitStarted.drainPermits();
+        stopped = false;
+        sleep = false;
+
+        while (!sleep) {
+          int got = mRecorder.read(mRecordBuffer, 0, mRecordBuffer.length);
+          if (got != mRecordBuffer.length) {
+            // Audio is stopped here, sleep a bit.
+            try {
+              Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            }
+          } else {
+            //Log.i("SDL", "SDL: nativeAudioRecordCallback with len " + mRecordBuffer.length);
+            nativeAudioRecordCallback();
+            //Log.i("SDL", "SDL: nativeAudioRecordCallback returned");
+          }
+        }
+
+        stopped = true;
+        mRecorder.stop();
+      }
+    }
+
+    public void startRecording() {
+      mRecorder.startRecording();
+      waitStarted.release();
+    }
+
+    public void stopRecording() {
+      sleep = true;
+      while (!stopped) {
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException e) {
+        }
+      }
+    }
+
+    public void pauseRecording() {
+      if (!stopped)
+        mRecorder.stop();
+    }
+
+    public void resumeRecording() {
+      if (!stopped)
+        mRecorder.startRecording();
+    }
+
+    public boolean isStopped() {
+      return stopped;
+    }
+  }
+
+  private native void nativeAudioRecordCallback();
 }

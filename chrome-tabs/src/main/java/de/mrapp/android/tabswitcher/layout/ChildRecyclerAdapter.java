@@ -15,13 +15,12 @@ package de.mrapp.android.tabswitcher.layout;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import de.mrapp.android.tabswitcher.Tab;
 import de.mrapp.android.tabswitcher.TabSwitcher;
 import de.mrapp.android.tabswitcher.TabSwitcherDecorator;
@@ -38,100 +37,98 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  * @since 0.1.0
  */
 public class ChildRecyclerAdapter extends AbstractViewRecycler.Adapter<Tab, Void>
-        implements Restorable {
+  implements Restorable {
 
-    /**
-     * The name of the extra, which is used to store the saved instance states of previously removed
-     * child views within a bundle.
-     */
-    private static final String SAVED_INSTANCE_STATES_EXTRA =
-            ChildRecyclerAdapter.class.getName() + "::SavedInstanceStates";
+  /**
+   * The name of the extra, which is used to store the saved instance states of previously removed
+   * child views within a bundle.
+   */
+  private static final String SAVED_INSTANCE_STATES_EXTRA =
+    ChildRecyclerAdapter.class.getName() + "::SavedInstanceStates";
 
-    /**
-     * The tab switcher, which contains the tabs, the child views, which are inflated by the
-     * adapter, correspond to.
-     */
-    private final TabSwitcher tabSwitcher;
+  /**
+   * The tab switcher, which contains the tabs, the child views, which are inflated by the
+   * adapter, correspond to.
+   */
+  private final TabSwitcher tabSwitcher;
 
-    /**
-     * The decorator, which is used to inflate the child views.
-     */
-    private final TabSwitcherDecorator decorator;
+  /**
+   * The decorator, which is used to inflate the child views.
+   */
+  private final TabSwitcherDecorator decorator;
 
-    /**
-     * A sparse array, which manages the saved instance states of previously removed child views.
-     */
-    private SparseArray<Bundle> savedInstanceStates;
+  /**
+   * A sparse array, which manages the saved instance states of previously removed child views.
+   */
+  private SparseArray<Bundle> savedInstanceStates;
 
-    /**
-     * Creates a new view recycler adapter, which allows to inflate the views, which are used to
-     * visualize the child views of the tabs of a {@link TabSwitcher}, by encapsulating a {@link
-     * TabSwitcherDecorator}.
-     *
-     * @param tabSwitcher
-     *         The tab switcher, which contains the tabs, the child views, which are inflated by the
-     *         adapter, correspond to, as an instance of the class {@link TabSwitcher}. The tab
-     *         switcher may not be null
-     * @param decorator
-     *         The decorator, which should be used to inflate the child views, as an instance of the
-     *         class {@link TabSwitcherDecorator}. The decorator may not be null
-     */
-    public ChildRecyclerAdapter(@NonNull final TabSwitcher tabSwitcher,
-                                @NonNull final TabSwitcherDecorator decorator) {
-        ensureNotNull(tabSwitcher, "The tab switcher may not be null");
-        ensureNotNull(decorator, "The decorator may not be null");
-        this.tabSwitcher = tabSwitcher;
-        this.decorator = decorator;
-        this.savedInstanceStates = new SparseArray<>();
+  /**
+   * Creates a new view recycler adapter, which allows to inflate the views, which are used to
+   * visualize the child views of the tabs of a {@link TabSwitcher}, by encapsulating a {@link
+   * TabSwitcherDecorator}.
+   *
+   * @param tabSwitcher The tab switcher, which contains the tabs, the child views, which are inflated by the
+   *                    adapter, correspond to, as an instance of the class {@link TabSwitcher}. The tab
+   *                    switcher may not be null
+   * @param decorator   The decorator, which should be used to inflate the child views, as an instance of the
+   *                    class {@link TabSwitcherDecorator}. The decorator may not be null
+   */
+  public ChildRecyclerAdapter(@NonNull final TabSwitcher tabSwitcher,
+                              @NonNull final TabSwitcherDecorator decorator) {
+    ensureNotNull(tabSwitcher, "The tab switcher may not be null");
+    ensureNotNull(decorator, "The decorator may not be null");
+    this.tabSwitcher = tabSwitcher;
+    this.decorator = decorator;
+    this.savedInstanceStates = new SparseArray<>();
+  }
+
+  @NonNull
+  @Override
+  public final View onInflateView(@NonNull final LayoutInflater inflater,
+                                  @Nullable final ViewGroup parent, @NonNull final Tab item,
+                                  final int viewType, @NonNull final Void... params) {
+    int index = tabSwitcher.indexOf(item);
+    return decorator.inflateView(inflater, parent, item, index);
+  }
+
+  @Override
+  public final void onShowView(@NonNull final Context context, @NonNull final View view,
+                               @NonNull final Tab item, final boolean inflated,
+                               @NonNull final Void... params) {
+    int index = tabSwitcher.indexOf(item);
+    Bundle savedInstanceState = savedInstanceStates.get(item.hashCode());
+    decorator.applyDecorator(context, tabSwitcher, view, item, index, savedInstanceState);
+  }
+
+  @Override
+  public final void onRemoveView(@NonNull final View view, @NonNull final Tab item) {
+    int index = tabSwitcher.indexOf(item);
+    Bundle outState = decorator.saveInstanceState(view, item, index);
+    savedInstanceStates.put(item.hashCode(), outState);
+  }
+
+  @Override
+  public final int getViewTypeCount() {
+    return decorator.getViewTypeCount();
+  }
+
+  @Override
+  public final int getViewType(@NonNull final Tab item) {
+    int index = tabSwitcher.indexOf(item);
+    return decorator.getViewType(item, index);
+  }
+
+  @Override
+  public final void saveInstanceState(@NonNull final Bundle outState) {
+    outState.putSparseParcelableArray(SAVED_INSTANCE_STATES_EXTRA, savedInstanceStates);
+  }
+
+  @Override
+  public final void restoreInstanceState(@Nullable final Bundle savedInstanceState) {
+    if (savedInstanceState != null) {
+      savedInstanceStates =
+        savedInstanceState.getSparseParcelableArray(SAVED_INSTANCE_STATES_EXTRA);
     }
-
-    @NonNull
-    @Override
-    public final View onInflateView(@NonNull final LayoutInflater inflater,
-                                    @Nullable final ViewGroup parent, @NonNull final Tab item,
-                                    final int viewType, @NonNull final Void... params) {
-        int index = tabSwitcher.indexOf(item);
-        return decorator.inflateView(inflater, parent, item, index);
-    }
-
-    @Override
-    public final void onShowView(@NonNull final Context context, @NonNull final View view,
-                                 @NonNull final Tab item, final boolean inflated,
-                                 @NonNull final Void... params) {
-        int index = tabSwitcher.indexOf(item);
-        Bundle savedInstanceState = savedInstanceStates.get(item.hashCode());
-        decorator.applyDecorator(context, tabSwitcher, view, item, index, savedInstanceState);
-    }
-
-    @Override
-    public final void onRemoveView(@NonNull final View view, @NonNull final Tab item) {
-        int index = tabSwitcher.indexOf(item);
-        Bundle outState = decorator.saveInstanceState(view, item, index);
-        savedInstanceStates.put(item.hashCode(), outState);
-    }
-
-    @Override
-    public final int getViewTypeCount() {
-        return decorator.getViewTypeCount();
-    }
-
-    @Override
-    public final int getViewType(@NonNull final Tab item) {
-        int index = tabSwitcher.indexOf(item);
-        return decorator.getViewType(item, index);
-    }
-
-    @Override
-    public final void saveInstanceState(@NonNull final Bundle outState) {
-        outState.putSparseParcelableArray(SAVED_INSTANCE_STATES_EXTRA, savedInstanceStates);
-    }
-
-    @Override
-    public final void restoreInstanceState(@Nullable final Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            savedInstanceStates =
-                    savedInstanceState.getSparseParcelableArray(SAVED_INSTANCE_STATES_EXTRA);
-        }
-    }
+  }
 
 }

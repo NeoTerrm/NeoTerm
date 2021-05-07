@@ -9,40 +9,40 @@ import java.io.InputStream
  */
 
 abstract class OfflineConnection : SourceConnection {
-    private var inputStream: InputStream? = null
+  private var inputStream: InputStream? = null
 
-    @Throws(IOException::class)
-    protected abstract fun openInputStream(): InputStream
+  @Throws(IOException::class)
+  protected abstract fun openInputStream(): InputStream
 
-    @Throws(IOException::class)
-    override fun getInputStream(): InputStream {
-        if (inputStream == null) {
-            inputStream = openInputStream()
-        }
-        return inputStream!!
+  @Throws(IOException::class)
+  override fun getInputStream(): InputStream {
+    if (inputStream == null) {
+      inputStream = openInputStream()
     }
+    return inputStream!!
+  }
 
-    override fun getSize(): Int {
-        if (inputStream != null) {
-            return try {
-                inputStream!!.available()
-            } catch (e: IOException) {
-                e.printStackTrace()
-                0
-            }
+  override fun getSize(): Int {
+    if (inputStream != null) {
+      return try {
+        inputStream!!.available()
+      } catch (e: IOException) {
+        e.printStackTrace()
+        0
+      }
 
-        }
-        return 0
     }
+    return 0
+  }
 
-    override fun close() {
-        if (inputStream != null) {
-            try {
-                inputStream!!.close()
-            } catch (ignore: IOException) {
-                ignore.printStackTrace()
-            }
+  override fun close() {
+    if (inputStream != null) {
+      try {
+        inputStream!!.close()
+      } catch (ignore: IOException) {
+        ignore.printStackTrace()
+      }
 
-        }
     }
+  }
 }

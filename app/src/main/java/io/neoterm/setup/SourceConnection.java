@@ -7,9 +7,9 @@ import java.io.InputStream;
  * @author kiva
  */
 public interface SourceConnection {
-    InputStream getInputStream() throws IOException;
+  InputStream getInputStream() throws IOException;
 
-    int getSize();
+  int getSize();
 
-    void close();
+  void close();
 }

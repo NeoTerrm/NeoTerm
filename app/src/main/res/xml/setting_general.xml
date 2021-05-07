@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:defaultValue="bash"
-        android:entries="@array/pref_general_shell_entries"
-        android:entryValues="@array/pref_general_shell_entries"
-        android:key="@string/key_general_shell"
-        android:summary="@string/pref_general_shell_desc"
-        android:title="@string/pref_general_shell" />
+  <ListPreference
+    android:defaultValue="bash"
+    android:entries="@array/pref_general_shell_entries"
+    android:entryValues="@array/pref_general_shell_entries"
+    android:key="@string/key_general_shell"
+    android:summary="@string/pref_general_shell_desc"
+    android:title="@string/pref_general_shell"/>
 
-    <EditTextPreference
-        android:key="@string/key_general_initial_command"
-        android:summary="@string/pref_general_initial_command_desc"
-        android:title="@string/pref_general_initial_command" />
+  <EditTextPreference
+    android:key="@string/key_general_initial_command"
+    android:summary="@string/pref_general_initial_command_desc"
+    android:title="@string/pref_general_initial_command"/>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/key_general_bell"
-        android:summary="@string/pref_general_bell_desc"
-        android:title="@string/pref_general_bell" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:key="@string/key_general_bell"
+    android:summary="@string/pref_general_bell_desc"
+    android:title="@string/pref_general_bell"/>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/key_general_vibrate"
-        android:summary="@string/pref_general_vibrate_desc"
-        android:title="@string/pref_general_vibrate" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:key="@string/key_general_vibrate"
+    android:summary="@string/pref_general_vibrate_desc"
+    android:title="@string/pref_general_vibrate"/>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/key_generaL_backspace_map_to_esc"
-        android:summary="@string/pref_general_backspace_map_to_esc_desc"
-        android:title="@string/pref_general_backspace_map_to_esc" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:key="@string/key_generaL_backspace_map_to_esc"
+    android:summary="@string/pref_general_backspace_map_to_esc_desc"
+    android:title="@string/pref_general_backspace_map_to_esc"/>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/key_general_volume_as_control"
-        android:summary="@string/pref_general_volume_as_control_desc"
-        android:title="@string/pref_general_volume_as_control" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:key="@string/key_general_volume_as_control"
+    android:summary="@string/pref_general_volume_as_control_desc"
+    android:title="@string/pref_general_volume_as_control"/>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/key_general_use_execve_wrapper"
-        android:summary="@string/pref_general_use_execve_wrapper_desc"
-        android:title="@string/pref_general_use_execve_wrapper" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:key="@string/key_general_use_execve_wrapper"
+    android:summary="@string/pref_general_use_execve_wrapper_desc"
+    android:title="@string/pref_general_use_execve_wrapper"/>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/key_general_enable_word_based_ime"
-        android:summary="@string/pref_general_enable_word_based_ime_desc"
-        android:title="@string/pref_general_enable_word_based_ime" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:key="@string/key_general_enable_word_based_ime"
+    android:summary="@string/pref_general_enable_word_based_ime_desc"
+    android:title="@string/pref_general_enable_word_based_ime"/>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/key_general_auto_completion"
-        android:summary="@string/pref_general_auto_completion_desc"
-        android:title="@string/pref_general_auto_completion" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:key="@string/key_general_auto_completion"
+    android:summary="@string/pref_general_auto_completion_desc"
+    android:title="@string/pref_general_auto_completion"/>
 
 </PreferenceScreen>

@@ -1,198 +1,198 @@
 package io.neoterm.framework.database;
 
-import java.lang.reflect.Field;
-
 import io.neoterm.framework.database.annotation.ID;
 import io.neoterm.framework.database.bean.TableInfo;
+
+import java.lang.reflect.Field;
 
 /**
  * @author kiva
  */
 public class SQLStatementHelper {
 
-    /**
-     * 构造<b>创建表</b>的语句
-     *
-     * @param tableInfo 表信息
-     * @return 创建表的SQL语句
-     */
-    public static String createTable(TableInfo tableInfo) {
-        StringBuilder statement = new StringBuilder();
+  /**
+   * 构造<b>创建表</b>的语句
+   *
+   * @param tableInfo 表信息
+   * @return 创建表的SQL语句
+   */
+  public static String createTable(TableInfo tableInfo) {
+    StringBuilder statement = new StringBuilder();
 
-        statement.append("CREATE TABLE ").append("'")
-                .append(tableInfo.tableName).append("'")
-                .append(" (");
+    statement.append("CREATE TABLE ").append("'")
+      .append(tableInfo.tableName).append("'")
+      .append(" (");
 
-        if (tableInfo.containID) {
-            DatabaseDataType dataType = SQLTypeParser.getDataType(tableInfo.primaryField);
-            if (dataType == null) {
-                throw new IllegalArgumentException("Type of " + tableInfo.primaryField.getType().getName() + " is not support in WelikeDB.");
-            }
-            statement.append("'").append(tableInfo.primaryField.getName()).append("'");
-            switch (dataType) {
-                case INTEGER:
-                    statement.append(" INTEGER PRIMARY KEY ");
-                    ID id = tableInfo.primaryField.getAnnotation(ID.class);
-                    if (id != null && id.autoIncrement()) {
-                        statement.append("AUTOINCREMENT");
-                    }
-                    break;
-                default:
-                    statement
-                            .append("  ")
-                            .append(dataType.name())
-                            .append(" PRIMARY KEY");
-            }
+    if (tableInfo.containID) {
+      DatabaseDataType dataType = SQLTypeParser.getDataType(tableInfo.primaryField);
+      if (dataType == null) {
+        throw new IllegalArgumentException("Type of " + tableInfo.primaryField.getType().getName() + " is not support in WelikeDB.");
+      }
+      statement.append("'").append(tableInfo.primaryField.getName()).append("'");
+      switch (dataType) {
+        case INTEGER:
+          statement.append(" INTEGER PRIMARY KEY ");
+          ID id = tableInfo.primaryField.getAnnotation(ID.class);
+          if (id != null && id.autoIncrement()) {
+            statement.append("AUTOINCREMENT");
+          }
+          break;
+        default:
+          statement
+            .append("  ")
+            .append(dataType.name())
+            .append(" PRIMARY KEY");
+      }
 
-            statement.append(",");
-
-
-        } else {
-            statement.append("'_id' INTEGER PRIMARY KEY AUTOINCREMENT,");
-        }
+      statement.append(",");
 
 
-        for (Field field : tableInfo.fieldToDataTypeMap.keySet()) {
-            DatabaseDataType dataType = tableInfo.fieldToDataTypeMap.get(field);
-            statement.append("'").append(field.getName()).append("'")
-                    .append(" ")
-                    .append(dataType.name());
-            if (!dataType.nullable) {
-                statement.append(" NOT NULL");
-            }
-            statement.append(",");
-        }
-        //删掉最后一个逗号
-        statement.deleteCharAt(statement.length() - 1);
-        statement.append(")");
-
-        return statement.toString();
-    }
-
-    /**
-     * 构建 插入一个Bean 的语句.
-     *
-     * @param o
-     * @return
-     */
-    public static String insertIntoTable(Object o) {
-        TableInfo tableInfo = TableHelper.from(o.getClass());
-        StringBuilder statement = new StringBuilder();
-        statement.append("INSERT INTO ").append(tableInfo.tableName).append(" ");
-        statement.append("VALUES(");
-
-        if (tableInfo.containID) {
-            DatabaseDataType primaryDataType = SQLTypeParser.getDataType(tableInfo.primaryField);
-            switch (primaryDataType) {
-                case INTEGER:
-                    statement.append("NULL,");
-                    break;
-                default:
-                    try {
-                        statement
-                                .append(ValueHelper.valueToString(primaryDataType, tableInfo.primaryField, o))
-                                .append(",");
-                    } catch (IllegalAccessException ignored) {
-                    }
-                    break;
-            }
-
-        } else {
-            statement.append("NULL,");
-        }
-
-        for (Field field : tableInfo.fieldToDataTypeMap.keySet()) {
-            DatabaseDataType dataType = tableInfo.fieldToDataTypeMap.get(field);
-            try {
-                statement.append(ValueHelper.valueToString(dataType, field, o)).append(",");
-            } catch (IllegalAccessException e) {
-                //不会发生...
-            }
-        }
-        statement.deleteCharAt(statement.length() - 1);
-        statement.append(")");
-
-        return statement.toString();
-
-    }
-
-    /**
-     * 根据where条件创建选择语句
-     *
-     * @param tableInfo
-     * @param where
-     * @return
-     */
-    public static String findByWhere(TableInfo tableInfo, String where) {
-        StringBuilder statement = new StringBuilder("SELECT * FROM ");
-        statement
-                .append(tableInfo.tableName)
-                .append(" ")
-                .append("WHERE ")
-                .append(where);
-
-        return statement.toString();
+    } else {
+      statement.append("'_id' INTEGER PRIMARY KEY AUTOINCREMENT,");
     }
 
 
-    /**
-     * 根据where条件创建删除语句
-     *
-     * @param tableInfo
-     * @param where
-     * @return
-     */
-    public static String deleteByWhere(TableInfo tableInfo, String where) {
-        StringBuilder statement = new StringBuilder("DELETE FROM ");
-        statement
-                .append(tableInfo.tableName)
-                .append(" ")
-                .append("WHERE ")
-                .append(where);
+    for (Field field : tableInfo.fieldToDataTypeMap.keySet()) {
+      DatabaseDataType dataType = tableInfo.fieldToDataTypeMap.get(field);
+      statement.append("'").append(field.getName()).append("'")
+        .append(" ")
+        .append(dataType.name());
+      if (!dataType.nullable) {
+        statement.append(" NOT NULL");
+      }
+      statement.append(",");
+    }
+    //删掉最后一个逗号
+    statement.deleteCharAt(statement.length() - 1);
+    statement.append(")");
 
-        return statement.toString();
+    return statement.toString();
+  }
+
+  /**
+   * 构建 插入一个Bean 的语句.
+   *
+   * @param o
+   * @return
+   */
+  public static String insertIntoTable(Object o) {
+    TableInfo tableInfo = TableHelper.from(o.getClass());
+    StringBuilder statement = new StringBuilder();
+    statement.append("INSERT INTO ").append(tableInfo.tableName).append(" ");
+    statement.append("VALUES(");
+
+    if (tableInfo.containID) {
+      DatabaseDataType primaryDataType = SQLTypeParser.getDataType(tableInfo.primaryField);
+      switch (primaryDataType) {
+        case INTEGER:
+          statement.append("NULL,");
+          break;
+        default:
+          try {
+            statement
+              .append(ValueHelper.valueToString(primaryDataType, tableInfo.primaryField, o))
+              .append(",");
+          } catch (IllegalAccessException ignored) {
+          }
+          break;
+      }
+
+    } else {
+      statement.append("NULL,");
     }
 
-    /**
-     * 根据where条件创建更新语句
-     *
-     * @param tableInfo
-     * @param bean
-     * @param where
-     * @return
-     */
-    public static String updateByWhere(TableInfo tableInfo, Object bean, String where) {
-        StringBuilder builder = new StringBuilder("UPDATE ");
+    for (Field field : tableInfo.fieldToDataTypeMap.keySet()) {
+      DatabaseDataType dataType = tableInfo.fieldToDataTypeMap.get(field);
+      try {
+        statement.append(ValueHelper.valueToString(dataType, field, o)).append(",");
+      } catch (IllegalAccessException e) {
+        //不会发生...
+      }
+    }
+    statement.deleteCharAt(statement.length() - 1);
+    statement.append(")");
 
-        builder.append(tableInfo.tableName).append(" SET ");
+    return statement.toString();
 
-        for (Field f : tableInfo.fieldToDataTypeMap.keySet()) {
+  }
 
-            try {
-                builder.append(f.getName())
-                        .append(" = ")
-                        .append(ValueHelper.valueToString(
-                                SQLTypeParser.getDataType(f.getType()),
-                                f.get(bean))).append(",");
-            } catch (Throwable ignored) {
-            }
-        }
+  /**
+   * 根据where条件创建选择语句
+   *
+   * @param tableInfo
+   * @param where
+   * @return
+   */
+  public static String findByWhere(TableInfo tableInfo, String where) {
+    StringBuilder statement = new StringBuilder("SELECT * FROM ");
+    statement
+      .append(tableInfo.tableName)
+      .append(" ")
+      .append("WHERE ")
+      .append(where);
 
-        builder.deleteCharAt(builder.length() - 1);//删除最后一个逗号
+    return statement.toString();
+  }
 
-        builder.append(" WHERE ");
-        builder.append(where);
-        return builder.toString();
+
+  /**
+   * 根据where条件创建删除语句
+   *
+   * @param tableInfo
+   * @param where
+   * @return
+   */
+  public static String deleteByWhere(TableInfo tableInfo, String where) {
+    StringBuilder statement = new StringBuilder("DELETE FROM ");
+    statement
+      .append(tableInfo.tableName)
+      .append(" ")
+      .append("WHERE ")
+      .append(where);
+
+    return statement.toString();
+  }
+
+  /**
+   * 根据where条件创建更新语句
+   *
+   * @param tableInfo
+   * @param bean
+   * @param where
+   * @return
+   */
+  public static String updateByWhere(TableInfo tableInfo, Object bean, String where) {
+    StringBuilder builder = new StringBuilder("UPDATE ");
+
+    builder.append(tableInfo.tableName).append(" SET ");
+
+    for (Field f : tableInfo.fieldToDataTypeMap.keySet()) {
+
+      try {
+        builder.append(f.getName())
+          .append(" = ")
+          .append(ValueHelper.valueToString(
+            SQLTypeParser.getDataType(f.getType()),
+            f.get(bean))).append(",");
+      } catch (Throwable ignored) {
+      }
     }
 
-    /**
-     * 创建选中table的语句
-     *
-     * @param tableName
-     * @return
-     */
-    public static String selectTable(String tableName) {
-        return "SELECT * FROM " + tableName;
-    }
+    builder.deleteCharAt(builder.length() - 1);//删除最后一个逗号
+
+    builder.append(" WHERE ");
+    builder.append(where);
+    return builder.toString();
+  }
+
+  /**
+   * 创建选中table的语句
+   *
+   * @param tableName
+   * @return
+   */
+  public static String selectTable(String tableName) {
+    return "SELECT * FROM " + tableName;
+  }
 
 }

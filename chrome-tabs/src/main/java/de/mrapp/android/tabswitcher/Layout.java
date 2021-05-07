@@ -21,19 +21,19 @@ package de.mrapp.android.tabswitcher;
  */
 public enum Layout {
 
-    /**
-     * The layout, which is used on smartphones and phablet devices, when in portrait mode.
-     */
-    PHONE_PORTRAIT,
+  /**
+   * The layout, which is used on smartphones and phablet devices, when in portrait mode.
+   */
+  PHONE_PORTRAIT,
 
-    /**
-     * The layout, which is used on smartphones and phablet devices, when in landscape mode.
-     */
-    PHONE_LANDSCAPE,
+  /**
+   * The layout, which is used on smartphones and phablet devices, when in landscape mode.
+   */
+  PHONE_LANDSCAPE,
 
-    /**
-     * The layout, which is used on tablets.
-     */
-    TABLET
+  /**
+   * The layout, which is used on tablets.
+   */
+  TABLET
 
 }

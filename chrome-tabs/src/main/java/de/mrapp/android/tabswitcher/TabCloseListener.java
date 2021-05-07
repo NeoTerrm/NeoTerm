@@ -24,17 +24,15 @@ import androidx.annotation.NonNull;
  */
 public interface TabCloseListener {
 
-    /**
-     * The method, which is invoked, when a tab is about to be closed by clicking its close button.
-     *
-     * @param tabSwitcher
-     *         The tab switcher, the tab belongs to, as an instance of the class {@link
-     *         TabSwitcher}. The tab switcher may not be null
-     * @param tab
-     *         The tab, which is about to be closed, as an instance of the class {@link Tab}. The
-     *         tab may not be null
-     * @return True, if the tab should be closed, false otherwise
-     */
-    boolean onCloseTab(@NonNull TabSwitcher tabSwitcher, @NonNull Tab tab);
+  /**
+   * The method, which is invoked, when a tab is about to be closed by clicking its close button.
+   *
+   * @param tabSwitcher The tab switcher, the tab belongs to, as an instance of the class {@link
+   *                    TabSwitcher}. The tab switcher may not be null
+   * @param tab         The tab, which is about to be closed, as an instance of the class {@link Tab}. The
+   *                    tab may not be null
+   * @return True, if the tab should be closed, false otherwise
+   */
+  boolean onCloseTab(@NonNull TabSwitcher tabSwitcher, @NonNull Tab tab);
 
 }

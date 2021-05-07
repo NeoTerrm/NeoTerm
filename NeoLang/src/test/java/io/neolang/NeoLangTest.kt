@@ -9,9 +9,9 @@ import org.junit.Test
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
 class NeoLangTest {
-    @Test
-    fun arrayTest() {
-        Main.main(arrayOf("NeoLang/example/extra-key.nl"))
-    }
+  @Test
+  fun arrayTest() {
+    Main.main(arrayOf("NeoLang/example/extra-key.nl"))
+  }
 }
 

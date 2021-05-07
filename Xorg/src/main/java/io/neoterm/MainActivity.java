@@ -39,259 +39,243 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 import android.os.SystemClock;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.SpannedString;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.Surface;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnKeyListener;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+import io.neoterm.xorg.NeoXorgViewClient;
+import io.neoterm.xorg.R;
 
 import java.util.LinkedList;
 import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
 
-import io.neoterm.xorg.NeoXorgViewClient;
-import io.neoterm.xorg.R;
-
 
 public class MainActivity extends AppCompatActivity implements NeoXorgViewClient {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-        instance = this;
-        // fullscreen mode
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        if (Globals.InhibitSuspend)
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
-                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    instance = this;
+    // fullscreen mode
+    requestWindowFeature(Window.FEATURE_NO_TITLE);
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+      WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    if (Globals.InhibitSuspend)
+      getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        Log.i("SDL", "libSDL: Creating startup screen");
-        _layout = new LinearLayout(this);
-        _layout.setOrientation(LinearLayout.VERTICAL);
-        _layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-        _layout2 = new LinearLayout(this);
-        _layout2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        loadingDialog = new ProgressDialog(this);
-        loadingDialog.setMessage(getString(R.string.accessing_network));
+    Log.i("SDL", "libSDL: Creating startup screen");
+    _layout = new LinearLayout(this);
+    _layout.setOrientation(LinearLayout.VERTICAL);
+    _layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+    _layout2 = new LinearLayout(this);
+    _layout2.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    loadingDialog = new ProgressDialog(this);
+    loadingDialog.setMessage(getString(R.string.accessing_network));
 
-        final Semaphore loadedLibraries = new Semaphore(0);
+    final Semaphore loadedLibraries = new Semaphore(0);
 
-        if (Globals.StartupMenuButtonTimeout > 0) {
-            _btn = new Button(this);
-            _btn.setEnabled(false);
-            _btn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            _btn.setText(getResources().getString(R.string.device_change_cfg));
-            class onClickListener implements View.OnClickListener {
-                public MainActivity p;
+    if (Globals.StartupMenuButtonTimeout > 0) {
+      _btn = new Button(this);
+      _btn.setEnabled(false);
+      _btn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+      _btn.setText(getResources().getString(R.string.device_change_cfg));
+      class onClickListener implements View.OnClickListener {
+        public MainActivity p;
 
-                onClickListener(MainActivity _p) {
-                    p = _p;
-                }
-
-                public void onClick(View v) {
-                    setUpStatusLabel();
-                    Log.i("SDL", "libSDL: User clicked change phone config button");
-                    loadedLibraries.acquireUninterruptibly();
-                    setScreenOrientation();
-                    SettingsMenu.showConfig(p, false);
-                }
-            }
-            ;
-            _btn.setOnClickListener(new onClickListener(this));
-
-            _layout2.addView(_btn);
+        onClickListener(MainActivity _p) {
+          p = _p;
         }
 
-        _layout.addView(_layout2);
+        public void onClick(View v) {
+          setUpStatusLabel();
+          Log.i("SDL", "libSDL: User clicked change phone config button");
+          loadedLibraries.acquireUninterruptibly();
+          setScreenOrientation();
+          SettingsMenu.showConfig(p, false);
+        }
+      }
+      ;
+      _btn.setOnClickListener(new onClickListener(this));
 
-        ImageView img = new ImageView(this);
+      _layout2.addView(_btn);
+    }
 
-        img.setScaleType(ImageView.ScaleType.FIT_CENTER /* FIT_XY */);
+    _layout.addView(_layout2);
+
+    ImageView img = new ImageView(this);
+
+    img.setScaleType(ImageView.ScaleType.FIT_CENTER /* FIT_XY */);
+    try {
+      img.setImageDrawable(Drawable.createFromStream(getAssets().open("logo.png"), "logo.png"));
+    } catch (Exception e) {
+      img.setImageResource(R.drawable.publisherlogo);
+    }
+    img.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+    _layout.addView(img);
+
+    _videoLayout = new FrameLayout(this);
+    _videoLayout.addView(_layout);
+
+    setContentView(_videoLayout);
+    _videoLayout.setFocusable(true);
+    _videoLayout.setFocusableInTouchMode(true);
+    _videoLayout.requestFocus();
+
+    class Callback implements Runnable {
+      MainActivity p;
+
+      Callback(MainActivity _p) {
+        p = _p;
+      }
+
+      public void run() {
         try {
-            img.setImageDrawable(Drawable.createFromStream(getAssets().open("logo.png"), "logo.png"));
-        } catch (Exception e) {
-            img.setImageResource(R.drawable.publisherlogo);
-        }
-        img.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-        _layout.addView(img);
-
-        _videoLayout = new FrameLayout(this);
-        _videoLayout.addView(_layout);
-
-        setContentView(_videoLayout);
-        _videoLayout.setFocusable(true);
-        _videoLayout.setFocusableInTouchMode(true);
-        _videoLayout.requestFocus();
-
-        class Callback implements Runnable {
-            MainActivity p;
-
-            Callback(MainActivity _p) {
-                p = _p;
-            }
-
-            public void run() {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                }
-                ;
-
-                if (p.mAudioThread == null) {
-                    Log.i("SDL", "libSDL: Loading libraries");
-                    p.LoadLibraries();
-                    p.mAudioThread = new AudioThread(p);
-                    Log.i("SDL", "libSDL: Loading settings");
-                    final Semaphore loaded = new Semaphore(0);
-                    class Callback2 implements Runnable {
-                        public MainActivity Parent;
-
-                        public void run() {
-                            Settings.Load(Parent);
-                            setScreenOrientation();
-                            loaded.release();
-                            loadedLibraries.release();
-                            if (_btn != null) {
-                                _btn.setEnabled(true);
-                                _btn.setFocusable(true);
-                                _btn.setFocusableInTouchMode(true);
-                                _btn.requestFocus();
-                            }
-                        }
-                    }
-                    Callback2 cb = new Callback2();
-                    cb.Parent = p;
-                    p.runOnUiThread(cb);
-                    loaded.acquireUninterruptibly();
-                    if (!Globals.CompatibilityHacksStaticInit)
-                        p.LoadApplicationLibrary(p);
-                }
-
-                if (!Settings.settingsChanged) {
-                    if (Globals.StartupMenuButtonTimeout > 0) {
-                        Log.i("SDL", "libSDL: " + String.valueOf(Globals.StartupMenuButtonTimeout) + "-msec timeout in startup screen");
-                        try {
-                            Thread.sleep(Globals.StartupMenuButtonTimeout);
-                        } catch (InterruptedException e) {
-                        }
-                        ;
-                    }
-                    if (Settings.settingsChanged)
-                        return;
-                }
-            }
+          Thread.sleep(200);
+        } catch (InterruptedException e) {
         }
         ;
-        (new Thread(new Callback(this))).start();
-        // Request SD card permission right during start, because game devs don't care about runtime permissions and stuff
-    }
 
-    public void setUpStatusLabel() {
-        MainActivity Parent = this; // Too lazy to rename
-        if (Parent._btn != null) {
-            Parent._layout2.removeView(Parent._btn);
-            Parent._btn = null;
-        }
-        if (Parent._tv == null) {
-            //Get the display so we can know the screen size
-            Display display = getWindowManager().getDefaultDisplay();
-            int width = display.getWidth();
-            int height = display.getHeight();
-            Parent._tv = new TextView(Parent);
-            Parent._tv.setMaxLines(2); // To show some long texts on smaller devices
-            Parent._tv.setMinLines(2); // Otherwise the background picture is getting resized at random, which does not look good
-            Parent._tv.setText(R.string.init);
-            // Padding is a good idea because if the display device is a TV the edges might be cut off
-            Parent._tv.setPadding((int) (width * 0.1), (int) (height * 0.1), (int) (width * 0.1), 0);
-            Parent._layout2.addView(Parent._tv);
-        }
-    }
+        if (p.mAudioThread == null) {
+          Log.i("SDL", "libSDL: Loading libraries");
+          p.LoadLibraries();
+          p.mAudioThread = new AudioThread(p);
+          Log.i("SDL", "libSDL: Loading settings");
+          final Semaphore loaded = new Semaphore(0);
+          class Callback2 implements Runnable {
+            public MainActivity Parent;
 
-    public void initSDL() {
-        setScreenOrientation();
-        updateScreenOrientation();
-        DimSystemStatusBar.get().dim(_videoLayout);
-        (new Thread(new Runnable() {
             public void run() {
-                if (Globals.AutoDetectOrientation)
-                    Globals.HorizontalOrientation = isCurrentOrientationHorizontal();
-                while (isCurrentOrientationHorizontal() != Globals.HorizontalOrientation ||
-                        ((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()) {
-                    Log.d("SDL", "libSDL: Waiting for screen orientation to change to " + (Globals.HorizontalOrientation ? "landscape" : "portrait") + ", and for disabling lockscreen mode");
-                    try {
-                        Thread.sleep(500);
-                    } catch (Exception e) {
-                    }
-                    if (_isPaused) {
-                        Log.i("SDL", "libSDL: Application paused, cancelling SDL initialization until it will be brought to foreground");
-                        return;
-                    }
-                    DimSystemStatusBar.get().dim(_videoLayout);
-                }
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        // Hide navigation buttons, and sleep a bit so OS will process the event.
-                        // Do not check the display size in a loop - we may have several displays of different sizes,
-                        // so app may stuck in infinite loop
-                        DisplayMetrics dm = new DisplayMetrics();
-                        getWindowManager().getDefaultDisplay().getMetrics(dm);
-                        if (Globals.ImmersiveMode && (_videoLayout.getHeight() != dm.widthPixels || _videoLayout.getWidth() != dm.heightPixels)) {
-                            DimSystemStatusBar.get().dim(_videoLayout);
-                            try {
-                                Thread.sleep(300);
-                            } catch (Exception e) {
-                            }
-                        }
-                        initSDLInternal();
-                    }
-                });
+              Settings.Load(Parent);
+              setScreenOrientation();
+              loaded.release();
+              loadedLibraries.release();
+              if (_btn != null) {
+                _btn.setEnabled(true);
+                _btn.setFocusable(true);
+                _btn.setFocusableInTouchMode(true);
+                _btn.requestFocus();
+              }
             }
-        })).start();
-    }
+          }
+          Callback2 cb = new Callback2();
+          cb.Parent = p;
+          p.runOnUiThread(cb);
+          loaded.acquireUninterruptibly();
+          if (!Globals.CompatibilityHacksStaticInit)
+            p.LoadApplicationLibrary(p);
+        }
 
-    private void initSDLInternal() {
-        if (sdlInited)
+        if (!Settings.settingsChanged) {
+          if (Globals.StartupMenuButtonTimeout > 0) {
+            Log.i("SDL", "libSDL: " + String.valueOf(Globals.StartupMenuButtonTimeout) + "-msec timeout in startup screen");
+            try {
+              Thread.sleep(Globals.StartupMenuButtonTimeout);
+            } catch (InterruptedException e) {
+            }
+            ;
+          }
+          if (Settings.settingsChanged)
             return;
-        Log.i("SDL", "libSDL: Initializing video and SDL application");
+        }
+      }
+    }
+    ;
+    (new Thread(new Callback(this))).start();
+    // Request SD card permission right during start, because game devs don't care about runtime permissions and stuff
+  }
 
-        sdlInited = true;
-        DimSystemStatusBar.get().dim(_videoLayout);
-        _videoLayout.removeView(_layout);
-        _layout = null;
-        _layout2 = null;
-        _btn = null;
-        _tv = null;
-        _inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        _videoLayout = new FrameLayout(this);
-        SetLayerType.get().setLayerType(_videoLayout);
-        setContentView(_videoLayout);
-        mGLView = new NeoGLView(this);
-        SetLayerType.get().setLayerType(mGLView);
-        // Add TV screen borders, if needed
-        if (isRunningOnOUYA() && Globals.TvBorders) {
-            RelativeLayout view = new RelativeLayout(this);
-            RelativeLayout.LayoutParams layout;
+  public void setUpStatusLabel() {
+    MainActivity Parent = this; // Too lazy to rename
+    if (Parent._btn != null) {
+      Parent._layout2.removeView(Parent._btn);
+      Parent._btn = null;
+    }
+    if (Parent._tv == null) {
+      //Get the display so we can know the screen size
+      Display display = getWindowManager().getDefaultDisplay();
+      int width = display.getWidth();
+      int height = display.getHeight();
+      Parent._tv = new TextView(Parent);
+      Parent._tv.setMaxLines(2); // To show some long texts on smaller devices
+      Parent._tv.setMinLines(2); // Otherwise the background picture is getting resized at random, which does not look good
+      Parent._tv.setText(R.string.init);
+      // Padding is a good idea because if the display device is a TV the edges might be cut off
+      Parent._tv.setPadding((int) (width * 0.1), (int) (height * 0.1), (int) (width * 0.1), 0);
+      Parent._layout2.addView(Parent._tv);
+    }
+  }
+
+  public void initSDL() {
+    setScreenOrientation();
+    updateScreenOrientation();
+    DimSystemStatusBar.get().dim(_videoLayout);
+    (new Thread(new Runnable() {
+      public void run() {
+        if (Globals.AutoDetectOrientation)
+          Globals.HorizontalOrientation = isCurrentOrientationHorizontal();
+        while (isCurrentOrientationHorizontal() != Globals.HorizontalOrientation ||
+          ((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()) {
+          Log.d("SDL", "libSDL: Waiting for screen orientation to change to " + (Globals.HorizontalOrientation ? "landscape" : "portrait") + ", and for disabling lockscreen mode");
+          try {
+            Thread.sleep(500);
+          } catch (Exception e) {
+          }
+          if (_isPaused) {
+            Log.i("SDL", "libSDL: Application paused, cancelling SDL initialization until it will be brought to foreground");
+            return;
+          }
+          DimSystemStatusBar.get().dim(_videoLayout);
+        }
+        runOnUiThread(new Runnable() {
+          public void run() {
+            // Hide navigation buttons, and sleep a bit so OS will process the event.
+            // Do not check the display size in a loop - we may have several displays of different sizes,
+            // so app may stuck in infinite loop
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+            if (Globals.ImmersiveMode && (_videoLayout.getHeight() != dm.widthPixels || _videoLayout.getWidth() != dm.heightPixels)) {
+              DimSystemStatusBar.get().dim(_videoLayout);
+              try {
+                Thread.sleep(300);
+              } catch (Exception e) {
+              }
+            }
+            initSDLInternal();
+          }
+        });
+      }
+    })).start();
+  }
+
+  private void initSDLInternal() {
+    if (sdlInited)
+      return;
+    Log.i("SDL", "libSDL: Initializing video and SDL application");
+
+    sdlInited = true;
+    DimSystemStatusBar.get().dim(_videoLayout);
+    _videoLayout.removeView(_layout);
+    _layout = null;
+    _layout2 = null;
+    _btn = null;
+    _tv = null;
+    _inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    _videoLayout = new FrameLayout(this);
+    SetLayerType.get().setLayerType(_videoLayout);
+    setContentView(_videoLayout);
+    mGLView = new NeoGLView(this);
+    SetLayerType.get().setLayerType(mGLView);
+    // Add TV screen borders, if needed
+    if (isRunningOnOUYA() && Globals.TvBorders) {
+      RelativeLayout view = new RelativeLayout(this);
+      RelativeLayout.LayoutParams layout;
 
 			/*
             layout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -301,387 +285,387 @@ public class MainActivity extends AppCompatActivity implements NeoXorgViewClient
 			view.addView(mGLView);
 			*/
 
-            layout = new RelativeLayout.LayoutParams(getResources().getDimensionPixelOffset(R.dimen.screen_border_horizontal), RelativeLayout.LayoutParams.MATCH_PARENT);
-            layout.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-            layout.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            ImageView borderLeft = new ImageView(this);
-            borderLeft.setId(R.id.left); // Any random ID
-            borderLeft.setImageResource(R.drawable.tv_border_left);
-            borderLeft.setScaleType(ImageView.ScaleType.FIT_XY);
-            view.addView(borderLeft, layout);
+      layout = new RelativeLayout.LayoutParams(getResources().getDimensionPixelOffset(R.dimen.screen_border_horizontal), RelativeLayout.LayoutParams.MATCH_PARENT);
+      layout.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+      layout.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+      ImageView borderLeft = new ImageView(this);
+      borderLeft.setId(R.id.left); // Any random ID
+      borderLeft.setImageResource(R.drawable.tv_border_left);
+      borderLeft.setScaleType(ImageView.ScaleType.FIT_XY);
+      view.addView(borderLeft, layout);
 
-            layout = new RelativeLayout.LayoutParams(getResources().getDimensionPixelOffset(R.dimen.screen_border_horizontal), RelativeLayout.LayoutParams.MATCH_PARENT);
-            layout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-            layout.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            ImageView borderRight = new ImageView(this);
-            borderRight.setId(R.id.right);
-            borderRight.setImageResource(R.drawable.tv_border_left);
-            borderRight.setScaleType(ImageView.ScaleType.FIT_XY);
-            borderRight.setScaleX(-1f);
-            view.addView(borderRight, layout);
+      layout = new RelativeLayout.LayoutParams(getResources().getDimensionPixelOffset(R.dimen.screen_border_horizontal), RelativeLayout.LayoutParams.MATCH_PARENT);
+      layout.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+      layout.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+      ImageView borderRight = new ImageView(this);
+      borderRight.setId(R.id.right);
+      borderRight.setImageResource(R.drawable.tv_border_left);
+      borderRight.setScaleType(ImageView.ScaleType.FIT_XY);
+      borderRight.setScaleX(-1f);
+      view.addView(borderRight, layout);
 
-            layout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.screen_border_vertical));
-            layout.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-            layout.addRule(RelativeLayout.RIGHT_OF, borderLeft.getId());
-            layout.addRule(RelativeLayout.LEFT_OF, borderRight.getId());
-            ImageView borderTop = new ImageView(this);
-            borderTop.setId(R.id.top);
-            borderTop.setImageResource(R.drawable.tv_border_top);
-            borderTop.setScaleType(ImageView.ScaleType.FIT_XY);
-            view.addView(borderTop, layout);
+      layout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.screen_border_vertical));
+      layout.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+      layout.addRule(RelativeLayout.RIGHT_OF, borderLeft.getId());
+      layout.addRule(RelativeLayout.LEFT_OF, borderRight.getId());
+      ImageView borderTop = new ImageView(this);
+      borderTop.setId(R.id.top);
+      borderTop.setImageResource(R.drawable.tv_border_top);
+      borderTop.setScaleType(ImageView.ScaleType.FIT_XY);
+      view.addView(borderTop, layout);
 
-            layout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.screen_border_vertical));
-            layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-            layout.addRule(RelativeLayout.RIGHT_OF, borderLeft.getId());
-            layout.addRule(RelativeLayout.LEFT_OF, borderRight.getId());
-            ImageView borderBottom = new ImageView(this);
-            borderBottom.setId(R.id.bottom);
-            borderBottom.setImageResource(R.drawable.tv_border_top);
-            borderBottom.setScaleType(ImageView.ScaleType.FIT_XY);
-            borderBottom.setScaleY(-1f);
-            view.addView(borderBottom, layout);
+      layout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(R.dimen.screen_border_vertical));
+      layout.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+      layout.addRule(RelativeLayout.RIGHT_OF, borderLeft.getId());
+      layout.addRule(RelativeLayout.LEFT_OF, borderRight.getId());
+      ImageView borderBottom = new ImageView(this);
+      borderBottom.setId(R.id.bottom);
+      borderBottom.setImageResource(R.drawable.tv_border_top);
+      borderBottom.setScaleType(ImageView.ScaleType.FIT_XY);
+      borderBottom.setScaleY(-1f);
+      view.addView(borderBottom, layout);
 
-            layout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            layout.addRule(RelativeLayout.RIGHT_OF, borderLeft.getId());
-            layout.addRule(RelativeLayout.LEFT_OF, borderRight.getId());
-            layout.addRule(RelativeLayout.BELOW, borderTop.getId());
-            layout.addRule(RelativeLayout.ABOVE, borderBottom.getId());
-            mGLView.setLayoutParams(layout);
+      layout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+      layout.addRule(RelativeLayout.RIGHT_OF, borderLeft.getId());
+      layout.addRule(RelativeLayout.LEFT_OF, borderRight.getId());
+      layout.addRule(RelativeLayout.BELOW, borderTop.getId());
+      layout.addRule(RelativeLayout.ABOVE, borderBottom.getId());
+      mGLView.setLayoutParams(layout);
 
-            view.addView(mGLView);
+      view.addView(mGLView);
 
-            _videoLayout.addView(view, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-        } else {
-            _videoLayout.addView(mGLView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-        }
-        mGLView.setFocusableInTouchMode(true);
-        mGLView.setFocusable(true);
-        mGLView.requestFocus();
-        if (Globals.HideSystemMousePointer && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            mGLView.setPointerIcon(android.view.PointerIcon.getSystemIcon(this, android.view.PointerIcon.TYPE_NULL));
-        }
+      _videoLayout.addView(view, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+    } else {
+      _videoLayout.addView(mGLView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+    }
+    mGLView.setFocusableInTouchMode(true);
+    mGLView.setFocusable(true);
+    mGLView.requestFocus();
+    if (Globals.HideSystemMousePointer && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+      mGLView.setPointerIcon(android.view.PointerIcon.getSystemIcon(this, android.view.PointerIcon.TYPE_NULL));
+    }
 
-        DimSystemStatusBar.get().dim(_videoLayout);
-        //DimSystemStatusBar.get().dim(mGLView);
+    DimSystemStatusBar.get().dim(_videoLayout);
+    //DimSystemStatusBar.get().dim(mGLView);
 
-        Rect r = new Rect();
+    Rect r = new Rect();
+    _videoLayout.getWindowVisibleDisplayFrame(r);
+    mGLView.nativeScreenVisibleRect(r.left, r.top, r.right, r.bottom);
+    _videoLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+      public void onGlobalLayout() {
+        final Rect r = new Rect();
         _videoLayout.getWindowVisibleDisplayFrame(r);
-        mGLView.nativeScreenVisibleRect(r.left, r.top, r.right, r.bottom);
-        _videoLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            public void onGlobalLayout() {
-                final Rect r = new Rect();
-                _videoLayout.getWindowVisibleDisplayFrame(r);
-                final int heightDiff = _videoLayout.getRootView().getHeight() - _videoLayout.getHeight(); // Take system bar into consideration
-                final int widthDiff = _videoLayout.getRootView().getWidth() - _videoLayout.getWidth(); // Nexus 5 has system bar at the right side
-                Log.v("SDL", "Main window visible region changed: " + r.left + ":" + r.top + ":" + r.width() + ":" + r.height());
-                _videoLayout.postDelayed(new Runnable() {
-                    public void run() {
-                        DimSystemStatusBar.get().dim(_videoLayout);
-                        mGLView.nativeScreenVisibleRect(r.left + widthDiff, r.top + heightDiff, r.width(), r.height());
-                    }
-                }, 300);
-                _videoLayout.postDelayed(new Runnable() {
-                    public void run() {
-                        DimSystemStatusBar.get().dim(_videoLayout);
-                        mGLView.nativeScreenVisibleRect(r.left + widthDiff, r.top + heightDiff, r.width(), r.height());
-                    }
-                }, 600);
-            }
-        });
-    }
-
-    @Override
-    protected void onPause() {
-        _isPaused = true;
-        if (mGLView != null)
-            mGLView.onPause();
-        //if( _ad.getView() != null )
-        //	_ad.getView().onPause();
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mGLView != null) {
+        final int heightDiff = _videoLayout.getRootView().getHeight() - _videoLayout.getHeight(); // Take system bar into consideration
+        final int widthDiff = _videoLayout.getRootView().getWidth() - _videoLayout.getWidth(); // Nexus 5 has system bar at the right side
+        Log.v("SDL", "Main window visible region changed: " + r.left + ":" + r.top + ":" + r.width() + ":" + r.height());
+        _videoLayout.postDelayed(new Runnable() {
+          public void run() {
             DimSystemStatusBar.get().dim(_videoLayout);
-            //DimSystemStatusBar.get().dim(mGLView);
-            mGLView.onResume();
-        }
-        //if( _ad.getView() != null )
-        //	_ad.getView().onResume();
-        _isPaused = false;
-        // Nvidia is too smart to use Samsung's stylus API, obviously they need their own method to enable hover events
-        Intent i = new Intent("com.nvidia.intent.action.ENABLE_STYLUS");
-        i.putExtra("package", getPackageName());
-        sendBroadcast(i);
+            mGLView.nativeScreenVisibleRect(r.left + widthDiff, r.top + heightDiff, r.width(), r.height());
+          }
+        }, 300);
+        _videoLayout.postDelayed(new Runnable() {
+          public void run() {
+            DimSystemStatusBar.get().dim(_videoLayout);
+            mGLView.nativeScreenVisibleRect(r.left + widthDiff, r.top + heightDiff, r.width(), r.height());
+          }
+        }, 600);
+      }
+    });
+  }
+
+  @Override
+  protected void onPause() {
+    _isPaused = true;
+    if (mGLView != null)
+      mGLView.onPause();
+    //if( _ad.getView() != null )
+    //	_ad.getView().onPause();
+    super.onPause();
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (mGLView != null) {
+      DimSystemStatusBar.get().dim(_videoLayout);
+      //DimSystemStatusBar.get().dim(mGLView);
+      mGLView.onResume();
     }
+    //if( _ad.getView() != null )
+    //	_ad.getView().onResume();
+    _isPaused = false;
+    // Nvidia is too smart to use Samsung's stylus API, obviously they need their own method to enable hover events
+    Intent i = new Intent("com.nvidia.intent.action.ENABLE_STYLUS");
+    i.putExtra("package", getPackageName());
+    sendBroadcast(i);
+  }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        Log.i("SDL", "libSDL: onWindowFocusChanged: " + hasFocus + " - sending onPause/onResume");
-        if (!hasFocus)
-            onPause();
-        else
-            onResume();
+  @Override
+  public void onWindowFocusChanged(boolean hasFocus) {
+    super.onWindowFocusChanged(hasFocus);
+    Log.i("SDL", "libSDL: onWindowFocusChanged: " + hasFocus + " - sending onPause/onResume");
+    if (!hasFocus)
+      onPause();
+    else
+      onResume();
+  }
+
+  public boolean isPaused() {
+    return _isPaused;
+  }
+
+  @Override
+  protected void onDestroy() {
+    if (mGLView != null)
+      mGLView.exitApp();
+    super.onDestroy();
+    try {
+      Thread.sleep(2000); // The event is sent asynchronously, allow app to save it's state, and call exit() itself.
+    } catch (InterruptedException e) {
     }
+    System.exit(0);
+  }
 
-    public boolean isPaused() {
-        return _isPaused;
-    }
+  @Override
+  protected void onStart() {
+    super.onStart();
+  }
 
-    @Override
-    protected void onDestroy() {
-        if (mGLView != null)
-            mGLView.exitApp();
-        super.onDestroy();
-        try {
-            Thread.sleep(2000); // The event is sent asynchronously, allow app to save it's state, and call exit() itself.
-        } catch (InterruptedException e) {
-        }
-        System.exit(0);
-    }
+  @Override
+  protected void onStop() {
+    super.onStop();
+  }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
+  @Override
+  public void onActivityResult(int request, int response, Intent data) {
+    super.onActivityResult(request, response, data);
+  }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
+  private int TextInputKeyboardList[][] =
+    {
+      {0, R.xml.qwerty, R.xml.c64, R.xml.amiga, R.xml.atari800},
+      {0, R.xml.qwerty_shift, R.xml.c64, R.xml.amiga_shift, R.xml.atari800},
+      {0, R.xml.qwerty_alt, R.xml.c64, R.xml.amiga_alt, R.xml.atari800},
+      {0, R.xml.qwerty_alt_shift, R.xml.c64, R.xml.amiga_alt_shift, R.xml.atari800}
+    };
 
-    @Override
-    public void onActivityResult(int request, int response, Intent data) {
-        super.onActivityResult(request, response, data);
-    }
+  @Override
+  public Context getContext() {
+    return this;
+  }
 
-    private int TextInputKeyboardList[][] =
-            {
-                    {0, R.xml.qwerty, R.xml.c64, R.xml.amiga, R.xml.atari800},
-                    {0, R.xml.qwerty_shift, R.xml.c64, R.xml.amiga_shift, R.xml.atari800},
-                    {0, R.xml.qwerty_alt, R.xml.c64, R.xml.amiga_alt, R.xml.atari800},
-                    {0, R.xml.qwerty_alt_shift, R.xml.c64, R.xml.amiga_alt_shift, R.xml.atari800}
-            };
+  @Override
+  public boolean isKeyboardWithoutTextInputShown() {
+    return keyboardWithoutTextInputShown;
+  }
 
-    @Override
-    public Context getContext() {
-        return this;
-    }
+  public void showScreenKeyboardWithoutTextInputField(final int keyboard) {
+    if (!isKeyboardWithoutTextInputShown()) {
+      keyboardWithoutTextInputShown = true;
+      runOnUiThread(new Runnable() {
+        public void run() {
+          if (keyboard == 0) {
+            _inputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            _inputManager.showSoftInput(mGLView, InputMethodManager.SHOW_FORCED);
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+          } else {
+            if (_screenKeyboard != null)
+              return;
+            class BuiltInKeyboardView extends KeyboardView {
+              public boolean shift = false;
+              public boolean alt = false;
+              public TreeSet<Integer> stickyKeys = new TreeSet<Integer>();
 
-    @Override
-    public boolean isKeyboardWithoutTextInputShown() {
-        return keyboardWithoutTextInputShown;
-    }
+              public BuiltInKeyboardView(Context context, android.util.AttributeSet attrs) {
+                super(context, attrs);
+              }
 
-    public void showScreenKeyboardWithoutTextInputField(final int keyboard) {
-        if (!isKeyboardWithoutTextInputShown()) {
-            keyboardWithoutTextInputShown = true;
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    if (keyboard == 0) {
-                        _inputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                        _inputManager.showSoftInput(mGLView, InputMethodManager.SHOW_FORCED);
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                    } else {
-                        if (_screenKeyboard != null)
-                            return;
-                        class BuiltInKeyboardView extends KeyboardView {
-                            public boolean shift = false;
-                            public boolean alt = false;
-                            public TreeSet<Integer> stickyKeys = new TreeSet<Integer>();
-
-                            public BuiltInKeyboardView(Context context, android.util.AttributeSet attrs) {
-                                super(context, attrs);
-                            }
-
-                            public boolean dispatchTouchEvent(final MotionEvent ev) {
-                                if (ev.getY() < getTop())
-                                    return false;
-                                if (ev.getAction() == MotionEvent.ACTION_DOWN || ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) {
-                                    // Convert pointer coords, this will lose multitiouch data, however KeyboardView does not support multitouch anyway
-                                    MotionEvent converted = MotionEvent.obtain(ev.getDownTime(), ev.getEventTime(), ev.getAction(), ev.getX(), ev.getY() - (float) getTop(), ev.getMetaState());
-                                    return super.dispatchTouchEvent(converted);
-                                }
-                                return false;
-                            }
-
-                            public boolean onKeyDown(int key, final KeyEvent event) {
-                                return false;
-                            }
-
-                            public boolean onKeyUp(int key, final KeyEvent event) {
-                                return false;
-                            }
-
-                            public void ChangeKeyboard() {
-                                int idx = (shift ? 1 : 0) + (alt ? 2 : 0);
-                                setKeyboard(new Keyboard(MainActivity.this, TextInputKeyboardList[idx][keyboard]));
-                                setPreviewEnabled(false);
-                                setProximityCorrectionEnabled(false);
-                                for (Keyboard.Key k : getKeyboard().getKeys()) {
-                                    if (stickyKeys.contains(k.codes[0])) {
-                                        k.on = true;
-                                        invalidateAllKeys();
-                                    }
-                                }
-                            }
-                        }
-                        final BuiltInKeyboardView builtinKeyboard = new BuiltInKeyboardView(MainActivity.this, null);
-                        builtinKeyboard.setAlpha(0.7f);
-                        builtinKeyboard.ChangeKeyboard();
-                        builtinKeyboard.setOnKeyboardActionListener(new KeyboardView.OnKeyboardActionListener() {
-                            public void onPress(int key) {
-                                if (key == KeyEvent.KEYCODE_BACK)
-                                    return;
-                                if (key < 0)
-                                    return;
-                                for (Keyboard.Key k : builtinKeyboard.getKeyboard().getKeys()) {
-                                    if (k.sticky && key == k.codes[0])
-                                        return;
-                                }
-                                if (key > 100000) {
-                                    key -= 100000;
-                                    MainActivity.this.onKeyDown(KeyEvent.KEYCODE_SHIFT_LEFT, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
-                                }
-                                MainActivity.this.onKeyDown(key, new KeyEvent(KeyEvent.ACTION_DOWN, key));
-                            }
-
-                            public void onRelease(int key) {
-                                if (key == KeyEvent.KEYCODE_BACK) {
-                                    builtinKeyboard.setOnKeyboardActionListener(null);
-                                    showScreenKeyboardWithoutTextInputField(0); // Hide keyboard
-                                    return;
-                                }
-                                if (key == Keyboard.KEYCODE_SHIFT) {
-                                    builtinKeyboard.shift = !builtinKeyboard.shift;
-                                    if (builtinKeyboard.shift && !builtinKeyboard.alt)
-                                        MainActivity.this.onKeyDown(KeyEvent.KEYCODE_SHIFT_LEFT, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
-                                    else
-                                        MainActivity.this.onKeyUp(KeyEvent.KEYCODE_SHIFT_LEFT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
-                                    builtinKeyboard.ChangeKeyboard();
-                                    return;
-                                }
-                                if (key == Keyboard.KEYCODE_ALT) {
-                                    builtinKeyboard.alt = !builtinKeyboard.alt;
-                                    if (builtinKeyboard.alt)
-                                        MainActivity.this.onKeyUp(KeyEvent.KEYCODE_SHIFT_LEFT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
-                                    else
-                                        builtinKeyboard.shift = false;
-                                    builtinKeyboard.ChangeKeyboard();
-                                    return;
-                                }
-                                if (key < 0)
-                                    return;
-                                for (Keyboard.Key k : builtinKeyboard.getKeyboard().getKeys()) {
-                                    if (k.sticky && key == k.codes[0]) {
-                                        if (k.on) {
-                                            builtinKeyboard.stickyKeys.add(key);
-                                            MainActivity.this.onKeyDown(key, new KeyEvent(KeyEvent.ACTION_DOWN, key));
-                                        } else {
-                                            builtinKeyboard.stickyKeys.remove(key);
-                                            MainActivity.this.onKeyUp(key, new KeyEvent(KeyEvent.ACTION_UP, key));
-                                        }
-                                        return;
-                                    }
-                                }
-
-                                boolean shifted = false;
-                                if (key > 100000) {
-                                    key -= 100000;
-                                    shifted = true;
-                                }
-
-                                MainActivity.this.onKeyUp(key, new KeyEvent(KeyEvent.ACTION_UP, key));
-
-                                if (shifted) {
-                                    MainActivity.this.onKeyUp(KeyEvent.KEYCODE_SHIFT_LEFT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
-                                    builtinKeyboard.stickyKeys.remove(KeyEvent.KEYCODE_SHIFT_LEFT);
-                                    for (Keyboard.Key k : builtinKeyboard.getKeyboard().getKeys()) {
-                                        if (k.sticky && k.codes[0] == KeyEvent.KEYCODE_SHIFT_LEFT && k.on) {
-                                            k.on = false;
-                                            builtinKeyboard.invalidateAllKeys();
-                                        }
-                                    }
-                                }
-                            }
-
-                            public void onText(CharSequence p1) {
-                            }
-
-                            public void swipeLeft() {
-                            }
-
-                            public void swipeRight() {
-                            }
-
-                            public void swipeDown() {
-                            }
-
-                            public void swipeUp() {
-                            }
-
-                            public void onKey(int p1, int[] p2) {
-                            }
-                        });
-                        _screenKeyboard = builtinKeyboard;
-                        FrameLayout.LayoutParams layout = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);
-                        _videoLayout.addView(_screenKeyboard, layout);
-                    }
+              public boolean dispatchTouchEvent(final MotionEvent ev) {
+                if (ev.getY() < getTop())
+                  return false;
+                if (ev.getAction() == MotionEvent.ACTION_DOWN || ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) {
+                  // Convert pointer coords, this will lose multitiouch data, however KeyboardView does not support multitouch anyway
+                  MotionEvent converted = MotionEvent.obtain(ev.getDownTime(), ev.getEventTime(), ev.getAction(), ev.getX(), ev.getY() - (float) getTop(), ev.getMetaState());
+                  return super.dispatchTouchEvent(converted);
                 }
-            });
-        } else {
-            keyboardWithoutTextInputShown = false;
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    if (_screenKeyboard != null) {
-                        _videoLayout.removeView(_screenKeyboard);
-                        _screenKeyboard = null;
-                    }
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                    _inputManager.hideSoftInputFromWindow(mGLView.getWindowToken(), 0);
-                    DimSystemStatusBar.get().dim(_videoLayout);
-                    //DimSystemStatusBar.get().dim(mGLView);
+                return false;
+              }
+
+              public boolean onKeyDown(int key, final KeyEvent event) {
+                return false;
+              }
+
+              public boolean onKeyUp(int key, final KeyEvent event) {
+                return false;
+              }
+
+              public void ChangeKeyboard() {
+                int idx = (shift ? 1 : 0) + (alt ? 2 : 0);
+                setKeyboard(new Keyboard(MainActivity.this, TextInputKeyboardList[idx][keyboard]));
+                setPreviewEnabled(false);
+                setProximityCorrectionEnabled(false);
+                for (Keyboard.Key k : getKeyboard().getKeys()) {
+                  if (stickyKeys.contains(k.codes[0])) {
+                    k.on = true;
+                    invalidateAllKeys();
+                  }
                 }
-            });
-        }
-        mGLView.nativeScreenKeyboardShown(keyboardWithoutTextInputShown ? 1 : 0);
-    }
-
-    public void showScreenKeyboard(final String oldText) {
-        if (Globals.CompatibilityHacksTextInputEmulatesHwKeyboard) {
-            showScreenKeyboardWithoutTextInputField(Globals.TextInputKeyboard);
-            return;
-        }
-        if (_screenKeyboard != null)
-            return;
-        class simpleKeyListener implements OnKeyListener {
-            MainActivity _parent;
-
-            simpleKeyListener(MainActivity parent) {
-                _parent = parent;
+              }
             }
-
-            ;
-
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_UP) && (
-                        keyCode == KeyEvent.KEYCODE_ENTER ||
-                                keyCode == KeyEvent.KEYCODE_BACK ||
-                                keyCode == KeyEvent.KEYCODE_MENU ||
-                                keyCode == KeyEvent.KEYCODE_BUTTON_A ||
-                                keyCode == KeyEvent.KEYCODE_BUTTON_B ||
-                                keyCode == KeyEvent.KEYCODE_BUTTON_X ||
-                                keyCode == KeyEvent.KEYCODE_BUTTON_Y ||
-                                keyCode == KeyEvent.KEYCODE_BUTTON_1 ||
-                                keyCode == KeyEvent.KEYCODE_BUTTON_2 ||
-                                keyCode == KeyEvent.KEYCODE_BUTTON_3 ||
-                                keyCode == KeyEvent.KEYCODE_BUTTON_4)) {
-                    _parent.hideScreenKeyboard();
-                    return true;
+            final BuiltInKeyboardView builtinKeyboard = new BuiltInKeyboardView(MainActivity.this, null);
+            builtinKeyboard.setAlpha(0.7f);
+            builtinKeyboard.ChangeKeyboard();
+            builtinKeyboard.setOnKeyboardActionListener(new KeyboardView.OnKeyboardActionListener() {
+              public void onPress(int key) {
+                if (key == KeyEvent.KEYCODE_BACK)
+                  return;
+                if (key < 0)
+                  return;
+                for (Keyboard.Key k : builtinKeyboard.getKeyboard().getKeys()) {
+                  if (k.sticky && key == k.codes[0])
+                    return;
                 }
+                if (key > 100000) {
+                  key -= 100000;
+                  MainActivity.this.onKeyDown(KeyEvent.KEYCODE_SHIFT_LEFT, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
+                }
+                MainActivity.this.onKeyDown(key, new KeyEvent(KeyEvent.ACTION_DOWN, key));
+              }
+
+              public void onRelease(int key) {
+                if (key == KeyEvent.KEYCODE_BACK) {
+                  builtinKeyboard.setOnKeyboardActionListener(null);
+                  showScreenKeyboardWithoutTextInputField(0); // Hide keyboard
+                  return;
+                }
+                if (key == Keyboard.KEYCODE_SHIFT) {
+                  builtinKeyboard.shift = !builtinKeyboard.shift;
+                  if (builtinKeyboard.shift && !builtinKeyboard.alt)
+                    MainActivity.this.onKeyDown(KeyEvent.KEYCODE_SHIFT_LEFT, new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT));
+                  else
+                    MainActivity.this.onKeyUp(KeyEvent.KEYCODE_SHIFT_LEFT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
+                  builtinKeyboard.ChangeKeyboard();
+                  return;
+                }
+                if (key == Keyboard.KEYCODE_ALT) {
+                  builtinKeyboard.alt = !builtinKeyboard.alt;
+                  if (builtinKeyboard.alt)
+                    MainActivity.this.onKeyUp(KeyEvent.KEYCODE_SHIFT_LEFT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
+                  else
+                    builtinKeyboard.shift = false;
+                  builtinKeyboard.ChangeKeyboard();
+                  return;
+                }
+                if (key < 0)
+                  return;
+                for (Keyboard.Key k : builtinKeyboard.getKeyboard().getKeys()) {
+                  if (k.sticky && key == k.codes[0]) {
+                    if (k.on) {
+                      builtinKeyboard.stickyKeys.add(key);
+                      MainActivity.this.onKeyDown(key, new KeyEvent(KeyEvent.ACTION_DOWN, key));
+                    } else {
+                      builtinKeyboard.stickyKeys.remove(key);
+                      MainActivity.this.onKeyUp(key, new KeyEvent(KeyEvent.ACTION_UP, key));
+                    }
+                    return;
+                  }
+                }
+
+                boolean shifted = false;
+                if (key > 100000) {
+                  key -= 100000;
+                  shifted = true;
+                }
+
+                MainActivity.this.onKeyUp(key, new KeyEvent(KeyEvent.ACTION_UP, key));
+
+                if (shifted) {
+                  MainActivity.this.onKeyUp(KeyEvent.KEYCODE_SHIFT_LEFT, new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_SHIFT_LEFT));
+                  builtinKeyboard.stickyKeys.remove(KeyEvent.KEYCODE_SHIFT_LEFT);
+                  for (Keyboard.Key k : builtinKeyboard.getKeyboard().getKeys()) {
+                    if (k.sticky && k.codes[0] == KeyEvent.KEYCODE_SHIFT_LEFT && k.on) {
+                      k.on = false;
+                      builtinKeyboard.invalidateAllKeys();
+                    }
+                  }
+                }
+              }
+
+              public void onText(CharSequence p1) {
+              }
+
+              public void swipeLeft() {
+              }
+
+              public void swipeRight() {
+              }
+
+              public void swipeDown() {
+              }
+
+              public void swipeUp() {
+              }
+
+              public void onKey(int p1, int[] p2) {
+              }
+            });
+            _screenKeyboard = builtinKeyboard;
+            FrameLayout.LayoutParams layout = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM);
+            _videoLayout.addView(_screenKeyboard, layout);
+          }
+        }
+      });
+    } else {
+      keyboardWithoutTextInputShown = false;
+      runOnUiThread(new Runnable() {
+        public void run() {
+          if (_screenKeyboard != null) {
+            _videoLayout.removeView(_screenKeyboard);
+            _screenKeyboard = null;
+          }
+          getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+          _inputManager.hideSoftInputFromWindow(mGLView.getWindowToken(), 0);
+          DimSystemStatusBar.get().dim(_videoLayout);
+          //DimSystemStatusBar.get().dim(mGLView);
+        }
+      });
+    }
+    mGLView.nativeScreenKeyboardShown(keyboardWithoutTextInputShown ? 1 : 0);
+  }
+
+  public void showScreenKeyboard(final String oldText) {
+    if (Globals.CompatibilityHacksTextInputEmulatesHwKeyboard) {
+      showScreenKeyboardWithoutTextInputField(Globals.TextInputKeyboard);
+      return;
+    }
+    if (_screenKeyboard != null)
+      return;
+    class simpleKeyListener implements OnKeyListener {
+      MainActivity _parent;
+
+      simpleKeyListener(MainActivity parent) {
+        _parent = parent;
+      }
+
+      ;
+
+      public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if ((event.getAction() == KeyEvent.ACTION_UP) && (
+          keyCode == KeyEvent.KEYCODE_ENTER ||
+            keyCode == KeyEvent.KEYCODE_BACK ||
+            keyCode == KeyEvent.KEYCODE_MENU ||
+            keyCode == KeyEvent.KEYCODE_BUTTON_A ||
+            keyCode == KeyEvent.KEYCODE_BUTTON_B ||
+            keyCode == KeyEvent.KEYCODE_BUTTON_X ||
+            keyCode == KeyEvent.KEYCODE_BUTTON_Y ||
+            keyCode == KeyEvent.KEYCODE_BUTTON_1 ||
+            keyCode == KeyEvent.KEYCODE_BUTTON_2 ||
+            keyCode == KeyEvent.KEYCODE_BUTTON_3 ||
+            keyCode == KeyEvent.KEYCODE_BUTTON_4)) {
+          _parent.hideScreenKeyboard();
+          return true;
+        }
                 /*
                 if (keyCode == KeyEvent.KEYCODE_DEL || keyCode == KeyEvent.KEYCODE_CLEAR)
 				{
@@ -706,104 +690,104 @@ public class MainActivity extends AppCompatActivity implements NeoXorgViewClient
 					}
 				}
 				*/
-                //Log.i("SDL", "Key " + keyCode + " flags " + event.getFlags() + " action " + event.getAction());
-                return false;
-            }
-        }
-        ;
-        EditText screenKeyboard = new EditText(this, null,
-                android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? android.R.style.TextAppearance_Material_Widget_EditText : android.R.style.TextAppearance_Widget_EditText);
-        String hint = _screenKeyboardHintMessage;
-        screenKeyboard.setHint(hint != null ? hint : getString(R.string.text_edit_click_here));
-        screenKeyboard.setText(oldText);
-        screenKeyboard.setSelection(screenKeyboard.getText().length());
-        screenKeyboard.setOnKeyListener(new simpleKeyListener(this));
-        screenKeyboard.setBackgroundColor(this.getResources().getColor(android.R.color.primary_text_light));
-        screenKeyboard.setTextColor(this.getResources().getColor(android.R.color.background_light));
-        if (isRunningOnOUYA() && Globals.TvBorders)
-            screenKeyboard.setPadding(100, 100, 100, 100); // Bad bad HDMI TVs all have cropped borders
-        _screenKeyboard = screenKeyboard;
-        _videoLayout.addView(_screenKeyboard);
-        //_screenKeyboard.setKeyListener(new TextKeyListener(TextKeyListener.Capitalize.NONE, false));
-        screenKeyboard.setInputType(InputType.TYPE_CLASS_TEXT);
-        screenKeyboard.setFocusableInTouchMode(true);
-        screenKeyboard.setFocusable(true);
-        //_inputManager.showSoftInput(screenKeyboard, InputMethodManager.SHOW_IMPLICIT);
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        // Hack to try to force on-screen keyboard
-        final EditText keyboard = screenKeyboard;
+        //Log.i("SDL", "Key " + keyCode + " flags " + event.getFlags() + " action " + event.getAction());
+        return false;
+      }
+    }
+    ;
+    EditText screenKeyboard = new EditText(this, null,
+      android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? android.R.style.TextAppearance_Material_Widget_EditText : android.R.style.TextAppearance_Widget_EditText);
+    String hint = _screenKeyboardHintMessage;
+    screenKeyboard.setHint(hint != null ? hint : getString(R.string.text_edit_click_here));
+    screenKeyboard.setText(oldText);
+    screenKeyboard.setSelection(screenKeyboard.getText().length());
+    screenKeyboard.setOnKeyListener(new simpleKeyListener(this));
+    screenKeyboard.setBackgroundColor(this.getResources().getColor(android.R.color.primary_text_light));
+    screenKeyboard.setTextColor(this.getResources().getColor(android.R.color.background_light));
+    if (isRunningOnOUYA() && Globals.TvBorders)
+      screenKeyboard.setPadding(100, 100, 100, 100); // Bad bad HDMI TVs all have cropped borders
+    _screenKeyboard = screenKeyboard;
+    _videoLayout.addView(_screenKeyboard);
+    //_screenKeyboard.setKeyListener(new TextKeyListener(TextKeyListener.Capitalize.NONE, false));
+    screenKeyboard.setInputType(InputType.TYPE_CLASS_TEXT);
+    screenKeyboard.setFocusableInTouchMode(true);
+    screenKeyboard.setFocusable(true);
+    //_inputManager.showSoftInput(screenKeyboard, InputMethodManager.SHOW_IMPLICIT);
+    //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    // Hack to try to force on-screen keyboard
+    final EditText keyboard = screenKeyboard;
+    keyboard.postDelayed(new Runnable() {
+      public void run() {
+        keyboard.requestFocus();
+        //_inputManager.showSoftInput(keyboard, InputMethodManager.SHOW_FORCED);
+        // Hack from Stackoverflow, to force text input on Ouya
+        keyboard.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
+        keyboard.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0));
         keyboard.postDelayed(new Runnable() {
-            public void run() {
-                keyboard.requestFocus();
-                //_inputManager.showSoftInput(keyboard, InputMethodManager.SHOW_FORCED);
-                // Hack from Stackoverflow, to force text input on Ouya
-                keyboard.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
-                keyboard.dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_UP, 0, 0, 0));
-                keyboard.postDelayed(new Runnable() {
-                    public void run() {
-                        keyboard.requestFocus();
-                        keyboard.setSelection(keyboard.getText().length());
-                    }
-                }, 100);
-            }
-        }, 300);
+          public void run() {
+            keyboard.requestFocus();
+            keyboard.setSelection(keyboard.getText().length());
+          }
+        }, 100);
+      }
+    }, 300);
+  }
+
+  ;
+
+  public void hideScreenKeyboard() {
+    if (keyboardWithoutTextInputShown)
+      showScreenKeyboardWithoutTextInputField(Globals.TextInputKeyboard);
+
+    if (_screenKeyboard == null || !(_screenKeyboard instanceof EditText))
+      return;
+
+    synchronized (textInput) {
+      String text = ((EditText) _screenKeyboard).getText().toString();
+      for (int i = 0; i < text.length(); i++) {
+        DemoRenderer.nativeTextInput((int) text.charAt(i), (int) text.codePointAt(i));
+      }
     }
+    DemoRenderer.nativeTextInputFinished();
+    _inputManager.hideSoftInputFromWindow(_screenKeyboard.getWindowToken(), 0);
+    _videoLayout.removeView(_screenKeyboard);
+    _screenKeyboard = null;
+    mGLView.setFocusableInTouchMode(true);
+    mGLView.setFocusable(true);
+    mGLView.requestFocus();
+    DimSystemStatusBar.get().dim(_videoLayout);
 
-    ;
-
-    public void hideScreenKeyboard() {
-        if (keyboardWithoutTextInputShown)
-            showScreenKeyboardWithoutTextInputField(Globals.TextInputKeyboard);
-
-        if (_screenKeyboard == null || !(_screenKeyboard instanceof EditText))
-            return;
-
-        synchronized (textInput) {
-            String text = ((EditText) _screenKeyboard).getText().toString();
-            for (int i = 0; i < text.length(); i++) {
-                DemoRenderer.nativeTextInput((int) text.charAt(i), (int) text.codePointAt(i));
-            }
-        }
-        DemoRenderer.nativeTextInputFinished();
-        _inputManager.hideSoftInputFromWindow(_screenKeyboard.getWindowToken(), 0);
-        _videoLayout.removeView(_screenKeyboard);
-        _screenKeyboard = null;
-        mGLView.setFocusableInTouchMode(true);
-        mGLView.setFocusable(true);
-        mGLView.requestFocus();
+    _videoLayout.postDelayed(new Runnable() {
+      public void run() {
         DimSystemStatusBar.get().dim(_videoLayout);
+      }
+    }, 500);
+  }
 
-        _videoLayout.postDelayed(new Runnable() {
-            public void run() {
-                DimSystemStatusBar.get().dim(_videoLayout);
-            }
-        }, 500);
-    }
+  ;
 
-    ;
+  public boolean isScreenKeyboardShown() {
+    return _screenKeyboard != null;
+  }
 
-    public boolean isScreenKeyboardShown() {
-        return _screenKeyboard != null;
-    }
+  ;
 
-    ;
+  public void setScreenKeyboardHintMessage(String s) {
+    _screenKeyboardHintMessage = s;
+    //Log.i("SDL", "setScreenKeyboardHintMessage: " + (_screenKeyboardHintMessage != null ? _screenKeyboardHintMessage : getString(R.string.text_edit_click_here)));
+    runOnUiThread(new Runnable() {
+      public void run() {
+        if (_screenKeyboard != null && _screenKeyboard instanceof EditText) {
+          String hint = _screenKeyboardHintMessage;
+          ((EditText) _screenKeyboard).setHint(hint != null ? hint : getString(R.string.text_edit_click_here));
+        }
+      }
+    });
+  }
 
-    public void setScreenKeyboardHintMessage(String s) {
-        _screenKeyboardHintMessage = s;
-        //Log.i("SDL", "setScreenKeyboardHintMessage: " + (_screenKeyboardHintMessage != null ? _screenKeyboardHintMessage : getString(R.string.text_edit_click_here)));
-        runOnUiThread(new Runnable() {
-            public void run() {
-                if (_screenKeyboard != null && _screenKeyboard instanceof EditText) {
-                    String hint = _screenKeyboardHintMessage;
-                    ((EditText) _screenKeyboard).setHint(hint != null ? hint : getString(R.string.text_edit_click_here));
-                }
-            }
-        });
-    }
-
-    final static int ADVERTISEMENT_POSITION_RIGHT = -1;
-    final static int ADVERTISEMENT_POSITION_BOTTOM = -1;
-    final static int ADVERTISEMENT_POSITION_CENTER = -2;
+  final static int ADVERTISEMENT_POSITION_RIGHT = -1;
+  final static int ADVERTISEMENT_POSITION_BOTTOM = -1;
+  final static int ADVERTISEMENT_POSITION_CENTER = -2;
 
 	/*
 	@Override
@@ -878,233 +862,233 @@ public class MainActivity extends AppCompatActivity implements NeoXorgViewClient
 	}
 	*/
 
-    //private Configuration oldConfig = null;
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        updateScreenOrientation();
+  //private Configuration oldConfig = null;
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+    updateScreenOrientation();
+  }
+
+  public void updateScreenOrientation() {
+    int rotation = Surface.ROTATION_0;
+    rotation = getWindowManager().getDefaultDisplay().getRotation();
+    AccelerometerReader.gyro.invertedOrientation = (rotation == Surface.ROTATION_180 || rotation == Surface.ROTATION_270);
+    //Log.d("SDL", "updateScreenOrientation(): screen orientation: " + rotation + " inverted " + AccelerometerReader.gyro.invertedOrientation);
+  }
+
+  @Override
+  public void initScreenOrientation() {
+    setScreenOrientation();
+  }
+
+  public void setText(final String t) {
+    class Callback implements Runnable {
+      MainActivity Parent;
+      public SpannedString text;
+
+      public void run() {
+        Parent.setUpStatusLabel();
+        if (Parent._tv != null)
+          Parent._tv.setText(text);
+      }
+    }
+    Callback cb = new Callback();
+    cb.text = new SpannedString(t);
+    cb.Parent = this;
+    this.runOnUiThread(cb);
+  }
+
+  @Override
+  public void onNewIntent(Intent i) {
+    Log.i("SDL", "onNewIntent(): " + i.toString());
+    super.onNewIntent(i);
+    setIntent(i);
+  }
+
+  @SuppressLint("UnsafeDynamicallyLoadedCode")
+  public void LoadLibraries() {
+    try {
+      if (Globals.NeedGles3) {
+        System.loadLibrary("GLESv3");
+        Log.i("SDL", "libSDL: loaded GLESv3 lib");
+      } else if (Globals.NeedGles2) {
+        System.loadLibrary("GLESv2");
+        Log.i("SDL", "libSDL: loaded GLESv2 lib");
+      }
+    } catch (UnsatisfiedLinkError e) {
+      Log.i("SDL", "libSDL: Cannot load GLESv3 or GLESv2 lib");
     }
 
-    public void updateScreenOrientation() {
-        int rotation = Surface.ROTATION_0;
-        rotation = getWindowManager().getDefaultDisplay().getRotation();
-        AccelerometerReader.gyro.invertedOrientation = (rotation == Surface.ROTATION_180 || rotation == Surface.ROTATION_270);
-        //Log.d("SDL", "updateScreenOrientation(): screen orientation: " + rotation + " inverted " + AccelerometerReader.gyro.invertedOrientation);
-    }
-
-    @Override
-    public void initScreenOrientation() {
-        setScreenOrientation();
-    }
-
-    public void setText(final String t) {
-        class Callback implements Runnable {
-            MainActivity Parent;
-            public SpannedString text;
-
-            public void run() {
-                Parent.setUpStatusLabel();
-                if (Parent._tv != null)
-                    Parent._tv.setText(text);
-            }
-        }
-        Callback cb = new Callback();
-        cb.text = new SpannedString(t);
-        cb.Parent = this;
-        this.runOnUiThread(cb);
-    }
-
-    @Override
-    public void onNewIntent(Intent i) {
-        Log.i("SDL", "onNewIntent(): " + i.toString());
-        super.onNewIntent(i);
-        setIntent(i);
-    }
-
-    @SuppressLint("UnsafeDynamicallyLoadedCode")
-    public void LoadLibraries() {
+    // Load all libraries
+    try {
+      for (String libname : Globals.XLIBS) {
+        String soPath = Globals.XLIB_DIR + libname;
+        Log.i("SDL", "libSDL: loading lib " + soPath);
         try {
-            if (Globals.NeedGles3) {
-                System.loadLibrary("GLESv3");
-                Log.i("SDL", "libSDL: loaded GLESv3 lib");
-            } else if (Globals.NeedGles2) {
-                System.loadLibrary("GLESv2");
-                Log.i("SDL", "libSDL: loaded GLESv2 lib");
-            }
-        } catch (UnsatisfiedLinkError e) {
-            Log.i("SDL", "libSDL: Cannot load GLESv3 or GLESv2 lib");
+          System.load(soPath);
+        } catch (UnsatisfiedLinkError error) {
+          Log.i("SDL", "libSDL: error loading lib " + soPath
+            + ", reason: " + error.getLocalizedMessage());
         }
+      }
+    } catch (UnsatisfiedLinkError ignore) {
+    }
+  }
 
-        // Load all libraries
+  @SuppressLint("UnsafeDynamicallyLoadedCode")
+  public static void LoadApplicationLibrary(final Context context) {
+    Settings.nativeChdir(Globals.DataDir);
+    try {
+      for (String libname : Globals.XAPP_LIBS) {
+        String soPath = Globals.XLIB_DIR + libname;
+        Log.i("SDL", "libSDL: loading lib " + soPath);
         try {
-            for (String libname : Globals.XLIBS) {
-                String soPath = Globals.XLIB_DIR + libname;
-                Log.i("SDL", "libSDL: loading lib " + soPath);
-                try {
-                    System.load(soPath);
-                } catch (UnsatisfiedLinkError error) {
-                    Log.i("SDL", "libSDL: error loading lib " + soPath
-                            + ", reason: " + error.getLocalizedMessage());
-                }
-            }
-        } catch (UnsatisfiedLinkError ignore) {
+          System.load(soPath);
+        } catch (UnsatisfiedLinkError error) {
+          Log.i("SDL", "libSDL: error loading lib " + soPath
+            + ", reason: " + error.getLocalizedMessage());
         }
+      }
+    } catch (UnsatisfiedLinkError ignore) {
     }
+    Log.v("SDL", "libSDL: loaded all libraries");
+    ApplicationLibraryLoaded = true;
+  }
 
-    @SuppressLint("UnsafeDynamicallyLoadedCode")
-    public static void LoadApplicationLibrary(final Context context) {
-        Settings.nativeChdir(Globals.DataDir);
-        try {
-            for (String libname : Globals.XAPP_LIBS) {
-                String soPath = Globals.XLIB_DIR + libname;
-                Log.i("SDL", "libSDL: loading lib " + soPath);
-                try {
-                    System.load(soPath);
-                } catch (UnsatisfiedLinkError error) {
-                    Log.i("SDL", "libSDL: error loading lib " + soPath
-                            + ", reason: " + error.getLocalizedMessage());
-                }
-            }
-        } catch (UnsatisfiedLinkError ignore) {
-        }
-        Log.v("SDL", "libSDL: loaded all libraries");
-        ApplicationLibraryLoaded = true;
+  public int getApplicationVersion() {
+    try {
+      PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+      return packageInfo.versionCode;
+    } catch (PackageManager.NameNotFoundException e) {
+      Log.i("SDL", "libSDL: Cannot get the version of our own package: " + e);
     }
+    return 0;
+  }
 
-    public int getApplicationVersion() {
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.i("SDL", "libSDL: Cannot get the version of our own package: " + e);
-        }
-        return 0;
+  public boolean isRunningOnOUYA() {
+    try {
+      PackageInfo packageInfo = getPackageManager().getPackageInfo("tv.ouya", 0);
+      return true;
+    } catch (PackageManager.NameNotFoundException e) {
     }
+    UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
+    return (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) || Globals.OuyaEmulation;
+  }
 
-    public boolean isRunningOnOUYA() {
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo("tv.ouya", 0);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-        UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
-        return (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) || Globals.OuyaEmulation;
+  @Override
+  public NeoGLView getGLView() {
+    return mGLView;
+  }
+
+  public boolean isCurrentOrientationHorizontal() {
+    if (Globals.AutoDetectOrientation) {
+      // Less reliable way to detect orientation, but works with multiwindow
+      View topView = getWindow().peekDecorView();
+      if (topView != null) {
+        //Log.d("SDL", "isCurrentOrientationHorizontal(): decorview: " + topView.getWidth() + "x" + topView.getHeight());
+        return topView.getWidth() >= topView.getHeight();
+      }
     }
+    Display getOrient = getWindowManager().getDefaultDisplay();
+    return getOrient.getWidth() >= getOrient.getHeight();
+  }
 
-    @Override
-    public NeoGLView getGLView() {
-        return mGLView;
+  void setScreenOrientation() {
+    Globals.AutoDetectOrientation = true;
+    if (Globals.AutoDetectOrientation) {
+      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_USER);
+      return;
     }
+    setRequestedOrientation(Globals.HorizontalOrientation ? ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+  }
 
-    public boolean isCurrentOrientationHorizontal() {
-        if (Globals.AutoDetectOrientation) {
-            // Less reliable way to detect orientation, but works with multiwindow
-            View topView = getWindow().peekDecorView();
-            if (topView != null) {
-                //Log.d("SDL", "isCurrentOrientationHorizontal(): decorview: " + topView.getWidth() + "x" + topView.getHeight());
-                return topView.getWidth() >= topView.getHeight();
-            }
-        }
-        Display getOrient = getWindowManager().getDefaultDisplay();
-        return getOrient.getWidth() >= getOrient.getHeight();
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    if (permissions.length == 0 || grantResults.length == 0) {
+      Log.i("SDL", "libSDL: Permission request dialog was aborted");
+      return;
     }
-
-    void setScreenOrientation() {
-        Globals.AutoDetectOrientation = true;
-        if (Globals.AutoDetectOrientation) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_USER);
-            return;
-        }
-        setRequestedOrientation(Globals.HorizontalOrientation ? ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+    if (Manifest.permission.RECORD_AUDIO.equals(permissions[0])) {
+      Log.i("SDL", "libSDL: Record audio permission: " + (grantResults[0] == PackageManager.PERMISSION_GRANTED ? "GRANTED" : "DENIED"));
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (permissions.length == 0 || grantResults.length == 0) {
-            Log.i("SDL", "libSDL: Permission request dialog was aborted");
-            return;
-        }
-        if (Manifest.permission.RECORD_AUDIO.equals(permissions[0])) {
-            Log.i("SDL", "libSDL: Record audio permission: " + (grantResults[0] == PackageManager.PERMISSION_GRANTED ? "GRANTED" : "DENIED"));
-        }
-        if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permissions[0])) {
-            Log.i("SDL", "libSDL: Write external storage permission: " + (grantResults[0] == PackageManager.PERMISSION_GRANTED ? "GRANTED" : "DENIED"));
-            writeExternalStoragePermissionDialogAnswered = true;
-        }
+    if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permissions[0])) {
+      Log.i("SDL", "libSDL: Write external storage permission: " + (grantResults[0] == PackageManager.PERMISSION_GRANTED ? "GRANTED" : "DENIED"));
+      writeExternalStoragePermissionDialogAnswered = true;
     }
+  }
 
-    public void setSystemMousePointerVisible(int visible) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            mGLView.setPointerIcon(android.view.PointerIcon.getSystemIcon(this, (visible == 0) ? android.view.PointerIcon.TYPE_NULL : android.view.PointerIcon.TYPE_DEFAULT));
-        }
+  public void setSystemMousePointerVisible(int visible) {
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+      mGLView.setPointerIcon(android.view.PointerIcon.getSystemIcon(this, (visible == 0) ? android.view.PointerIcon.TYPE_NULL : android.view.PointerIcon.TYPE_DEFAULT));
     }
+  }
 
-    public FrameLayout getVideoLayout() {
-        return _videoLayout;
-    }
+  public FrameLayout getVideoLayout() {
+    return _videoLayout;
+  }
 
-    NeoGLView mGLView = null;
-    private static AudioThread mAudioThread = null;
+  NeoGLView mGLView = null;
+  private static AudioThread mAudioThread = null;
 
-    private TextView _tv = null;
-    private Button _btn = null;
-    private LinearLayout _layout = null;
-    private LinearLayout _layout2 = null;
-    public ProgressDialog loadingDialog = null;
+  private TextView _tv = null;
+  private Button _btn = null;
+  private LinearLayout _layout = null;
+  private LinearLayout _layout2 = null;
+  public ProgressDialog loadingDialog = null;
 
-    FrameLayout _videoLayout = null;
-    private View _screenKeyboard = null;
-    private String _screenKeyboardHintMessage = null;
-    static boolean keyboardWithoutTextInputShown = false;
-    private boolean sdlInited = false;
-    public static boolean ApplicationLibraryLoaded = false;
+  FrameLayout _videoLayout = null;
+  private View _screenKeyboard = null;
+  private String _screenKeyboardHintMessage = null;
+  static boolean keyboardWithoutTextInputShown = false;
+  private boolean sdlInited = false;
+  public static boolean ApplicationLibraryLoaded = false;
 
-    boolean _isPaused = false;
-    private InputMethodManager _inputManager = null;
+  boolean _isPaused = false;
+  private InputMethodManager _inputManager = null;
 
-    public LinkedList<Integer> textInput = new LinkedList<Integer>();
-    public static MainActivity instance = null;
-    public boolean writeExternalStoragePermissionDialogAnswered = false;
+  public LinkedList<Integer> textInput = new LinkedList<Integer>();
+  public static MainActivity instance = null;
+  public boolean writeExternalStoragePermissionDialogAnswered = false;
 }
 
 // *** HONEYCOMB / ICS FIX FOR FULLSCREEN MODE, by lmak ***
 abstract class DimSystemStatusBar {
-    public static DimSystemStatusBar get() {
-        return DimSystemStatusBarHoneycomb.Holder.sInstance;
+  public static DimSystemStatusBar get() {
+    return DimSystemStatusBarHoneycomb.Holder.sInstance;
+  }
+
+  public abstract void dim(final View view);
+
+  private static class DimSystemStatusBarHoneycomb extends DimSystemStatusBar {
+    private static class Holder {
+      private static final DimSystemStatusBarHoneycomb sInstance = new DimSystemStatusBarHoneycomb();
     }
 
-    public abstract void dim(final View view);
-
-    private static class DimSystemStatusBarHoneycomb extends DimSystemStatusBar {
-        private static class Holder {
-            private static final DimSystemStatusBarHoneycomb sInstance = new DimSystemStatusBarHoneycomb();
-        }
-
-        public void dim(final View view) {
-            if (Globals.ImmersiveMode)
-                // Immersive mode, I already hear curses when system bar reappears mid-game from the slightest swipe at the bottom of the screen
-                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
-            else
-                view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-        }
+    public void dim(final View view) {
+      if (Globals.ImmersiveMode)
+        // Immersive mode, I already hear curses when system bar reappears mid-game from the slightest swipe at the bottom of the screen
+        view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+      else
+        view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
     }
+  }
 }
 
 abstract class SetLayerType {
-    public static SetLayerType get() {
-        return SetLayerTypeHoneycomb.Holder.sInstance;
+  public static SetLayerType get() {
+    return SetLayerTypeHoneycomb.Holder.sInstance;
+  }
+
+  public abstract void setLayerType(final View view);
+
+  private static class SetLayerTypeHoneycomb extends SetLayerType {
+    private static class Holder {
+      private static final SetLayerTypeHoneycomb sInstance = new SetLayerTypeHoneycomb();
     }
 
-    public abstract void setLayerType(final View view);
-
-    private static class SetLayerTypeHoneycomb extends SetLayerType {
-        private static class Holder {
-            private static final SetLayerTypeHoneycomb sInstance = new SetLayerTypeHoneycomb();
-        }
-
-        public void setLayerType(final View view) {
-            view.setLayerType(View.LAYER_TYPE_NONE, null);
-            //view.setLayerType(android.view.View.LAYER_TYPE_HARDWARE, null);
-        }
+    public void setLayerType(final View view) {
+      view.setLayerType(View.LAYER_TYPE_NONE, null);
+      //view.setLayerType(android.view.View.LAYER_TYPE_HARDWARE, null);
     }
+  }
 }

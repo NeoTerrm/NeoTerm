@@ -6,7 +6,7 @@ import io.neolang.ast.visitor.VisitorFactory
  * @author kiva
  */
 open class NeoLangAst {
-    fun visit(): VisitorFactory {
-        return VisitorFactory(this)
-    }
+  fun visit(): VisitorFactory {
+    return VisitorFactory(this)
+  }
 }

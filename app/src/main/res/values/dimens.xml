@@ -1,23 +1,23 @@
 <resources>
-    <dimen name="app_bar_height">180dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
-    <dimen name="preview_layout_margin_small">8dp</dimen>
-    <dimen name="preview_layout_margin">32dp</dimen>
-    <dimen name="preview_layout_height">32dp</dimen>
-    <dimen name="preview_layout_width">32dp</dimen>
-    <dimen name="eks_height">32dp</dimen>
-    <dimen name="eks_height_two_line">72dp</dimen>
-    <dimen name="eks_height_one_line">36dp</dimen>
-    <dimen name="terminal_dialog_height">256dp</dimen>
-    <dimen name="custom_editor_line_height">48dp</dimen>
-    <dimen name="custom_install_icon_width">36dp</dimen>
-    <dimen name="custom_install_icon_height">36dp</dimen>
-    <dimen name="min_popup_height">24dp</dimen>
-    <dimen name="popup_padding">4dp</dimen>
-    <dimen name="md_list_item_height">48dp</dimen>
-    <dimen name="recycler_tab_height">48dp</dimen>
+  <dimen name="app_bar_height">180dp</dimen>
+  <dimen name="fab_margin">16dp</dimen>
+  <dimen name="text_margin">16dp</dimen>
+  <dimen name="preview_layout_margin_small">8dp</dimen>
+  <dimen name="preview_layout_margin">32dp</dimen>
+  <dimen name="preview_layout_height">32dp</dimen>
+  <dimen name="preview_layout_width">32dp</dimen>
+  <dimen name="eks_height">32dp</dimen>
+  <dimen name="eks_height_two_line">72dp</dimen>
+  <dimen name="eks_height_one_line">36dp</dimen>
+  <dimen name="terminal_dialog_height">256dp</dimen>
+  <dimen name="custom_editor_line_height">48dp</dimen>
+  <dimen name="custom_install_icon_width">36dp</dimen>
+  <dimen name="custom_install_icon_height">36dp</dimen>
+  <dimen name="min_popup_height">24dp</dimen>
+  <dimen name="popup_padding">4dp</dimen>
+  <dimen name="md_list_item_height">48dp</dimen>
+  <dimen name="recycler_tab_height">48dp</dimen>
 
-    <dimen name="package_item_padding">16dp</dimen>
-    <dimen name="color_item_padding">4dp</dimen>
+  <dimen name="package_item_padding">16dp</dimen>
+  <dimen name="color_item_padding">4dp</dimen>
 </resources>

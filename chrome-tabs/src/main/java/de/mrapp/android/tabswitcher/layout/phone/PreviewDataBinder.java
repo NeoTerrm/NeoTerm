@@ -15,15 +15,14 @@ package de.mrapp.android.tabswitcher.layout.phone;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.collection.LruCache;
-import androidx.core.util.Pair;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.collection.LruCache;
+import androidx.core.util.Pair;
 import de.mrapp.android.tabswitcher.Tab;
 import de.mrapp.android.tabswitcher.model.TabItem;
 import de.mrapp.android.util.multithreading.AbstractDataBinder;
@@ -40,80 +39,78 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  */
 public class PreviewDataBinder extends AbstractDataBinder<Bitmap, Tab, ImageView, TabItem> {
 
-    /**
-     * The parent view of the tab switcher, the tabs belong to.
-     */
-    private final ViewGroup parent;
+  /**
+   * The parent view of the tab switcher, the tabs belong to.
+   */
+  private final ViewGroup parent;
 
-    /**
-     * The view recycler, which is used to inflate child views.
-     */
-    private final ViewRecycler<Tab, Void> childViewRecycler;
+  /**
+   * The view recycler, which is used to inflate child views.
+   */
+  private final ViewRecycler<Tab, Void> childViewRecycler;
 
-    /**
-     * Creates a new data binder, which allows to asynchronously render preview images of tabs and
-     * display them afterwards.
-     *
-     * @param parent
-     *         The parent view of the tab switcher, the tabs belong to, as an instance of the class
-     *         {@link ViewGroup}. The parent may not be null
-     * @param childViewRecycler
-     *         The view recycler, which should be used to inflate child views, as an instance of the
-     *         class ViewRecycler. The view recycler may not be null
-     */
-    public PreviewDataBinder(@NonNull final ViewGroup parent,
-                             @NonNull final ViewRecycler<Tab, Void> childViewRecycler) {
-        super(parent.getContext(), new LruCache<Tab, Bitmap>(7));
-        ensureNotNull(parent, "The parent may not be null");
-        ensureNotNull(childViewRecycler, "The child view recycler may not be null");
-        this.parent = parent;
-        this.childViewRecycler = childViewRecycler;
+  /**
+   * Creates a new data binder, which allows to asynchronously render preview images of tabs and
+   * display them afterwards.
+   *
+   * @param parent            The parent view of the tab switcher, the tabs belong to, as an instance of the class
+   *                          {@link ViewGroup}. The parent may not be null
+   * @param childViewRecycler The view recycler, which should be used to inflate child views, as an instance of the
+   *                          class ViewRecycler. The view recycler may not be null
+   */
+  public PreviewDataBinder(@NonNull final ViewGroup parent,
+                           @NonNull final ViewRecycler<Tab, Void> childViewRecycler) {
+    super(parent.getContext(), new LruCache<Tab, Bitmap>(7));
+    ensureNotNull(parent, "The parent may not be null");
+    ensureNotNull(childViewRecycler, "The child view recycler may not be null");
+    this.parent = parent;
+    this.childViewRecycler = childViewRecycler;
+  }
+
+  @Override
+  protected final void onPreExecute(@NonNull final ImageView view,
+                                    @NonNull final TabItem... params) {
+    TabItem tabItem = params[0];
+    PhoneTabViewHolder viewHolder = tabItem.getViewHolder();
+    View child = viewHolder.child;
+    Tab tab = tabItem.getTab();
+
+    if (child == null) {
+      Pair<View, ?> pair = childViewRecycler.inflate(tab, viewHolder.childContainer);
+      child = pair.first;
+    } else {
+      childViewRecycler.getAdapter().onShowView(getContext(), child, tab, false);
     }
 
-    @Override
-    protected final void onPreExecute(@NonNull final ImageView view,
-                                      @NonNull final TabItem... params) {
-        TabItem tabItem = params[0];
-        PhoneTabViewHolder viewHolder = tabItem.getViewHolder();
-        View child = viewHolder.child;
-        Tab tab = tabItem.getTab();
+    viewHolder.child = child;
+  }
 
-        if (child == null) {
-            Pair<View, ?> pair = childViewRecycler.inflate(tab, viewHolder.childContainer);
-            child = pair.first;
-        } else {
-            childViewRecycler.getAdapter().onShowView(getContext(), child, tab, false);
-        }
+  @Nullable
+  @Override
+  protected final Bitmap doInBackground(@NonNull final Tab key,
+                                        @NonNull final TabItem... params) {
+    TabItem tabItem = params[0];
+    PhoneTabViewHolder viewHolder = tabItem.getViewHolder();
+    View child = viewHolder.child;
+    viewHolder.child = null;
+    int width = parent.getWidth();
+    int height = parent.getHeight();
+    child.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
+      MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
+    child.layout(0, 0, child.getMeasuredWidth(), child.getMeasuredHeight());
+    Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+    Canvas canvas = new Canvas(bitmap);
+    child.draw(canvas);
+    return bitmap;
+  }
 
-        viewHolder.child = child;
-    }
-
-    @Nullable
-    @Override
-    protected final Bitmap doInBackground(@NonNull final Tab key,
-                                          @NonNull final TabItem... params) {
-        TabItem tabItem = params[0];
-        PhoneTabViewHolder viewHolder = tabItem.getViewHolder();
-        View child = viewHolder.child;
-        viewHolder.child = null;
-        int width = parent.getWidth();
-        int height = parent.getHeight();
-        child.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
-        child.layout(0, 0, child.getMeasuredWidth(), child.getMeasuredHeight());
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        child.draw(canvas);
-        return bitmap;
-    }
-
-    @Override
-    protected final void onPostExecute(@NonNull final ImageView view, @Nullable final Bitmap data,
-                                       @NonNull final TabItem... params) {
-        view.setImageBitmap(data);
-        view.setVisibility(data != null ? View.VISIBLE : View.GONE);
-        TabItem tabItem = params[0];
-        childViewRecycler.remove(tabItem.getTab());
-    }
+  @Override
+  protected final void onPostExecute(@NonNull final ImageView view, @Nullable final Bitmap data,
+                                     @NonNull final TabItem... params) {
+    view.setImageBitmap(data);
+    view.setVisibility(data != null ? View.VISIBLE : View.GONE);
+    TabItem tabItem = params[0];
+    childViewRecycler.remove(tabItem.getTab());
+  }
 
 }

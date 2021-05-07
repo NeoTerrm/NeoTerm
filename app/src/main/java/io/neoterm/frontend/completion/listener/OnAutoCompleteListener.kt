@@ -6,11 +6,11 @@ package io.neoterm.frontend.completion.listener
  * @version 1.0
  */
 interface OnAutoCompleteListener {
-    fun onCompletionRequired(newText: String?)
+  fun onCompletionRequired(newText: String?)
 
-    fun onKeyCode(keyCode: Int, keyMod: Int)
+  fun onKeyCode(keyCode: Int, keyMod: Int)
 
-    fun onCleanUp()
+  fun onCleanUp()
 
-    fun onFinishCompletion(): Boolean
+  fun onFinishCompletion(): Boolean
 }

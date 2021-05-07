@@ -9,18 +9,18 @@ import java.nio.file.Files
  * @author kiva
  */
 open class NeoConfigureFile(val configureFile: File) {
-    private val configParser = NeoLangParser()
-    open protected var configVisitor : ConfigVisitor? = null
+  private val configParser = NeoLangParser()
+  open protected var configVisitor: ConfigVisitor? = null
 
-    fun getVisitor() = configVisitor ?: throw IllegalStateException("Configure file not loaded or parse failed.")
+  fun getVisitor() = configVisitor ?: throw IllegalStateException("Configure file not loaded or parse failed.")
 
-    open fun parseConfigure() = kotlin.runCatching {
-        val programCode = String(Files.readAllBytes(configureFile.toPath()))
-        configParser.setInputSource(programCode)
+  open fun parseConfigure() = kotlin.runCatching {
+    val programCode = String(Files.readAllBytes(configureFile.toPath()))
+    configParser.setInputSource(programCode)
 
-        val ast = configParser.parse()
-        val astVisitor = ast.visit().getVisitor(ConfigVisitor::class.java) ?: return false
-        astVisitor.start()
-        configVisitor = astVisitor.getCallback()
-    }.isSuccess
+    val ast = configParser.parse()
+    val astVisitor = ast.visit().getVisitor(ConfigVisitor::class.java) ?: return false
+    astVisitor.start()
+    configVisitor = astVisitor.getCallback()
+  }.isSuccess
 }

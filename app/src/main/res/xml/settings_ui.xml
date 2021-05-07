@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/key_ui_fullscreen"
-        android:title="@string/pref_ui_fullscreen" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:key="@string/key_ui_fullscreen"
+    android:title="@string/pref_ui_fullscreen"/>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/key_ui_hide_toolbar"
-        android:summary="@string/pref_ui_hide_toolbar_desc"
-        android:title="@string/pref_ui_hide_toolbar" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:key="@string/key_ui_hide_toolbar"
+    android:summary="@string/pref_ui_hide_toolbar_desc"
+    android:title="@string/pref_ui_hide_toolbar"/>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/key_ui_next_tab_anim"
-        android:summary="@string/pref_ui_close_tab_anim_next_tab_desc"
-        android:title="@string/pref_ui_close_tab_anim_next_tab" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:key="@string/key_ui_next_tab_anim"
+    android:summary="@string/pref_ui_close_tab_anim_next_tab_desc"
+    android:title="@string/pref_ui_close_tab_anim_next_tab"/>
 
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="@string/key_ui_eks_enabled"
-        android:title="@string/pref_ui_eks_enabled"
-        android:summary="@string/pref_ui_eks_enabled_desc" />
+  <CheckBoxPreference
+    android:defaultValue="true"
+    android:key="@string/key_ui_eks_enabled"
+    android:title="@string/pref_ui_eks_enabled"
+    android:summary="@string/pref_ui_eks_enabled_desc"/>
 
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:dependency="@string/key_ui_eks_enabled"
-        android:key="@string/key_ui_eks_weight_explicit"
-        android:summary="@string/pref_ui_eks_weight_explicit_desc"
-        android:title="@string/pref_ui_eks_weight_explicit" />
+  <CheckBoxPreference
+    android:defaultValue="false"
+    android:dependency="@string/key_ui_eks_enabled"
+    android:key="@string/key_ui_eks_weight_explicit"
+    android:summary="@string/pref_ui_eks_weight_explicit_desc"
+    android:title="@string/pref_ui_eks_weight_explicit"/>
 </PreferenceScreen>

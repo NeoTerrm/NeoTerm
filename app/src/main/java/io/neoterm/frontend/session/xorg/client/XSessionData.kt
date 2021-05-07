@@ -11,15 +11,15 @@ import java.util.*
  * @author kiva
  */
 class XSessionData {
-    var videoLayout: FrameLayout? = null
-    var audioThread: NeoAudioThread? = null
-    var screenKeyboard: View? = null
-    var glView: NeoGLView? = null
+  var videoLayout: FrameLayout? = null
+  var audioThread: NeoAudioThread? = null
+  var screenKeyboard: View? = null
+  var glView: NeoGLView? = null
 
-    var isPaused = false
-    var client: NeoXorgViewClient? = null
+  var isPaused = false
+  var client: NeoXorgViewClient? = null
 
-    var keyboardWithoutTextInputShown = false
-    var screenKeyboardHintMessage: String? = null
-    var textInput = LinkedList<Int>()
+  var keyboardWithoutTextInputShown = false
+  var screenKeyboardHintMessage: String? = null
+  var textInput = LinkedList<Int>()
 }

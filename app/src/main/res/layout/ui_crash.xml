@@ -1,64 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/terminal_background"
+              android:orientation="vertical">
+
+  <androidx.appcompat.widget.Toolbar
+    android:id="@+id/crash_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/terminal_background"
+    android:layout_margin="@dimen/text_margin"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/crash_toolbar"
+    <TextView
+      android:id="@+id/crash_model"
+      style="@style/TextAppearance.AppCompat.Medium"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/textColorSecondary"/>
+
+    <TextView
+      android:id="@+id/crash_app_version"
+      style="@style/TextAppearance.AppCompat.Medium"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/textColorSecondary"/>
+
+    <TextView
+      style="@style/TextAppearance.AppCompat.Medium"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/text_margin"
+      android:gravity="start|top"
+      android:text="@string/crash_stack_trace"
+      android:textColor="@color/textColor"/>
+
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <TextView
+        android:id="@+id/crash_details"
+        style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/text_margin"
+        android:layout_marginStart="@dimen/text_margin"
+        android:gravity="start|top"
+        android:textColor="@color/textColor"/>
+    </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/text_margin"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/crash_model"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textColorSecondary" />
-
-        <TextView
-            android:id="@+id/crash_app_version"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textColorSecondary" />
-
-        <TextView
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_margin"
-            android:gravity="start|top"
-            android:text="@string/crash_stack_trace"
-            android:textColor="@color/textColor" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/crash_details"
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/text_margin"
-                android:layout_marginStart="@dimen/text_margin"
-                android:gravity="start|top"
-                android:textColor="@color/textColor" />
-        </ScrollView>
-
-    </LinearLayout>
+  </LinearLayout>
 
 
 </LinearLayout>

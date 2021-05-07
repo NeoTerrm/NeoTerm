@@ -100,8 +100,7 @@ static int create_subprocess(JNIEnv *env,
             char *error_message;
             // No need to free asprintf()-allocated memory since doing execvp() or exit() below.
             if (asprintf(&error_message, "chdir(\"%s\")", cwd) == -1)
-                error_message =
-                        const_cast<char *>("chdir()");
+                error_message = const_cast<char *>("chdir()");
             perror(error_message);
             fflush(stderr);
         }
@@ -109,7 +108,7 @@ static int create_subprocess(JNIEnv *env,
         // Show terminal output about failing exec() call:
         char *error_message;
         if (asprintf(&error_message, "exec(\"%s\")", cmd) == -1)
-            const_cast<char *>("exec()");;
+            error_message = const_cast<char *>("exec()");;
         perror(error_message);
         _exit(1);
     }

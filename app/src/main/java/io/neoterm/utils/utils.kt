@@ -9,8 +9,8 @@ import android.provider.MediaStore
 import io.neoterm.R
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.floating.TerminalDialog
-import java.io.File
 import java.nio.file.Files
+import java.nio.file.Paths
 import java.text.DecimalFormat
 
 class RangedInt(private val number: Int, private val range: IntRange) {
@@ -36,14 +36,16 @@ fun Long.formatSizeInKB(): String {
   }
 }
 
-fun Context.extractAssetsDir(dirName: String, extractDir: String) {
+fun Context.extractAssetsDir(assetDir: String, extractDir: String) = kotlin.runCatching {
+  val targetDir = Paths.get(extractDir)
+  Files.createDirectories(targetDir)
   val assets = this.assets
-  assets.list(dirName)?.let {
-    it.map { File(extractDir, it) }
-      .takeWhile { !it.exists() }
-      .forEach { file ->
-        assets.open("$dirName/${file.name}").use {
-          kotlin.runCatching { Files.copy(it, file.toPath()) }
+  assets.list(assetDir)?.let {
+    it.map { targetDir.resolve(it) }
+      .takeWhile { !Files.exists(it) }
+      .forEach { targetPath ->
+        assets.open("$assetDir/${targetPath.fileName}").use {
+          Files.copy(it, targetPath)
         }
       }
   }

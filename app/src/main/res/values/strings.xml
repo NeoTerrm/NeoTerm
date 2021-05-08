@@ -63,7 +63,7 @@
   <string name="package_details">Package: %s\nVersion: %s\nDepends: %s\nInstalled Size: %s\nDescription: %s\nHome
     Page: %s
   </string>
-  <string name="package_list_empty">Package list is empty, please check out your source.</string>
+  <string name="package_list_empty">Package list is empty, please check your source.</string>
   <string name="menu_refresh_list">Refresh</string>
   <string name="menu_update">Update and Refresh</string>
   <string name="install_font">Install Font</string>

@@ -6,8 +6,8 @@ import android.preference.PreferenceManager
 import android.system.ErrnoException
 import android.system.Os
 import android.util.TypedValue
-import io.neolang.parser.NeoLangParser
-import io.neolang.visitor.ConfigVisitor
+import io.neolang.frontend.ConfigVisitor
+import io.neolang.frontend.NeoLangParser
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession

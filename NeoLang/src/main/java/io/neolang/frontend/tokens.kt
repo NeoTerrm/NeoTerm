@@ -1,6 +1,41 @@
-package io.neolang.ast
+package io.neolang.frontend
 
-import io.neolang.runtime.type.NeoLangValue
+import io.neolang.runtime.NeoLangValue
+
+/**
+ * @author kiva
+ */
+class NeoLangEOFToken : NeoLangToken(NeoLangTokenType.EOF, NeoLangTokenValue.EOF)
+
+/**
+ * @author kiva
+ */
+
+open class NeoLangToken(val tokenType: NeoLangTokenType, val tokenValue: NeoLangTokenValue) {
+  var lineNumber = 0
+
+  override fun toString(): String {
+    return "Token { tokenType: $tokenType, tokenValue: $tokenValue };"
+  }
+}
+
+/**
+ * @author kiva
+ */
+
+enum class NeoLangTokenType {
+  NUMBER,
+  ID,
+  STRING,
+  BRACKET_START,
+  BRACKET_END,
+  ARRAY_START,
+  ARRAY_END,
+  COLON,
+  COMMA,
+  EOL,
+  EOF,
+}
 
 /**
  * @author kiva

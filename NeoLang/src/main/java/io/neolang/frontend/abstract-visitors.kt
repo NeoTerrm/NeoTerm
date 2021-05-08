@@ -1,18 +1,21 @@
-package io.neolang.ast.visitor
+package io.neolang.frontend
 
-import io.neolang.ast.base.NeoLangAst
-import io.neolang.ast.node.*
-import io.neolang.runtime.type.NeoLangValue
-
+import io.neolang.runtime.NeoLangContext
+import io.neolang.runtime.NeoLangValue
 
 /**
- * grammar: [
- * program: group (group)*
- * group: attribute (attribute)*
- * attribute: ID COLON block
- * block: STRING | NUMBER | (BRACKET_START [group|] BRACKET_END) | (ARRAY_START [block(<,block>)+|] ARRAY_END)
- * ]
+ * @author kiva
  */
+class AstVisitor(private val ast: NeoLangAst, private val visitorCallback: IVisitorCallback) {
+  fun start() {
+    AstVisitorImpl.visitStartAst(ast, visitorCallback)
+  }
+
+  @Suppress("UNCHECKED_CAST")
+  fun <T : IVisitorCallback> getCallback(): T {
+    return visitorCallback as T
+  }
+}
 
 /**
  * @author kiva
@@ -99,6 +102,57 @@ internal object AstVisitorImpl {
       is NeoLangProgramNode -> AstVisitorImpl.visitProgram(ast, visitorCallback)
       is NeoLangGroupNode -> AstVisitorImpl.visitGroup(ast, visitorCallback)
       is NeoLangArrayNode -> AstVisitorImpl.visitArray(ast, visitorCallback)
+    }
+  }
+}
+
+/**
+ * @author kiva
+ */
+interface IVisitorCallback {
+  fun onStart()
+
+  fun onFinish()
+
+  fun onEnterContext(contextName: String)
+
+  fun onExitContext()
+
+  fun getCurrentContext(): NeoLangContext
+}
+
+/**
+ * @author kiva
+ */
+open class IVisitorCallbackAdapter : IVisitorCallback {
+  override fun onStart() {
+  }
+
+  override fun onFinish() {
+  }
+
+  override fun onEnterContext(contextName: String) {
+  }
+
+  override fun onExitContext() {
+  }
+
+  override fun getCurrentContext(): NeoLangContext {
+    throw RuntimeException("getCurrentContext() not supported in this IVisitorCallback!")
+  }
+}
+
+/**
+ * @author kiva
+ */
+
+class VisitorFactory(private val ast: NeoLangAst) {
+
+  fun getVisitor(callbackInterface: Class<out IVisitorCallback>): AstVisitor? {
+    try {
+      return AstVisitor(ast, callbackInterface.newInstance())
+    } catch (e: Exception) {
+      return null
     }
   }
 }

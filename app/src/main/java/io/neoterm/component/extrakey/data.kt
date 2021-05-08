@@ -1,6 +1,6 @@
 package io.neoterm.component.extrakey
 
-import io.neolang.visitor.ConfigVisitor
+import io.neolang.frontend.ConfigVisitor
 import io.neoterm.component.ConfigFileBasedObject
 import io.neoterm.frontend.session.view.extrakey.ExtraKeysView
 import io.neoterm.frontend.session.view.extrakey.IExtraButton

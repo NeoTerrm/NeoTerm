@@ -1,6 +1,6 @@
 package io.neoterm.component.colorscheme
 
-import io.neolang.visitor.ConfigVisitor
+import io.neolang.frontend.ConfigVisitor
 import io.neoterm.backend.TerminalColorScheme
 import io.neoterm.backend.TerminalColors
 import io.neoterm.component.ConfigFileBasedObject

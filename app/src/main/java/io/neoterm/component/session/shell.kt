@@ -1,7 +1,7 @@
 package io.neoterm.component.session
 
 import android.content.Context
-import io.neolang.visitor.ConfigVisitor
+import io.neolang.frontend.ConfigVisitor
 import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession

@@ -1,6 +1,6 @@
 package io.neoterm.component
 
-import io.neolang.visitor.ConfigVisitor
+import io.neolang.frontend.ConfigVisitor
 import io.neoterm.component.config.ConfigureComponent
 import io.neoterm.utils.NLog
 import java.io.File

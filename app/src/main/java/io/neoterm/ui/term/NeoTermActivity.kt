@@ -777,9 +777,7 @@ class NeoTermActivity : AppCompatActivity(), ServiceConnection, SharedPreference
     }
 
     val rangedInt = RangedInt(tabSwitcher.selectedTabIndex, (0 until tabSwitcher.count))
-    val nextIndex = if (switchSessionEvent.toNext)
-      rangedInt.increaseOne()
-    else rangedInt.decreaseOne()
+    val nextIndex = if (switchSessionEvent.toNext) rangedInt.inc() else rangedInt.dec()
     if (!tabSwitcher.isSwitcherShown) {
       tabSwitcher.showSwitcher()
     }

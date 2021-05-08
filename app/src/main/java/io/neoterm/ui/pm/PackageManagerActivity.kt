@@ -25,7 +25,8 @@ import io.neoterm.frontend.floating.TerminalDialog
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 import io.neoterm.ui.pm.utils.StringDistance
-import io.neoterm.utils.PackageUtils
+import io.neoterm.utils.runApt
+import java.util.*
 
 /**
  * @author kiva
@@ -178,67 +179,64 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     executeAptUpdate()
   }
 
-  private fun executeAptUpdate() {
-    PackageUtils.apt(this, "update", null, { exitStatus, dialog ->
-      if (exitStatus != 0) {
-        dialog.setTitle(getString(R.string.error))
-        return@apt
-      }
-      Toast.makeText(this, R.string.apt_update_ok, Toast.LENGTH_SHORT).show()
-      dialog.dismiss()
-      refreshPackageList()
-    })
+  private fun executeAptUpdate() = runApt("update", null) { exitStatus, dialog ->
+    if (exitStatus != 0) {
+      dialog.setTitle(getString(R.string.error))
+      return@runApt
+    }
+    Toast.makeText(this, R.string.apt_update_ok, Toast.LENGTH_SHORT).show()
+    dialog.dismiss()
+    refreshPackageList()
   }
 
-  private fun executeAptUpgrade() {
-    PackageUtils.apt(this, "update", null, { exitStatus, dialog ->
+  private fun executeAptUpgrade() = runApt("update", null) { exitStatus, dialog ->
+    if (exitStatus != 0) {
+      dialog.setTitle(getString(R.string.error))
+      return@runApt
+    }
+    dialog.dismiss()
+
+    runApt("upgrade", arrayOf("-y")) aptUpgrade@{ exitStatus, dialog ->
       if (exitStatus != 0) {
         dialog.setTitle(getString(R.string.error))
-        return@apt
+        return@aptUpgrade
       }
+      Toast.makeText(this, R.string.apt_upgrade_ok, Toast.LENGTH_SHORT).show()
       dialog.dismiss()
-
-      PackageUtils.apt(this, "upgrade", arrayOf("-y"), out@{ exitStatus, dialog ->
-        if (exitStatus != 0) {
-          dialog.setTitle(getString(R.string.error))
-          return@out
-        }
-        Toast.makeText(this, R.string.apt_upgrade_ok, Toast.LENGTH_SHORT).show()
-        dialog.dismiss()
-      })
-    })
+    }
   }
 
-  private fun refreshPackageList() {
+  private fun refreshPackageList() = Thread {
     models.clear()
-    Thread {
-      val pm = ComponentManager.getComponent<PackageComponent>()
-      val sourceFiles = SourceHelper.detectSourceFiles()
+    val pm = ComponentManager.getComponent<PackageComponent>()
+    val sourceFiles = SourceHelper.detectSourceFiles()
 
-      pm.clearPackages()
-      sourceFiles.forEach { pm.reloadPackages(it, false) }
-      pm.packages.values.mapTo(models, { PackageModel(it) })
+    pm.clearPackages()
+    sourceFiles.forEach { pm.reloadPackages(it, false) }
+    pm.packages.values.mapTo(models, { PackageModel(it) })
 
-      this@PackageManagerActivity.runOnUiThread {
-        adapter.edit()
-          .replaceAll(models)
-          .commit()
-        if (models.isEmpty()) {
-          Toast.makeText(this@PackageManagerActivity, R.string.package_list_empty, Toast.LENGTH_SHORT).show()
-          changeSource()
-        }
+    this@PackageManagerActivity.runOnUiThread {
+      adapter.edit()
+        .replaceAll(models)
+        .commit()
+      if (models.isEmpty()) {
+        Toast.makeText(this@PackageManagerActivity, R.string.package_list_empty, Toast.LENGTH_SHORT).show()
+        changeSource()
       }
-    }.start()
-  }
+    }
+  }.start()
 
   private fun sortDistance(
     models: List<PackageModel>, query: String,
     mapper: (NeoPackageInfo) -> String
   ): List<Pair<PackageModel, Int>> {
     return models
-      .map({
-        Pair(it, StringDistance.distance(mapper(it.packageInfo).toLowerCase(), query.toLowerCase()))
-      })
+      .map {
+        Pair(
+          it,
+          StringDistance.distance(mapper(it.packageInfo).toLowerCase(Locale.ROOT), query.toLowerCase(Locale.ROOT))
+        )
+      }
       .sortedWith(Comparator { l, r -> r.second.compareTo(l.second) })
       .toList()
   }
@@ -255,17 +253,10 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     return filteredModelList
   }
 
-  override fun onQueryTextSubmit(text: String?): Boolean {
-    return false
-  }
+  override fun onQueryTextSubmit(text: String?) = false
 
   override fun onQueryTextChange(text: String?): Boolean {
-    if (text != null) {
-      val filteredModelList = filter(models, text)
-      adapter.edit()
-        .replaceAll(filteredModelList)
-        .commit()
-    }
+    text?.let { adapter.edit().replaceAll(filter(models, it)).commit() }
     return true
   }
 

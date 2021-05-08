@@ -8,7 +8,7 @@ import io.neoterm.R
 import io.neoterm.backend.TerminalSession
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.TerminalViewClient
-import io.neoterm.utils.TerminalUtils
+import io.neoterm.utils.Terminals
 
 /**
  * @author kiva
@@ -21,7 +21,7 @@ class WindowTermView(val context: Context) {
     private set
 
   init {
-    TerminalUtils.setupTerminalView(terminalView)
+    Terminals.setupTerminalView(terminalView)
   }
 
   fun setTerminalViewClient(terminalViewClient: TerminalViewClient?) {

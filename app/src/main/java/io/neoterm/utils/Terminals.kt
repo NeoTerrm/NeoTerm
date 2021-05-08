@@ -17,7 +17,7 @@ import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 /**
  * @author kiva
  */
-object TerminalUtils {
+object Terminals {
   fun setupTerminalView(terminalView: TerminalView?, terminalViewClient: TerminalViewClient? = null) {
     terminalView?.textSize = NeoPreference.getFontSize();
 

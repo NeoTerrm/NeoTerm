@@ -7,7 +7,7 @@ import io.neoterm.frontend.component.helper.ConfigFileBasedComponent
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
-import io.neoterm.utils.AssetsUtils
+import io.neoterm.utils.extractAssetsDir
 import java.io.File
 
 /**
@@ -52,7 +52,7 @@ class ExtraKeyComponent : ConfigFileBasedComponent<NeoExtraKey>(NeoTermPath.EKS_
 
   private fun extractDefaultConfig(context: Context) {
     try {
-      AssetsUtils.extractAssetsDir(context, "eks", baseDir)
+      context.extractAssetsDir("eks", baseDir)
     } catch (e: Exception) {
       NLog.e("ExtraKey", "Failed to extract configure: ${e.localizedMessage}")
     }

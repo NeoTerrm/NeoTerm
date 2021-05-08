@@ -6,7 +6,7 @@ import io.neoterm.App
 import io.neoterm.frontend.component.NeoComponent
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.logging.NLog
-import io.neoterm.utils.AssetsUtils
+import io.neoterm.utils.extractAssetsDir
 import java.io.File
 
 /**
@@ -28,7 +28,7 @@ class UserScriptComponent : NeoComponent {
 
   private fun extractDefaultScript(context: Context): Boolean {
     try {
-      AssetsUtils.extractAssetsDir(context, "scripts", NeoTermPath.USER_SCRIPT_PATH)
+      context.extractAssetsDir( "scripts", NeoTermPath.USER_SCRIPT_PATH)
       File(NeoTermPath.USER_SCRIPT_PATH)
         .listFiles().forEach {
           Os.chmod(it.absolutePath, 448 /*Dec of 0700*/)

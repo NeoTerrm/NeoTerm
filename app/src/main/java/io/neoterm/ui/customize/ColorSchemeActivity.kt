@@ -24,7 +24,7 @@ import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.ui.customize.adapter.ColorItemAdapter
 import io.neoterm.ui.customize.model.ColorItem
-import io.neoterm.utils.TerminalUtils
+import io.neoterm.utils.Terminals
 
 
 /**
@@ -51,7 +51,7 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
     editingColorScheme.colorName = ""
 
     val terminalView = findViewById<TerminalView>(R.id.terminal_view)
-    TerminalUtils.setupTerminalView(terminalView, null)
+    Terminals.setupTerminalView(terminalView, null)
 
     adapter = ColorItemAdapter(this, editingColorScheme, COMPARATOR, object : ColorItemAdapter.Listener {
       override fun onModelClicked(model: ColorItem) {

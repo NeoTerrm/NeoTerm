@@ -5,7 +5,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import io.neoterm.R
 import io.neoterm.frontend.config.NeoPreference
-import io.neoterm.utils.PackageUtils
+import io.neoterm.utils.runApt
 
 /**
  * @author kiva
@@ -39,16 +39,14 @@ class GeneralSettingsActivity : BasePreferenceActivity() {
     AlertDialog.Builder(this)
       .setTitle(getString(R.string.shell_not_found, shellName))
       .setMessage(R.string.shell_not_found_message)
-      .setPositiveButton(R.string.install, { _, _ ->
-        PackageUtils.apt(this, "install", arrayOf("-y", shellName), { exitStatus, dialog ->
+      .setPositiveButton(R.string.install) { _, _ ->
+        runApt("install", arrayOf("-y", shellName)) { exitStatus, dialog ->
           if (exitStatus == 0) {
             dialog.dismiss()
             postChangeShell(shellName)
-          } else {
-            dialog.setTitle(getString(R.string.error))
-          }
-        })
-      })
+          } else dialog.setTitle(getString(R.string.error))
+        }
+      }
       .setNegativeButton(android.R.string.no, null)
       .setOnDismissListener {
         postChangeShell(currentShell)

@@ -23,7 +23,7 @@ import io.neoterm.frontend.session.shell.client.TermCompleteListener
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
 import io.neoterm.ui.term.NeoTermActivity
-import io.neoterm.utils.TerminalUtils
+import io.neoterm.utils.Terminals
 
 /**
  * @author kiva
@@ -43,8 +43,8 @@ class NeoTabDecorator(val context: NeoTermActivity) : TabSwitcherDecorator() {
         val view = inflater.inflate(R.layout.ui_term, parent, false)
         val terminalView = view.findViewById<TerminalView>(R.id.terminal_view)
         val extraKeysView = view.findViewById<ExtraKeysView>(R.id.extra_keys)
-        TerminalUtils.setupTerminalView(terminalView)
-        TerminalUtils.setupExtraKeysView(extraKeysView)
+        Terminals.setupTerminalView(terminalView)
+        Terminals.setupExtraKeysView(extraKeysView)
 
         val colorSchemeManager = ComponentManager.getComponent<ColorSchemeComponent>()
         colorSchemeManager.applyColorScheme(

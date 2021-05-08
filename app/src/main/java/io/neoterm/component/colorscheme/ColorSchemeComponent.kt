@@ -9,10 +9,9 @@ import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.component.helper.ConfigFileBasedComponent
 import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
-import io.neoterm.frontend.logging.NLog
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
-import io.neoterm.utils.AssetsUtils
+import io.neoterm.utils.extractAssetsDir
 import java.io.File
 import java.nio.file.Files
 
@@ -103,15 +102,8 @@ class ColorSchemeComponent : ConfigFileBasedComponent<NeoColorScheme>(NeoTermPat
     setCurrentColorScheme(color.colorName)
   }
 
-  private fun extractDefaultColor(context: Context): Boolean {
-    try {
-      AssetsUtils.extractAssetsDir(context, "colors", baseDir)
-      return true
-    } catch (e: Exception) {
-      NLog.e("ColorScheme", "Failed to extract default colors: ${e.localizedMessage}")
-      return false
-    }
-  }
+  private fun extractDefaultColor(context: Context) =
+    kotlin.runCatching { context.extractAssetsDir("colors", baseDir) }.isSuccess
 
   fun saveColorScheme(colorScheme: NeoColorScheme) {
     val colorFile = colorFile(colorScheme.colorName)

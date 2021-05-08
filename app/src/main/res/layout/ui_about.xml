@@ -106,80 +106,6 @@
           </LinearLayout>
 
           <LinearLayout
-            android:id="@+id/about_developers_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:minHeight="48dp"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-              android:layout_width="24dp"
-              android:layout_height="24dp"
-              app:srcCompat="@drawable/ic_person"/>
-
-            <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="32dp"
-              android:layout_marginStart="32dp"
-              android:orientation="vertical"
-              android:paddingBottom="8dp"
-              android:paddingTop="8dp">
-
-              <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/about_developers_label"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
-
-            </LinearLayout>
-
-          </LinearLayout>
-
-          <LinearLayout
-            android:id="@+id/about_show_help_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:minHeight="48dp"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-              android:layout_width="24dp"
-              android:layout_height="24dp"
-              app:srcCompat="@drawable/ic_description"/>
-
-            <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="32dp"
-              android:layout_marginStart="32dp"
-              android:orientation="vertical"
-              android:paddingBottom="8dp"
-              android:paddingTop="8dp">
-
-              <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/show_help"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
-
-            </LinearLayout>
-
-          </LinearLayout>
-
-          <LinearLayout
             android:id="@+id/about_licenses_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -241,49 +167,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/about_source_label"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
-
-            </LinearLayout>
-
-          </LinearLayout>
-
-          <LinearLayout
-            android:id="@+id/about_donate_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:minHeight="48dp"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-              android:layout_width="24dp"
-              android:layout_height="24dp"
-              app:srcCompat="@drawable/ic_donate"/>
-
-            <LinearLayout
-              android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="32dp"
-              android:layout_marginStart="32dp"
-              android:orientation="vertical"
-              android:paddingBottom="8dp"
-              android:paddingTop="8dp">
-
-              <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/support_donate_label"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"/>
-
-              <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/support_donate_description"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
             </LinearLayout>
 

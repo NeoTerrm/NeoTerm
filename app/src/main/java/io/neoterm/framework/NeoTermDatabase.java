@@ -9,7 +9,7 @@ import io.neoterm.App;
 import io.neoterm.framework.database.*;
 import io.neoterm.framework.database.bean.TableInfo;
 import io.neoterm.framework.reflection.Reflect;
-import io.neoterm.frontend.logging.NLog;
+import io.neoterm.utils.NLog;
 
 import java.io.File;
 import java.io.IOException;

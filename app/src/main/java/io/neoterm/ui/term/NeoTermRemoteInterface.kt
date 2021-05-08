@@ -14,12 +14,12 @@ import io.neoterm.App
 import io.neoterm.R
 import io.neoterm.bridge.Bridge.*
 import io.neoterm.bridge.SessionId
+import io.neoterm.component.ComponentManager
+import io.neoterm.component.config.NeoPreference
+import io.neoterm.component.session.ShellParameter
 import io.neoterm.component.userscript.UserScript
 import io.neoterm.component.userscript.UserScriptComponent
-import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.config.NeoPreference
-import io.neoterm.frontend.session.shell.ShellParameter
-import io.neoterm.frontend.session.shell.client.TermSessionCallback
+import io.neoterm.frontend.session.terminal.TermSessionCallback
 import io.neoterm.services.NeoTermService
 import io.neoterm.utils.Terminals
 import io.neoterm.utils.getPathOfMediaUri
@@ -116,8 +116,8 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
   private fun handleUserScript() {
     val filesToHandle = mutableListOf<String>()
-    val userScriptService = ComponentManager.getComponent<UserScriptComponent>()
-    val userScripts = userScriptService.userScripts
+    val comp = ComponentManager.getComponent<UserScriptComponent>()
+    val userScripts = comp.userScripts
     if (userScripts.isEmpty()) {
       App.get().errorDialog(this, R.string.no_user_script_found, { finish() })
       return

@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-  <io.neoterm.frontend.terminal.TerminalView
+  <io.neoterm.frontend.session.view.TerminalView
     android:layout_margin="@dimen/text_margin"
     android:id="@+id/terminal_view_dialog"
     android:layout_width="match_parent"

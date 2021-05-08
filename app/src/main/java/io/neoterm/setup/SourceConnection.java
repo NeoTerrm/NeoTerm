@@ -8,8 +8,6 @@ import java.io.InputStream;
  */
 public interface SourceConnection {
   InputStream getInputStream() throws IOException;
-
   int getSize();
-
   void close();
 }

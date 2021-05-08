@@ -1,7 +1,7 @@
 package io.neoterm.component.config
 
-import io.neolang.runtime.type.NeoLangValue
-import io.neolang.visitor.ConfigVisitor
+import io.neolang.frontend.ConfigVisitor
+import io.neolang.runtime.NeoLangValue
 import io.neoterm.component.colorscheme.NeoColorScheme
 import io.neoterm.component.extrakey.NeoExtraKey
 import io.neoterm.frontend.session.view.extrakey.TextButton

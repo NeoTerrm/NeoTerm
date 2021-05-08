@@ -1,6 +1,6 @@
 package io.neoterm.component.profile
 
-import io.neolang.visitor.ConfigVisitor
+import io.neolang.frontend.ConfigVisitor
 import io.neoterm.component.ComponentManager
 import io.neoterm.component.ConfigFileBasedObject
 import io.neoterm.component.codegen.CodeGenObject

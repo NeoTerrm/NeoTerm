@@ -1,7 +1,7 @@
 package io.neoterm.component.extrakey
 
 import android.content.Context
-import io.neolang.visitor.ConfigVisitor
+import io.neolang.frontend.ConfigVisitor
 import io.neoterm.App
 import io.neoterm.component.ConfigFileBasedComponent
 import io.neoterm.component.config.NeoTermPath

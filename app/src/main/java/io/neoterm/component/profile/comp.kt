@@ -1,6 +1,6 @@
 package io.neoterm.component.profile
 
-import io.neolang.visitor.ConfigVisitor
+import io.neolang.frontend.ConfigVisitor
 import io.neoterm.component.ConfigFileBasedComponent
 import io.neoterm.component.config.NeoTermPath
 import io.neoterm.utils.NLog

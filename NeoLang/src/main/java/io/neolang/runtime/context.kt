@@ -1,6 +1,4 @@
-package io.neolang.runtime.context
-
-import io.neolang.runtime.type.NeoLangValue
+package io.neolang.runtime
 
 /**
  * @author kiva

@@ -40,17 +40,12 @@ class GeneralSettingsActivity : BasePreferenceActivity() {
       .setTitle(getString(R.string.shell_not_found, shellName))
       .setMessage(R.string.shell_not_found_message)
       .setPositiveButton(R.string.install) { _, _ ->
-        runApt("install", arrayOf("-y", shellName)) { exitStatus, dialog ->
-          if (exitStatus == 0) {
-            dialog.dismiss()
-            postChangeShell(shellName)
-          } else dialog.setTitle(getString(R.string.error))
+        runApt("install", "-y", shellName) {
+          it.onSuccess { postChangeShell(shellName) }
         }
       }
       .setNegativeButton(android.R.string.no, null)
-      .setOnDismissListener {
-        postChangeShell(currentShell)
-      }
+      .setOnDismissListener { postChangeShell(currentShell) }
       .show()
   }
 
@@ -59,8 +54,7 @@ class GeneralSettingsActivity : BasePreferenceActivity() {
 
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
     when (item?.itemId) {
-      android.R.id.home ->
-        finish()
+      android.R.id.home -> finish()
     }
     return super.onOptionsItemSelected(item)
   }

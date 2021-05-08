@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import io.neoterm.backend.TerminalSession
+import io.neoterm.R
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.floating.TerminalDialog
 import java.io.File
@@ -49,23 +49,23 @@ fun Context.extractAssetsDir(dirName: String, extractDir: String) {
   }
 }
 
-fun Context.runApt(subCommand: String, vararg extraArgs: String): Result<TerminalDialog> = runAsyncCatching {
-  val args = arrayOf(NeoTermPath.APT_BIN_PATH, subCommand, *extraArgs)
-  TerminalDialog(this)
-    .onFinish(object : TerminalDialog.SessionFinishedCallback {
-      override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
-        val exit = finishedSession?.exitStatus ?: 1
-        if (exit == 0) {
-          dialog.dismiss()
-          throw SuccessResult(dialog)
-        }
-        else throw RuntimeException()
-      }
-    })
-    .imeEnabled(true)
-    .execute(NeoTermPath.APT_BIN_PATH, args)
-    .show("apt $subCommand")
-}
+fun Context.runApt(
+  subCommand: String, vararg extraArgs: String,
+  autoClose: Boolean = true, block: (Result<TerminalDialog>) -> Unit
+) = TerminalDialog(this)
+  .execute(NeoTermPath.APT_BIN_PATH, arrayOf(NeoTermPath.APT_BIN_PATH, subCommand, *extraArgs))
+  .imeEnabled(true)
+  .onFinish { dialog, session ->
+    val exit = session?.exitStatus ?: 1
+    if (exit == 0) {
+      if (autoClose) dialog.dismiss()
+      block(Result.success(dialog))
+    } else {
+      dialog.setTitle(getString(R.string.error))
+      block(Result.failure(RuntimeException()))
+    }
+  }
+  .show("apt $subCommand")
 
 /**
  * Get a file path from a Uri. This will get the the path for Storage Access
@@ -121,15 +121,3 @@ private fun getDataColumn(context: Context, uri: Uri, selection: String?, select
 private fun isExternalStorageDocument(uri: Uri) = "com.android.externalstorage.documents" == uri.authority
 private fun isDownloadsDocument(uri: Uri) = "com.android.providers.downloads.documents" == uri.authority
 private fun isMediaDocument(uri: Uri) = "com.android.providers.media.documents" == uri.authority
-
-data class SuccessResult(val data: Any) : RuntimeException()
-
-inline fun <reified R> runAsyncCatching(block: () -> Unit): Result<R> = try {
-  block()
-  Result.failure(IllegalStateException())
-} catch (s: SuccessResult) {
-  if (s.data is R) Result.success(s.data)
-  else Result.failure(ClassCastException())
-} catch (e: Throwable) {
-  Result.failure(e)
-}

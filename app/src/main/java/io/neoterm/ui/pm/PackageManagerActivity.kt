@@ -16,12 +16,9 @@ import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import io.neoterm.R
-import io.neoterm.backend.TerminalSession
 import io.neoterm.component.pm.*
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoPreference
-import io.neoterm.frontend.config.NeoTermPath
-import io.neoterm.frontend.floating.TerminalDialog
 import io.neoterm.ui.pm.adapter.PackageAdapter
 import io.neoterm.ui.pm.model.PackageModel
 import io.neoterm.ui.pm.utils.StringDistance
@@ -57,9 +54,9 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         AlertDialog.Builder(this@PackageManagerActivity)
           .setTitle(model.packageInfo.packageName)
           .setMessage(model.getPackageDetails(this@PackageManagerActivity))
-          .setPositiveButton(R.string.install, { _, _ ->
+          .setPositiveButton(R.string.install) { _, _ ->
             installPackage(model.packageInfo.packageName)
-          })
+          }
           .setNegativeButton(android.R.string.no, null)
           .show()
       }
@@ -74,21 +71,9 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     refreshPackageList()
   }
 
-  private fun installPackage(packageName: String?) {
-    if (packageName != null) {
-      TerminalDialog(this@PackageManagerActivity)
-        .execute(
-          NeoTermPath.APT_BIN_PATH,
-          arrayOf("apt", "install", "-y", packageName)
-        )
-        .onFinish(object : TerminalDialog.SessionFinishedCallback {
-          override fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?) {
-            dialog.setTitle(getString(R.string.done))
-          }
-        })
-        .imeEnabled(true)
-        .show("Installing $packageName")
-      Toast.makeText(this, R.string.installing_topic, Toast.LENGTH_LONG).show()
+  private fun installPackage(packageName: String?) = packageName?.let {
+    runApt("install", "-y", it, autoClose = false) {
+      it.onSuccess { it.setTitle(getString(R.string.done)) }
     }
   }
 
@@ -115,18 +100,15 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     val sourceManager = ComponentManager.getComponent<PackageComponent>().sourceManager
     val sourceList = sourceManager.getAllSources()
 
+    val items = sourceList.map { "${it.url} :: ${it.repo}" }.toTypedArray()
+    val selection = sourceList.map { it.enabled }.toBooleanArray()
     AlertDialog.Builder(this)
       .setTitle(R.string.pref_package_source)
-      .setMultiChoiceItems(sourceList.map { "${it.url} :: ${it.repo}" }.toTypedArray(),
-        sourceList.map { it.enabled }.toBooleanArray(), { dialog, which, isChecked ->
-          sourceList[which].enabled = isChecked
-        })
-      .setPositiveButton(android.R.string.yes, { _, _ ->
-        changeSourceInternal(sourceManager, sourceList)
-      })
-      .setNeutralButton(R.string.new_source, { _, _ ->
-        changeSourceToUserInput(sourceManager)
-      })
+      .setMultiChoiceItems(items, selection) { _, which, isChecked ->
+        sourceList[which].enabled = isChecked
+      }
+      .setPositiveButton(android.R.string.yes) { _, _ -> changeSourceInternal(sourceManager, sourceList) }
+      .setNeutralButton(R.string.new_source) { _, _ -> changeSourceToUserInput(sourceManager) }
       .setNegativeButton(android.R.string.no, null)
       .show()
   }
@@ -145,7 +127,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
       .setTitle(R.string.pref_package_source)
       .setView(view)
       .setNegativeButton(android.R.string.no, null)
-      .setPositiveButton(android.R.string.yes, { _, _ ->
+      .setPositiveButton(android.R.string.yes) { _, _ ->
         val url = urlEditor.text.toString()
         val repo = repoEditor.text.toString()
         var errored = false
@@ -163,7 +145,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
         val source = urlEditor.text.toString()
         sourceManager.addSource(source, repo, true)
         postChangeSource(sourceManager)
-      })
+      }
       .show()
   }
 
@@ -179,30 +161,15 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
     executeAptUpdate()
   }
 
-  private fun executeAptUpdate() = runApt("update", null) { exitStatus, dialog ->
-    if (exitStatus != 0) {
-      dialog.setTitle(getString(R.string.error))
-      return@runApt
-    }
-    Toast.makeText(this, R.string.apt_update_ok, Toast.LENGTH_SHORT).show()
-    dialog.dismiss()
-    refreshPackageList()
+  private fun executeAptUpdate() = runApt("update") {
+    it.onSuccess { refreshPackageList() }
   }
 
-  private fun executeAptUpgrade() = runApt("update", null) { exitStatus, dialog ->
-    if (exitStatus != 0) {
-      dialog.setTitle(getString(R.string.error))
-      return@runApt
-    }
-    dialog.dismiss()
-
-    runApt("upgrade", arrayOf("-y")) aptUpgrade@{ exitStatus, dialog ->
-      if (exitStatus != 0) {
-        dialog.setTitle(getString(R.string.error))
-        return@aptUpgrade
+  private fun executeAptUpgrade() = runApt("update") { update ->
+    update.onSuccess {
+      runApt("upgrade", "-y") {
+        it.onSuccess { Toast.makeText(this, R.string.apt_upgrade_ok, Toast.LENGTH_SHORT).show() }
       }
-      Toast.makeText(this, R.string.apt_upgrade_ok, Toast.LENGTH_SHORT).show()
-      dialog.dismiss()
     }
   }
 

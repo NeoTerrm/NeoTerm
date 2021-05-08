@@ -234,11 +234,11 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
     }
   }
 
-  private fun executeAptUpdate() = runApt("update")
-    .onSuccess { executeAptUpgrade() }
-    .onFailure { Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show() }
+  private fun executeAptUpdate() = runApt("update") {
+    it.onSuccess { executeAptUpgrade() }
+  }
 
-  private fun executeAptUpgrade() = runApt("upgrade", "-y")
-    .onSuccess { finish() }
-    .onFailure { Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show() }
+  private fun executeAptUpgrade() = runApt("upgrade", "-y") {
+    it.onSuccess { finish() }
+  }
 }

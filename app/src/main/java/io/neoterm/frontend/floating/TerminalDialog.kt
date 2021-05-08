@@ -11,28 +11,24 @@ import io.neoterm.frontend.session.shell.client.BasicSessionCallback
 import io.neoterm.frontend.session.shell.client.BasicViewClient
 import io.neoterm.utils.Terminals
 
+typealias DialogSessionFinished = (TerminalDialog, TerminalSession?) -> Unit
+
 /**
  * @author kiva
  */
 class TerminalDialog(val context: Context) {
-
-  interface SessionFinishedCallback {
-    fun onSessionFinished(dialog: TerminalDialog, finishedSession: TerminalSession?)
-  }
-
-  private var termWindowView = WindowTermView(context)
-  private var terminalSessionCallback: BasicSessionCallback
+  private val termWindowView = WindowTermView(context)
+  private val terminalSessionCallback: BasicSessionCallback
   private var dialog: AlertDialog? = null
   private var terminalSession: TerminalSession? = null
-  private var sessionFinishedCallback: SessionFinishedCallback? = null
+  private var sessionFinishedCallback: DialogSessionFinished? = null
   private var cancelListener: DialogInterface.OnCancelListener? = null
 
   init {
     termWindowView.setTerminalViewClient(BasicViewClient(termWindowView.terminalView))
-
     terminalSessionCallback = object : BasicSessionCallback(termWindowView.terminalView) {
       override fun onSessionFinished(finishedSession: TerminalSession?) {
-        sessionFinishedCallback?.onSessionFinished(this@TerminalDialog, finishedSession)
+        sessionFinishedCallback?.let { it(this@TerminalDialog, finishedSession) }
         super.onSessionFinished(finishedSession)
       }
     }
@@ -74,7 +70,7 @@ class TerminalDialog(val context: Context) {
     return this
   }
 
-  fun onFinish(finishedCallback: SessionFinishedCallback): TerminalDialog {
+  fun onFinish(finishedCallback: DialogSessionFinished): TerminalDialog {
     this.sessionFinishedCallback = finishedCallback
     return this
   }

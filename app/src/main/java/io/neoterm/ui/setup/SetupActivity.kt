@@ -98,8 +98,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
       when (id) {
         R.id.setup_method_backup,
         R.id.setup_method_local -> {
-          SetupHelper.makeErrorDialog(this, R.string.setup_error_parameter_null)
-            .show()
+          SetupHelper.makeErrorDialog(this, R.string.setup_error_parameter_null).show()
           return
         }
       }

@@ -13,48 +13,34 @@ import java.io.File
  * @author kiva
  */
 class UserScriptComponent : NeoComponent {
-  lateinit var userScripts: MutableList<UserScript>
+  private var userScripts = listOf<UserScript>()
+  private val scriptDir = File(NeoTermPath.USER_SCRIPT_PATH)
 
-  override fun onServiceInit() {
-    checkForFiles()
-  }
+  override fun onServiceInit() = checkForFiles()
 
   override fun onServiceDestroy() {
   }
 
-  override fun onServiceObtained() {
-    checkForFiles()
-  }
+  override fun onServiceObtained() = checkForFiles()
 
-  private fun extractDefaultScript(context: Context): Boolean {
-    try {
-      context.extractAssetsDir( "scripts", NeoTermPath.USER_SCRIPT_PATH)
-      File(NeoTermPath.USER_SCRIPT_PATH)
-        .listFiles().forEach {
-          Os.chmod(it.absolutePath, 448 /*Dec of 0700*/)
-        }
-      return true
-    } catch (e: Exception) {
-      NLog.e("UserScript", "Failed to extract default user scripts: ${e.localizedMessage}")
-      return false
+  private fun extractDefaultScript(context: Context) = kotlin.runCatching {
+    context.extractAssetsDir("scripts", NeoTermPath.USER_SCRIPT_PATH)
+    scriptDir.listFiles().forEach {
+      Os.chmod(it.absolutePath, 448 /*Dec of 0700*/)
     }
+  }.onFailure {
+    NLog.e("UserScript", "Failed to extract default user scripts: ${it.localizedMessage}")
   }
 
   private fun checkForFiles() {
-    File(NeoTermPath.USER_SCRIPT_PATH).mkdirs()
-    userScripts = mutableListOf()
-
     extractDefaultScript(App.get())
     reloadScripts()
   }
 
-  fun reloadScripts() {
-    val userScriptDir = File(NeoTermPath.USER_SCRIPT_PATH)
-    userScriptDir.mkdirs()
-
-    userScripts.clear()
-    userScriptDir.listFiles()
+  private fun reloadScripts() {
+    userScripts = scriptDir.listFiles()
       .takeWhile { it.canExecute() }
-      .mapTo(userScripts, { UserScript(it) })
+      .map { UserScript(it) }
+      .toList()
   }
 }

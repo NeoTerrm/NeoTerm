@@ -31,9 +31,7 @@ class GeneralSettingsActivity : BasePreferenceActivity() {
     }
   }
 
-  private fun postChangeShell(shellName: String) {
-    NeoPreference.setLoginShellName(shellName)
-  }
+  private fun postChangeShell(shellName: String) = NeoPreference.setLoginShellName(shellName)
 
   private fun requestInstallShell(shellName: String, currentShell: String) {
     AlertDialog.Builder(this)

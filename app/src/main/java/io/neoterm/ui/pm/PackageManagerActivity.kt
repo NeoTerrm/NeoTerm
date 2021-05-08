@@ -30,7 +30,7 @@ import java.util.*
  */
 
 class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListener, SortedListAdapter.Callback {
-  private val COMPARATOR = SortedListAdapter.ComparatorBuilder<PackageModel>()
+  private val comparator = SortedListAdapter.ComparatorBuilder<PackageModel>()
     .setOrderForModel<PackageModel>(PackageModel::class.java) { a, b ->
       a.packageInfo.packageName!!.compareTo(b.packageInfo.packageName!!)
     }
@@ -38,7 +38,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
 
   lateinit var recyclerView: androidx.recyclerview.widget.RecyclerView
   lateinit var adapter: PackageAdapter
-  lateinit var models: ArrayList<PackageModel>
+  var models = listOf<PackageModel>()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -49,7 +49,7 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
 
     recyclerView = findViewById(R.id.pm_package_list)
     recyclerView.setHasFixedSize(true)
-    adapter = PackageAdapter(this, COMPARATOR, object : PackageAdapter.Listener {
+    adapter = PackageAdapter(this, comparator, object : PackageAdapter.Listener {
       override fun onModelClicked(model: PackageModel) {
         AlertDialog.Builder(this@PackageManagerActivity)
           .setTitle(model.packageInfo.packageName)
@@ -60,14 +60,11 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
           .setNegativeButton(android.R.string.no, null)
           .show()
       }
-
     })
     adapter.addCallback(this)
 
     recyclerView.layoutManager = LinearLayoutManager(this)
     recyclerView.adapter = adapter
-
-    models = ArrayList()
     refreshPackageList()
   }
 
@@ -174,21 +171,17 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
   }
 
   private fun refreshPackageList() = Thread {
-    models.clear()
     val pm = ComponentManager.getComponent<PackageComponent>()
     val sourceFiles = SourceHelper.detectSourceFiles()
 
     pm.clearPackages()
     sourceFiles.forEach { pm.reloadPackages(it, false) }
-    pm.packages.values.mapTo(models, { PackageModel(it) })
+    models = pm.packages.values.map { PackageModel(it) }.toList()
 
     this@PackageManagerActivity.runOnUiThread {
-      adapter.edit()
-        .replaceAll(models)
-        .commit()
+      adapter.edit().replaceAll(models).commit()
       if (models.isEmpty()) {
         Toast.makeText(this@PackageManagerActivity, R.string.package_list_empty, Toast.LENGTH_SHORT).show()
-        changeSource()
       }
     }
   }.start()
@@ -199,25 +192,22 @@ class PackageManagerActivity : AppCompatActivity(), SearchView.OnQueryTextListen
   ): List<Pair<PackageModel, Int>> {
     return models
       .map {
-        Pair(
-          it,
-          StringDistance.distance(mapper(it.packageInfo).toLowerCase(Locale.ROOT), query.toLowerCase(Locale.ROOT))
-        )
+        it to StringDistance.distance(mapper(it.packageInfo).toLowerCase(Locale.ROOT), query.toLowerCase(Locale.ROOT))
       }
-      .sortedWith(Comparator { l, r -> r.second.compareTo(l.second) })
+      .sortedWith { l, r -> r.second.compareTo(l.second) }
       .toList()
   }
 
   private fun filter(models: List<PackageModel>, query: String): List<PackageModel> {
-    val filteredModelList = mutableListOf<PackageModel>()
     val prepared = models.filter {
       it.packageInfo.packageName!!.contains(query, true)
         || it.packageInfo.description!!.contains(query, true)
     }
 
-    sortDistance(prepared, query, { it.packageName!! }).mapTo(filteredModelList, { it.first })
-    sortDistance(prepared, query, { it.description!! }).mapTo(filteredModelList, { it.first })
-    return filteredModelList
+    return sortDistance(prepared, query) { it.packageName!! }
+      .plus(sortDistance(prepared, query) { it.description!! })
+      .map { it.first }
+      .toList()
   }
 
   override fun onQueryTextSubmit(text: String?) = false

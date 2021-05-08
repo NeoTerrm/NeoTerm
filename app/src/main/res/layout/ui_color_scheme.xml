@@ -27,7 +27,7 @@
       android:layout_weight="1.0"
       android:background="@color/terminal_background">
 
-      <io.neoterm.frontend.terminal.extrakey.ExtraKeysView
+      <io.neoterm.frontend.session.view.extrakey.ExtraKeysView
         android:id="@+id/custom_extra_keys"
         style="?android:buttonBarStyle"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         android:orientation="horizontal"
         android:visibility="gone"/>
 
-      <io.neoterm.frontend.terminal.TerminalView
+      <io.neoterm.frontend.session.view.TerminalView
         android:id="@+id/terminal_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import io.neoterm.R
-import io.neoterm.frontend.config.NeoPreference
+import io.neoterm.component.config.NeoPreference
 import io.neoterm.utils.runApt
 
 /**

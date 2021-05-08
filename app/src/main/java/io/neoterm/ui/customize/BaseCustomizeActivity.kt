@@ -6,12 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import io.neoterm.R
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.config.NeoTermPath
-import io.neoterm.frontend.session.shell.ShellParameter
-import io.neoterm.frontend.session.shell.client.BasicSessionCallback
-import io.neoterm.frontend.session.shell.client.BasicViewClient
-import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
+import io.neoterm.component.config.NeoTermPath
+import io.neoterm.component.session.ShellParameter
+import io.neoterm.frontend.session.terminal.BasicSessionCallback
+import io.neoterm.frontend.session.terminal.BasicViewClient
+import io.neoterm.frontend.session.view.TerminalView
+import io.neoterm.frontend.session.view.extrakey.ExtraKeysView
 import io.neoterm.utils.Terminals
 
 /**

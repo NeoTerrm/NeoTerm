@@ -9,8 +9,8 @@ import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import io.neoterm.component.NeoInitializer
-import io.neoterm.frontend.config.NeoPreference
-import io.neoterm.ui.bonus.BonusActivity
+import io.neoterm.component.config.NeoPreference
+import io.neoterm.ui.other.BonusActivity
 import io.neoterm.utils.CrashHandler
 
 /**

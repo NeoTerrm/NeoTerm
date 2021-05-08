@@ -14,11 +14,11 @@ import androidx.core.app.NotificationCompat
 import io.neoterm.R
 import io.neoterm.backend.EmulatorDebug
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.logging.NLog
-import io.neoterm.frontend.session.shell.ShellParameter
-import io.neoterm.frontend.session.xorg.XParameter
-import io.neoterm.frontend.session.xorg.XSession
+import io.neoterm.component.session.ShellParameter
+import io.neoterm.component.session.XParameter
+import io.neoterm.component.session.XSession
 import io.neoterm.ui.term.NeoTermActivity
+import io.neoterm.utils.NLog
 import io.neoterm.utils.Terminals
 
 

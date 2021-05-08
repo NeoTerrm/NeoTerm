@@ -2,7 +2,7 @@ package io.neoterm.utils
 
 import android.content.Intent
 import io.neoterm.App
-import io.neoterm.ui.crash.CrashActivity
+import io.neoterm.ui.other.CrashActivity
 
 /**
  * @author kiva

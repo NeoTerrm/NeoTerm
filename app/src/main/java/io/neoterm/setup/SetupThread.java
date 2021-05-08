@@ -5,8 +5,8 @@ import android.system.Os;
 import android.util.Pair;
 import androidx.appcompat.app.AppCompatActivity;
 import io.neoterm.backend.EmulatorDebug;
-import io.neoterm.frontend.config.NeoTermPath;
-import io.neoterm.frontend.logging.NLog;
+import io.neoterm.component.config.NeoTermPath;
+import io.neoterm.utils.NLog;
 
 import java.io.*;
 import java.util.ArrayList;

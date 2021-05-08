@@ -1,10 +1,8 @@
 package io.neoterm.ui.term
 
 import io.neoterm.backend.TerminalSession
-import io.neoterm.frontend.session.xorg.XSession
+import io.neoterm.component.session.XSession
 import io.neoterm.services.NeoTermService
-import io.neoterm.ui.term.tab.TermTab
-import io.neoterm.ui.term.tab.XSessionTab
 
 /**
  * @author kiva

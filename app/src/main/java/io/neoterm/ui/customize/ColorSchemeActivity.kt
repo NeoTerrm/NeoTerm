@@ -18,12 +18,10 @@ import es.dmoral.coloromatic.IndicatorMode
 import es.dmoral.coloromatic.colormode.ColorMode
 import io.neoterm.R
 import io.neoterm.backend.TerminalColors
+import io.neoterm.component.ComponentManager
 import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.component.colorscheme.NeoColorScheme
-import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.terminal.TerminalView
-import io.neoterm.ui.customize.adapter.ColorItemAdapter
-import io.neoterm.ui.customize.model.ColorItem
+import io.neoterm.frontend.session.view.TerminalView
 import io.neoterm.utils.Terminals
 
 
@@ -32,7 +30,7 @@ import io.neoterm.utils.Terminals
  */
 class ColorSchemeActivity : BaseCustomizeActivity() {
   private val COMPARATOR = SortedListAdapter.ComparatorBuilder<ColorItem>()
-    .setOrderForModel<ColorItem>(ColorItem::class.java) { a, b ->
+    .setOrderForModel(ColorItem::class.java) { a, b ->
       a.colorType.compareTo(b.colorType)
     }
     .build()
@@ -81,13 +79,13 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
     if (keyCode == KeyEvent.KEYCODE_BACK && event!!.action == KeyEvent.ACTION_DOWN && changed) {
       AlertDialog.Builder(this)
         .setMessage(getString(R.string.discard_changes))
-        .setPositiveButton(R.string.save, { _, _ ->
+        .setPositiveButton(R.string.save) { _, _ ->
           applyColorScheme(editingColorScheme, true)
-        })
+        }
         .setNegativeButton(android.R.string.no, null)
-        .setNeutralButton(R.string.exit, { _, _ ->
+        .setNeutralButton(R.string.exit) { _, _ ->
           finish()
-        })
+        }
         .show()
       return true
     }
@@ -135,10 +133,10 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
       .setTitle(model.colorName)
       .setView(view)
       .setNegativeButton(android.R.string.no, null)
-      .setPositiveButton(android.R.string.yes, { _, _ ->
+      .setPositiveButton(android.R.string.yes) { _, _ ->
         applyColor(edit.text.toString());
-      })
-      .setNeutralButton(R.string.select_new_value, { _, _ ->
+      }
+      .setNeutralButton(R.string.select_new_value) { _, _ ->
         ColorOMaticDialog.Builder()
           .initialColor(TerminalColors.parse(model.colorValue))
           .colorMode(ColorMode.RGB)
@@ -149,7 +147,7 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
           .showColorIndicator(true)
           .create()
           .show(supportFragmentManager, "ColorOMaticDialog")
-      })
+      }
       .show()
   }
 
@@ -164,10 +162,10 @@ class ColorSchemeActivity : BaseCustomizeActivity() {
       AlertDialog.Builder(this)
         .setTitle(R.string.save_color)
         .setView(view)
-        .setPositiveButton(android.R.string.yes, { _, _ ->
+        .setPositiveButton(android.R.string.yes) { _, _ ->
           colorScheme.colorName = edit.text.toString()
           applyColorScheme(colorScheme, finishAfter)
-        })
+        }
         .setNegativeButton(android.R.string.no, null)
         .show()
     } else {

@@ -16,12 +16,10 @@ import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import io.neoterm.R
+import io.neoterm.component.ComponentManager
+import io.neoterm.component.config.NeoPreference
 import io.neoterm.component.pm.*
-import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.config.NeoPreference
-import io.neoterm.ui.pm.adapter.PackageAdapter
-import io.neoterm.ui.pm.model.PackageModel
-import io.neoterm.ui.pm.utils.StringDistance
+import io.neoterm.utils.StringDistance
 import io.neoterm.utils.runApt
 import java.util.*
 

@@ -125,22 +125,22 @@
     </activity-alias>
 
     <activity
-      android:name=".ui.support.AboutActivity"
+      android:name=".ui.other.AboutActivity"
       android:exported="false"
       android:label="@string/about"
       android:theme="@style/AppTheme.NoActionBar.Dark"/>
     <activity
-      android:name=".ui.crash.CrashActivity"
+      android:name=".ui.other.CrashActivity"
       android:exported="false"
       android:label="@string/error"
       android:theme="@style/AppTheme.NoActionBar.Dark"/>
     <activity
-      android:name=".ui.setup.SetupActivity"
+      android:name=".ui.other.SetupActivity"
       android:configChanges="keyboardHidden|orientation|screenSize"
       android:exported="true"
       android:theme="@style/AppTheme.NoActionBar"/>
     <activity
-      android:name=".ui.bonus.BonusActivity"
+      android:name=".ui.other.BonusActivity"
       android:configChanges="orientation|keyboardHidden"
       android:exported="false"
       android:theme="@style/AppTheme.NoActionBar.Dark"/>
@@ -159,12 +159,6 @@
       android:exported="false"
       android:label="@string/pref_customization_color_scheme"
       android:theme="@style/AppTheme.NoActionBar.Dark"/>
-    <activity
-      android:name=".ui.support.HelpActivity"
-      android:exported="false"
-      android:label="@string/faq"
-      android:theme="@style/AppTheme.NoActionBar.Dark"/>
-
     <activity
       android:name=".ui.settings.SettingActivity"
       android:exported="false"

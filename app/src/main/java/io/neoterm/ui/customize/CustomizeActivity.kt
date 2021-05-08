@@ -9,10 +9,10 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import io.neoterm.R
+import io.neoterm.component.ComponentManager
 import io.neoterm.component.colorscheme.ColorSchemeComponent
+import io.neoterm.component.config.NeoTermPath
 import io.neoterm.component.font.FontComponent
-import io.neoterm.frontend.component.ComponentManager
-import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.utils.getPathOfMediaUri
 import java.io.File
 import java.nio.file.Files

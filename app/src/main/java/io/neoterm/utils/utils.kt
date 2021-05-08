@@ -7,7 +7,7 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import io.neoterm.R
-import io.neoterm.frontend.config.NeoTermPath
+import io.neoterm.component.config.NeoTermPath
 import io.neoterm.frontend.floating.TerminalDialog
 import java.nio.file.Files
 import java.nio.file.Paths

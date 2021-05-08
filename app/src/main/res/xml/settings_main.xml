@@ -41,7 +41,7 @@
     android:icon="@drawable/ic_info_white_36dp"
     android:title="@string/about">
     <intent
-      android:targetClass="io.neoterm.ui.support.AboutActivity"
+      android:targetClass="io.neoterm.ui.other.AboutActivity"
       android:targetPackage="io.neoterm"/>
   </Preference>
 

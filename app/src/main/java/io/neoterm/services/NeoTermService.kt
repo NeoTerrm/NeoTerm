@@ -19,7 +19,7 @@ import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.xorg.XParameter
 import io.neoterm.frontend.session.xorg.XSession
 import io.neoterm.ui.term.NeoTermActivity
-import io.neoterm.utils.TerminalUtils
+import io.neoterm.utils.Terminals
 
 
 /**
@@ -94,7 +94,7 @@ class NeoTermService : Service() {
   }
 
   fun createXSession(activity: AppCompatActivity, parameter: XParameter): XSession {
-    val session = TerminalUtils.createSession(activity, parameter)
+    val session = Terminals.createSession(activity, parameter)
     mXSessions.add(session)
     updateNotification()
     return session
@@ -112,7 +112,7 @@ class NeoTermService : Service() {
   private fun createOrFindSession(parameter: ShellParameter): TerminalSession {
     if (parameter.willCreateNewSession()) {
       NLog.d("createOrFindSession: creating new session")
-      val session = TerminalUtils.createSession(this, parameter)
+      val session = Terminals.createSession(this, parameter)
       mTerminalSessions.add(session)
       return session
     }

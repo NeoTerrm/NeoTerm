@@ -9,7 +9,7 @@ import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.ShellTermSession
 import io.neoterm.frontend.session.shell.client.BasicSessionCallback
 import io.neoterm.frontend.session.shell.client.BasicViewClient
-import io.neoterm.utils.TerminalUtils
+import io.neoterm.utils.Terminals
 
 /**
  * @author kiva
@@ -56,7 +56,7 @@ class TerminalDialog(val context: Context) {
       .arguments(arguments)
       .callback(terminalSessionCallback)
       .systemShell(false)
-    terminalSession = TerminalUtils.createSession(context, parameter)
+    terminalSession = Terminals.createSession(context, parameter)
     if (terminalSession is ShellTermSession) {
       (terminalSession as ShellTermSession).exitPrompt = context.getString(R.string.process_exit_prompt_press_back)
     }

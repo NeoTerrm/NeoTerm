@@ -21,8 +21,8 @@ import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.session.shell.ShellParameter
 import io.neoterm.frontend.session.shell.client.TermSessionCallback
 import io.neoterm.services.NeoTermService
-import io.neoterm.utils.MediaUtils
-import io.neoterm.utils.TerminalUtils
+import io.neoterm.utils.Terminals
+import io.neoterm.utils.getPathOfMediaUri
 import java.io.File
 
 /**
@@ -67,13 +67,10 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
     handleIntent()
   }
 
-  private fun handleIntent() {
-    val className = intent.component.className.substringAfterLast('.')
-    when (className) {
-      "TermHere" -> handleTermHere()
-      "UserScript" -> handleUserScript()
-      else -> handleNormal()
-    }
+  private fun handleIntent() = when (intent.component?.className?.substringAfterLast('.')) {
+    "TermHere" -> handleTermHere()
+    "UserScript" -> handleUserScript()
+    else -> handleNormal()
   }
 
   private fun handleNormal() {
@@ -98,12 +95,12 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
   private fun handleTermHere() {
     if (intent.hasExtra(Intent.EXTRA_STREAM)) {
-      val extra = intent.extras.get(Intent.EXTRA_STREAM)
+      val extra = intent.extras?.get(Intent.EXTRA_STREAM)
       if (extra is Uri) {
-        val path = MediaUtils.getPath(this, extra)
+        val path = this.getPathOfMediaUri(extra)
         val file = File(path)
         val dirPath = if (file.isDirectory) path else file.parent
-        val command = "cd " + TerminalUtils.escapeString(dirPath)
+        val command = "cd " + Terminals.escapeString(dirPath)
         openTerm(command, null)
       }
       finish()
@@ -128,23 +125,23 @@ class NeoTermRemoteInterface : AppCompatActivity(), ServiceConnection {
 
     if (intent.hasExtra(Intent.EXTRA_STREAM)) {
       // action send
-      val extra = intent.extras.get(Intent.EXTRA_STREAM)
+      val extra = intent.extras?.get(Intent.EXTRA_STREAM)
 
       when (extra) {
         is ArrayList<*> -> {
           extra.takeWhile { it is Uri }
             .mapTo(filesToHandle) {
               val uri = it as Uri
-              File(MediaUtils.getPath(this, uri)).absolutePath
+              File(this.getPathOfMediaUri(uri)).absolutePath
             }
         }
         is Uri -> {
-          filesToHandle.add(File(MediaUtils.getPath(this, extra)).absolutePath)
+          filesToHandle.add(File(this.getPathOfMediaUri(extra)).absolutePath)
         }
       }
     } else if (intent.data != null) {
       // action view
-      filesToHandle.add(File(intent.data.path).absolutePath)
+      filesToHandle.add(File(intent.data?.path).absolutePath)
     }
 
     if (filesToHandle.isNotEmpty()) {

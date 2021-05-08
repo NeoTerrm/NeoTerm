@@ -13,7 +13,7 @@ import io.neoterm.component.colorscheme.ColorSchemeComponent
 import io.neoterm.component.font.FontComponent
 import io.neoterm.frontend.component.ComponentManager
 import io.neoterm.frontend.config.NeoTermPath
-import io.neoterm.utils.MediaUtils
+import io.neoterm.utils.getPathOfMediaUri
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -114,7 +114,7 @@ class CustomizeActivity : BaseCustomizeActivity() {
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     if (resultCode == RESULT_OK && data != null) {
-      val selected = MediaUtils.getPath(this, data.data)
+      val selected = this.getPathOfMediaUri( data.data)
       if (selected != null && selected.isNotEmpty()) {
         when (requestCode) {
           REQUEST_SELECT_FONT -> installFont(selected)

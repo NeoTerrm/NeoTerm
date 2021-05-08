@@ -5,7 +5,7 @@ import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import io.neoterm.R
 
 import io.neoterm.component.pm.NeoPackageInfo
-import io.neoterm.utils.FileUtils
+import io.neoterm.utils.formatSizeInKB
 
 /**
  * @author kiva
@@ -28,7 +28,7 @@ class PackageModel(val packageInfo: NeoPackageInfo) : SortedListAdapter.ViewMode
       R.string.package_details,
       packageInfo.packageName, packageInfo.version,
       packageInfo.dependenciesString,
-      FileUtils.formatSizeInKB(packageInfo.installedSizeInBytes),
+      packageInfo.installedSizeInBytes.formatSizeInKB(),
       packageInfo.description, packageInfo.homePage
     )
   }

@@ -10,7 +10,7 @@ import io.neoterm.frontend.config.NeoPreference
 import io.neoterm.frontend.config.NeoTermPath
 import io.neoterm.frontend.terminal.TerminalView
 import io.neoterm.frontend.terminal.extrakey.ExtraKeysView
-import io.neoterm.utils.AssetsUtils
+import io.neoterm.utils.extractAssetsDir
 import java.io.File
 
 /**
@@ -90,7 +90,7 @@ class FontComponent : NeoComponent {
 
   private fun extractDefaultFont(context: Context): Boolean {
     try {
-      AssetsUtils.extractAssetsDir(context, "fonts", NeoTermPath.FONT_PATH)
+      context.extractAssetsDir( "fonts", NeoTermPath.FONT_PATH)
       return true
     } catch (e: Exception) {
       return false

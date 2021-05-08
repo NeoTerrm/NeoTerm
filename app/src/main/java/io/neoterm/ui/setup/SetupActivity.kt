@@ -19,8 +19,8 @@ import io.neoterm.setup.SourceConnection
 import io.neoterm.setup.connections.BackupFileConnection
 import io.neoterm.setup.connections.LocalFileConnection
 import io.neoterm.setup.connections.NetworkConnection
-import io.neoterm.utils.MediaUtils
-import io.neoterm.utils.PackageUtils
+import io.neoterm.utils.getPathOfMediaUri
+import io.neoterm.utils.runApt
 import java.io.File
 
 
@@ -32,7 +32,6 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
     private const val REQUEST_SELECT_PARAMETER = 520;
   }
 
-  private var aptUpdated = false
   private var setupParameter = ""
   private var setupParameterUri: Uri? = null
 
@@ -83,8 +82,7 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
   override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
     if (requestCode == REQUEST_SELECT_PARAMETER && resultCode == RESULT_OK) {
       if (resultData != null) {
-        setupParameterUri = resultData.data
-        val path = MediaUtils.getPath(this, setupParameterUri!!)
+        val path = this.getPathOfMediaUri(resultData.data)
         findViewById<EditText>(R.id.setup_source_parameter).setText(path)
         return
       }
@@ -236,26 +234,11 @@ class SetupActivity : AppCompatActivity(), View.OnClickListener, ResultListener 
     }
   }
 
-  private fun executeAptUpdate() {
-    PackageUtils.apt(this, "update", null) { exitStatus, dialog ->
-      if (exitStatus == 0) {
-        dialog.dismiss()
-        aptUpdated = true
-        executeAptUpgrade()
-      } else {
-        dialog.setTitle(getString(R.string.error))
-      }
-    }
-  }
+  private fun executeAptUpdate() = runApt("update")
+    .onSuccess { executeAptUpgrade() }
+    .onFailure { Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show() }
 
-  private fun executeAptUpgrade() {
-    PackageUtils.apt(this, "upgrade", arrayOf("-y")) { exitStatus, dialog ->
-      if (exitStatus == 0) {
-        dialog.dismiss()
-        finish()
-      } else {
-        dialog.setTitle(getString(R.string.error))
-      }
-    }
-  }
+  private fun executeAptUpgrade() = runApt("upgrade", "-y")
+    .onSuccess { finish() }
+    .onFailure { Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show() }
 }

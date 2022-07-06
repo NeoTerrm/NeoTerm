@@ -22,10 +22,17 @@ freely, subject to the following restrictions:
 
 package io.neoterm;
 
+import android.os.Process;
 import android.view.KeyEvent;
 
 public class Globals {
-  public static String XLIB_DIR = "/data/data/io.neoterm/files/usr/lib/xorg-neoterm";
+
+  // android.os.UserHandle#PER_USER_RANGE
+  public static int CURRENT_USER = Process.myUid() / 100000;
+
+  public static String CURRENT_USER_DATA_DIR = "/data/user/" + CURRENT_USER;
+
+  public static String XLIB_DIR = CURRENT_USER_DATA_DIR + "/io.neoterm/files/usr/lib/xorg-neoterm";
   public static String XLIBS[] = {
     "x11_sdl_native_helpers",
     "x11_sdl-1.2",
@@ -138,9 +145,9 @@ public class Globals {
   public static boolean MultitouchGesturesUsed[] = new boolean[4];
   public static int MultitouchGestureSensitivity = 1;
   public static int TouchscreenCalibration[] = new int[4];
-  public static String DataDir = "/data/data/io.neoterm/files/usr/share/xorg-neoterm";
-  public static String UnSecureDataDir = "/data/data/io.neoterm/files/usr/share/xorg-neoterm";
-  public static String HomeDir = "/data/data/io.neoterm/files/home";
+  public static String DataDir = CURRENT_USER_DATA_DIR + "/io.neoterm/files/usr/share/xorg-neoterm";
+  public static String UnSecureDataDir = CURRENT_USER_DATA_DIR + "/io.neoterm/files/usr/share/xorg-neoterm";
+  public static String HomeDir = CURRENT_USER_DATA_DIR + "/io.neoterm/files/home";
   public static boolean VideoLinearFilter = true;
   public static boolean MultiThreadedVideo = false;
 
